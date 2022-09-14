@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width;">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/scroll.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="all">
+        <header>
+            <div class="headerChild">
+                <div class="text" title="Вернуться к главной странице">usharal.kz</div>
+                <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
+                <div class="moreItems">
+                    <div class="dropdown">
+                        <span class="fa-regular fa-user lng-personal"> Личный Кабинет</span>
+                        <div class="dropdown-content">
+                            <a href="#" class="lng-message messages">Сообщения</a>
+                            <a href="#" class="lng-myPosts">Мои объявления</a>
+                            <a href="#" class="lng-payment">Платежи и счёт</a>
+                            <a href="#" class="lng-myProfile">Мой Профиль</a>
+                            <a href="#" class="lng-exit">Выйти</a>
+                            
+                          </div>
+                    </div>
+                    <span class="fa-regular fa-heart lng-favourite-second favourite"> Избранные</span>
+                    <span class="fa-regular fa-comment lng-message-second messages"> Сообщения</span>
+                </div>
+                <div class="newObject">
+                    <button class="add lng-newPost">Подать объявление</button>
+                </div>
+            </div>
+        </header>
+        <section class="mainSection active">
+            <div class="mask"></div>
+            <div class="sectionChild">
+                <div class="searchAndCateg">
+                    <div class="searchArea">
+                        <div onclick="myFunction(this.className)"class="wholeList">
+                            <button  class="wholeList-btn">Все категории <i class="fas arrow fa-angle-down"></i></button>
+                            <div id="myDropdown" class="wholeList-content">
+                              <a href="#">Все категории</a> 
+                            </div>
+                          </div>
+                          <div class="inputArea">
+                            <input type="text" placeholder="Найти объявление..." name="" id="">
+                          </div>
+                          <div onclick="modal()" class="location">
+                            <button class="location-btn"><i class="fas fa-location-dot"></i>Весь Казахстан </button>
+                            
+                          </div>
+                          <div class="searchBtn">
+                            <button class="fas fa-search"></button>
+                          </div>
+                    </div>
+                 </div>
+                <div class="mainBodyContent">
+                    <div class="prevLine">
+                        <span class="fa fa-angle-left"></span>
+                        <span> Назад</span>
+                    </div>
+                    <div class="mainText">Перегородки из стекла (дом, офис, душ)</div>
+                    <div class="subTextData">Опубликовано 04 июля 2022 г.</div>
+                    <div class="mainImageAndInfo">
+                        <div class="mainImage">
+                            <div class="innerDiv controlBtn"onclick="plusSlides(-1, 0)">
+                                <span class="fa fa-angle-left" ></span>
+                            </div>
+                            <div class="innerDiv mainImgDiv">
+                                <img src="img/business.svg" alt="Здесь будет фотка">
+                            </div>
+                            <div class="innerDiv controlBtn"onclick="plusSlides(1, 1)">
+                                <span class="fa fa-angle-right" ></span>
+                            </div>
+                        </div>
+                        <div class="mainInfo">
+                            <div class="addToFav">
+                                <i onclick = "fill(this)"class="fa-regular fa-heart"></i>
+                                <span>Добавить в избранное</span>
+                            </div>
+                            <div class="cost">
+                                
+                                <span>100 000</span>
+                                &#8376;
+                            </div>
+                            <div class="costStat">Договорная</div>
+                            <div class="miniProfile">
+                                <img src="img/user.svg" alt="" srcset="">
+                                <div class="data">
+                                    <div class="name">Сабыр</div>
+                                    <div class="period">На сайте с 2 июля
+                                        
+                                    </div>
+                                    <div class="rating">
+                                        <fieldset class="rate">
+                                            <input type="radio" id="rating10" name="rating" value="10" /><label for="rating10" title="5 stars"></label>
+                                            <input type="radio" id="rating9" name="rating" value="9" /><label class="half" for="rating9" title="4 1/2 stars"></label>
+                                            <input type="radio" id="rating8" name="rating" value="8" /><label for="rating8" title="4 stars"></label>
+                                            <input type="radio" id="rating7" name="rating" value="7" /><label class="half" for="rating7" title="3 1/2 stars"></label>
+                                            <input type="radio" id="rating6" name="rating" value="6" /><label for="rating6" title="3 stars"></label>
+                                            <input type="radio" id="rating5" name="rating" value="5" /><label class="half" for="rating5" title="2 1/2 stars"></label>
+                                            <input type="radio" id="rating4" name="rating" value="4" /><label for="rating4" title="2 stars"></label>
+                                            <input type="radio" id="rating3" name="rating" value="3" /><label class="half" for="rating3" title="1 1/2 stars"></label>
+                                            <input type="radio" id="rating2" name="rating" value="2" /><label for="rating2" title="1 star"></label>
+                                            <input type="radio" id="rating1" name="rating" value="1" /><label class="half" for="rating1" title="1/2 star"></label>
+                                        
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mobNum">
+                                <div>Телефон</div>
+                                <span>+7 (778) 295-14-03</span>
+                            </div>
+                            <div class="writeUser">
+                                <button>Написать продавцу</button>
+                            </div>
+                            <div class="quickChat">
+                                <span>Хочу купить</span>
+                                <span>В каком состоянии</span>
+                                <span>Скидка возможна?</span>
+                                <span>Еще не продали?</span>
+                            </div>
+                            <div class="writeWhats">
+                                <button>Написать на WhatsApp</button>
+                            </div>
+                            <div class="locationStatic">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span>Шымкент</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="subImages">
+                        <div class="imgBox">
+                            <img src="img/animals.svg" alt="" srcset="">
+                        </div>
+                        <div class="imgBox">
+                            <img src="img/user.svg" alt="" srcset="">
+                        </div>
+                        
+                    </div>
+                    <div class="description">
+                        <div class="exInfo">
+                            <div class="viewCount">
+                                Просмотров: <span>119</span>
+                            </div>
+                            <div class="complain"><img src="img/dislike.svg" alt="" srcset="">Пожаловаться</div>
+                        </div>
+                        <div class="mainDesc">
+                            <h1>Описание</h1>
+                            <div class="actDesc">
+                                Квартира на первом этаже с капитальный ремонтом но требуется косметический (обои), ванна и туалет кафель, пол ламинат, столярка, пластиковые окна, застекленный пластиковый балкон, возможна продажа под офис или магазин,
+                            </div>
+                        </div>
+                    </div>
+                    <div class="MsgAndAdvice">
+                        <div class="sendMsg">
+                            <div class="firstL">
+                                <div class="miniProfile">
+                                    <img src="img/user.svg" alt="" srcset="">
+                                    <div class="data">
+                                        <div class="name">Сабыр</div>
+                                        <div class="period">На сайте с 2 июля
+                                            
+                                        </div>
+                                        <div class="rating">
+                                            <fieldset class="rate">
+                                                <input type="radio" id="rating10" name="rating1" value="10" /><label for="rating10" title="5 stars"></label>
+                                                <input type="radio" id="rating9" name="rating1" value="9" /><label class="half" for="rating9" title="4 1/2 stars"></label>
+                                                <input type="radio" id="rating8" name="rating1" value="8" /><label for="rating8" title="4 stars"></label>
+                                                <input type="radio" id="rating7" name="rating1" value="7" /><label class="half" for="rating7" title="3 1/2 stars"></label>
+                                                <input type="radio" id="rating6" name="rating1" value="6" /><label for="rating6" title="3 stars"></label>
+                                                <input type="radio" id="rating5" name="rating1" value="5" /><label class="half" for="rating5" title="2 1/2 stars"></label>
+                                                <input type="radio" id="rating4" name="rating1" value="4" /><label for="rating4" title="2 stars"></label>
+                                                <input type="radio" id="rating3" name="rating1" value="3" /><label class="half" for="rating3" title="1 1/2 stars"></label>
+                                                <input type="radio" id="rating2" name="rating1" value="2" /><label for="rating2" title="1 star"></label>
+                                                <input type="radio" id="rating1" name="rating1" value="1" /><label class="half" for="rating1" title="1/2 star"></label>
+                                            
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mobNum">
+                                    <div>Телефон</div>
+                                    <span>+7 (778) 295-14-03</span>
+                                </div>
+                            </div>
+                            <h1>Написать продавцу</h1>
+                            <textarea name="" id="" cols="30" rows="10" placeholder="Ваше сообщение"></textarea>
+                            <div class="lastL">
+                                <button class="sendToUser">Отправить сообщение</button>
+                                <button class="sendToUserWhats">Написать на ватсап</button>
+                            </div>
+                        </div>
+                        <div class="advice">
+                            <h2>Советы</h2>
+                            <div>- Никогда не отправляйте предоплату!
+                            </div>
+                            <div>- Старайтесь встречаться лично с продавцом для покупки товара.</div>
+                            <div>- Не отправляйте деньги, пока не получили товар или услугу.</div>
+                            <div>- Если Вы нашли странные ошибки в словах или явно низкую цену, лучше сторониться таких объявлений.</div>
+                        </div>
+                    </div>
+                    <div class="sameAdver">
+                        <!-- <div class="areaForTextPremium">
+                            <div class="someText">
+                                <span class="mainText lng-premium">Премиум объявления</span>
+                                <a href="" class="want lng-want">Хочу Сюда!</a>
+                            </div>
+                            <div class="buttonPremium">
+                                <button class="fa-solid fa-angle-left prev"></button>
+                                <button class="fa-solid fa-angle-right next"></button>
+                            </div>
+                        </div>
+                        
+                        </div> -->
+                        <div class="areaForTextSame">
+                            <div class="someText">
+                                <span class="mainText lng-premium">Похожие объявления</span>
+                                
+                            </div>
+                            <div class="buttonSame">
+                                <button class="fa-solid fa-angle-left prev"></button>
+                                <button class="fa-solid fa-angle-right next"></button>
+                            </div>
+                        </div>
+                        <div class="slider">
+                            <div class="contentBox">
+                                <div class="forImgContent">
+                                    <div class="top">VIP</div>
+                                    <img src="img/apartments.svg" alt="">
+                                </div>
+                                <div class="dataContent">Вчера в 21:40  </div>
+                                <div class="titleContent">Какой то апартамент, хороший, очень советую</div>
+                                <div class="costContent">90.000 1 &#8376;</div>
+                                <div class="statusContent">
+                                    <span>Договорная</span>
+                                    <span class="fa-regular fa-heart" onclick="fill(this)"></span>
+                                </div>
+                            </div>
+                            
+                            
+                    </div>
+                </div>
+            </div>
+        </section>
+       
+    </div>
+    <footer>
+        <div class="footerChild">
+            <div class="first">
+                <div class="text">usharal.kz<i class="fa-thin fa-calendar-circle-minus"></i></div>
+                <div>@ 2022 usharal.kz - все права защищены</div>
+                <div class="map">Карта сайта</div>
+            </div>
+            <div class="second">
+                <div class="text">Контакты</div>
+                <a href="" class="secondA">usharal_kz@gmail.com</a>
+                <a href="" class="secondA">+7(705) 332 2343</a>
+            </div>
+            <div class="third">
+                <button class="up fa fa-arrow-up"></button>
+            </div>
+        </div>
+    </footer>
+    <div class="shadow">
+        <div class="cityList">
+            <div class="inputModal">
+                <input type="text" name="" id="" placeholder="Введите название" spellcheck="true">
+            </div>
+            <ul class="ul">
+                <li>Алматинская область</li>
+                <li>Акмолинская область</li>
+                <li>Атырауская область</li>
+                <li>Актюбинская область</li>
+                <li>Восточно-Казахстанская область</li>
+                <li>Жамбылская область</li>
+                <li>Западно-Казахстанская область</li>
+                <li>Карагандинская область</li>
+                <li>Костанайская область</li>
+                <li>Кызылординская область</li>
+                <li>Мангистауская область</li>
+                <li>Павлодарская область</li>
+                <li>Северо-Казахстанская область</li>
+                <li>Туркестанская  область</li>
+                <li>Нур-Султан</li>
+                <li>Алматы</li>
+                <li>Шымкент</li>
+            </ul>
+            <ul class="ul">
+                <li>Услуги</li>
+                <li>Электроника</li>
+                <li>Личные вещи</li>
+                <li>Детям</li>
+                <li>Для Бизнеса</li>
+                <li>Животные</li>
+                <li>Для дома</li>
+                <li>Работа</li>
+                <li>Хобби и спорт</li>
+                <li>Недвижимость</li>
+                <li>Транспорт</li>
+            </ul>
+        </div>
+    </div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script>
+    <script src="js/scroll.js"></script>
+    <script src="js/content.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/counter.js"></script>
+    <style>
+        *{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script>
+        function fill(elem){
+    elem.classList.toggle("fa-regular")
+    elem.classList.toggle("fa")
+        }
+        document.querySelector('#rating4').checked = true
+        document.querySelectorAll('#rating4')[1].checked = true
+        document.querySelectorAll('#rating4')[1].checked = true
+        var inp = document.querySelectorAll('.rate input')
+        inp.forEach(e => {
+            e.disabled = true
+        })
+    </script>
+</body>
+</html>
