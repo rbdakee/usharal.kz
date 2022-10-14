@@ -22,12 +22,14 @@ class Users(db.Model):
     username = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(500), nullable=True)
+    logo = db.Column(db.LargeBinary)
     photo = db.relationship('Posts', backref='users')
 
-    def __init__(self, username, email, password):
+    def __init__(self, username, email, password, logo=None):
         self.username = username
         self.email = email
         self.password = password
+        self.logo = logo
         db.session.add(self)
         db.session.commit()
 
@@ -87,9 +89,10 @@ class Posts(db.Model):
         db.session.commit()
 
     def show_all_posts():
-        posts = Posts.query.order_by(Posts.post_date).all()
+        posts = Posts.query.order_by(Posts.post_date).filter_by(status=True).all()
         postss = []
         for i in range(len(posts)):
+            id = posts[i].id
             title = posts[i].post_title
             phone_number = posts[i].phone_number
             category = posts[i].category
@@ -103,7 +106,7 @@ class Posts(db.Model):
             photos = []
             for j in range(len(posts[i].photo)):
                 photos.append(base64.b64encode(posts[i].photo[j].data).decode('ascii'))
-            postss.append({'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'photos':photos, 'advertisement':advertisement})
+            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'photos':photos, 'advertisement':advertisement})
         return postss
 
     def show_posts_of_user(email):
@@ -112,6 +115,7 @@ class Posts(db.Model):
         posts = Posts.query.filter_by(user=user_id).all()
         postss = []
         for i in range(len(posts)):
+            id = posts[i].id
             title = posts[i].post_title
             phone_number = posts[i].phone_number
             category = posts[i].category
@@ -124,8 +128,29 @@ class Posts(db.Model):
             photos = []
             for j in range(len(posts[i].photo)):
                 photos.append(base64.b64encode(posts[i].photo[j].data).decode('ascii'))
-            postss.append({'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'photos':photos})
+            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'photos':photos})
         return postss
+
+    def show_one_post(post_id):
+        posts = Posts.query.filter_by(id=post_id).first()
+        id = posts.id
+        user_id = posts.user
+        user = Users.query.filter_by(id = user_id).first()
+        username = user.username
+        title = posts.post_title
+        phone_number = posts.phone_number
+        category = posts.category
+        cost = posts.cost
+        description = posts.description
+        post_date = posts.post_date.strftime("%m/%d/%Y %H:%M")
+        deactivate_date = posts.deactivate_date
+        whatsapp_link = posts.whatsapp_link
+        status = posts.status
+        photos = []
+        for j in range(len(posts.photo)):
+            photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
+        post = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'photos':photos}
+        return post
 
     def post_activation(post_id):
         posts = Posts.query.filter_by(id=post_id).first()

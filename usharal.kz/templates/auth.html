@@ -138,6 +138,9 @@ span.psw {
     border: 1px, solid, #FF4343;
     background: #FF9C9C;
 }
+#signin{
+    margin-top:5%;
+}
     </style>
 </head>
 <body>
@@ -154,10 +157,7 @@ span.psw {
             <div class="flash">{{msg}}</div>
             {% endfor %}
         <form action="/authentification" method="post" class="active">
-            <div class="container">
-                <label for="newuname"><b>Имя пользоватея</b></label>
-                <input type="text" placeholder="Имя пользователя" name="newuname" required>
-
+            <div class="container" id="signin">
                 <label for="email"><b>E-mail</b></label>
                 <input type="email" placeholder="E-mail" name="email" required>
 
@@ -170,7 +170,6 @@ span.psw {
                 <div class="submitLine">
                     <button type="submit">Войти</button>
                 </div>
-                
               </div>
         </form>
 

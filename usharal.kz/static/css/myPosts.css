@@ -34,7 +34,8 @@
     font-weight: bold;
     padding-bottom: 8px;
 }
-.searchPart{
+.searchPartMy{
+    margin-bottom: 2%;
     
 }
 .searchPartMy input{
@@ -51,34 +52,83 @@
 }
 
 
-.header .searchPartMy{
+.searchPartMy{
     width: 100%;
     height: 50px;
     margin-top: 2%;
     display: flex;
     align-items: center;
-    overflow: hidden;
+    /* overflow: hidden; */
     border-radius: 7px;
     border: 0.5px solid #6d6b6ba6;
 }
-.header .searchPartMy .searchControl{
+.searchPartMy .searchControl{
     border: none;
     width: 100%;
 }
 :is(.searchPartMy) :is(.allCat, .sort){
     display: flex;
     height: 100%;
-    width: 45%;
+    width: auto !important;
     align-items: center;
-    margin-left: 2%;
-    justify-content: flex-start;
+    margin-left: auto;
+    margin-right: 0;
+    font-size: 0.98rem;
+    /* margin-left: 2%; */
+    justify-content: center;
+    text-decoration: none !important;
 }
+.allCat{
+    width: 40% !important;
+}
+.wholeList-btn {
+    background-color: transparent;
+    padding: 0.6em;
+    font-size: 1em;
+    border: none;
+    cursor: pointer;
+  }
+  .wholeList {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .wholeList-content, .location-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    /* min-width: 160px; */
+    width: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Ссылки внутри выпадающего списка */
+  .wholeList-content a, .location-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Изменение цвета выпадающих ссылок при наведении курсора */
+  .wholeList-content a:hover, .location-content a:hover{background-color: #ddd}
+  
+  /* Показать выпадающее меню (используйте JS, чтобы добавить этот класс .dropdown-content содержимого, когда пользователь нажимает на кнопку выпадающего списка) */
+  .show {display:block;}
+/* .allCat div, .sort div{
+    margin-right: 2px;
+}
+.allCat i, .sort i{
+    margin-left: 2px;
+} */
 .mainMyPostsContent, .nonActivePosts, .trashMyPostsContent{
     min-height: 800px !important;
     width: 100%;
     margin-top: 15px;
     height: auto;
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 .trashMyPostsContents{
     /* width: 100%;
@@ -98,6 +148,20 @@ input#check{
     height: 20px;
     
 }
+.forButton{
+    margin-right: 0;
+    margin-left: auto;
+}
+.allCat div{
+    text-decoration: none;
+    color: #2F323A;
+    border: none;
+}
+.allCat div{
+    margin: auto !important;
+}
+.allCat i{
+}
 .chooseDiv{
     display: flex;
     align-items: center;
@@ -109,15 +173,32 @@ input#check{
     color: black;
     font-weight: bold;
 }
-.allMyContent{
+.ghost{
     width: 100%;
-    height: auto;
-    display: unset;
-    
+    height: 11em;
+    border: none;
+    background-color: transparent;
+    margin: auto;
+    margin-top: 1em;
+}
+.allMyContent{
+    width: 105%;
+    margin-left: -2.5%;
+    height: 48em;
+    overflow:hidden;
+    display: grid;
+
+grid-template-rows: repeat(1, 1fr);
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+   
 }
 .myContent{
     width: 100%;
+    /* height: 20%; */
+    /* height: 400px !important; */
     height: 11em;
+    box-shadow: none !important;
     display: flex;
     margin: auto;
     margin-top: 1em;
@@ -137,29 +218,83 @@ input#check{
     overflow: hidden;
     box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
-
-.bottomBut{
-    width: 80%;
+.hide{
+    display: none;
+}
+.searchPartMy .verticalLine{
+    margin: auto ;
+    height: 80%;
+    width: 1px;
+    border: none;
+    background-color: #6d6b6ba6;
+}
+.mainMyPostsContent{
+}
+/* .mainMyPostsContent .myContent{
+    background-color: #2A81DD;
+}
+.nonActivePosts .myContent{
+    background-color: #ffc53a;
+}
+.trashMyPostsContent .myContent{
+    background-color: blue;
+} */
+.bottomBut, .searchButtonLine{
+    width: 90%;
     height: 5rem;
     display: flex;
+    
     justify-content: center;
     align-items: center;
-    margin: auto;
+    /* margin-top: auto;
+    margin-bottom: 0; */
+    margin: auto auto 0 auto;
+    position: relative;
+    /**/
+}
+.searchButtonLine{
+    display: none;
+}
+.allMyContent{
+    min-height: 100vh;
 }
 .lineForNewButtons{
     height: 80%;
-    
     width: 50%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
-.newCreatedButton{
+.cloneSearch{
+    height: 48em;
+    display: none;
+    width: 100%;
+    overflow-y: hidden;
+}
+.newCreatedButton, .ghostBtn{
     margin: 0 5px;
     width: 40px;
     height: 40px;
     border: none;
     border-radius: 5px;
+}
+.ghostBtn{
+    background-color: transparent;
+}
+.forButton button{
+   border-top-right-radius: 7px;
+   border-bottom-right-radius: 7px;
+   border-right: 0.5px solid #6d6b6ba6;
+   margin-left: 0.5px;
+}
+.arrow{
+    color: #ffc53a;
+}
+.zoneForButton button i{
+    color:#fff !important;
+}
+.searchPartMy .wholeList a{
+    font-size: small;
 }
 .boxForCon .forImg{
     width: 23%;
@@ -174,9 +309,13 @@ input#check{
     height: 100%;
     display: block;
 }
+.findWithThat{
+    /**/
+}
 /* .forMainContent *{
-    border: 1px solid;
+    
 } */
+
 .forMainContent .texts{
     display: flex;
     flex-direction: column;
@@ -217,6 +356,7 @@ a{
     font-size: small;
     color: #2f323ac7;
     margin-left: 10px;
+    border: 1px solid;
     text-align: center;
 }
 .texts div{
@@ -231,7 +371,7 @@ a{
     margin-top: -10px;
 }
 .allMyContent.visible{
-    display: unset;
+    /* display: unset; */
 }
 .myContentAngle span{
     font-size: 1.5em;
@@ -303,4 +443,48 @@ a{
     display: flex;
     align-items: center;
     justify-content: space-around   ;
+}
+.lineForNewButtons{
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    
+}
+.activeLine{
+    
+    
+
+}
+.lineForNewButtons button{
+    min-width: 13%;
+    margin-left: 7px;
+}
+.polter{
+    min-width: 13%;
+    margin-left: 7px;
+    background-color: transparent;
+    border: none;
+}
+.newCreatedButton:active{
+    box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.219);
+}
+.messageSectionChild{}
+.blocks input{
+    border: none;
+    outline: nones;
+    padding: 0;
+    margin: 0;
+}
+.blocks .isFree{
+    border: none;
+    outline: none;
+}
+/* .ex2{
+    order: 1;
+}
+.ex1{
+    order: 2;
+} */
+.ghost{
+    order: 999999;
 }

@@ -1,37 +1,3 @@
-const showMoreButtonMainPage = $(".buttonLine button")
-const showMoreButtonFavPage = $(".showMoreFav")
-const allAdvert = $(".adverLine")
-const favAdvert = $(".mainPart")
-
-var allAdvertHeight = allAdvert.height()
-var favAdvertHeight = favAdvert.height()
-const allMessageLink = document.querySelectorAll('.messageLink')
-const allMessagesType = document.querySelectorAll('.messagesType')
-const btnSABall = document.querySelectorAll('.btnSAB')
-// const checkboxFunc = () => {
-//     var chooseAll = document.getElementById("check")
-//     if(chooseAll.checked){
-//         $('body input:checkbox').prop('checked', true);
-//     }
-//     else{
-//         $('body input:checkbox').prop('checked', false);
-//     }
-// }
-
-var itForBut = 2
-var  itForButFav = 2
-showMoreButtonMainPage.click(function(){
-    if(itForBut < ($(".adverLine .contentBox").length)/4){
-        itForBut++
-        allAdvertHeight += 360
-        allAdvert.css('height', allAdvertHeight)
-        window.scrollBy(0, 360)
-    }
-})
-
-$(".up").click(function(){
-    window.scrollTo(0, 0)
-})
 const list = ["ru", "kz"]
 let hash = 'ru'
 const langAll = document.querySelectorAll(".langSpan")
@@ -58,7 +24,7 @@ const changeLang = () => {
         let elemAll = document.querySelectorAll('.lng-' + key);
         elemAll.forEach(elem => {
             if (elem) {
-                if(elem.tagName == 'INPUT'){
+                if(elem.tagName == 'INPUT' || elem.tagName == 'TEXTAREA'){
                     elem.setAttribute("placeholder", langArr[key][hash])
                 }
                 else
@@ -70,43 +36,13 @@ const changeLang = () => {
 
     }
 }
-
-const postsCateg = document.querySelectorAll(".allStatusOfPosts span")
-const catBlocks = document.querySelectorAll(".findWithThat")
-postsCateg.forEach((eachCatrg, index) => {
-    eachCatrg.addEventListener('click', () => {
-        for(var sm = 0; sm < 3;sm++){
-            if(catBlocks[sm].classList.contains("mpc") == false){
-                catBlocks[sm].classList.add("mpc")
-            }
-        }
-        catBlocks[index].classList.remove("mpc")
-    })
-}
-    )
-    
-
-
-var forFavBox = 0
-function fill(elem){
-    elem.classList.toggle("fa-regular")
-    elem.classList.toggle("fa")
-    
-    
-}   
-// var newPostZone = document.querySelector('.pageForNewPost .mainBody')
-
-function myFunction(div) {
-    //document.querySelector(`.show`).classList.remove("show");
-    document.querySelector(`.${div} #myDropdown`).classList.toggle("show");
-    
-}
 var np = false
 const showModal = () => {
     
     $('.shadow').css('display', 'flex')
 }
 const modal = (str) => {
+    
     showModal()
     $('section').css('position', 'fixed')
     document.querySelectorAll('.ul')[0].style.display = 'unset'
@@ -146,52 +82,13 @@ const modal = (str) => {
         }
       }
   }
-  var ctgArray = [
-    "lng-service",
-    "lng-gadgets", 
-    "lng-personalItems", 
-    "lng-child", 
-    "lng-business", 
-    "lng-animals", 
-    "lng-house",
-    "lng-job", 
-    "lng-hobby", 
-    "lng-apartments", 
-    "lng-transport"
-  ]
-  var locationArray = [
-        "lng-AlmatyReg",
-    "lng-AkmolaReg",
-    "lng-AtyReg",
-    "lng-AktobeReg",
-    "lng-EKReg",
-    "lng-ZhambylReg",
-    "lng-WKReg",
-    "lng-KgReg",
-    "lng-KosReg",
-    "lng-KzReg",
-    "lng-MgReg",
-    "lng-PvReg",
-    "lng-NKReg",
-    "lng-TurkReg",
-  ]
-  
 var categories = document.querySelectorAll('.category')
 categories.forEach((category, index) => {
     category.addEventListener('click' , () => {
         document.querySelector('.wholeList-btn').innerHTML = categories[index].children[1].innerHTML + ' <i class="fas fa-angle-down arrow"></i>'  
-        if(document.querySelector('.wholeList-btn').classList.contains('lng-allCtg')){
-            document.querySelector('.wholeList-btn').classList.remove('lng-allCtg')
-        }
-        document.querySelector('.wholeList-btn').classList.add(ctgArray[index])
-
     })
 })
-var a = document.querySelector('#myDropdown a')
-a.addEventListener('click', () => {
-    console.log(a.parentElement.previousElementSibling);
-    a.parentElement.previousElementSibling.innerHTML = a.innerHTML + ' <i class="fas fa-angle-down arrow"></i>'
-})
+
 window.onload = () => {
     let inputSearch = document.querySelector('.inputModal input')
     
@@ -217,16 +114,16 @@ window.onload = () => {
     
 }
 var liList  =document.querySelectorAll('.ul li')
-liList.forEach((each, index) =>{
+liList.forEach(each =>{
     each.addEventListener('click', () => {
-        outLi(each,true, index)
+        outLi(each,true)
     }) 
     each.addEventListener('mouseover', () => {
-        outLi(each, false, index)
+        outLi(each, false)
     }) 
        
 })
-const outLi = (each, boolValue, index) => {
+const outLi = (each, boolValue) => {
     if(boolValue){
         $('.shadow').css('display', 'none')
         var text = each.innerHTML
@@ -240,10 +137,6 @@ const outLi = (each, boolValue, index) => {
             }
             else{
                 document.querySelector('.location-btn').innerHTML = text
-                if(document.querySelector('.location-btn').classList.contains('lng-allRegion')){
-                    document.querySelector('.location-btn').classList.remove('lng-allRegion')
-                }
-                document.querySelector('.location-btn').classList.add(locationArray[index])
             }
         }
         else{
@@ -259,13 +152,66 @@ const outLi = (each, boolValue, index) => {
         
         
 }
-// var chooseCategory = document.querySelector('.chooseCategory div')
-// chooseCategory.addEventListener('click', () => {
-//     console.log(document.querySelectorAll('.ul')[1]);
-//     document.querySelectorAll('.ul')[0].style.display = 'none'
-//     document.querySelector('.inputModal input').value = ''
-//     var needUl = document.querySelectorAll('.ul')[1]
-//     needUl.style.display = 'unset'
-//     $('section').css('position', 'fixed')
-//     showModal()
-// })
+var allSize = 0;
+var allImg = document.querySelectorAll('.subImages img')
+var mainImg = document.querySelector('.mainImgDiv img')
+var tempImg = mainImg.src
+function plusSlides(n, ist){
+    allSize += n;
+    if(ist){
+        if(allSize > allImg.length){
+            allSize = 0
+            mainImg.src = tempImg
+        }
+        else{
+            mainImg.src = allImg[allSize-1].src
+        }
+    }
+    else{
+        if(allSize == -1){
+            
+            allSize = allImg.length
+            mainImg.src = allImg[allSize-1].src
+        }
+        else{
+            if(allSize == 0){
+                mainImg.src = tempImg
+            }
+            else{
+                mainImg.src = allImg[allSize-1].src
+            }
+        }
+    }
+    console.log(allSize);
+    
+}
+allImg.forEach((element, index) => {
+    element.addEventListener('click', () => {
+        mainImg.src = allImg[index].src
+        allSize = index+1
+    })
+});
+var a = 0
+document.addEventListener('keydown', (event) => {
+    if(event.key == 'ArrowRight'){
+        document.querySelectorAll('.controlBtn')[1].style.backgroundColor = '#f3f3f3'
+        document.querySelectorAll('.controlBtn')[1].style.borderRadius = '0'
+        plusSlides(1,1)
+    }
+    else if(event.key == 'ArrowLeft'){
+        document.querySelectorAll('.controlBtn')[0].style.backgroundColor = '#f3f3f3'
+        document.querySelectorAll('.controlBtn')[0].style.borderRadius = '0'
+        plusSlides(-1,0)
+    }
+  }, false);
+  document.addEventListener('keyup', (event) => {
+    if(event.key == 'ArrowRight'){
+        document.querySelectorAll('.controlBtn')[1].style.backgroundColor = '#fff'
+        document.querySelectorAll('.controlBtn')[1].style.borderRadius = '10px'
+        
+    }
+    else if(event.key == 'ArrowLeft'){
+        document.querySelectorAll('.controlBtn')[0].style.backgroundColor = '#fff'
+        document.querySelectorAll('.controlBtn')[0].style.borderRadius = '10px'
+    }
+  }, false);

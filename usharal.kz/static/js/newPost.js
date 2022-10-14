@@ -1,371 +1,52 @@
-// const showMoreButtonMainPage = $(".buttonLine button")
-// const showMoreButtonFavPage = $(".showMoreFav")
-// const allAdvert = $(".adverLine")
-// const favAdvert = $(".mainPart")
 
-// var allAdvertHeight = allAdvert.height()
-// var favAdvertHeight = favAdvert.height()
-// const allMessageLink = document.querySelectorAll('.messageLink')
-// const allMessagesType = document.querySelectorAll('.messagesType')
-// const btnSABall = document.querySelectorAll('.btnSAB')
-// const checkboxFunc = () => {
-//     var chooseAll = document.getElementById("check")
-//     if(chooseAll.checked){
-//         $('body input:checkbox').prop('checked', true);
-//     }
-//     else{
-//         $('body input:checkbox').prop('checked', false);
-//     }
-// }
-
-// var itForBut = 2
-// var  itForButFav = 2
-// showMoreButtonMainPage.click(function(){
-//     if(itForBut < ($(".adverLine .contentBox").length)/4){
-//         itForBut++
-//         allAdvertHeight += 360
-//         allAdvert.css('height', allAdvertHeight)
-//         window.scrollBy(0, 360)
-//     }
-// })
-// showMoreButtonFavPage.click(function(){
-//     if(itForButFav < ($('.mainPart .contentBox').length)/4){
-//         itForButFav++
-//         favAdvertHeight += 360
-//         favAdvert.css('height', favAdvertHeight)
-//         window.scrollBy(0, 360)
-//     }
-// })
-// $(".up").click(function(){
-//     window.scrollTo(0, 0)
-// })
-// const list = ["ru", "kz"]
-// const langAll = document.querySelectorAll(".langSpan")
-// langAll.forEach((lang, index) => {
-//     lang.addEventListener('click', () => {
-        
-//         if(index == 0){
-//             langAll[1].classList.remove('chosen')
-//         }
-//         else{
-//             langAll[0].classList.remove('chosen')
-//         }
-//         lang.classList.add('chosen')
-//         changeURLLang(index)
-//         changeLang()
-//     })
-// });
-// const changeURLLang = (index) => {
-//     let lang = list[index];
-//     location.href = window.location.pathname + '#' + lang;
-// }
-// const changeLang = () => {
-//     let hash = window.location.hash;
-//     hash = hash.substr(1);
-//     for (let key in langArr) {
-//         let elem = document.querySelector('.lng-' + key);
-//         if (elem) {
-//             if(elem.classList.contains('lng-placeholder')){
-//                 elem.setAttribute("placeholder", langArr[key][hash])
-//             }
-//             else
-//             {
-//                 elem.innerHTML = langArr[key][hash];
-//             }
-//         }
-
-//     }
-// }
-// const classes = {
-//     ".text": ".mainSection",
-//     ".message": ".messageSection",
-//     ".favourite": ".favouriteSection",
-//     ".lng-myPosts":".messageSection",
-//     ".lng-payment": ".messageSection",
-//     ".lng-myProfile": ".messageSection",
-//     ".add": ".pageForNewPost"
-// }
-// const showSections = (someClass) => {
-//     if(someClass in classes){
-//         $(someClass).click(function(e){
-//             $(".active").removeClass("active")
-//             $(classes[someClass]).addClass("active")
-            
-//         })
-//     }
-// }
-// const blanksToggle = (classClick) => {
-//     $(classClick).click(function(){
-//         document.querySelector(".activePart").classList.remove('activePart')
-//         document.querySelector(classClickObject[classClick]).classList.add('activePart')
-//         document.querySelector('.activeLink').classList.remove('activeLink')
-//         document.querySelectorAll(classClick)[1].classList.add("activeLink")
-//         document.querySelector(".messageText").innerHTML = document.querySelector(classClick).innerHTML
-//     })
-// }
-
-// blanksToggle(".lng-myPosts")
-// blanksToggle(".lng-payment")
-// blanksToggle(".lng-myProfile")
-// const classClickObject = {
-//     ".lng-myPosts" : ".myPosts",
-//     ".lng-payment" : ".payment",
-//     ".lng-myProfile" : ".myProfile"
-// }
-// $(".message").click(function(){
-//     document.querySelector(".activePart").classList.remove('activePart')
-//     document.querySelector(".mainMessage").classList.add('activePart')
-//     document.querySelector(".sell").classList.add("activeLink")
-//     document.querySelector(".messageText").innerHTML = document.querySelector(".message").innerHTML
-// })
-// const messages = document.querySelectorAll(".messages") 
-// messages.forEach((message) => {
-//     message.addEventListener('click', () => {
-//         var temp =  document.querySelector(".active")
-//         if(temp.classList.contains("messageSection")){
-//             document.querySelector(".activePart").classList.remove('activePart')
-//             document.querySelector(".mainMessage").classList.add('activePart')
-            
-//         }
-//         else{
-//             document.querySelector(".active").classList.remove('active')
-//             document.querySelector(".messageSection").classList.add('active')
-           
-//         }
-//         document.querySelector(".activePart").classList.remove("activePart")
-//         document.querySelector(".mainMessage").classList.add('activePart')
-//         document.querySelector(".activeLink").classList.remove("activeLink")
-//         document.querySelector(".message").classList.add("activeLink")
-//         document.querySelector(".sell").classList.add("activeLink")
-//         document.querySelector(".messageText").innerHTML = document.querySelector(".message").innerHTML
-
-//     })
-// })
-
-// for(classOn in classes){
-//     showSections(classOn)
-// }
-
-// const clickLick = (someArray) => {
-//     someArray.forEach((each) => {
-//         each.addEventListener('click', () => {
-//             links(someArray)
-//             each.classList.add("activeLink")
-//         })
-//     })
-// }
-// const links = (smth) => {
-//     smth.forEach(link => {
-//         link.classList.remove("activeLink")
-//     })
-// }
-// const myPosts = document.querySelectorAll(".allStatusOfPosts span")
-// const paymentStatus = document.querySelectorAll(".catg")
-// clickLick(btnSABall)
-// clickLick(allMessageLink)
-// clickLick(allMessagesType)
-// clickLick(myPosts)
-// clickLick(paymentStatus)
-
-// /////newButtons
-// const allContent = document.querySelectorAll(".mainMyPostsContent .allMyContent")
-// var allMyContent = document.querySelectorAll(".myContent")
-// const nextMyButton = document.querySelector('.myContentAngle .fa-angle-right')
-// const prevMyButton = document.querySelector('.myContentAngle .fa-angle-left')
-// var el = document.querySelectorAll(".newCreatedButton")
-// var target =document.querySelector(".chosenButton")
-// var el = document.querySelectorAll(".newCreatedButton")
-// var index = [...el].indexOf(target)
-
-// var koef = 1
-// const koefEnd = allContent.length%6
-
-// var allElem = document.querySelectorAll("#check")
-
-// //fill
-// var isNotFull = false
-// $(nextMyButton).click(function(){
-//     target =document.querySelector(".chosenButton")
-//     el = document.querySelectorAll(".newCreatedButton")
-//     index = [...el].indexOf(target)
-//     if(target.innerHTML != allContent.length){
-        
-//         if($(".newCreatedButton").last().hasClass("chosenButton")){
-//             $(".chosenButton").removeClass("chosenButton")
-//             el[0].classList.add("chosenButton")
-//             for(var it = 6*koef + 1; it < 6*koef + 7; it++){
-                
-//                 if(it - 1 == allContent.length){
-//                     var asi = koefEnd
-//                     for(asi; asi<6; asi++){
-//                         el[asi].innerHTML = ""
-//                         el[asi].classList.add("lastButtons")
-//                     }
-//                     break
-//                 }
-//                 el[it-(6*koef+1)].innerHTML = it
-//             }
-//             koef++
-//         }
-//         else{
-//             $(".chosenButton").removeClass("chosenButton")
-//             el[index + 1].classList.add("chosenButton")
-//             pagesOfUsersContent(index + 1)
-//         }
-//     }
-    
-    
-    
-// })
-// $(prevMyButton).click(function(){
-//     target =document.querySelector(".chosenButton")
-//     el = document.querySelectorAll(".newCreatedButton")
-//     index = [...el].indexOf(target)
-    
-//     if(target.innerHTML != 1){
-//         if(index  == 0){
-//             $(".chosenButton").removeClass("chosenButton")
-//             el[5].classList.add("chosenButton")
-//             $(".lastButtons").removeClass("lastButtons")
-//             var t = +el[0].innerHTML
-//             for(var min = 5; min >= 0; min--){
-//                 el[min].innerHTML = t-(6-min)
-                
-//             }
-//             koef--
-//         }
-//         else{
-//             $(".chosenButton").removeClass("chosenButton")
-//             el[index - 1].classList.add("chosenButton")
-//             pagesOfUsersContent(index-1)
-//         }
-//     }
-    
-// })
-// const pagesOfUsersContent = (count) => {
-    
-//     allContent.forEach((each) => {
-//         each.classList.remove("visible")
-//     })
-//     allContent[count].classList.add("visible")
-// }
-// const doubleLeft = $(".myContentAngle .fa-angles-left")
-// const doubleRight = $(".myContentAngle .fa-angles-right")
-// if(allContent.length <= 6){
-//     doubleLeft.css("display", "none")
-//     doubleRight.css("display", "none")
-// }
-// else{
-//     doubleLeft.css("display", "unset")
-//     doubleRight.css("display", "unset")
-// }
-
-// doubleLeft.click(function(){
-//     $(".lastButtons").removeClass("lastButtons")
-//     for(var iter = 0; iter < 6; iter++){
-//         el[iter].innerHTML = iter + 1
-//     }
-//     $(".chosenButton").removeClass("chosenButton")
-//     el[0].classList.add("chosenButton")
-//     koef = 1
-//     pagesOfUsersContent(0)
-// })
-// doubleRight.click(function(){
-//     var len = allContent.length-koefEnd+1
-//     for(var i = 0; i < 6; i++){
-//         if(i < koefEnd){
-//             el[i].innerHTML = len++
-//         }
-//         else{
-//             el[i].classList.add("lastButtons")
-//         }
-//     }
-//     $(".chosenButton").removeClass("chosenButton")
-//     el[koefEnd-1].classList.add("chosenButton")
-//     pagesOfUsersContent(allContent.length -1)
-// })
-// const postsCateg = document.querySelectorAll(".allStatusOfPosts span")
-// const catBlocks = document.querySelectorAll(".findWithThat")
-// postsCateg.forEach((eachCatrg, index) => {
-//     eachCatrg.addEventListener('click', () => {
-//         for(var sm = 0; sm < 3;sm++){
-//             if(catBlocks[sm].classList.contains("mpc") == false){
-//                 catBlocks[sm].classList.add("mpc")
-//             }
-//         }
-//         catBlocks[index].classList.remove("mpc")
-//     })
-// }
-//     )
-//     const replacement = () => {
-//         var allContent = document.querySelectorAll(".mainMyPostsContent .allMyContent")
-//         for(var i = 0; i <allContent.length; i++){
-//             while(allContent[i].childElementCount != 4){
-//                 if(i + 1 != allContent.length){
-//                     var imElem = allContent[i+1].querySelector('.myContent')
-//                     allContent[i].insertAdjacentElement('beforeend', imElem)
-//                 }
-//                 else{
-                    
-//                     break
-//                 }
-//             }
-//             if(allContent[i].childElementCount == 0){
-//                 allContent[i].remove()
-//                // koefEnd--
-//             }
-//         }
-        
-        
-//      }
-// const trash = $(".absolutelyNotYou")
-// //replacement()
-// trash.click(() => {
-//     for(var i = 1; i < allElem.length; i++){
-//         if(allElem[i].checked){
-//             allMyContent[i-1].remove()
-//         }
-//     }
-//     replacement()
-// })
-// let file;
-// function showFile(input) {
-//     file = input.files[0];
-//     // $(".imageOfUser").children[1].attr("src",  URL.createObjectURL(file))
-//     document.querySelectorAll('.imageOfUser')[1].src = URL.createObjectURL(file)
-//     //alert(file.src)
-//   }
-
-// // var forFavBox = 0
-// // function fill(elem){
-// //     elem.classList.toggle("fa-regular")
-// //     elem.classList.toggle("fa")
-// //     var favZone = document.querySelector('.mainPartWithButton .mainPart')
-// //     console.log(favZone);
-// //     var temp = elem.parentNode.parentNode
-// //     if(elem.classList.contains('fa')){
-       
-        
-// //         var contentBoxFav = temp.cloneNode(true)
-// //         favZone.prepend(contentBoxFav)
-// //     }
-// //     else{
-        
-// //         // if(favZone.hasChildNodes(temp)){
-// //         //    console.log(favZone.c);
-// //         //     // favZone.removeChild(elem)
-// //         // //    console.log('favZone.removeChild(elem): ', favZone.removeChild(elem));
-// //         // }
-// //         console.log(favZone.contains(temp));
-// //     }
-    
-// // }   
 var newPostZone = document.querySelector('.pageForNewPost .mainBody')
 
 function myFunction(div) {
     //document.querySelector(`.show`).classList.remove("show");
     document.querySelector(`.${div} #myDropdown`).classList.toggle("show");
     
+}
+const list = ["ru", "kz"]
+const langAll = document.querySelectorAll(".langSpan")
+let hash = 'ru'
+langAll.forEach((lang, index) => {
+    lang.addEventListener('click', () => {
+        
+        if(index == 0){
+            langAll[1].classList.remove('chosen')
+            hash = 'ru'
+        }
+        else{
+            langAll[0].classList.remove('chosen')
+            hash = 'kz'
+        }
+        lang.classList.add('chosen')
+        changeLang()
+    })
+});
+const changeLang = () => {
+    
+    for (let key in langArr) {
+        // console.log(key);
+        let elemAll = document.querySelectorAll('.lng-' + key);
+        elemAll.forEach(elem => {
+            if (elem) {
+                if((elem.tagName == 'INPUT' && elem.value.length == 0) || elem.tagName == 'TEXTAREA'){
+                    elem.setAttribute("placeholder", langArr[key][hash])
+                }
+                else
+                {
+                    if(elem.tagName != 'INPUT'){
+                        elem.innerHTML = langArr[key][hash];
+                    }
+                    else{
+                        elem.value = langArr[key][hash];
+                    }
+                }
+            }
+        })
+
+    }
 }
 var np = false
 const showModal = () => {
@@ -393,7 +74,7 @@ const modal = (str) => {
             $('.shadow').css('display', 'none')
             $('section').css('position', 'sticky')
           
-          console.log();
+          //console.log();
           }
           if (!event.target.matches('.wholeList-btn')) {
             toggleId(listClassOb['wholeList-btn'])
@@ -429,7 +110,7 @@ window.onload = () => {
     inputSearch.oninput = function(){
         let value = this.value.trim().toLowerCase()
         let list = document.querySelectorAll('.ul li')
-        console.log(list);
+        // console.log(list);
         value
             ?list.forEach(elem => {
                 elem.innerText.toLowerCase().search(value) == -1
@@ -448,33 +129,89 @@ window.onload = () => {
     
 }
 var liList  =document.querySelectorAll('.ul li')
-liList.forEach(each =>{
+liList.forEach((each, index) =>{
     each.addEventListener('click', () => {
-        outLi(each,true)
+        outLi(each,true, index)
     }) 
     each.addEventListener('mouseover', () => {
         outLi(each, false)
     }) 
        
 })
-const outLi = (each, boolValue) => {
+var ctgArray = [
+    "lng-service",
+    "lng-gadgets", 
+    "lng-personalItems", 
+    "lng-child", 
+    "lng-business", 
+    "lng-animals", 
+    "lng-house",
+    "lng-job", 
+    "lng-hobby", 
+    "lng-apartments", 
+    "lng-transport"
+  ]
+  var locationArray = [
+        "lng-AlmatyReg",
+    "lng-AkmolaReg",
+    "lng-AtyReg",
+    "lng-AktobeReg",
+    "lng-EKReg",
+    "lng-ZhambylReg",
+    "lng-WKReg",
+    "lng-KgReg",
+    "lng-KosReg",
+    "lng-KzReg",
+    "lng-MgReg",
+    "lng-PvReg",
+    "lng-NKReg",
+    "lng-TurkReg",
+    "lng-justAstana",
+"lng-justAlmaty",
+"lng-justShymkent"
+
+  ]
+  $(".up").click(function(){
+    window.scrollTo(0, 0)
+})
+const outLi = (each, boolValue,index) => {
     if(boolValue){
         $('.shadow').css('display', 'none')
-        var text = each.innerHTML
+        if(each.tagName == 'INPUT'){
+            var text = each.value
+        }
+        else{
+            var text = each.innerHTML
+        }
         if(text.includes('Казахстанская')){
             text = text[0] + 'KO'
         }
         if(document.querySelectorAll('.ul')[0].style.display == 'unset'){
             if(np){
                 document.querySelector('.locationInput input').value = text
+                if(document.querySelector('.locationInput input').classList.contains('lng-searchByArea')){
+                    document.querySelector('.locationInput input').classList.remove('lng-searchByArea')
+                }
+                document.querySelector('.locationInput input').classList = ''
+                document.querySelector('.locationInput input').classList.add(locationArray[index])
                 np = false
             }
             else{
                 document.querySelector('.location-btn').innerHTML = text
+                if(document.querySelector('.location-btn').classList.contains('lng-allRegion')){
+                    document.querySelector('.location-btn').classList.remove('lng-allRegion')
+                }
+                document.querySelector('.location-btn').classList.add(locationArray[index])
             }
         }
         else{
             document.querySelector('.chooseCategory div').innerHTML = text
+            if(document.querySelector('.chooseCategory div').classList.contains('lng-catg')){
+                document.querySelector('.chooseCategory div').classList.remove('lng-catg')
+            }
+            console.log(index);
+            document.querySelector('.chooseCategory div').classList.add(ctgArray[index-17])
+            
         }
         $('section').css('position', 'sticky')
     }
@@ -488,7 +225,7 @@ const outLi = (each, boolValue) => {
 }
 var chooseCategory = document.querySelector('.chooseCategory div')
 chooseCategory.addEventListener('click', () => {
-    console.log(document.querySelectorAll('.ul')[1]);
+    // console.log(document.querySelectorAll('.ul')[1]);
     document.querySelectorAll('.ul')[0].style.display = 'none'
     document.querySelector('.inputModal input').value = ''
     var needUl = document.querySelectorAll('.ul')[1]
@@ -496,3 +233,170 @@ chooseCategory.addEventListener('click', () => {
     $('section').css('position', 'fixed')
     showModal()
 })
+var imgArr = ['img/Vector1.svg', 'img/Vector1.svg', 'img/Vector1.svg','img/Vector1.svg','img/Vector1.svg','img/Vector1.svg','img/Vector1.svg']
+function showFile(input) {
+    if(imgArr[6] == 'img/Vector1.svg'){
+        file = input.files[0];
+        imgArr.unshift(URL.createObjectURL(file))
+        if(imgArr.length > 7){
+            imgArr.pop()
+        }
+        document.querySelectorAll('.imageOfUser').forEach((each, index) => {
+            if(imgArr[index] != 'img/Vector1.svg'){
+                each.style.width = '100%'
+                each.style.height = '100%'
+                document.querySelectorAll('.imageOfUser')[index].style.objectFit = 'cover'
+            }
+            each.setAttribute('src',imgArr[index] )
+        })
+    }
+    else{
+        alert()
+    }
+  }
+  var fileProf
+  
+var currencyMask = IMask(
+    document.querySelector('.costBlock input.inner'),
+    {
+      mask:  '₸ num',
+      blocks: {
+        num: {
+          mask: Number,
+          thousandsSeparator: ' '
+        }
+      }
+      
+    });
+    var phoneMask = IMask(
+        document.querySelector('.phoneNumber'), {
+        
+          mask: '+{7} (000) 000-00-00'
+        });
+        
+    var phoneWhats = IMask(
+        document.querySelectorAll('.phoneNumber')[1], {
+          mask: '+{7} (000) 000-00-00'
+        })
+        var obj;
+        const animOut =(imgBox) =>{
+            // $('.imageBox2 div').css('display', 'none')
+            if(imgArr[+imgBox.getAttribute('count')] != 'img/Vector1.svg'){
+                obj = imgBox.classList[0]
+                $(`.${obj} .backColor.active`).removeClass('active')
+                $(`.${obj} div.deleteAnim`).css('animation', 'myAnimOut 0.8s ease 0s 1 normal forwards')
+            }
+        }
+        const anim =(imgBox) =>{
+            if(imgArr[+imgBox.getAttribute('count')] != 'img/Vector1.svg'){
+                obj = imgBox.classList[0]
+                $(`.${obj} div.deleteAnim`).css('animation', 'myAnim 0.8s ease 0s 1 normal forwards')
+                $(`.${obj} div.deleteAnim`).css('display', 'flex')
+                $(`.${obj} .backColor`).addClass('active')
+            }
+                
+        }
+    const deleteFunction = (btn) => {
+        var btnParentIndex = +btn.parentNode.parentNode.getAttribute('count')
+        imgArr.splice(btnParentIndex, 1)
+        imgArr.push('img/Vector1.svg')
+        btn.parentNode.previousElementSibling.previousElementSibling.setAttribute('src', 'img/Vector1.svg')
+        $(`.${btn.parentNode.parentNode.classList[0]} .backColor.active`).removeClass('active')
+        $(`.${btn.parentNode.parentNode.classList[0]} div.deleteAnim`).css('animation', 'myAnimOut 0.8s ease 0s 1 normal forwards')
+        btn.parentNode.previousElementSibling.previousElementSibling.style.width = '50px'
+        btn.parentNode.previousElementSibling.previousElementSibling.style.height = '50px'
+        btn.parentNode.previousElementSibling.previousElementSibling.style.objectFit = null
+        
+        
+        document.querySelectorAll('.imageBox').forEach((each, index) => {
+            
+            if(imgArr[index] != 'img/Vector1.svg'){
+                document.querySelector(`.${each.classList[0]} img`).style.width = '100%'
+                document.querySelector(`.${each.classList[0]} img`).style.height = '100%'
+                document.querySelector(`.${each.classList[0]} img`).style.objectFit = 'cover'
+            }
+            else{
+                document.querySelector(`.${each.classList[0]} img`).style.width = '50px'
+                document.querySelector(`.${each.classList[0]} img`).style.height = '50px'
+                document.querySelector(`.${each.classList[0]} img`).style.objectFit = null
+            }
+            document.querySelector(`.${each.classList[0]} img`).setAttribute('src', imgArr[index])
+        })
+        
+    }
+    var falseIsThere = false
+    var checkForValid = []
+    var requiredInput = [
+        document.querySelector('.newPostHeader input'),
+        document.querySelector('.chooseCategory div'),
+        document.querySelector('.costBlock input'), 
+        document.querySelector('textArea'),
+        document.querySelectorAll('.periodOfInputs input')[0],
+        document.querySelectorAll('.periodOfInputs input')[1],
+        document.querySelectorAll('.periodOfInputs input')[2]
+    ]
+    var q = 0
+    document.querySelector('.finalButtonDiv').addEventListener('click', checkInput)
+    document.querySelector('.betaButtonDiv').addEventListener('click', checkInput)
+    function checkInput(){
+        checkForValid.length = 0
+        checkForValid.push(document.querySelector('.newPostHeader input').value.length >= 16)
+        checkForValid.push(document.querySelector('.chooseCategory div').innerHTML != 'Выберите категорию')
+        checkForValid.push(document.querySelector('.costBlock input').value.length >= 1)
+        checkForValid.push(document.querySelector('textArea').value.length >= 80)
+        document.querySelectorAll('.periodOfInputs input').forEach((each, index) => {
+            
+            if(index == 0){
+                checkForValid.push(each.value != '')
+            }
+            else if(index == 1 || index == 2){
+                checkForValid.push(each.value.length == 18)
+            }
+        })
+        if(checkForValid.includes(false)){
+            
+            // console.log(checkForValid);
+            var sum = 0
+            // checkForValid.forEach((stat, index) => {
+            //     console.log(stat);
+            //     if(!stat){
+            //         q = index
+            //         requiredInput[index].classList.add('validation_error')
+                    
+                    
+            //             }
+                        
+            // })
+            for(var i = 0; i < checkForValid.length; i++){
+                if(!checkForValid[i]){
+                    requiredInput[i].classList.add('validation_error')
+                    
+                }
+                else{
+                    requiredInput[i].classList.remove('validation_error')
+                }
+            }
+            for(var j = 0; j < checkForValid.length; j++){
+               if(checkForValid[j] == false){
+                    let scrollTarget = requiredInput[j];
+                    let topOffset = scrollTarget.offsetHeight;
+                // const topOffset = 0; // если не нужен отступ сверху
+                    let elementPosition = scrollTarget.getBoundingClientRect().top;
+                    let offsetPosition = elementPosition - topOffset -200;
+                
+                    window.scrollBy({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                    break
+               }
+            }
+        }
+        else{
+            for(var i = 0; i < checkForValid.length; i++){
+                requiredInput[i].classList.remove('validation_error')
+                
+            }
+            alert('success!')
+        }
+    }

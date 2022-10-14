@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/myPosts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/scroll.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    
+</head>
+<body>
+    <header>
+        <div class="headerChild">
+            <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
+            <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
+            <div class="moreItems">
+                <div class="dropdown">
+                    <span class="fa-regular fa-user lng-personal"> Личный Кабинет</span>
+                    <div class="dropdown-content">
+                        {% for m in menu %}
+                        <a href="{{m.url}}" class="lng-message messages">{{m.name}}</a>
+                        {% endfor -%}
+                      </div>
+                </div>
+                <span class="fa-regular fa-heart lng-favourite-second favourite"> Избранные</span>
+                <span class="fa-regular fa-comment lng-message-second messages"> Сообщения</span>
+            </div>
+            <div class="newObject">
+                <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
+            </div>
+            <div>
+                <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
+            </div>
+        </div>
+    </header>
+    <section class="favouriteSection">
+        <div class="mask"></div>
+        <div class="favouriteSectionChild">
+            <div class="header">
+                <div class="favouriteText">
+                    Избранные объявления
+                </div>
+                <div class="searchPart">
+                    <input type="text" placeholder="Поиск по заголовку">
+                    <div class="searchControl">
+                        <div class="verticalLine"></div>
+                        <div onclick="favFunction(this.className)"class="wholeList">
+                            <button  class="wholeList-btn">Все категории <i class="fas arrow fa-angle-down"></i></button>
+                            <div id="myDropdown" class="wholeList-content">
+                              <a href="#">Все категории</a> 
+                            </div>
+                          </div>
+                        <div class="verticalLine"></div>
+                        <div onclick="myFunction(this.classList[1])"class="wholeList two">
+                            <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
+                            <div id="myDropdown" class="wholeList-content">
+                              <a href="#" onclick="insert(this)">По возростанию <i class="fa-solid arrow fa-angle-up"></i> </a> 
+                              <a href="#" onclick="insert(this)">По убыванию <i class="fa-solid arrow fa-angle-down"></i> </a> 
+                              <a href="#" onclick="insert(this)">По Умолчанию  </a> 
+                            </div>
+                          </div>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="mainPartWithButton">
+                <div class="mainPart line">
+                    {% for post in posts %}
+                        <div class="contentBox"><a  href="/content/{{post.id}}">
+                            <div class="forImgContent">
+                                <div class="top">VIP</div>
+                                <img src="data:;base64, {{ post.photos[0] }}" alt="">
+                            </div>
+                                <div class="dataContent">{{post.post_date}} </div>
+                                <div class="titleContent">{{post.title}}</div>
+                                <div class="costContent">{{post.cost}} &#8376;</div>
+                                <div class="statusContent">
+                                <span>Договорная</span>
+                                <span class="fa-regular fa-heart" onclick="fill(this)"></span>
+                            </div></a>
+                         </div>
+                    {% endfor %}
+                    
+                </div>
+                <div class="zoneForButton">
+                    <button class="showMoreFav">Показать еще <i class="fa-solid arrow fa-angle-down"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footerChild">
+            <div class="first">
+                <div class="text">usharal.kz<i class="fa-thin fa-calendar-circle-minus"></i></div>
+                <div>@ 2022 usharal.kz - все права защищены</div>
+                <div class="map">Карта сайта</div>
+            </div>
+            <div class="second">
+                <div class="text">Контакты</div>
+                <a href="" class="secondA">usharal_kz@gmail.com</a>
+                <a href="" class="secondA">+7(705) 332 2343</a>
+            </div>
+            <div class="third">
+                <button class="up fa fa-arrow-up"></button>
+            </div>
+        </div>
+    </footer>
+    <div class="shadow">
+        <div class="cityList">
+            <div class="inputModal">
+                <input type="text" name="" id="" placeholder="Введите название" spellcheck="true">
+            </div>
+            <ul class="ul">
+                <li>Алматинская область</li>
+                <li>Акмолинская область</li>
+                <li>Атырауская область</li>
+                <li>Актюбинская область</li>
+                <li>Восточно-Казахстанская область</li>
+                <li>Жамбылская область</li>
+                <li>Западно-Казахстанская область</li>
+                <li>Карагандинская область</li>
+                <li>Костанайская область</li>
+                <li>Кызылординская область</li>
+                <li>Мангистауская область</li>
+                <li>Павлодарская область</li>
+                <li>Северо-Казахстанская область</li>
+                <li>Туркестанская  область</li>
+                <li>Нур-Султан</li>
+                <li>Алматы</li>
+                <li>Шымкент</li>
+            </ul>
+            <ul class="ul">
+                <li>Услуги</li>
+                <li>Электроника</li>
+                <li>Личные вещи</li>
+                <li>Детям</li>
+                <li>Для Бизнеса</li>
+                <li>Животные</li>
+                <li>Для дома</li>
+                <li>Работа</li>
+                <li>Хобби и спорт</li>
+                <li>Недвижимость</li>
+                <li>Транспорт</li>
+            </ul>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename = 'js/jquery-3.6.0.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename = 'js/scroll.js') }}"></script>
+   
+    <script src="{{ url_for('static', filename = 'js/lang.js') }}"></script>
+    <script>
+        $(".up").click(function(){
+    window.scrollTo(0, 0)
+})
+        const toggleId = (idClass) => {
+    var dropdowns = document.getElementsByClassName(idClass);
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+  }
+  function myFunction(div) {
+    
+        //document.querySelector(`.show`).classList.remove("show");
+        document.querySelector(`.${div} #myDropdown`).classList.toggle("show");
+        
+    }
+    function insert(randA){
+        document.querySelector('.sort').innerHTML = randA.innerHTML
+    }
+  var listClassOb = {
+    'wholeList-btn':'wholeList-content',
+    'location-btn':'location-content'
+  }
+        function favFunction(arg){
+            $('.shadow').css('display', 'flex')
+            $('section').css('position', 'fixed')
+            document.querySelectorAll('.ul')[0].style.display = 'none'
+            document.querySelectorAll('.ul')[1].style.display = 'unset'
+            window.onclick = function(event) {
+    if(event.target.matches('.shadow')){
+        if (!event.target.matches('.location-btn')) {
+            toggleId(listClassOb['location-btn'])
+            $('.shadow').css('display', 'none')
+            $('section').css('position', 'sticky')
+          
+          console.log();
+          }
+          if (!event.target.matches('.wholeList-btn')) {
+            toggleId(listClassOb['wholeList-btn'])
+          }
+          
+    }
+  }
+  var liList  =document.querySelectorAll('.ul li')
+liList.forEach(each =>{
+    each.addEventListener('click', () => {
+        outLi(each,true)
+    }) 
+    each.addEventListener('mouseover', () => {
+        outLi(each, false)
+    }) 
+       
+})
+const outLi = (each, boolValue) => {
+    if(boolValue){
+        $('.shadow').css('display', 'none')
+        var text = each.innerHTML
+        document.querySelector('.wholeList-btn').innerHTML = text + '<i class="fas arrow fa-angle-down"></i>'
+        $('section').css('position', 'sticky')
+    }
+    else{
+        var text = each.innerHTML
+        document.querySelector('.inputModal input').value = text
+    }
+    
+        
+        
+}
+
+        }
+        window.onload = () => {
+    let inputSearch = document.querySelector('.inputModal input')
+    
+    inputSearch.oninput = function(){
+        let value = this.value.trim().toLowerCase()
+        let list = document.querySelectorAll('.ul li')
+        console.log(list);
+        value
+            ?list.forEach(elem => {
+                elem.innerText.toLowerCase().search(value) == -1
+                    ?elem.classList.add('hide')
+                    :
+                        elem.classList.remove('hide');
+                
+            })
+            : list.forEach(elem => {
+                elem.classList.remove('hide')
+            })
+
+
+    }
+    
+    
+}
+    </script>
+    <!-- <script src="js/counter.js"></script> -->
+    <style>
+        *:not(.fa-regular, i, .fa-solid, .fa, .arrow){
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+</body>
+</html>

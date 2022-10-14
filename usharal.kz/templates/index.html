@@ -25,8 +25,8 @@
                             {% endfor -%}
                           </div>
                     </div>
-                    <span class="fa-regular fa-heart lng-favourite-second favourite"> Избранные</span>
-                    <span class="fa-regular fa-comment lng-message-second messages"> Сообщения</span>
+                    <span class="fa-regular fa-heart lng-favourite-second favourite"><a href="{{'favorites'}}"> Избранные</a></span>
+                    <span class="fa-regular fa-comment lng-message-second messages"><a href="{{'messages'}}" > Сообщения</a></span>
                 </div>
                 <div class="newObject">
                     <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
@@ -42,18 +42,14 @@
             <div class="sectionChild">
                 <div class="searchAndCateg">
                     <div class="searchArea">
-                        <div onclick="myFunction(this.className)"class="wholeList">
+                        <div onclick="myFunction(this.className)" class="wholeList">
                             <button  class="wholeList-btn">Все категории <i class="fas arrow fa-angle-down"></i></button>
                             <div id="myDropdown" class="wholeList-content">
-                              <a href="#">Все категории</a> 
+                              <a href="">Все категории</a> 
                             </div>
                           </div>
                           <div class="inputArea">
                             <input type="text" placeholder="Найти объявление..." name="" id="">
-                          </div>
-                          <div onclick="modal()" class="location">
-                            <button class="location-btn"><i class="fas fa-location-dot"></i>Весь Казахстан </button>
-                           
                           </div>
                           <div class="searchBtn">
                             <button class="fas fa-search"></button>
@@ -109,7 +105,7 @@
                     </div>
                 </div>
                 <div class="boxForAllAdver">
-                    <div class="premiumAdver">
+                    <!-- <div class="premiumAdver">
                         <div class="areaForTextPremium">
                             <div class="someText">
                                 <span class="mainText lng-premium">Премиум объявления</span>
@@ -139,7 +135,7 @@
                             {% endif %}
                         {% endfor %}    
                         </div>
-                    </div>
+                    </div> -->
                     <div class="mainAllAdver">
                         <div class="allAdver">
                             <div class="areaForText">
@@ -148,23 +144,21 @@
                             <div class="mainAllAdverWithButtonLine">
                                 <div class="adverLine">
                                     {% for post in posts %}
-                                    <div class="contentBox">
+                                    <div class="contentBox"><a  href="/content/{{post.id}}">
                                         <div class="forImgContent">
-                                            <div class="top">VIP</div>
+                                            <!-- <div class="top">VIP</div> -->
                                             <img src="data:;base64, {{ post.photos[0] }}" alt="">
                                         </div>
-                                        <div class="dataContent">{{post.post_date}} </div>
-                                        <div class="titleContent">{{post.title}}</div>
+                                        <div class="dataContent" style="text-decoration: none; color:black;">{{post.post_date}} </div>
+                                        <div class="titleContent" style="text-decoration: none; color:black;">{{post.title}}</div>
                                         <div class="costContent">{{post.cost}} &#8376;</div>
                                         <div class="statusContent">
                                             <span>Договорная</span>
                                             <span class="fa-regular fa-heart" onclick="fill(this)"></span>
-                                        </div>
+                                        </div></a>
                                     </div>
                                     {% endfor %}
-                                    
-                                    <!--  -->
-                                    
+                                                                        
                                 </div>
                                 <div class="buttonLine">
                                     <button сlass = "showMore lng-more">Показать ещё <i class="fa-solid arrow fa-angle-down"></i></button>
@@ -243,7 +237,7 @@
     <script src="../static/js/lang.js"></script>
     <!-- <script src="js/counter.js"></script> -->
     <style>
-        *{
+        *:not(.fa-regular, i, .fa-solid, .fa-search){
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
         }
     </style>

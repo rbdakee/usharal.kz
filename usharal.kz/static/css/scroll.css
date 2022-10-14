@@ -1,18 +1,14 @@
 
 .top{
-  background-color: #ffc53a;
-  color:#fff;
-  padding: 0;
-  position:absolute;
-  width: 60px;
-  height: 30px;
-  top: 0;
+  width: 4em;
+  height: 1.5em;
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding-right: 8px;
-  border-top-left-radius: 10px;
-  font-size: 20px; 
+  z-index: 99;
+  position: absolute;
+  color: #fff;
+  background-color: #ffc53a;
   
 }
 .slider{
@@ -25,12 +21,14 @@
   
 }
 .slider .contentBox{
-  margin-left: 3.25vw;
+  margin-left: 4%;
  
   
 }
 
 .contentBox{
+  
+  z-index: 1;
   min-width: 20%;
   max-width: 150px;
   height: 300px;
@@ -40,23 +38,30 @@
   border-radius: 10px;
   display: block;
 }
+.contentBox.hide{
+  display: none;
+}
 .forImgContent{
+  top: 0;
   width: 100%;
-  height: 50%;
-  margin-top: 7%;
+  position: relative;
+  height: 57%;
+  /* margin-top: 7%; */
   padding: 0 !important;
 }
 .forImgContent img{
+  position: absolute;
   width: 100%;
   height: 100%;
   margin: auto;
+  object-fit: cover;
 }
-.contentBox div{
+.contentBox div:not(.top){
   text-align:left;
   padding-left: 7px;
 }
 .dataContent{
-  width: 50%;
+  width: 100%;
   font-size: small;
   color: #2f223aa9;
   margin: 5px 0;

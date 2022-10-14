@@ -3,7 +3,7 @@
     padding: 0;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     box-sizing: border-box;
-    
+
     /* border: 1px solid purple !important; */
 }
 h1,h2,h3,h4,h5,h6{
@@ -17,12 +17,12 @@ body{
     /* height: 100vh; */
 
 }
-body{
-    /* min-width: 1300px; */
+
+section{
 }
 header{
     width: 100%;
-    max-width: 1366px;
+    min-width: 1266px !important;
     height: 70px; /*пиксели исправить*/
     background-color: #2F323A;
     justify-content: center;
@@ -100,12 +100,14 @@ html{
     height: 100%;
     font-weight: bold;
     color: #fff;
+
     cursor: pointer;
     
 }
 .newObject{
     width: 230px;
     height: 50px;
+    border-radius: 10px;
     border: 3px solid #ffc53a;
     
 
@@ -119,7 +121,8 @@ span.fa-regular, .add{
 }
 .fa-regular:hover{
     cursor: pointer;
-    color: #ffffff;
+    color: #fff;
+    
 }
 .dropdown{
     position: relative;
@@ -150,7 +153,7 @@ span.fa-regular, .add{
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 .dropdown-content a:last-child{border-top: 0.5px solid rgba(0, 0, 0, 0.082);}
 section, .sectionChild{
-    width: 100%;
+    width: 100% !important;
     height: auto;
     min-height: 100vh;
 }
@@ -194,13 +197,13 @@ section, .sectionChild{
   }
   
   .wholeList-content, .location-content {
-    display: none;
+    display: block;
     position: absolute;
     background-color: #f1f1f1;
     /* min-width: 160px; */
     width: auto;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 0;
   }
   
   /* Ссылки внутри выпадающего списка */
@@ -216,8 +219,12 @@ section, .sectionChild{
   
   /* Показать выпадающее меню (используйте JS, чтобы добавить этот класс .dropdown-content содержимого, когда пользователь нажимает на кнопку выпадающего списка) */
   .show {display:block;}
-.arrow{
-    color: #ffc53a;
+
+
+.buttonLine button{
+    width: auto;
+    /* background-color: transparent !important;
+    display: none; */
 }
 .location-btn{
     border: none;
@@ -370,8 +377,13 @@ input:focus{
 .activePart{
     display: unset;
 }
-section{
+section, header, footer{
     /* display: none; */
+    max-width: 1300px;
+    min-width: 1266px ;
+}
+input:focus{
+    color: black;
 }
 .messageSectionChild
 {
@@ -415,10 +427,13 @@ section{
     font-size: larger;
     border-bottom: 1px solid #b1b0b0;
 }
+.headerChild span{
+    white-space: nowrap;
+}
 .headerMessage{
     width: 100%;
-    min-height: 15%;
-    height: 15%;
+    /* min-height: 15%; */
+    height: 80px;
     background-color: #fff;
     grid-template-columns: 1.5fr;
     grid-template-rows: 1fr, 0.5fr;
@@ -460,6 +475,8 @@ section{
     text-decoration: solid;
     cursor: pointer;
     width: 10em;
+    width: auto;
+    height: 2em;
     text-align: center;
     user-select: none;
 }
@@ -472,7 +489,7 @@ section{
     border-bottom: 2px solid #ffc53a;
 }
 .mainMessage{
-    width: 1000px;
+    width: 80%;
     height: 500px;
     margin: 50px auto;
     display: none;
@@ -492,6 +509,9 @@ section{
 .messageSide { 
     grid-area: 1 / 2 / 2 / 3;
 }
+.showFav i{
+    color: white !important;
+}
 .contactSide, .messageSide{
     border-radius: 15px;
     background-color: #fff;
@@ -509,7 +529,7 @@ section{
 }
 .sell, .bye{
     padding: 10px;
-    font-size: large;
+    font-size: 1em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -525,11 +545,11 @@ section{
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
 
 }
 .messageCategories span{
-    font-size: 1rem;
+    font-size: 1em;
+    margin: auto;
     padding:  10px 10px;
     cursor: pointer;
 }
@@ -555,10 +575,19 @@ section{
     font-weight: bold;
     font-size: 30px;
 }
+.searchPart .two{
+    width: 100%;
+    white-space: none;
+    padding: 0;
+    margin: 0;
+}
+.two button{
+    width: 100% !important; 
+}
 .searchPart{
     display: flex;
     align-items: center;
-    overflow: hidden;
+    z-index: 2;
     border-radius: 7px;
     border: 0.5px solid #6d6b6ba6;
 }
@@ -599,10 +628,13 @@ section{
     align-items: center;
     justify-content: space-evenly;
 }
-.arrow, .searchArea .arrow {
+/* .arrow, .searchArea .arrow {
     color: #ffc53a;
     font-size: larger;
     font-weight: bold;
+} */
+button .arrow{
+    color: #fff;
 }
 .forButton>button{
     color: #fff;
@@ -615,21 +647,14 @@ section{
 .forButton{
     width: 15%;
     height: 100%;
-}
-.favouriteSectionChild .mainPart{
-    width: 80%;
     
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr);
-    /* grid-template-rows: repeat(5, 1fr); */
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    height: 660px;
-    overflow: hidden;
-    margin: 0 auto;
+}
+.wholeList-btn i{
+    color: #ffc53a;
 }
 .mainPartWithButton{
     height: auto;
+    z-index: 1;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -639,6 +664,7 @@ section{
     width: 70%;
     display: flex;
     height: auto;
+    margin: auto;
 }
 .zoneForButton button{
     margin: 40px auto 20px;
@@ -646,6 +672,7 @@ section{
     background-color: #ffc53a;
     border: none;
     border-radius: 10px;
+    border: 2px solid #ffc53a;
     color: #ffffff;
     font-size: 18px;
     height: 100%;
@@ -669,9 +696,70 @@ section{
         min-width: 10em;
     }
 }
+@media (max-width:1360px){
+    
+}
+.favouriteSectionChild .mainPart{
+    width: 80%;
+    /* display: flex !important;
+    flex-direction: column; */
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px; 
+    height: 660px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.adverLine{
+    width: 80%;
+    /* display: flex !important;
+    flex-direction: column; */
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px; 
+    height: 660px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.wholeListSpan{
+    width: 8em !important;
+    position: relative;
+    display: inline-block;
+}
+.wholeListSpan button{
+    background-color: transparent;
+    padding: 0.6em;
+    font-size: 1em;
+    border: none;
+    cursor: pointer;
+}
+.wholeListSpan div.wholeList-content-span{
+    display: none;
+    margin-top: 150px;
+    position: absolute;
+    background-color: #f1f1f1;
+    /* min-width: 160px; */
+    width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.wholeList-content-span a{
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.wholeList-content-span a:hover{background-color: #ddd}
+.wholeList-content-span.show{
+    display: block !important;
+}
 .paymentInner{
     width: 100%;
-    height: auto;  
+    height: 100%;
     display: block;
 }
 .paymentHeader{
@@ -703,20 +791,18 @@ section{
     margin-top: 20px;
     border-radius: 5px;
     overflow: hidden;
-    border:0.5px solid #2F223aa9 ;
+    margin: 20px auto;
+    display: flex;
+    width: 55%;
+    
 }
 .searchPayment input{
     padding: 10px 20px;
     height: 3.5em;
-    width: 90%;
+    width: 78%;
+    border-radius: 5px;
     outline: none;
-    border: none;
-}
-.searchPayment button{
-    width: 10%;
-    background-color: #ffc53a;
-    color: #fff;
-    border: none;
+    border: none;border:0.5px solid #2F223aa9 ;
 }
 .catg{
     text-align: center;
@@ -724,21 +810,30 @@ section{
     padding-bottom: 10px;
     border-bottom:1px solid #2F223aa9;
 }
-.mainPayment{
+.paymentSec{
     width: 100%;
     min-height: 650px;
-    height: auto;
-    display: flex;
+    height: 100%;
+    /* display: flex; */
     flex-direction: column;
 }
 .receiptsBox{
     margin: auto;
     height: 550px;
-    display: block;
+    display: flex;
+    flex-direction: column  ;   
     width: 70%;
     border-radius: 20px;
     background-color: #fff;
     font-size: 15px;
+}
+.boxCon{
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    height: 550px;
+    width: 100%;
+    overflow-y: hidden !important;
 }
 .lineForButton{
     width: 55%;
@@ -757,16 +852,13 @@ section{
     align-items: center;
     width: auto;
 }
-.receiptsBox div{
-    width: 100%;
-    border-bottom: 1px solid #3e35463b;
-    min-height: 50px;
-    display: flex;
-    align-items: center;  
+.ghostDel{
+    order: 999;
 }
-.receiptsBox div span{
-    margin: auto 20px;
+.wholeListSpan button{
+    margin: auto;
 }
+
 .sumOfOperation {
     margin-left: auto!important;
     margin-right: 30px !important;
@@ -775,7 +867,7 @@ section{
     width: 140px;
 }
 .dateOfOperation{
-    width: 100px;
+width: auto;
 }
 .timeOfOperation{
     width: 60px;
@@ -791,9 +883,31 @@ section{
 .myProfileInner{
     width: 100%;
     height: auto;
-    display: flex;
+    display: none;
     flex-direction: column;
 }
+.myProfileInner .rInfo{
+    width: 80%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f3f3f3;
+    outline: none;
+    border: 1px solid #b1b0b0;
+    border-radius: 2px;
+}
+
+.prof{
+    display: flex;
+     
+}
+/* .changeProf{
+    display: flex;
+}
+.seeProf{
+    display: none;
+} */
 .myProfileInner .box{
 
     width: 60%;
@@ -866,12 +980,19 @@ section{
     padding-top: 20px;
     border-radius: 5px;
 }
-.imageOfUser{
-    width: 50px;
+.imageOfUserChoose{
+    width: 50px ;
     height: 50px;
     position: absolute;
     z-index: 1;
+}
+.imageBoxProfile{
+    overflow: hidden;
+}
 
+ .imageOfUser{
+    width: 50px;
+    height: 50px;
 }
 .file {
     width: 100%;
@@ -882,8 +1003,17 @@ section{
     */
     z-index: 1;
     opacity: 0;
+    
 }
-.saveLine button{
+select{
+    width: 70%;
+    padding: 10px 20px;
+    border-radius: 3px;
+    border: 1px solid #b1b0b0;
+    outline: none;
+    background-color: #f3f3f3;
+}
+.saveLine button, .changeProfile, .confirmButtonLine button{
     padding: 10px 30px;
     border: none;
     background-color: #ffc53a;
@@ -959,6 +1089,7 @@ section{
     color: #2A81DD;
     text-decoration: underline;
     cursor: pointer;
+    width: 11em;
     font-size: 1rem;
     display: block;
 }
@@ -1002,6 +1133,7 @@ section{
     border-radius: 10px;
     background-color: #f3f3f3;
     display: flex;
+    overflow: hidden;
     align-items: center;
     justify-content: center;
 }
@@ -1013,11 +1145,86 @@ section{
 .imageBox6 { grid-area: 2 / 2 / 3 / 3; }
 .imageBox7 { grid-area: 2 / 3 / 3 / 4; }
 .imageBox8 { grid-area: 2 / 4 / 3 / 5; }
+.imageBox{
+    position: relative;
+}
 .extraInfo{
     width: auto;
     height: auto;
     margin-top: 60px;
 }
+/* .imageBox2{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid !important;
+} */
+
+.imageBox div.deleteAnim{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 0;
+    z-index: 1;
+    margin-bottom: 0;
+    
+    display: none;
+    background-color: #fefefed3;
+    color: red;
+    justify-content: center;
+    
+}
+.imageBox button{
+    background-color: transparent;
+    width: 80%;
+    height: 100%;
+    border: none;
+    font-size: large;
+    color: red;
+}
+.imageBox div button i{
+    margin-right: 5%;
+}
+.imageBox img{
+    top: auto;
+    bottom: 0;
+}
+/* .animation{
+    display: unset;
+    animation: myAnim 2s ease 0s 1 normal forwards;
+} */
+@keyframes myAnim {
+	0% {
+		transform: translateY(25px);
+	}
+
+	100% {
+		transform: translateY(0px);
+	}
+}
+.backColor.active{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block !important;
+    z-index: 0.5;
+    background-color: black !important;
+    opacity: 0.4; 
+}
+.backColor{
+    display: none;
+}
+@keyframes myAnimOut {
+	0% {
+		transform: translateY(-10px);
+	}
+
+	100% {
+		transform: translateY(30px);
+	}
+}
+
 .extraInfo textarea{
     background-color: #f3f3f3;
     border: 1px solid #b1b0b0;
@@ -1146,14 +1353,17 @@ button:hover{
     margin: 20px;
     padding: 8px 35px;
     
-    background-color: #ffc53a;
-    border: none;
+    background-color: transparent;
+    border: 2px solid #ffc53a;
     border-radius: 10px;
-    color: #ffffff;
+    color: black;
     font-size: 18px;
 }
-button .arrow{
-    color: #ffffff;
+.mainAllAdverWithButtonLine .buttonLine button .arrow{
+    /* color: black !important; */
+}
+.notBtn{
+    display: none;
 }
 .adverLine .contentBox, .mainPart .contentBox{
     margin-top: 30px !important;
@@ -1162,15 +1372,27 @@ button .arrow{
 }
 
 .adverLine{
-    padding-top: 20px;
+    padding-top: 10px;
 }
 .contentBoxNew{
     display: none;
 }
-@media screen {
-    
-}
+/* @media screen and (max-width: 1040px) {
+    .mainPartWithButton .mainPart {
+        /* display: none !important; 
+      display: flex !important;
+      flex-direction: column;
+    }
+    .mainPart .contentBox{
+        height: 200px !important;
+    }
+  } */
 .location #myDropdown{
+    width: 15em;
+    z-index: 99999;
+    position: absolute;
+}
+#myDropdown{
     width: 15em;
     z-index: 99999;
     position: absolute;
@@ -1189,21 +1411,23 @@ button .arrow{
 .cityList{
     display: block;
     width: 40%;
-    height: 80%;
+    height: 400px;
     margin: auto;
     margin-top: 70px;
     position: absolute;
     background-color: #fefefe;
     border-radius: 10px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 .inputModal{
     width: 100%;
     height: auto;
+    position: relative;
     display: flex;
     margin-top: 20px;
 }
 .inputModal input{
+    position: sticky;
     margin: auto;
     height: 60%;
     border-radius: 5px;
@@ -1230,4 +1454,105 @@ button .arrow{
 }
 .hide{
     display: none;
+}
+
+.imageBoxProfile{
+    width: 100px !important;
+    height: 100px;
+    border: 1px solid #b1b0b0;
+    border-radius: 10px;
+    background-color: #f3f3f3;
+    display: flex;
+    overflow: hidden  !important;
+    align-items: center;
+    justify-content: center;
+    /* box-shadow: inset 0px 8px 8px 0px rgba(0,0,0,0.2); */
+    
+}
+.imageBoxProfile img{
+    border-radius: 10px;
+}
+.lineForReceipt.hide{
+    display: none;
+}
+.number{
+    /* border: 1px solid; */
+}
+.introductionPart span{
+}
+.introductionPart .operation{
+    width: auto !important;
+}
+.receiptsBox div{
+    width: 100%;
+    border-bottom: 1px solid #3e35463b;
+    min-height: 50px;
+    display: flex;
+    align-items: center;  
+    /* justify-content: space-between !important; */
+}
+.receiptsBox div span{
+    margin: auto 20px;
+}
+
+.wholeListSpan{
+    /* overflow: hidden; */
+}
+.wholeListSpan button{
+    padding: 0 !important;
+    white-space: nowrap;
+}
+.introductionPart .timeOfOperation{
+    margin-left: 25px;
+}
+.paymentSec{
+    display: none;
+}
+.visible{
+    display:flex ;
+}
+.paymentSec .lineForButton{
+    margin-top: 20px;
+}
+.ghostDel{
+    width: 100%;
+    border:none;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    visibility: hidden;  
+}
+div.close{
+    display: none;
+}
+.imgThink{
+    position: absolute;
+    left: 45%;
+    right: 45%;
+    top: 50%;
+    z-index: 1;
+    width: auto;
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    justify-content: center;
+    align-items: center;
+
+}
+.imgThink img{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+.imgThink span{
+    margin-top: 30px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;;
+    font-size: xx-large;
+    color: #2F223aa9;
+}
+.validation_error{
+    border: 1px solid red !important;
+    -webkit-box-shadow: 0 0 10px rgba(197, 30, 30, 0.5);
+        box-shadow: 0 0 10px rgba(197, 30, 30 , 0.5);
 }

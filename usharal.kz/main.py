@@ -27,7 +27,7 @@ def index():
     if 'userEmail' in session:
         return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts)
     else:
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification')
+        return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts)
 
 @app.route('/messages')
 def messages():
@@ -78,6 +78,16 @@ def newpost():
     else:
         return redirect(url_for('login'))
 
+@app.route('/content/<post_id>')
+def content(post_id):
+    Posts.post_deactivation(today = datetime.today())
+    if 'userEmail' in session:
+        post = Posts.show_one_post(post_id)
+        return render_template('content.html', post = post, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile')
+    else:
+        post = Posts.show_one_post(post_id)
+        return render_template('content.html', post = post, menu=menu, username = 'Log In')
+
 @app.route('/post_activation/<post_id>')
 def activation(post_id):
     Posts.post_deactivation(today = datetime.today())
@@ -99,7 +109,13 @@ def payments():
         return render_template('payment.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
     else:
         return redirect(url_for('login'))
-    
+
+@app.route('/favorites')
+def favorites():
+    if 'userLogged' in session:
+        return render_template('favPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
+    else:
+        return redirect(url_for('login'))    
 
 @app.route('/authentification', methods = ['POST', 'GET'])
 def login():
@@ -160,7 +176,7 @@ def error_page(error):
     return render_template('error_page.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000, host='0.0.0.0')
     
     
 
