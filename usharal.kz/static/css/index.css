@@ -176,7 +176,7 @@ section, .sectionChild{
     padding-right: 5px;
 }
 .searchArea{
-    width: 80%;
+    width: 60%;
     height: 3em;
     border: 1px solid black;
     display: flex;
@@ -188,7 +188,8 @@ section, .sectionChild{
     background-color: transparent;
     padding: 0.6em;
     font-size: 1em;
-    border: none;
+    
+    border-right: 1px solid !important;
     cursor: pointer;
   }
   .wholeList {
@@ -223,6 +224,7 @@ section, .sectionChild{
 
 .buttonLine button{
     width: auto;
+    
     /* background-color: transparent !important;
     display: none; */
 }
@@ -233,16 +235,13 @@ section, .sectionChild{
     height: 100%;
     background-color: transparent;
 }
-.location{
-    height: 100%;
-    width:14%;
-    margin: auto;
-}
+s
 .inputArea{
     width: 61%;
     height: 100%;
     border-right: 1px solid #2F223aa9;
     border-left: 1px solid #2F223aa9;
+    border: 1px solid;
 }
 .inputArea input{
     color: #6d6b6ba6;
@@ -1353,10 +1352,10 @@ button:hover{
     margin: 20px;
     padding: 8px 35px;
     
-    background-color: transparent;
+    background-color: #ffc53a;
     border: 2px solid #ffc53a;
     border-radius: 10px;
-    color: black;
+    color: #ffffff !important;
     font-size: 18px;
 }
 .mainAllAdverWithButtonLine .buttonLine button .arrow{
@@ -1555,4 +1554,12 @@ div.close{
     border: 1px solid red !important;
     -webkit-box-shadow: 0 0 10px rgba(197, 30, 30, 0.5);
         box-shadow: 0 0 10px rgba(197, 30, 30 , 0.5);
+}
+.headerChild span a{
+    color: #b1b0b0;
+    text-decoration: none;
+}
+.headerChild span a:hover{
+    cursor: pointer;
+    color: #fff;
 }

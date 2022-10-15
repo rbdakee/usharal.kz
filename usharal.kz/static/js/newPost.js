@@ -6,6 +6,51 @@ function myFunction(div) {
     document.querySelector(`.${div} #myDropdown`).classList.toggle("show");
     
 }
+const animOut =(imgBox) =>{
+    // $('.imageBox2 div').css('display', 'none')
+    if(imgArr[+imgBox.getAttribute('count')] != 'img/Vector1.svg'){
+        obj = imgBox.classList[0]
+        $(`.${obj} .backColor.active`).removeClass('active')
+        $(`.${obj} div.deleteAnim`).css('animation', 'myAnimOut 0.8s ease 0s 1 normal forwards')
+    }
+}
+const anim =(imgBox) =>{
+    if(imgArr[+imgBox.getAttribute('count')] != 'img/Vector1.svg'){
+        obj = imgBox.classList[0]
+        $(`.${obj} div.deleteAnim`).css('animation', 'myAnim 0.8s ease 0s 1 normal forwards')
+        $(`.${obj} div.deleteAnim`).css('display', 'flex')
+        $(`.${obj} .backColor`).addClass('active')
+    }
+        
+}
+const deleteFunction = (btn) => {
+    var btnParentIndex = +btn.parentNode.parentNode.getAttribute('count')
+    imgArr.splice(btnParentIndex, 1)
+    imgArr.push('img/Vector1.svg')
+    btn.parentNode.previousElementSibling.previousElementSibling.setAttribute('src', 'img/Vector1.svg')
+    $(`.${btn.parentNode.parentNode.classList[0]} .backColor.active`).removeClass('active')
+    $(`.${btn.parentNode.parentNode.classList[0]} div.deleteAnim`).css('animation', 'myAnimOut 0.8s ease 0s 1 normal forwards')
+    btn.parentNode.previousElementSibling.previousElementSibling.style.width = '50px'
+    btn.parentNode.previousElementSibling.previousElementSibling.style.height = '50px'
+    btn.parentNode.previousElementSibling.previousElementSibling.style.objectFit = null
+    
+    
+    document.querySelectorAll('.imageBox').forEach((each, index) => {
+        
+        if(imgArr[index] != 'img/Vector1.svg'){
+            document.querySelector(`.${each.classList[0]} img`).style.width = '100%'
+            document.querySelector(`.${each.classList[0]} img`).style.height = '100%'
+            document.querySelector(`.${each.classList[0]} img`).style.objectFit = 'cover'
+        }
+        else{
+            document.querySelector(`.${each.classList[0]} img`).style.width = '50px'
+            document.querySelector(`.${each.classList[0]} img`).style.height = '50px'
+            document.querySelector(`.${each.classList[0]} img`).style.objectFit = null
+        }
+        document.querySelector(`.${each.classList[0]} img`).setAttribute('src', imgArr[index])
+    })
+    
+}
 const list = ["ru", "kz"]
 const langAll = document.querySelectorAll(".langSpan")
 let hash = 'ru'
@@ -279,51 +324,8 @@ var currencyMask = IMask(
           mask: '+{7} (000) 000-00-00'
         })
         var obj;
-        const animOut =(imgBox) =>{
-            // $('.imageBox2 div').css('display', 'none')
-            if(imgArr[+imgBox.getAttribute('count')] != 'img/Vector1.svg'){
-                obj = imgBox.classList[0]
-                $(`.${obj} .backColor.active`).removeClass('active')
-                $(`.${obj} div.deleteAnim`).css('animation', 'myAnimOut 0.8s ease 0s 1 normal forwards')
-            }
-        }
-        const anim =(imgBox) =>{
-            if(imgArr[+imgBox.getAttribute('count')] != 'img/Vector1.svg'){
-                obj = imgBox.classList[0]
-                $(`.${obj} div.deleteAnim`).css('animation', 'myAnim 0.8s ease 0s 1 normal forwards')
-                $(`.${obj} div.deleteAnim`).css('display', 'flex')
-                $(`.${obj} .backColor`).addClass('active')
-            }
-                
-        }
-    const deleteFunction = (btn) => {
-        var btnParentIndex = +btn.parentNode.parentNode.getAttribute('count')
-        imgArr.splice(btnParentIndex, 1)
-        imgArr.push('img/Vector1.svg')
-        btn.parentNode.previousElementSibling.previousElementSibling.setAttribute('src', 'img/Vector1.svg')
-        $(`.${btn.parentNode.parentNode.classList[0]} .backColor.active`).removeClass('active')
-        $(`.${btn.parentNode.parentNode.classList[0]} div.deleteAnim`).css('animation', 'myAnimOut 0.8s ease 0s 1 normal forwards')
-        btn.parentNode.previousElementSibling.previousElementSibling.style.width = '50px'
-        btn.parentNode.previousElementSibling.previousElementSibling.style.height = '50px'
-        btn.parentNode.previousElementSibling.previousElementSibling.style.objectFit = null
         
-        
-        document.querySelectorAll('.imageBox').forEach((each, index) => {
-            
-            if(imgArr[index] != 'img/Vector1.svg'){
-                document.querySelector(`.${each.classList[0]} img`).style.width = '100%'
-                document.querySelector(`.${each.classList[0]} img`).style.height = '100%'
-                document.querySelector(`.${each.classList[0]} img`).style.objectFit = 'cover'
-            }
-            else{
-                document.querySelector(`.${each.classList[0]} img`).style.width = '50px'
-                document.querySelector(`.${each.classList[0]} img`).style.height = '50px'
-                document.querySelector(`.${each.classList[0]} img`).style.objectFit = null
-            }
-            document.querySelector(`.${each.classList[0]} img`).setAttribute('src', imgArr[index])
-        })
-        
-    }
+    
     var falseIsThere = false
     var checkForValid = []
     var requiredInput = [

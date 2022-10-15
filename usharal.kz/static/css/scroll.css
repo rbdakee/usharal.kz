@@ -25,7 +25,10 @@
  
   
 }
-
+.contentBox a{
+  text-decoration: none;
+  color: black;
+}
 .contentBox{
   
   z-index: 1;
@@ -72,7 +75,7 @@
   
   font-size: 0.95em;
   display: block;
-  color: #1969be;  
+  color: #1969be !important ;  
 }
 .costContent{
   font-weight: bold;

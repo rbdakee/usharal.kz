@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../static/css/index.css">
     <link rel="stylesheet" href="../static/css/myPosts.css">
     <link rel="stylesheet" href="../static/css/scroll.css">
+    <link rel="stylesheet" href="../static/css/error_page.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>{{title}}</title>
 </head>
@@ -31,13 +32,17 @@
                 <div class="newObject">
                     <button class="add lng-newPost">Подать объявление</button>
                 </div>
+                <div>
+                    <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
+                </div>
             </div>
         </header>
         
         <div class="mask"></div>
         <section class="error_page_section">
-            <img src="img/img_359860.png"  alt="" srcset="">
+            <img src="../static/img/img_359860.png"  alt="" srcset="">
             <div class="lng-problem">Произошла некая ошибка</div>
+            <a href="/">Вернуться на главную</a>
         </section>
     </div>
     <script src="js/jquery-3.6.0.min.js"></script>

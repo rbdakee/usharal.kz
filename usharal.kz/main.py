@@ -160,7 +160,7 @@ def confirm_email(token):
         s.loads(token, salt='email-confirm', max_age=600)
     except (itsdangerous.exc.SignatureExpired, itsdangerous.exc.BadTimeSignature, itsdangerous.exc.BadSignature):
         return render_template('expired_token.html')
-    return render_template('change_password.html')
+    return render_template('re.html')
 
 @app.route('/update_password', methods=['POST', 'GET'])
 def update_password():

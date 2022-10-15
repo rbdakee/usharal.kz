@@ -25,7 +25,7 @@
                             {% endfor -%}
                           </div>
                     </div>
-                    <span class="fa-regular fa-heart lng-favourite-second favourite"><a href="{{'favorites'}}"> Избранные</a></span>
+                    <span class="fa-regular fa-heart lng-favourite-second favourite"><a href="{{'favorites'}}" class=""> Избранные</a></span>
                     <span class="fa-regular fa-comment lng-message-second messages"><a href="{{'messages'}}" > Сообщения</a></span>
                 </div>
                 <div class="newObject">
@@ -151,11 +151,11 @@
                                         </div>
                                         <div class="dataContent" style="text-decoration: none; color:black;">{{post.post_date}} </div>
                                         <div class="titleContent" style="text-decoration: none; color:black;">{{post.title}}</div>
-                                        <div class="costContent">{{post.cost}} &#8376;</div>
+                                        <div class="costContent">{{post.cost}} &#8376;</div> </a>
                                         <div class="statusContent">
                                             <span>Договорная</span>
                                             <span class="fa-regular fa-heart" onclick="fill(this)"></span>
-                                        </div></a>
+                                        </div>
                                     </div>
                                     {% endfor %}
                                                                         
@@ -237,7 +237,7 @@
     <script src="../static/js/lang.js"></script>
     <!-- <script src="js/counter.js"></script> -->
     <style>
-        *:not(.fa-regular, i, .fa-solid, .fa-search){
+        *:not(.fa-regular, i, .fa-solid, .fa-search, .fa-arrow-up, .fa-heart){
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
         }
     </style>

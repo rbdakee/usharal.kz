@@ -50,7 +50,7 @@
                     </div>
                     <div class="div2">
                         <div class="divPart2">
-                            <span class="messageLink message">Сообщения</span>
+                            <span class="messageLink message lng-message">Сообщения</span>
                             <span class="messageLink lng-myPosts activeLink">Мои объявления</span>
                             <span class="messageLink lng-payment">Платежи и счёт</span>
                             <span class="messageLink lng-myProfile">Мой профиль</span>
@@ -58,62 +58,83 @@
                         
                     </div>
                 </div>
-               
+               <!--<section class="mainMessage activePart">
+                    <div class="contactSide">
+                        <div class="sellAndBye">
+                            <div class="sell activeLink btnSAB">Продаю</div>
+                            <div class="bye btnSAB">Покупаю</div>
+                        </div>
+                        <div class="messageCategories">
+                            <span class="allMessages messagesType activeLink">Все</span>
+                            <span class="favouriteMessages messagesType">Избранные</span>
+                            <span class="trashMessages messagesType">Корзина</span>
+                        </div>
+                    </div>
+                    <div class="messageSide"></div>
+                </section> -->
                 <section class="myPosts">
                     <div class="myPostsInner">
                         <div class="header">
                             <div class="allStatusOfPosts">
-                                <span class="activeMPC activeLink">Активные</span>
-                                <span class="nonActive">Не активные</span>
-                                <span class="deleted">Корзина</span>
+                                <span class="activeMPC lng-active activeLink">Активные</span>
+                                <span class="nonActive lng-nonActive">Не активные</span>
+                                <span class="deleted lng-trash">Корзина</span>
                             </div>
+                            
+                        </div>
+                        <div class="mainMyPostsContent findWithThat">
                             <div class="searchPartMy">
-                                <input type="text" placeholder="Поиск по заголовку">
+                                <input type="text" class = 'lng-searchByTitle'placeholder="Поиск по заголовку">
                                 <div class="searchControl">
                                     <div class="verticalLine"></div>
-                                    <div class="allCat">Все категории <i class="fa-solid arrow fa-angle-down"></i></div>
+                                    <div class="chooseCategory allCat"onclick="modal('newPost', 0)">
+                                        <div classParent = 'mainMyPostsContent' class="allCatChild lng-categories-two" onclick="modal('newPost', 0)">Все категории </div><i class="fa-solid arrow fa-angle-down"></i>
+                                    </div>
                                     <div class="verticalLine"></div>
-                                    <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div>
+                                    <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
+                                    <div onclick="myFunction(this.classList[1])"class="wholeList wholeListOne">
+                                        <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
+                                        <div id="myDropdown" class="wholeList-content">
+                                          <a href="#" onclick="insert(this, 0)">По возростанию <i class="fa-solid arrow fa-angle-up"></i> </a> 
+                                          <a href="#" onclick="insert(this, 0)">По убыванию <i class="fa-solid arrow fa-angle-down"></i> </a> 
+                                          <a href="#" onclick="insert(this, 0)">По Умолчанию  </a> 
+                                        </div>
+                                      </div>
                                     <div class="forButton">
                                         <button class="fa-solid fa-search" ></button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mainMyPostsContent findWithThat">
                             <div class="chooseAllAndDel">
                                <div class="chooseDiv">
-                                    <input type="checkbox" name="chooseAll" id="check" onchange="checkboxFunc()">
+                                    <input type="checkbox"  name="chooseAll" id="check" onchange="checkboxFunc(0)">
                                     <label for="chooseAll">Выбрать все</label>
                                </div>
                                <div class="delAll">
                                     <span class="absolutelyNotYou">В Корзину</span>
                                </div>
                             </div>
-                           
-                            <div class="allMyContent ">
-                                {% for post in posts %}
+                            <div class="allMyContent visible">
                                 <div class="myContent">
-                                    
                                     <div class="lineForCheckbox">
-                                        <input type="checkbox" name="" id="check">
+                                        <input type="checkbox" onchange = "  " name="" id="check">
                                     </div>
                                     <div class="boxForCon">
                                         <div class="forImg">
-                                            <img src="data:;base64, {{ post.photos[0] }}" alt="" srcset="">
+                                            <img src="img/ex.png" alt="" srcset="">
                                         </div>
                                         <div class="forMainContent">
-
+    
                                             <div class="blocks nameOfTheProduct">
-                                                {{post.title}}
+                                                1
                                             </div>
                                             <div class="blocks a">
-                                                <a href="">{{post.category}}</a>><a href="">Компьютеры и комплектующие </a>><a href="">Комплектующие и аксессуары </a>>
+                                                                                              <a href="">Электроника </a>
                                             </div>
-                                            <div class="blocks"><span class="cost">{{post.cost}} &#8376;</span><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
                                             <div class="blocks dataDate">
                                                 <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - {{post.post_date}}
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
                                                 </span>
                                                 <span class="deleteDate">
                                                     <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
@@ -133,42 +154,445 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
                                 </div>
-                                {% endfor -%}
-
-                                
+                                <div class="myContent">
+                                    <div class="lineForCheckbox">
+                                        <input type="checkbox" onchange = "  " name="" id="check">
+                                    </div>
+                                    <div class="boxForCon">
+                                        <div class="forImg">
+                                            <img src="img/ex.png" alt="" srcset="">
+                                        </div>
+                                        <div class="forMainContent">
+    
+                                            <div class="blocks nameOfTheProduct">
+                                                1
+                                            </div>
+                                            <div class="blocks a">
+                                                                                              <a href="">Электроника </a>
+                                            </div>
+                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks dataDate">
+                                                <span class="publishDate">
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
+                                                </span>
+                                                <span class="deleteDate">
+                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
+                                                </span>
+                                            </div>
+                                            <div class="blocks">
+                                                <div class="signs">
+                                                    <i class="fa fa-eye"></i><span class="number">1</span>
+                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
+                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
+                                                </div>
+                                                <div class="buttons">
+                                                    <button>Активировать</button>
+                                                    <button>Редактировать</button>
+                                                    <button>Деактивировать</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="myContent">
+                                    <div class="lineForCheckbox">
+                                        <input type="checkbox" onchange = "  " name="" id="check">
+                                    </div>
+                                    <div class="boxForCon">
+                                        <div class="forImg">
+                                            <img src="img/ex.png" alt="" srcset="">
+                                        </div>
+                                        <div class="forMainContent">
+    
+                                            <div class="blocks nameOfTheProduct">
+                                                1
+                                            </div>
+                                            <div class="blocks a">
+                                                                                              <a href="">Электроника </a>
+                                            </div>
+                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks dataDate">
+                                                <span class="publishDate">
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
+                                                </span>
+                                                <span class="deleteDate">
+                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
+                                                </span>
+                                            </div>
+                                            <div class="blocks">
+                                                <div class="signs">
+                                                    <i class="fa fa-eye"></i><span class="number">1</span>
+                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
+                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
+                                                </div>
+                                                <div class="buttons">
+                                                    <button>Активировать</button>
+                                                    <button>Редактировать</button>
+                                                    <button>Деактивировать</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="myContent">
+                                    <div class="lineForCheckbox">
+                                        <input type="checkbox" onchange = "  " name="" id="check">
+                                    </div>
+                                    <div class="boxForCon">
+                                        <div class="forImg">
+                                            <img src="img/ex.png" alt="" srcset="">
+                                        </div>
+                                        <div class="forMainContent">
+    
+                                            <div class="blocks nameOfTheProduct">
+                                                1
+                                            </div>
+                                            <div class="blocks a">
+                                                                                              <a href="">Электроника </a>
+                                            </div>
+                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks dataDate">
+                                                <span class="publishDate">
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
+                                                </span>
+                                                <span class="deleteDate">
+                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
+                                                </span>
+                                            </div>
+                                            <div class="blocks">
+                                                <div class="signs">
+                                                    <i class="fa fa-eye"></i><span class="number">1</span>
+                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
+                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
+                                                </div>
+                                                <div class="buttons">
+                                                    <button>Активировать</button>
+                                                    <button>Редактировать</button>
+                                                    <button>Деактивировать</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="myContent">
+                                    <div class="lineForCheckbox">
+                                        <input type="checkbox" onchange = "  " name="" id="check">
+                                    </div>
+                                    <div class="boxForCon">
+                                        <div class="forImg">
+                                            <img src="img/ex.png" alt="" srcset="">
+                                        </div>
+                                        <div class="forMainContent">
+    
+                                            <div class="blocks nameOfTheProduct">
+                                                1
+                                            </div>
+                                            <div class="blocks a">
+                                                                                              <a href="">Электроника </a>
+                                            </div>
+                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks dataDate">
+                                                <span class="publishDate">
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
+                                                </span>
+                                                <span class="deleteDate">
+                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
+                                                </span>
+                                            </div>
+                                            <div class="blocks">
+                                                <div class="signs">
+                                                    <i class="fa fa-eye"></i><span class="number">1</span>
+                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
+                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
+                                                </div>
+                                                <div class="buttons">
+                                                    <button>Активировать</button>
+                                                    <button>Редактировать</button>
+                                                    <button>Деактивировать</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                            
+                           
+                          
+                            <div class="imgThink close">
+                                <img src="img/think.png" alt="no">
+                                <span>Ничего не найдено</span>
+                            </div>
+                            <div class="bottomBut">
+                                <div class="myContentAngle firstCon">
+                                    <span class="fa-solid fa-angles-left"></span>
+                                </div>
+                                <div class="myContentAngle previousMyContents" >
+                                    <span class="fa-solid  fa-angle-left" ></span>
+                                </div>
+                                <div class="lineForNewButtons"></div>
+                                <div class="myContentAngle nextMyContents" >
+                                    <span class="fa-solid  fa-angle-right"></span>
+                                </div>
+                                <div class="myContentAngle lastCon">
+                                    <span class="fa-solid fa-angles-right"></span>
+                                </div>
+                            </div>
+                            <!-- <div class="searchButtonLine">
+                                <div class="myContentAngle firstCon">
+                                    <span class="fa-solid fa-angles-left"></span>
+                                </div>
+                                <div class="myContentAngle previousMyContents" >
+                                    <span class="fa-solid  fa-angle-left" ></span>
+                                </div>
+                                <div class="lineForNewButtons"></div>
+                                <div class="myContentAngle nextMyContents" >
+                                    <span class="fa-solid  fa-angle-right"></span>
+                                </div>
+                                <div class="myContentAngle lastCon">
+                                    <span class="fa-solid fa-angles-right"></span>
+                                </div>
+                            </div> -->
+                         
+                            
                         </div>
+                      
                         <div class="nonActivePosts findWithThat mpc">
+                            <div class="searchPartMy">
+                                <input type="text" placeholder="Поиск по заголовку">
+                                <div class="searchControl">
+                                    <div class="verticalLine"></div>
+                                    <div class="chooseCategory allCat"onclick="modal('newPost',1)">
+                                        <div classParent = '' class="allCatChild" onclick="modal('newPost')">Все категории </div><i class="fa-solid arrow fa-angle-down"></i>
+                                    </div>
+                                    <div class="verticalLine"></div>
+                                    <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
+                                    <div onclick="myFunction(this.classList[1])"class="wholeList wholeListTwo">
+                                        <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
+                                        <div id="myDropdown" class="wholeList-content">
+                                          <a href="#" onclick="insert(this, 1)">По возростанию <i class="fa-solid arrow fa-angle-up"></i> </a> 
+                                          <a href="#" onclick="insert(this, 1)">По убыванию <i class="fa-solid arrow fa-angle-down"></i> </a> 
+                                          <a href="#" onclick="insert(this, 1)">По Умолчанию  </a> 
+                                        </div>
+                                      </div>
+                                    <div class="forButton">
+                                        <button class="fa-solid fa-search" ></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chooseAllAndDel">
+                               <div class="chooseDiv">
+                                    <input type="checkbox"  name="chooseAll" id="check" onchange="checkboxFunc(1)">
+                                    <label for="chooseAll">Выбрать все</label>
+                               </div>
+                               <div class="delAll">
+                                    <span class="absolutelyNotYou">В Корзину</span>
+                               </div>
+                            </div>
+                           
+                            <div class="allMyContent visible">
+                                <div class="myContent">
+                                    <div class="lineForCheckbox">
+                                        <input type="checkbox" onchange = "  " name="" id="check">
+                                    </div>
+                                    <div class="boxForCon">
+                                        <div class="forImg">
+                                            <img src="img/ex.png" alt="" srcset="">
+                                        </div>
+                                        <div class="forMainContent">
+    
+                                            <div class="blocks nameOfTheProduct">
+                                                1
+                                            </div>
+                                            <div class="blocks a">
+                                                                                              <a href="">Электроника </a>
+                                            </div>
+                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks dataDate">
+                                                <span class="publishDate">
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
+                                                </span>
+                                                <span class="deleteDate">
+                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
+                                                </span>
+                                            </div>
+                                            <div class="blocks">
+                                                <div class="signs">
+                                                    <i class="fa fa-eye"></i><span class="number">1</span>
+                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
+                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
+                                                </div>
+                                                <div class="buttons">
+                                                    <button>Активировать</button>
+                                                    <button>Редактировать</button>
+                                                    <button>Деактивировать</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                               
+                              
+                                <div class="imgThink close">
+                                    <img src="img/think.png" alt="no">
+                                    <span>Ничего не найдено</span>
+                                </div>
+                                <div class="bottomBut">
+                                    <div class="myContentAngle firstCon">
+                                        <span class="fa-solid fa-angles-left"></span>
+                                    </div>
+                                    <div class="myContentAngle previousMyContents" >
+                                        <span class="fa-solid  fa-angle-left" ></span>
+                                    </div>
+                                    <div class="lineForNewButtons"></div>
+                                    <div class="myContentAngle nextMyContents" >
+                                        <span class="fa-solid  fa-angle-right"></span>
+                                    </div>
+                                    <div class="myContentAngle lastCon">
+                                        <span class="fa-solid fa-angles-right"></span>
+                                    </div>
+                                </div>
+                                <!-- <div class="searchButtonLine">
+                                    <div class="myContentAngle firstCon">
+                                        <span class="fa-solid fa-angles-left"></span>
+                                    </div>
+                                    <div class="myContentAngle previousMyContents" >
+                                        <span class="fa-solid  fa-angle-left" ></span>
+                                    </div>
+                                    <div class="lineForNewButtons"></div>
+                                    <div class="myContentAngle nextMyContents" >
+                                        <span class="fa-solid  fa-angle-right"></span>
+                                    </div>
+                                    <div class="myContentAngle lastCon">
+                                        <span class="fa-solid fa-angles-right"></span>
+                                    </div>
+                                </div> -->
+                             
+                            
+                         
+                            
+                       
+                        </div>
+                        
+                        <div class="trashMyPostsContent findWithThat mpc">
+                            <div class="searchPartMy">
+                                <input type="text" placeholder="Поиск по заголовку">
+                                <div class="searchControl">
+                                    <div class="verticalLine"></div>
+                                    <div class="chooseCategory allCat"onclick="modal('newPost',2)">
+                                        <div classParent = 'mainMyPostsContent' class="allCatChild" onclick="modal('newPost')">Все категории </div><i class="fa-solid arrow fa-angle-down"></i>
+                                    </div>
+                                    <div class="verticalLine"></div>
+                                    <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
+                                    <div onclick="myFunction(this.classList[1])"class="wholeList wholeListThree">
+                                        <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
+                                        <div id="myDropdown" class="wholeList-content">
+                                          <a href="#" onclick="insert(this, 2)">По возростанию <i class="fa-solid arrow fa-angle-up"></i> </a> 
+                                          <a href="#" onclick="insert(this, 2)">По убыванию <i class="fa-solid arrow fa-angle-down"></i> </a> 
+                                          <a href="#" onclick="insert(this, 2)">По Умолчанию  </a> 
+                                        </div>
+                                      </div>
+                                    <div class="forButton">
+                                        <button class="fa-solid fa-search" ></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chooseAllAndDel">
+                               <div class="chooseDiv">
+                                    <input type="checkbox"  name="chooseAll" id="check" onchange="checkboxFunc(2)">
+                                    <label for="chooseAll">Выбрать все</label>
+                               </div>
+                               <div class="delAll">
+                                    <span class="absolutelyNotYou">В Корзину</span>
+                               </div>
+                            </div>
+                           
+                            <div class="allMyContent visible">
+                                <div class="myContent">
+                                    <div class="lineForCheckbox">
+                                        <input type="checkbox" onchange = "  " name="" id="check">
+                                    </div>
+                                    <div class="boxForCon">
+                                        <div class="forImg">
+                                            <img src="img/ex.png" alt="" srcset="">
+                                        </div>
+                                        <div class="forMainContent">
+    
+                                            <div class="blocks nameOfTheProduct">
+                                                1
+                                            </div>
+                                            <div class="blocks a">
+                                                                                              <a href="">Электроника </a>
+                                            </div>
+                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks dataDate">
+                                                <span class="publishDate">
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
+                                                </span>
+                                                <span class="deleteDate">
+                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
+                                                </span>
+                                            </div>
+                                            <div class="blocks">
+                                                <div class="signs">
+                                                    <i class="fa fa-eye"></i><span class="number">1</span>
+                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
+                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
+                                                </div>
+                                                <div class="buttons">
+                                                    <button>Активировать</button>
+                                                    <button>Редактировать</button>
+                                                    <button>Деактивировать</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                               
+                               
+                              
+                                <div class="imgThink close">
+                                    <img src="img/think.png" alt="no">
+                                    <span>Ничего не найдено</span>
+                                </div>
+                                <div class="bottomBut">
+                                    <div class="myContentAngle firstCon">
+                                        <span class="fa-solid fa-angles-left"></span>
+                                    </div>
+                                    <div class="myContentAngle previousMyContents" >
+                                        <span class="fa-solid  fa-angle-left" ></span>
+                                    </div>
+                                    <div class="lineForNewButtons"></div>
+                                    <div class="myContentAngle nextMyContents" >
+                                        <span class="fa-solid  fa-angle-right"></span>
+                                    </div>
+                                    <div class="myContentAngle lastCon">
+                                        <span class="fa-solid fa-angles-right"></span>
+                                    </div>
+                                </div>
+                                <!-- <div class="searchButtonLine">
+                                    <div class="myContentAngle firstCon">
+                                        <span class="fa-solid fa-angles-left"></span>
+                                    </div>
+                                    <div class="myContentAngle previousMyContents" >
+                                        <span class="fa-solid  fa-angle-left" ></span>
+                                    </div>
+                                    <div class="lineForNewButtons"></div>
+                                    <div class="myContentAngle nextMyContents" >
+                                        <span class="fa-solid  fa-angle-right"></span>
+                                    </div>
+                                    <div class="myContentAngle lastCon">
+                                        <span class="fa-solid fa-angles-right"></span>
+                                    </div>
+                                </div>
+                            
+                          -->
                             
                         </div>
-                        <div class="trashMyPostsContent findWithThat mpc ">
-                            
-                        </div>
-                        <div class="bottomBut">
-                            <div class="myContentAngle firstCon">
-                                <span class="fa-solid fa-angles-left"></span>
-                            </div>
-                            <div class="myContentAngle previousMyContents">
-                                <span class="fa-solid  fa-angle-left"></span>
-                            </div>
-                            <div class="lineForNewButtons">
-                                <button class = "newCreatedButton chosenButton">1</button>
-                                <button class = "newCreatedButton ">2</button>
-                                <button class = "newCreatedButton ">3</button>
-                                <button class = "newCreatedButton ">4</button>
-                                <button class = "newCreatedButton ">5</button>
-                                <button class = "newCreatedButton ">6</button>
-                            </div>
-                            <div class="myContentAngle nextMyContents">
-                                <span class="fa-solid  fa-angle-right"></span>
-                            </div>
-                            <div class="myContentAngle lastCon">
-                                <span class="fa-solid fa-angles-right"></span>
-                            </div>
-                        </div>
+                       
                     </div>
                     
                     
@@ -240,8 +664,9 @@
     <script src="../static/js/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
     <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script>
-    <!-- <script src="js/scroll.js"></script> -->
-    <script src="../static/js/myPosts.js"></script>
+    <script src="../static/js/imask.js"></script>
+    <script src="../static/js/myPostsNew.js" defer></script>
+    <script src="../static/js/ex.js" defer></script>
     <script src="../static/js/lang.js"></script>
     <!-- <script src="js/counter.js"></script> -->
     <style>

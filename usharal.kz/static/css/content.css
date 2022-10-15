@@ -506,6 +506,7 @@ input:focus{
     border-radius: 7px;
 }
 .sendToUserWhats{
+    
     width: 40%;
     font-size: 1rem;
     background-color: #fff;
@@ -514,6 +515,11 @@ input:focus{
     height: 40px;
     margin: auto;
     border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
 }
 .MsgAndAdvice .advice{
     width: 30%;
@@ -815,6 +821,14 @@ label:hover ~ input:checked ~ label /* highlight previous selected stars */ { co
     margin: 10px 0;
     border-radius: 7px;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.writeWhats a{
+    text-decoration: none;
+    color: black;
 }
 .writeUser button{
     width: 100%;
@@ -905,7 +919,23 @@ button:hover{
 }
 .actDesc{
     margin-top: 5px;
+   
+    flex-wrap: wrap;
+    
 }
 .mainDesc h1{
     font-size: 1.5rem;
+}
+.headerChild span a{
+    color: #b1b0b0;
+    text-decoration: none;
+}
+.headerChild span a:hover{
+    cursor: pointer;
+    color: #fff;
+}
+.fa-regular:hover{
+    cursor: pointer;
+    color: #fff;
+    
 }
