@@ -54,6 +54,13 @@ def myposts():
     else:  
         return redirect(url_for('login'))
 
+def phone_numbers_to_waLink(number):
+    res = ''
+    for i in number:
+        if i in '1234567890':
+            res+=i
+    return res
+
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
     Posts.post_deactivation(today = datetime.today())
@@ -63,17 +70,18 @@ def newpost():
             post_title=request.form['post_title']
             category=request.form['category']
             cost = request.form['post_cost']
-            photo = request.files['post_photo']
+            photo = request.files.getlist('post_photo')
             description = request.form['post_description']
             phone_number = request.form['phone_number']
             whatsapp_phone_number = request.form['whatsapp_phone_number']
-            whatsapp_link = f'https://wa.me/{whatsapp_phone_number}'
+            whatsapp_link = f'https://wa.me/{phone_numbers_to_waLink(whatsapp_phone_number)}'
             deactivate_date = datetime.today() + timedelta(days=14)
             status = True
             advertisement = False
             post_date = datetime.today()
             post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement)
-            photos = Photos(photo.read(), post)
+            for i in range(len(photo)):
+                photos = Photos(photo[i].read(), post)
         return render_template('newPost.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
     else:
         return redirect(url_for('login'))
@@ -82,8 +90,9 @@ def newpost():
 def content(post_id):
     Posts.post_deactivation(today = datetime.today())
     if 'userEmail' in session:
+        related_posts = []
         post = Posts.show_one_post(post_id)
-        return render_template('content.html', post = post, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile')
+        return render_template('content.html', post = post, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', related_posts = related_posts)
     else:
         post = Posts.show_one_post(post_id)
         return render_template('content.html', post = post, menu=menu, username = 'Log In')
@@ -105,14 +114,14 @@ def vippurchase(post_id):
 @app.route('/payments')
 def payments():
     Posts.post_deactivation(today = datetime.today())
-    if 'userLogged' in session:
+    if 'userEmail' in session:
         return render_template('payment.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
     else:
         return redirect(url_for('login'))
 
 @app.route('/favorites')
 def favorites():
-    if 'userLogged' in session:
+    if 'userEmail' in session:
         return render_template('favPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
     else:
         return redirect(url_for('login'))    

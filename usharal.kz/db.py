@@ -24,6 +24,7 @@ class Users(db.Model):
     password = db.Column(db.String(500), nullable=True)
     logo = db.Column(db.LargeBinary)
     photo = db.relationship('Posts', backref='users')
+    favPosts = db.relationship('favPosts', backref='users')
 
     def __init__(self, username, email, password, logo=None):
         self.username = username
@@ -72,6 +73,7 @@ class Posts(db.Model):
     status = db.Column(db.Boolean, default=False, nullable=False)
     advertisement = db.Column(db.Boolean, default=False, nullable=False)
     photo = db.relationship('Photos', backref='posts')
+    favpost = db.relationship('favPosts', backref = 'posts')
 
     def __init__(self, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement):
         self.user = user.id
@@ -101,12 +103,12 @@ class Posts(db.Model):
             post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
             deactivate_date = posts[i].deactivate_date
             whatsapp_link = posts[i].whatsapp_link
-            status = posts[i].status
             advertisement = posts[i].advertisement
             photos = []
             for j in range(len(posts[i].photo)):
                 photos.append(base64.b64encode(posts[i].photo[j].data).decode('ascii'))
             postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'photos':photos, 'advertisement':advertisement})
+        postss.reverse()
         return postss
 
     def show_posts_of_user(email):
@@ -124,7 +126,6 @@ class Posts(db.Model):
             post_date = posts[i].post_date
             deactivate_date = posts[i].deactivate_date
             whatsapp_link = posts[i].whatsapp_link
-            status = posts[i].status
             photos = []
             for j in range(len(posts[i].photo)):
                 photos.append(base64.b64encode(posts[i].photo[j].data).decode('ascii'))
@@ -145,7 +146,6 @@ class Posts(db.Model):
         post_date = posts.post_date.strftime("%m/%d/%Y %H:%M")
         deactivate_date = posts.deactivate_date
         whatsapp_link = posts.whatsapp_link
-        status = posts.status
         photos = []
         for j in range(len(posts.photo)):
             photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
@@ -183,6 +183,41 @@ class Photos(db.Model):
         self.post_id = post_id.id
         db.session.add(self)
         db.session.commit()
+
+def show_post_for_favPosts(post_id):
+        posts = Posts.query.filter_by(id=post_id).filter_by(status=True).first()
+        id = posts.id
+        user_id = posts.user
+        user = Users.query.filter_by(id = user_id).first()
+        username = user.username
+        title = posts.post_title
+        phone_number = posts.phone_number
+        category = posts.category
+        cost = posts.cost
+        description = posts.description
+        post_date = posts.post_date.strftime("%m/%d/%Y %H:%M")
+        deactivate_date = posts.deactivate_date
+        whatsapp_link = posts.whatsapp_link
+        photos = []
+        for j in range(len(posts.photo)):
+            photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
+        post = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'photos':photos}
+        return post
+
+class favPosts(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    
+
+    def show_favPosts(user_email):
+        user = Users.query.filter_by(email=user_email).first()
+        user_id = user.id
+        posts = favPosts.query.filter_by(user_id=user_id).all()
+        postss = []
+        for i in range(len(posts)):
+            postss.append(show_post_for_favPosts(posts[i]))        
+        return postss
 
 
 # print(Posts.show_posts_of_user('dakee088@gmail.com'))

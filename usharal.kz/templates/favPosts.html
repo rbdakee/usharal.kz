@@ -69,9 +69,9 @@
             <div class="mainPartWithButton">
                 <div class="mainPart line">
                     {% for post in posts %}
-                        <div class="contentBox"><a  href="/content/{{post.id}}">
+                        <div class="contentBox"><a href="/content/{{post.id}}">
                             <div class="forImgContent">
-                                <div class="top">VIP</div>
+                                <!-- <div class="top">VIP</div> -->
                                 <img src="data:;base64, {{ post.photos[0] }}" alt="">
                             </div>
                                 <div class="dataContent">{{post.post_date}} </div>

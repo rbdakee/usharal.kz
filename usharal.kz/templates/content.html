@@ -23,25 +23,25 @@
                         <span class="fa-regular fa-user lng-personal"> Личный Кабинет</span>
                         <div class="dropdown-content">
                             {% for m in menu %}
-                            <a href="{{m.url}}" class="lng-message messages">{{m.name}}</a>
+                            <a href="/{{m.url}}" class="lng-message messages">{{m.name}}</a>
                             {% endfor -%}
                           </div>
                     </div>
-                    <span class="fa-regular fa-heart lng-favourite-second favourite"><a href="{{'favorites'}}" class=""> Избранные</a></span>
-                    <span class="fa-regular fa-comment lng-message-second messages"><a href="{{'messages'}}" > Сообщения</a></span>
+                    <span class="fa-regular fa-heart lng-favourite-second favourite"><a href="/{{'favorites'}}" class=""> Избранные</a></span>
+                    <span class="fa-regular fa-comment lng-message-second messages"><a href="/{{'messages'}}" > Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
+                    <a href="/{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
+                    <a style='text-decoration:none' class="text" href="/{{uuurl}}">{{username}}</a>
                 </div>
             </div>
         </header>
         <section class="mainSection active">
             <div class="mask"></div>
             <div class="sectionChild">
-                <div class="searchAndCateg">
+                <!-- <div class="searchAndCateg">
                     <div class="searchArea">
                         <div onclick="myFunction(this.className)"class="wholeList">
                             <button  class="wholeList-btn">Все категории <i class="fas arrow fa-angle-down"></i></button>
@@ -60,7 +60,7 @@
                             <button class="fas fa-search"></button>
                           </div>
                     </div>
-                 </div>
+                 </div> -->
                 <div class="mainBodyContent">
                     <div class="prevLine">
                         <span class="fa fa-angle-left"></span>
@@ -73,8 +73,9 @@
                             <div class="innerDiv controlBtn"onclick="plusSlides(-1, 0)">
                                 <span class="fa fa-angle-left" ></span>
                             </div>
+                            
                             <div class="innerDiv mainImgDiv">
-                                <img src="data:;base64, {{post.photos[0]}}" alt="Здесь будет фотка">
+                                <img src="data:;base64, {{post.photos[0]}}" alt="">
                             </div>
                             <div class="innerDiv controlBtn"onclick="plusSlides(1, 1)">
                                 <span class="fa fa-angle-right" ></span>
@@ -138,12 +139,11 @@
                         </div>
                     </div>
                     <div class="subImages">
+                        {% for j in post.photos %}
                         <div class="imgBox">
-                            <img src="../static/img/animals.svg" alt="" srcset="">
+                            <img src="data:;base64,  {{j}}" alt="" srcset="">
                         </div>
-                        <div class="imgBox">
-                            <img src="../static/img/user.svg" alt="" srcset="">
-                        </div>
+                        {% endfor %}
                         
                     </div>
                     <div class="description">
@@ -203,6 +203,37 @@
                             <div>- Не отправляйте деньги, пока не получили товар или услугу.</div>
                             <div>- Если Вы нашли странные ошибки в словах или явно низкую цену, лучше сторониться таких объявлений.</div>
                         </div>
+                    </div>
+                    {% block content %}
+                    {% if related_posts != [] %}
+                    <div class="areaForTextSame">
+                        <div class="someText">
+                            <span class="mainText lng-premium">Похожие объявления</span>
+                            
+                        </div>
+                        <div class="buttonSame">
+                            <button class="fa-solid fa-angle-left prev"></button>
+                            <button class="fa-solid fa-angle-right next"></button>
+                        </div>
+                    </div>
+                    <div class="slider">
+                        {% for i in related_posts %}
+                        <div class="contentBox">
+                            <div class="forImgContent">
+                                <img src="img/apartments.svg" alt="">
+                            </div>
+                            <div class="dataContent"><span class="lng-yDay">Вчера в</span> 21:40  </div>
+                            <div class="titleContent">Какой то апартамент, хороший, очень советую</div>
+                            <div class="costContent">90.000 1 &#8376;</div>
+                            <div class="statusContent">
+                                <span class="lng-nego">Договорная</span>
+                                <span class="fa-regular fa-heart" onclick="fill(this)"></span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    
+                        {% endif %}
+                    {% endblock content %}
                     </div>
                   
                 </div>
