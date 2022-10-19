@@ -1,5 +1,5 @@
 import base64
-from datetime import datetime
+from datetime import datetime, timedelta
 from types import NoneType
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -101,7 +101,7 @@ class Posts(db.Model):
             cost = posts[i].cost
             description = posts[i].description
             post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
-            deactivate_date = posts[i].deactivate_date
+            deactivate_date = posts[i].deactivate_date.strftime("%m/%d/%Y %H:%M")
             whatsapp_link = posts[i].whatsapp_link
             advertisement = posts[i].advertisement
             photos = []
@@ -123,13 +123,15 @@ class Posts(db.Model):
             category = posts[i].category
             cost = posts[i].cost
             description = posts[i].description
-            post_date = posts[i].post_date
-            deactivate_date = posts[i].deactivate_date
+            post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
+            deactivate_date = posts[i].deactivate_date.strftime("%m/%d/%Y %H:%M")
             whatsapp_link = posts[i].whatsapp_link
+            status = posts[i].status
             photos = []
             for j in range(len(posts[i].photo)):
                 photos.append(base64.b64encode(posts[i].photo[j].data).decode('ascii'))
-            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'photos':photos})
+            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'status':status, 'photos':photos})
+        postss.reverse()
         return postss
 
     def show_one_post(post_id):
@@ -155,6 +157,8 @@ class Posts(db.Model):
     def post_activation(post_id):
         posts = Posts.query.filter_by(id=post_id).first()
         posts.status = True
+        posts.post_date = datetime.today()
+        posts.deactivate_date = datetime.today() + timedelta(days=14)
         db.session.commit()
 
     def post_to_vip(post_id):
@@ -169,6 +173,12 @@ class Posts(db.Model):
             if posts[i.id-1].deactivate_date <= today:
                 posts[i.id-1].status = False
                 db.session.commit()
+
+    def post_deactivayion_by_user(post_id):
+        posts = Posts.query.filter_by(id = post_id).first()
+        print(posts)
+        posts.status = False
+        db.session.commit()
       
 
 
@@ -184,39 +194,22 @@ class Photos(db.Model):
         db.session.add(self)
         db.session.commit()
 
-def show_post_for_favPosts(post_id):
-        posts = Posts.query.filter_by(id=post_id).filter_by(status=True).first()
-        id = posts.id
-        user_id = posts.user
-        user = Users.query.filter_by(id = user_id).first()
-        username = user.username
-        title = posts.post_title
-        phone_number = posts.phone_number
-        category = posts.category
-        cost = posts.cost
-        description = posts.description
-        post_date = posts.post_date.strftime("%m/%d/%Y %H:%M")
-        deactivate_date = posts.deactivate_date
-        whatsapp_link = posts.whatsapp_link
-        photos = []
-        for j in range(len(posts.photo)):
-            photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
-        post = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'photos':photos}
-        return post
-
 class favPosts(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     
+    def __init__(self, user_id, post_id):
+        self.user_id = user_id
+        self.post_id = post_id
+        db.session.add(self)
+        db.session.commit()
 
-    def show_favPosts(user_email):
-        user = Users.query.filter_by(email=user_email).first()
-        user_id = user.id
+    def show_favPosts(user_id):
         posts = favPosts.query.filter_by(user_id=user_id).all()
         postss = []
         for i in range(len(posts)):
-            postss.append(show_post_for_favPosts(posts[i]))        
+            postss.append(Posts.show_one_post(posts.id))                   
         return postss
 
 

@@ -115,29 +115,33 @@
                                </div>
                             </div>
                             <div class="allMyContent visible">
+
+                        {% block content %}    
+                            {% for post in posts %}
+                                {% if post.status == 1 %}
                                 <div class="myContent">
                                     <div class="lineForCheckbox">
                                         <input type="checkbox" onchange = "  " name="" id="check">
                                     </div>
                                     <div class="boxForCon">
                                         <div class="forImg">
-                                            <img src="img/ex.png" alt="" srcset="">
+                                            <img src="data:;base64, {{post.photos[0]}}" alt="" srcset="">
                                         </div>
                                         <div class="forMainContent">
     
                                             <div class="blocks nameOfTheProduct">
-                                                1
+                                                <a href="/content/{{post.id}}" style="color: black; text-decoration:underline;">{{post.title}}</a>
                                             </div>
                                             <div class="blocks a">
                                                                                               <a href="">Электроника </a>
                                             </div>
-                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span class="isFree">(возможен обмен)</span></div>
                                             <div class="blocks dataDate">
                                                 <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - {{post.post_date}}
                                                 </span>
                                                 <span class="deleteDate">
-                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
+                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - {{post.deactivate_date}}
                                                 </span>
                                             </div>
                                             <div class="blocks">
@@ -147,175 +151,18 @@
                                                     <i class="fa-regular fa-comment"></i><span class="number">1</span>
                                                 </div>
                                                 <div class="buttons">
-                                                    <button>Активировать</button>
                                                     <button>Редактировать</button>
-                                                    <button>Деактивировать</button>
+                                                    <button><a href="/post_deactivation/{{post.id}}" style="color: black; text-decoration:none;">Деактивировать</a></button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="myContent">
-                                    <div class="lineForCheckbox">
-                                        <input type="checkbox" onchange = "  " name="" id="check">
-                                    </div>
-                                    <div class="boxForCon">
-                                        <div class="forImg">
-                                            <img src="img/ex.png" alt="" srcset="">
-                                        </div>
-                                        <div class="forMainContent">
-    
-                                            <div class="blocks nameOfTheProduct">
-                                                1
-                                            </div>
-                                            <div class="blocks a">
-                                                                                              <a href="">Электроника </a>
-                                            </div>
-                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
-                                            <div class="blocks dataDate">
-                                                <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
-                                                </span>
-                                                <span class="deleteDate">
-                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
-                                                </span>
-                                            </div>
-                                            <div class="blocks">
-                                                <div class="signs">
-                                                    <i class="fa fa-eye"></i><span class="number">1</span>
-                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
-                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
-                                                </div>
-                                                <div class="buttons">
-                                                    <button>Активировать</button>
-                                                    <button>Редактировать</button>
-                                                    <button>Деактивировать</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="myContent">
-                                    <div class="lineForCheckbox">
-                                        <input type="checkbox" onchange = "  " name="" id="check">
-                                    </div>
-                                    <div class="boxForCon">
-                                        <div class="forImg">
-                                            <img src="img/ex.png" alt="" srcset="">
-                                        </div>
-                                        <div class="forMainContent">
-    
-                                            <div class="blocks nameOfTheProduct">
-                                                1
-                                            </div>
-                                            <div class="blocks a">
-                                                                                              <a href="">Электроника </a>
-                                            </div>
-                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
-                                            <div class="blocks dataDate">
-                                                <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
-                                                </span>
-                                                <span class="deleteDate">
-                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
-                                                </span>
-                                            </div>
-                                            <div class="blocks">
-                                                <div class="signs">
-                                                    <i class="fa fa-eye"></i><span class="number">1</span>
-                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
-                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
-                                                </div>
-                                                <div class="buttons">
-                                                    <button>Активировать</button>
-                                                    <button>Редактировать</button>
-                                                    <button>Деактивировать</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="myContent">
-                                    <div class="lineForCheckbox">
-                                        <input type="checkbox" onchange = "  " name="" id="check">
-                                    </div>
-                                    <div class="boxForCon">
-                                        <div class="forImg">
-                                            <img src="img/ex.png" alt="" srcset="">
-                                        </div>
-                                        <div class="forMainContent">
-    
-                                            <div class="blocks nameOfTheProduct">
-                                                1
-                                            </div>
-                                            <div class="blocks a">
-                                                                                              <a href="">Электроника </a>
-                                            </div>
-                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
-                                            <div class="blocks dataDate">
-                                                <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
-                                                </span>
-                                                <span class="deleteDate">
-                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
-                                                </span>
-                                            </div>
-                                            <div class="blocks">
-                                                <div class="signs">
-                                                    <i class="fa fa-eye"></i><span class="number">1</span>
-                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
-                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
-                                                </div>
-                                                <div class="buttons">
-                                                    <button>Активировать</button>
-                                                    <button>Редактировать</button>
-                                                    <button>Деактивировать</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="myContent">
-                                    <div class="lineForCheckbox">
-                                        <input type="checkbox" onchange = "  " name="" id="check">
-                                    </div>
-                                    <div class="boxForCon">
-                                        <div class="forImg">
-                                            <img src="img/ex.png" alt="" srcset="">
-                                        </div>
-                                        <div class="forMainContent">
-    
-                                            <div class="blocks nameOfTheProduct">
-                                                1
-                                            </div>
-                                            <div class="blocks a">
-                                                                                              <a href="">Электроника </a>
-                                            </div>
-                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
-                                            <div class="blocks dataDate">
-                                                <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
-                                                </span>
-                                                <span class="deleteDate">
-                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
-                                                </span>
-                                            </div>
-                                            <div class="blocks">
-                                                <div class="signs">
-                                                    <i class="fa fa-eye"></i><span class="number">1</span>
-                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
-                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
-                                                </div>
-                                                <div class="buttons">
-                                                    <button>Активировать</button>
-                                                    <button>Редактировать</button>
-                                                    <button>Деактивировать</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        
                             </div>
+                                
                            
                            
                           
@@ -391,29 +238,32 @@
                             </div>
                            
                             <div class="allMyContent visible">
+                                   
+                            {% for post in posts %}
+                                {% if post.status == 0 %}
                                 <div class="myContent">
                                     <div class="lineForCheckbox">
                                         <input type="checkbox" onchange = "  " name="" id="check">
                                     </div>
                                     <div class="boxForCon">
                                         <div class="forImg">
-                                            <img src="img/ex.png" alt="" srcset="">
+                                            <img src="data:;base64, {{post.photos[0]}}" alt="" srcset="">
                                         </div>
                                         <div class="forMainContent">
     
                                             <div class="blocks nameOfTheProduct">
-                                                1
+                                                <a href="/content/{{post.id}}" style="color: black; text-decoration:underline;">{{post.title}}</a>
                                             </div>
                                             <div class="blocks a">
                                                                                               <a href="">Электроника </a>
                                             </div>
-                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span class="isFree">(возможен обмен)</span></div>
                                             <div class="blocks dataDate">
                                                 <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - {{post.post_date}}
                                                 </span>
                                                 <span class="deleteDate">
-                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
+                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - {{post.deactivate_date}}
                                                 </span>
                                             </div>
                                             <div class="blocks">
@@ -423,14 +273,16 @@
                                                     <i class="fa-regular fa-comment"></i><span class="number">1</span>
                                                 </div>
                                                 <div class="buttons">
-                                                    <button>Активировать</button>
                                                     <button>Редактировать</button>
-                                                    <button>Деактивировать</button>
+                                                    <button><a href="/post_activation/{{post.id}}" style="color: black; text-decoration:none;">Aктивировать</a></button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endblock content %}
                             </div>
                                
                               

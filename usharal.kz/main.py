@@ -5,7 +5,7 @@ import itsdangerous
 from send_email import send_link
 from datetime import datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
-from db import db, Users, registration, Posts, Photos
+from db import db, Users, registration, Posts, Photos, favPosts
 
 app = Flask(__name__)
 s = URLSafeTimedSerializer('alshdawdowg1288faklsf7fgasbfawfasdawfavxvdzwasdw2')
@@ -20,18 +20,20 @@ menu = [{'name': 'Сообщения', 'url': "messages"},
         {'name': 'Мой профиль', 'url': 'myprofile'},
         {'name': 'Выход', 'url': 'logout'},]
 
+def add_favPost(user_id, post_id):
+    post = favPosts(user_id, post_id)
+
 @app.route('/')
 def index():
     Posts.post_deactivation(today = datetime.today())
     posts = Posts.show_all_posts()
     if 'userEmail' in session:
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts)
+        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, add_favPost = add_favPost)
     else:
         return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts)
 
 @app.route('/messages')
 def messages():
-    Posts.post_deactivation(today = datetime.today())
     if 'userEmail' in session:
         return render_template('messageSection.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
     else:
@@ -39,7 +41,6 @@ def messages():
 
 @app.route('/myprofile')
 def myprofile():
-    Posts.post_deactivation(today = datetime.today())
     if 'userEmail' in session:
         return render_template('myProfile.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
     else:
@@ -63,7 +64,6 @@ def phone_numbers_to_waLink(number):
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
-    Posts.post_deactivation(today = datetime.today())
     if 'userName' in session:
         if request.method == 'POST':  
             user = Users.return_user_to_db(session['userEmail'])
@@ -99,21 +99,24 @@ def content(post_id):
 
 @app.route('/post_activation/<post_id>')
 def activation(post_id):
-    Posts.post_deactivation(today = datetime.today())
     post_id = int(post_id)
     Posts.post_activation(post_id)
     return redirect(url_for('myposts'))
 
+@app.route('/post_deactivation/<post_id>')
+def deactivation(post_id):
+    post_id = int(post_id)
+    Posts.post_deactivayion_by_user(post_id)
+    return redirect(url_for('myposts'))
+
 @app.route('/vippurchase/<post_id>')
 def vippurchase(post_id):
-    Posts.post_deactivation(today = datetime.today())
     post_id = int(post_id)
     Posts.post_to_vip(post_id)
     return redirect(url_for('index'))
 
 @app.route('/payments')
 def payments():
-    Posts.post_deactivation(today = datetime.today())
     if 'userEmail' in session:
         return render_template('payment.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
     else:
@@ -121,14 +124,17 @@ def payments():
 
 @app.route('/favorites')
 def favorites():
+    Posts.post_deactivation(today = datetime.today())
     if 'userEmail' in session:
-        return render_template('favPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
+        posts = favPosts.show_favPosts(session['userEmail'])
+        return render_template('favPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts)
     else:
-        return redirect(url_for('login'))    
+        return redirect(url_for('login'))  
+
+   
 
 @app.route('/authentification', methods = ['POST', 'GET'])
 def login():
-    Posts.post_deactivation(today = datetime.today())
     if request.method == 'POST':  
         if 'email' in request.form:
             user = Users.loginning(email=request.form['email'], password=request.form['psw'])
@@ -152,7 +158,6 @@ def logout():
 
 @app.route('/forgot', methods=['POST','GET'])
 def xlogin():
-    Posts.post_deactivation(today = datetime.today())
     if request.method=="POST":
         global user_email_from_xlogin
         user_email_from_xlogin = request.form['uname']
@@ -173,7 +178,6 @@ def confirm_email(token):
 
 @app.route('/update_password', methods=['POST', 'GET'])
 def update_password():
-    Posts.post_deactivation(today = datetime.today())
     if request.method=='POST':
         new_psw = request.form['newpsw']
         email = user_email_from_xlogin
