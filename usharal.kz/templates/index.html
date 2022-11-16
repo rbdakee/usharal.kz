@@ -7,23 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/index.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/myPosts.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/scroll.css') }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/font-awesomemin.css') }}">
     <title>{{title}}</title>
 </head>
 <body>
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type=text/javascript>
-            $(function() {
-              $('a#test').on('click', function(e) {
-                e.preventDefault()
-                $.getJSON('/add_favPost',
-                    function(data) {
-                  //do nothing
-                });
-                return false;
-              });
-            });
-    </script> -->
 
     <div class="all">
         <header>
@@ -32,15 +19,17 @@
                 <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
                 <div class="moreItems">
                     <div class="dropdown">
-                        <span class="fa-regular fa-user lng-personal"> Личный Кабинет</span>
+                        <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            {% for m in menu %}
-                            <a href="{{m.url}}" class="lng-message messages">{{m.name}}</a>
-                            {% endfor -%}
+                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
+                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
+                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
                           </div>
                     </div>
-                    <span class="fa-regular fa-heart lng-favourite-second favourite"><a href="{{'favorites'}}" class=""> Избранные</a></span>
-                    <span class="fa-regular fa-comment lng-message-second messages"><a href="{{'messages'}}" > Сообщения</a></span>
+                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
                 </div>
                 <div class="newObject">
                     <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
@@ -165,9 +154,9 @@
                                         </div>
                                         <div class="dataContent" style="text-decoration: none; color:black;">{{post.post_date}} </div>
                                         <div class="titleContent" style="text-decoration: none; color:black;">{{post.title}}</div>
-                                        <div class="costContent">{{post.cost}} &#8376;</div> </a>
+                                        <div class="costContent">{{post.cost}} </div> </a>
                                         <div class="statusContent">
-                                            <span>Договорная</span>
+                                            <span>{{post.facility}}</span>
                                             <span class="fa-regular fa-heart" onclick="fill(this)"></span>
                                         </div>
                                     </div>
@@ -244,8 +233,10 @@
         </div>
     </div>
     <script src="../static/js/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
-    <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script> -->
+    <script src="../static/js/vuemin.js"></script>
+    <!-- <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script> -->
+    <script src="../static/js/icons.js" crossorigin="anonymous"></script>
     <script src="../static/js/scroll.js"></script>
     <script src="../static/js/index.js"></script>
     <script src="../static/js/lang.js"></script>
@@ -255,6 +246,6 @@
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="../static/js/vuemin.js"></script>
 </body>
 </html>

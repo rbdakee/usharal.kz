@@ -2,7 +2,6 @@ Array.prototype.last = function() {
     return this[this.length - 1];
    }
 
-
 document.querySelectorAll('.allStatusOfPosts span').forEach((each, index) => {
     each.addEventListener('click', () => {
         var allEl = document.querySelectorAll('.allStatusOfPosts span')
@@ -27,7 +26,6 @@ var np = false
         
         showModal()
 
-        $('section').css('position', 'fixed')
         $('section').css('overflow', 'hidden')
         document.querySelectorAll('.ul')[1].style.display = 'unset'
         document.querySelectorAll('.ul')[0].style.display = 'none'
@@ -48,7 +46,7 @@ var np = false
             if (!event.target.matches('.location-btn')) {
                 toggleId(listClassOb['location-btn'])
                 $('.shadow').css('display', 'none')
-                $('section').css('position', 'sticky')
+                // $('section').css('position', 'sticky')
               
               }
               if (!event.target.matches('.wholeList-btn')) {
@@ -146,7 +144,7 @@ var np = false
     const changeLang = () => {
        
         for (let key in langArr) {
-            console.log(key);
+            // console.log(key);
             let elemAll = document.querySelectorAll('.lng-' + key);
             elemAll.forEach(elem => {
                 if (elem) {
@@ -190,18 +188,16 @@ var np = false
 let input = document.querySelectorAll('.searchPartMy input')
 input.forEach((fInput, index) => {
     fInput.oninput = function(){
-        
         let fInputValue = this.value.trim().toLowerCase()
         $(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .allMyContent`).animate({
             scrollTop: 0
         },1,'swing')
         if(fInputValue != ''){
-            
+            // console.log(fInputValue)
             document.querySelectorAll(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .nameOfTheProduct`).forEach(name => {
             
                 if(name.innerText.toLowerCase().search(fInputValue) == -1){
                     name.parentNode.parentNode.parentNode.classList.add('hide')  
-                    
                 }
                 else{
                     name.parentNode.parentNode.parentNode.classList.remove('hide')
@@ -235,6 +231,7 @@ input.forEach((fInput, index) => {
             createButtons(button_future_counts, index)
             createGhostButtons(button_future_counts, index)
             transferClick()
+            createGhostDiv(index)
             
         }
     
@@ -337,6 +334,7 @@ input.forEach((fInput, index) => {
         var parentFind = p.parentElement.parentElement.parentElement.classList[0];
         var el = document.querySelectorAll(`.${parentFind} .newCreatedButton`)
         var target =document.querySelector(`.${parentFind} .chosenButton`)
+        
         var index = [...el].indexOf(target)
         
         if(+el[index].innerHTML > 1){
@@ -508,10 +506,12 @@ input.forEach((fInput, index) => {
         obj = randA.innerText
         var pf = document.querySelectorAll('.findWithThat')[ind].classList[0]
         // console.log(obj == 'По убыванию ');
+        // console.log(obj, pf)
         document.querySelectorAll('.sort')[ind].innerHTML = randA.innerHTML
         document.querySelectorAll(`.${pf} .blocks input`).forEach((cost, index) => {
             arrValue[ind][index] = cost.value
             arrValue[ind][index] = arrValue[ind][index].replaceAll(' ', '')
+            arrValue[ind][index] = arrValue[ind][index].replaceAll('₸', '')
         })
         if(obj == 'По убыванию '){
             
@@ -523,7 +523,9 @@ input.forEach((fInput, index) => {
         arrValue[ind].forEach((each, index) => {
             var pf = document.querySelectorAll('.findWithThat')[ind].classList[0]
             str = document.querySelectorAll(`.${pf} .blocks input`)[index].value.replaceAll(' ', '')
+            str = str.replaceAll('₸', '')
             console.log(arrValue[ind].indexOf(str));
+            // console.log(str)
             document.querySelectorAll(`.${pf} .myContent:not(.hide)`)[index].style.order = arrValue[ind].indexOf(str)
         })
         // document.querySelectorAll(`.${pf} .ghost`).forEach(eachHide => {

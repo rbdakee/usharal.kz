@@ -1,7 +1,7 @@
 const langArr = {
     "personal" :  {
-        "ru": " Личный Кабинет",
-        "kz": " Жеке кабинет",
+        "ru": "<i class='fa-regular fa-user '></i> Личный Кабинет",
+        "kz": "<i class='fa-regular fa-user '></i> Жеке кабинет",
     }, 
     "yDay": {
         "ru": " Вчера  ",
@@ -16,16 +16,16 @@ const langArr = {
         "kz": " Тағы жарнамалар ",
     },
     "message": {
-        "ru": " Сообщения",
-        "kz": " Хабарлама",
+        "ru": "Сообщения",
+        "kz": "Хабарлама",
     }, 
     "message-second": {
-        "ru": " Сообщения",
-        "kz": " Хабарлама",
+        "ru": "<i class = 'fa-regular fa-comment'></i> Сообщения",
+        "kz": "<i class = 'fa-regular fa-comment'></i> Хабарлама",
     }, 
     "myPosts": {
         "ru": " Мои объявления",
-        "kz": " Менің жарнамаларым",
+        "kz": " Жарнамаларым",
     }, 
     "payment": {
         "ru": " Платежи и счёт",
@@ -40,12 +40,12 @@ const langArr = {
         "kz": " Шығу"
     }, 
     "favourite": {
-        "ru": " Избранные",
-        "kz": " Сақталған"
+        "ru": "<i class='fa-regular fa-heart'></i> Избранные",
+        "kz": "<i class='fa-regular fa-heart'></i> Сақталған"
     }, 
     "favourite-second": {
-        "ru": " Избранные",
-        "kz": " Сақталған"
+        "ru": "<i class='fa-regular fa-heart'></i> Избранные",
+        "kz": "<i class='fa-regular fa-heart'></i> Сақталған"
     }, 
     "newPost": {
         "ru": " Подать объявление",
@@ -80,7 +80,7 @@ const langArr = {
         "kz": " Жануарлар"
     },
     "house":{
-        "ru": " Для дома и сада",
+        "ru": " Для дома",
         "kz": " Үй мен бақша"
     },
     "job":{

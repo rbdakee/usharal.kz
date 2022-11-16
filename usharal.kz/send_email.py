@@ -3,8 +3,8 @@ import ssl
 import smtplib
 
 def send_link(body, email_receiver):
-    email_sender = 'mail.usharal.kz@gmail.com'
-    email_password = 'vuiucreiwjusrium'
+    email_sender = 'dakee088@gmail.com'
+    email_password = 'zkxabqaddltydqfj'
     subject = 'СБРОСИТЬ ПАРОЛЬ'
 
     em = EmailMessage()

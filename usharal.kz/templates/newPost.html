@@ -26,18 +26,20 @@
                 <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
                 <div class="moreItems">
                     <div class="dropdown">
-                        <span class="fa-regular fa-user lng-personal"> Личный Кабинет</span>
+                        <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            {% for m in menu %}
-                            <a href="{{m.url}}" class="lng-message messages">{{m.name}}</a>
-                            {% endfor -%}
+                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
+                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
+                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
                           </div>
                     </div>
-                    <span class="fa-regular fa-heart lng-favourite-second favourite"> Избранные</span>
-                    <span class="fa-regular fa-comment lng-message-second messages"> Сообщения</span>
+                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <button class="add lng-newPost">Подать объявление</button>
+                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
                 </div>
                 <div>
                     <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
@@ -55,7 +57,6 @@
                 </div>
                 
                 <div class="mainBody">
-                    <form action="/newpost" method="post">
                     <div class="informationAboutProduct">
                         <h3>Информация о товаре</h3>
                         <div class="newPostHeader">
@@ -88,15 +89,15 @@
                             
                             <div class="inner withRadio">
                                 <div class="middleBox">
-                                    <input type="radio" name="radio" id="middle ">
-                                    <label for="middle">Договорная цена</label>
+                                    <input type="radio" value="1" name="radio" id="middle ">
+                                    <label for="middle">Цена</label>
                                 </div>
                                 <div class="swapBox">
-                                    <input type="radio" name="radio" id="swap ">
+                                    <input type="radio" value="2" name="radio" id="swap ">
                                     <label for="swap">Возможен обмен</label>
                                 </div>
                                 <div class="freeBox">
-                                    <input type="radio" name="radio" id="free ">
+                                    <input type="radio" value="3" name="radio" id="free ">
                                     <label for="free">Отдам даром</label>
                                 </div>
                                 
@@ -177,7 +178,7 @@
                             </div>
                             <div class="locationInput">
                                 <span>E-mail</span>
-                                <input type="email" name="" id="" required>
+                                <input type="email" name="" id="" >
                             </div>
                         </div>
                     </div>
@@ -256,9 +257,9 @@
     
     <script src="../static/js/jquery-3.6.0.min.js"></script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="../static/js/vuemin.js"></script>
     <script src="../static/js/imask.js"></script>
-    <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script>
+    <script src="../static/js/icons.js" crossorigin="anonymous"></script>
     <script src="../static/js/scroll.js"></script>
     <script src="../static/js/newPost.js"></script>
     <script src="../static/js/lang.js"></script>
@@ -270,6 +271,6 @@
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="../static/js/vuemin.js"></script>
 </body>
 </html>

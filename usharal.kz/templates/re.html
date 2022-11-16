@@ -141,12 +141,12 @@ form label{
             
             
         </div>
-        <form action="update_password" method="post">
-            
-            <label for="uname">Введите новый пароль</label>
-            <input type="password" placeholder="Новый пароль" name="uname" required>
-            <label for="uname">Повторите пароль</label>
-            <input type="password" placeholder="Повторите пароль" name="u2name" required>
+        <form action="/update_password" method="post">
+            <input type="hidden" name="email" value="{{email}}">
+            <label for="newpsw">Введите новый пароль</label>
+            <input type="password" placeholder="Новый пароль" name="newpsw" required>
+            <label for="newpsw2">Повторите пароль</label>
+            <input type="password" placeholder="Повторите пароль" name="newpsw2" required>
             <button type="submit">Изменить</button>
         </form>
     </section>

@@ -66,7 +66,12 @@ const myFunction = (number) => {
 window.onclick = function(event) {
     
     if (!event.target.matches('.wholeListSpan button')) {
-         document.querySelector('.wholeList-content-span.show').classList.remove('show')
+         try{
+            document.querySelector('.wholeList-content-span.show').classList.remove('show')
+         }
+         catch{
+            
+         }
         // toggleId(listClassOb['wholeList-btn'])
       }
   }
@@ -121,6 +126,7 @@ inputSearchAll.forEach((inputSearch, index) => {
                 each.classList.remove('hide')
                 foundCount = document.querySelectorAll(`.${classInput} .lineForReceipt`).length
                 document.querySelector(`.${classInput} .allPossible`).innerHTML = '/' + Math.ceil((foundCount/10))
+                $('.boxCon').scrollTop(0)
             })
         }
     }  
@@ -175,7 +181,8 @@ document.querySelectorAll('#myDropdown a').forEach(eachA => {
         var iClass = eachA.getAttribute('classInput')
         all = document.querySelectorAll(`.${iClass} .dateOfOperation`)
         console.log(eachA.className);
-        if(eachA.className == 'asc'){
+        if(eachA.className.includes('asc')){
+            console.log(1)
             ascFunc(iClass)
             sortedDate = []
             dateArr.forEach((each, index) => {
@@ -193,7 +200,7 @@ document.querySelectorAll('#myDropdown a').forEach(eachA => {
                 })
             })
         }
-        else if(eachA.className == 'desc'){
+        else if(eachA.className.includes('desc')){
             descFunc(iClass)
             sortedDate = []
             dateArr.forEach((each, index) => {

@@ -12,30 +12,32 @@
     
 </head>
 <body>
-    <header>
-        <div class="headerChild">
-            <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
-            <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
-            <div class="moreItems">
-                <div class="dropdown">
-                    <span class="fa-regular fa-user lng-personal"> Личный Кабинет</span>
-                    <div class="dropdown-content">
-                        {% for m in menu %}
-                        <a href="{{m.url}}" class="lng-message messages">{{m.name}}</a>
-                        {% endfor -%}
-                      </div>
+        <header>
+            <div class="headerChild">
+                <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
+                <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
+                <div class="moreItems">
+                    <div class="dropdown">
+                        <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
+                        <div class="dropdown-content">
+                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
+                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
+                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
+                          </div>
+                    </div>
+                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
                 </div>
-                <span class="fa-regular fa-heart lng-favourite-second favourite"> Избранные</span>
-                <span class="fa-regular fa-comment lng-message-second messages"> Сообщения</span>
+                <div class="newObject">
+                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
+                </div>
+                <div>
+                    <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
+                </div>
             </div>
-            <div class="newObject">
-                <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
-            </div>
-            <div>
-                <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
-            </div>
-        </div>
-    </header>
+        </header>
     <section class="favouriteSection">
         <div class="mask"></div>
         <div class="favouriteSectionChild">
@@ -46,14 +48,14 @@
                 <div class="searchPart">
                     <input type="text" placeholder="Поиск по заголовку">
                     <div class="searchControl">
-                        <div class="verticalLine"></div>
+                          
                         <div onclick="favFunction(this.className)"class="wholeList">
                             <button  class="wholeList-btn">Все категории <i class="fas arrow fa-angle-down"></i></button>
                             <div id="myDropdown" class="wholeList-content">
                               <a href="#">Все категории</a> 
                             </div>
                           </div>
-                        <div class="verticalLine"></div>
+                          
                         <div onclick="myFunction(this.classList[1])"class="wholeList two">
                             <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
                             <div id="myDropdown" class="wholeList-content">
@@ -76,9 +78,9 @@
                             </div>
                                 <div class="dataContent">{{post.post_date}} </div>
                                 <div class="titleContent">{{post.title}}</div>
-                                <div class="costContent">{{post.cost}} &#8376;</div>
+                                <div class="costContent">{{post.cost}}</div>
                                 <div class="statusContent">
-                                <span>Договорная</span>
+                                <span>{{post.facility}}</span>
                                 <span class="fa-regular fa-heart" onclick="fill(this)"></span>
                             </div></a>
                          </div>
@@ -148,12 +150,51 @@
         </div>
     </div>
     <script src="{{ url_for('static', filename = 'js/jquery-3.6.0.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
-    <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script>
+    <script src="../static/js/vuemin.js"></script>
+    <script src="../static/js/icons.js" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename = 'js/scroll.js') }}"></script>
    
     <script src="{{ url_for('static', filename = 'js/lang.js') }}"></script>
     <script>
+        const list = ["ru", "kz"]
+    let hash = 'ru'
+    const langAll = document.querySelectorAll(".langSpan")
+    langAll.forEach((lang, index) => {
+        lang.addEventListener('click', () => {
+            
+            if(index == 0){
+                langAll[1].classList.remove('chosen')
+                hash = 'ru'
+            }
+            else{
+                hash = 'kz'
+                langAll[0].classList.remove('chosen')
+            }
+            lang.classList.add('chosen')
+            
+            changeLang()
+        })
+    });
+    const changeLang = () => {
+       
+        for (let key in langArr) {
+            // console.log(key);
+            let elemAll = document.querySelectorAll('.lng-' + key);
+            elemAll.forEach(elem => {
+                if (elem) {
+                    if(elem.tagName == 'INPUT'){
+                        elem.setAttribute("placeholder", langArr[key][hash])
+                    }
+                    else
+                    {
+                        elem.innerHTML = langArr[key][hash];
+                    }
+                }
+            })
+    
+        }
+    }
+    
         $(".up").click(function(){
     window.scrollTo(0, 0)
 })
@@ -182,7 +223,7 @@
   }
         function favFunction(arg){
             $('.shadow').css('display', 'flex')
-            $('section').css('position', 'fixed')
+            // $('section').css('position', 'fixed')
             document.querySelectorAll('.ul')[0].style.display = 'none'
             document.querySelectorAll('.ul')[1].style.display = 'unset'
             window.onclick = function(event) {
@@ -190,7 +231,7 @@
         if (!event.target.matches('.location-btn')) {
             toggleId(listClassOb['location-btn'])
             $('.shadow').css('display', 'none')
-            $('section').css('position', 'sticky')
+            // $('section').css('position', 'sticky')
           
           console.log();
           }
@@ -215,7 +256,7 @@ const outLi = (each, boolValue) => {
         $('.shadow').css('display', 'none')
         var text = each.innerHTML
         document.querySelector('.wholeList-btn').innerHTML = text + '<i class="fas arrow fa-angle-down"></i>'
-        $('section').css('position', 'sticky')
+        // $('section').css('position', 'sticky')
     }
     else{
         var text = each.innerHTML
@@ -258,8 +299,10 @@ const outLi = (each, boolValue) => {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
-    <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="../static/js/index.js"></script>
+    <script src="../static/js/lang.js"></script>
+    <script src="../static/js/vuemin.js"></script>
+    <script src="../static/js/icons.js" crossorigin="anonymous"></script>
+    <script src="../static/js/vuemin.js"></script>
 </body>
 </html>

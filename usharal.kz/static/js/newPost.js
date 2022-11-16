@@ -8,14 +8,14 @@ function myFunction(div) {
 }
 const animOut =(imgBox) =>{
     // $('.imageBox2 div').css('display', 'none')
-    if(imgArr[+imgBox.getAttribute('count')] != 'img/Vector1.svg'){
+    if(imgArr[+imgBox.getAttribute('count')] != '../static/img/Vector1.svg'){
         obj = imgBox.classList[0]
         $(`.${obj} .backColor.active`).removeClass('active')
         $(`.${obj} div.deleteAnim`).css('animation', 'myAnimOut 0.8s ease 0s 1 normal forwards')
     }
 }
 const anim =(imgBox) =>{
-    if(imgArr[+imgBox.getAttribute('count')] != 'img/Vector1.svg'){
+    if(imgArr[+imgBox.getAttribute('count')] != '../static/img/Vector1.svg'){
         obj = imgBox.classList[0]
         $(`.${obj} div.deleteAnim`).css('animation', 'myAnim 0.8s ease 0s 1 normal forwards')
         $(`.${obj} div.deleteAnim`).css('display', 'flex')
@@ -26,8 +26,8 @@ const anim =(imgBox) =>{
 const deleteFunction = (btn) => {
     var btnParentIndex = +btn.parentNode.parentNode.getAttribute('count')
     imgArr.splice(btnParentIndex, 1)
-    imgArr.push('img/Vector1.svg')
-    btn.parentNode.previousElementSibling.previousElementSibling.setAttribute('src', 'img/Vector1.svg')
+    imgArr.push('../static/img/Vector1.svg')
+    btn.parentNode.previousElementSibling.previousElementSibling.setAttribute('src', '../static/img/Vector1.svg')
     $(`.${btn.parentNode.parentNode.classList[0]} .backColor.active`).removeClass('active')
     $(`.${btn.parentNode.parentNode.classList[0]} div.deleteAnim`).css('animation', 'myAnimOut 0.8s ease 0s 1 normal forwards')
     btn.parentNode.previousElementSibling.previousElementSibling.style.width = '50px'
@@ -37,7 +37,7 @@ const deleteFunction = (btn) => {
     
     document.querySelectorAll('.imageBox').forEach((each, index) => {
         
-        if(imgArr[index] != 'img/Vector1.svg'){
+        if(imgArr[index] != '../static/img/Vector1.svg'){
             document.querySelector(`.${each.classList[0]} img`).style.width = '100%'
             document.querySelector(`.${each.classList[0]} img`).style.height = '100%'
             document.querySelector(`.${each.classList[0]} img`).style.objectFit = 'cover'
@@ -100,7 +100,7 @@ const showModal = () => {
 }
 const modal = (str) => {
     showModal()
-    $('section').css('position', 'fixed')
+    // $('section').css('position', 'fixed')
     document.querySelectorAll('.ul')[0].style.display = 'unset'
     document.querySelectorAll('.ul')[1].style.display = 'none'
     if(str == 'newPost'){
@@ -117,7 +117,7 @@ const modal = (str) => {
         if (!event.target.matches('.location-btn')) {
             toggleId(listClassOb['location-btn'])
             $('.shadow').css('display', 'none')
-            $('section').css('position', 'sticky')
+            // $('section').css('position', 'sticky')
           
           //console.log();
           }
@@ -278,26 +278,72 @@ chooseCategory.addEventListener('click', () => {
     $('section').css('position', 'fixed')
     showModal()
 })
-var imgArr = ['img/Vector1.svg', 'img/Vector1.svg', 'img/Vector1.svg','img/Vector1.svg','img/Vector1.svg','img/Vector1.svg','img/Vector1.svg']
+var allBoxAbs 
+var imgArr= []
+var imgArr = ['../static/img/Vector1.svg', '../static/img/Vector1.svg', '../static/img/Vector1.svg','../static/img/Vector1.svg','../static/img/Vector1.svg','../static/img/Vector1.svg','../static/img/Vector1.svg']
 function showFile(input) {
-    if(imgArr[6] == 'img/Vector1.svg'){
-        file = input.files[0];
-        imgArr.unshift(URL.createObjectURL(file))
-        if(imgArr.length > 7){
-            imgArr.pop()
+    if(imgArr[6] == '../static/img/Vector1.svg'){
+        var files = input.files || input.currentTarget.files;
+
+    var reader = [];
+    var images = document.querySelectorAll('.imageOfUser');
+    var name;
+    for (var i in files) {
+        if (files.hasOwnProperty(i)) {
+            name = 'file' + i;
+            
+            reader[i] = new FileReader();
+            reader[i].readAsDataURL(input.files[i]);
+            
+            
+            reader[i].onload = function (e) {
+                // console.log(document.getElementById(name));
+                images[i].src = e.target.result;
+                imgArr.unshift(e.target.result)
+                if(imgArr.length > 7){
+                   imgArr.pop()
+                }
+                console.log(imgArr)
+                document.querySelectorAll('.imageOfUser').forEach((each, index) => {
+                    if(imgArr[index] != '../static/img/Vector1.svg'){
+                                    each.style.width = '100%'
+                                    each.style.height = '100%'
+                                    document.querySelectorAll('.imageOfUser')[index].style.objectFit = 'cover'
+                                }
+                    each.src = imgArr[index]
+                })
+            };
+          
+        
+            
+            
+            
+            
         }
-        document.querySelectorAll('.imageOfUser').forEach((each, index) => {
-            if(imgArr[index] != 'img/Vector1.svg'){
-                each.style.width = '100%'
-                each.style.height = '100%'
-                document.querySelectorAll('.imageOfUser')[index].style.objectFit = 'cover'
-            }
-            each.setAttribute('src',imgArr[index] )
-        })
+        
     }
-    else{
-        alert()
     }
+        //     allBoxAbs = input.files || input.current
+    
+    // if(imgArr[6] == '../static/img/Vector1.svg'){
+    //     allBoxAbs = input.files || input.currentTarget.files;
+    //     file = input.files[0];
+    //     imgArr.unshift(URL.createObjectURL(file))
+    //     if(imgArr.length > 7){
+    //         imgArr.pop()
+    //     }
+    //     document.querySelectorAll('.imageOfUser').forEach((each, index) => {
+    //         if(imgArr[index] != '../static/img/Vector1.svg'){
+    //             each.style.width = '100%'
+    //             each.style.height = '100%'
+    //             document.querySelectorAll('.imageOfUser')[index].style.objectFit = 'cover'
+    //         }
+    //         each.setAttribute('src',imgArr[index] )
+    //     })
+    // }
+    // else{
+    //     alert()
+    // }
   }
   var fileProf
   
@@ -402,3 +448,4 @@ var currencyMask = IMask(
             alert('success!')
         }
     }
+    

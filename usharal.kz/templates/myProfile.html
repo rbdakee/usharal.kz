@@ -18,18 +18,20 @@
                 <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
                 <div class="moreItems">
                     <div class="dropdown">
-                        <span class="fa-regular fa-user lng-personal"> Личный Кабинет</span>
+                        <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            {% for m in menu %}
-                            <a href="{{m.url}}" class="lng-message messages">{{m.name}}</a>
-                            {% endfor -%}
+                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
+                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
+                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
                           </div>
                     </div>
-                    <span class="fa-regular fa-heart lng-favourite-second favourite"> Избранные</span>
-                    <span class="fa-regular fa-comment lng-message-second messages"> Сообщения</span>
+                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <button class="add lng-newPost">Подать объявление</button>
+                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
                 </div>
                 <div>
                     <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
@@ -47,16 +49,16 @@
                     </div>
                     <div class="div2">
                         <div class="divPart2">
-                            <span class="messageLink lng-message">Сообщения</span>
-                            <span class="messageLink lng-myPosts">Мои объявления</span>
-                            <span class="messageLink lng-payment">Платежи и счёт</span>
-                            <span class="messageLink lng-myProfile  activeLink">Мой профиль</span>
+                            <span class="messageLink message"><a class="lng-message" href="{{menu[0].url}}" style="color: black; text-decoration:none;">Сообщения</a></span>
+                            <span class="messageLink"><a class="lng-myPosts" href="{{menu[1].url}}" style="color: black; text-decoration:none;">Мои объявления</a></span>
+                            <span class="messageLink"><a class="lng-payment" href="{{menu[2].url}}" style="color: black; text-decoration:none;">Платежи и счёт</a></span>
+                            <span class="messageLink activeLink"><a class="lng-myProfile" href="{{menu[3].url}}" style="color: #ffc53a; text-decoration:none;">Мой профиль</a></span>
                         </div>
                         
                     </div>
                 </div>
                 <section class="myProfile">
-                    <form>
+                    {% block content %}
                     <div class="myProfileInner prof">
                         <div class="box boxForMainInformation">
                             <div class="mainTitle inner">
@@ -75,10 +77,16 @@
                                     <input type="file" onchange = "showFile(this)"accept="image/gif, image/jpeg, image/png, image/svg" name="" class="file">
                                     
                                 </div> -->
+                                {% if user.logo != 0 %}
                                 <div class="imageBoxProfile">
-                                    <img src="img/think.png"width = "50"alt="" class="imageOfUserChoose">
-                                    
+                                    <img src="data:;base64, {{user.logo}}"width = "50"alt="" class="imageOfUserChoose">
                                 </div>
+                                {% else %}
+                                <div class="imageBoxProfile">
+                                    <img src="static/img/add-photo.png"width = "50"alt="" class="imageOfUserChoose">
+                                </div>
+                                {% endif %}
+
                                 
                             </div>
                             <div class="spanWithInput inner">
@@ -87,22 +95,27 @@
                             </div>
                             <div class="spanWithInput inner phoneSpan">
                                 <div><span class="firstPart">Телефон</span><span class="secondPart"></span></div>
-                                <input type = "text" value="77473218595"  readonly class="profileNum" re/>
+                                {% if user.phone_number==0 %}
+                                <input type = "text" value=""  readonly class="profileNum" re/>
+                                {% else %}
+                                <input type = "text" value="{{user.phone_number}}"  readonly class="profileNum" re/>
+                                {% endif %}
                             </div>  
                             <div class="saveLine inner">
-                                <button class="changeProfile lng-changeProfile">Редактировать профиль</button>
+                                <button class="changeProfile lng-changeProfile">Изменить пароль</button>
                             </div>
                         </div>
                        
                     </div>
+                    <form action="/myprofile" method="POST" enctype="multipart/form-data">
                     <div class="myProfileInner changeProf">
                         <div class="box boxForMainInformation">
                             <div class="mainTitle inner">
-                                <h1 class="lng-changeProfile">Редактировать профиль</h1>
+                                <h1 class="lng-changeProfile">Изменить пароль</h1>
                             </div>
                             <div class="spanWithInput inner">
                                 <div><span class="firstPart lng-yourProfile">Ваше имя</span><span class="secondPart lng-atleast4"> (не менее 4 символов)</span></div>
-                                <input type="text" class = ''>
+                                <input type="text" name="username">
                             </div>
                             <div class="spanWithInput inner">
                                 <div><span class="firstPart lng-photoOrLogo">Фото или логотип</span><span class="secondPart lng-format"> (Формат - jpg или png, максимальный размер 5 Мб)</span></div>
@@ -113,7 +126,7 @@
                                 </div> -->
                                 <div class="imageBoxProfile">
                                     <img src="img/Vector.svg"width = "50"alt="" class="imageOfUserChoose">
-                                    <input type="file" onchange = "showFileProfile(this)"accept="image/gif, image/jpeg, image/png, image/svg" name="" class="file">
+                                    <input type="file" onchange = "showFileProfile(this)"accept="image/gif, image/jpeg, image/png, image/svg" name="logo" class="file">
                                 </div>
                                 
                             </div>
@@ -142,7 +155,7 @@
                             </div>
                             <div class="spanWithInput inner phoneSpan">
                                 <div><span class="firstPart">Телефон</span><span class="secondPart"></span></div>
-                                <input type="text" class="profileNum" >
+                                <input type="text" class="profileNum" name="phone_number" >
                             </div>  
                             <!-- <div class="saveLine inner">
                                 <button class="save">Сохранить</button>
@@ -154,26 +167,14 @@
                             </div>
                             <div class="spanWithInput inner">
                                 <div><span class="firstPart lng-currentPass">Текущий пароль*</span><span class="secondPart"></span></div>
-                                <input type="password" required>
+                                <input type="password">
                             </div>
                             <div class="spanWithInput inner">
                                 <div><span class="firstPart lng-newPass">Новый пароль*</span><span class="secondPart"></span></div>
-                                <input type="password" required>
+                                <input type="password" name="password">
                             </div>
                             <div class="saveLine inner">
-                                <button class="saveNewPassword lng-changePass">Изменить пароль</button>
-                            </div>
-                        </div>
-                        <div class="box boxForChangingMail">
-                            <div class="mainTitle inner">
-                                <h1 class="lng-changeMail">Изменить email-адрес</h1>
-                            </div>
-                            <div class="spanWithInput inner">
-                                <div><span class="firstPart lng-newMail">Новый email-адрес*</span><span class="secondPart"></span></div>
-                                <input type="email" required>
-                            </div>
-                            <div class="saveLine inner">
-                                <button class="saveNewEmail lng-changeMail">Изменить email-адрес</button>
+                                <!-- <button class="saveNewPassword lng-changePass">Изменить пароль</button> -->
                             </div>
                         </div>
                         <div class="box boxConfirm">
@@ -181,12 +182,19 @@
                                 <h1 class="lng-confirm">Подтверждение</h1>
                             </div>
                             <div class="confirmButtonLine inner">
-                                <button class="lng-changeNew">Сохранить изменения</button>
+                                
+                                    <div><span class="firstPart lng-newPass">Введите текущий пароль</span></div>
+                                    <input type="password" name="userPrevPassword" required>
+                              
+                                <button type="submit" class="lng-changeNew">Сохранить изменения</button>
                             </div>
+                        
                         </div>
+                    
                     </div>
-                </form>   
+                </form> 
                 </section>
+                {% endblock content %}
                 
 
                 
@@ -252,9 +260,9 @@
         </div>
     </div>
     <script src="../static/js/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="../static/js/vuemin.js"></script>
     <script src="../static/js/imask.js"></script>
-    <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script>
+    <script src="../static/js/icons.js" crossorigin="anonymous"></script>
     <!-- <script src="js/scroll.js"></script> -->
     <script src="../static/js/myProfile.js"></script>
     <script src="../static/js/lang.js"></script>
@@ -264,6 +272,6 @@
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="../static/js/vuemin.js"></script>
 </body>
 </html>

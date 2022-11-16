@@ -25,10 +25,11 @@ def add_favPost(user_id, post_id):
 
 @app.route('/')
 def index():
+
     Posts.post_deactivation(today = datetime.today())
     posts = Posts.show_all_posts()
     if 'userEmail' in session:
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, add_favPost = add_favPost)
+        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts)
     else:
         return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts)
 
@@ -39,10 +40,18 @@ def messages():
     else:
         return redirect(url_for('login'))
 
-@app.route('/myprofile')
+@app.route('/myprofile', methods=['POST', 'GET'])
 def myprofile():
     if 'userEmail' in session:
-        return render_template('myProfile.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
+        if request.method == 'POST':
+            username = request.form['username']
+            logo = request.files['logo'].read()
+            phone_number = request.form['phone_number']
+            password = request.form['password']
+            Users.edit_user_information(session['userEmail'], logo, phone_number, password, username)
+        
+        user_information = Users.show_user_information(session['userEmail'])
+        return render_template('myProfile.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', user = user_information)
     else:
         return redirect(url_for('login'))
 
@@ -78,8 +87,9 @@ def newpost():
             deactivate_date = datetime.today() + timedelta(days=14)
             status = True
             advertisement = False
+            facility = request.form['radio']
             post_date = datetime.today()
-            post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement)
+            post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement, facility)
             for i in range(len(photo)):
                 photos = Photos(photo[i].read(), post)
         return render_template('newPost.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
@@ -106,7 +116,7 @@ def activation(post_id):
 @app.route('/post_deactivation/<post_id>')
 def deactivation(post_id):
     post_id = int(post_id)
-    Posts.post_deactivayion_by_user(post_id)
+    Posts.post_deactivation_by_user(post_id)
     return redirect(url_for('myposts'))
 
 @app.route('/vippurchase/<post_id>')
@@ -159,42 +169,32 @@ def logout():
 @app.route('/forgot', methods=['POST','GET'])
 def xlogin():
     if request.method=="POST":
-        global user_email_from_xlogin
-        user_email_from_xlogin = request.form['uname']
         user_email = request.form['uname']
-        token = s.dumps(user_email_from_xlogin, salt='email-confirm')
-        message = url_for('confirm_email', token=token, _external=True)
+        token = s.dumps(user_email, salt='email-confirm')
+        message = f'Это письмо было отправлено для сброса пароля на сайте usharal.kz пользователя с электронным адресом "{user_email}"\nЕсли вы не хотите изменять пароль, не открывайте ссылку и не отправляйте ее никому\n' + url_for('confirm_email', token=token, email=user_email, _external=True)
         send_link(message, user_email)
 
     return render_template('unableToLog.html', title = 'usharal.kz')
 
-@app.route('/confirm_email/<token>')
-def confirm_email(token):
+@app.route('/confirm_email/<token>/<email>')
+def confirm_email(token, email):
     try:
         s.loads(token, salt='email-confirm', max_age=600)
     except (itsdangerous.exc.SignatureExpired, itsdangerous.exc.BadTimeSignature, itsdangerous.exc.BadSignature):
         return render_template('expired_token.html')
-    return render_template('re.html')
+    return render_template('re.html', email = email)
 
 @app.route('/update_password', methods=['POST', 'GET'])
 def update_password():
     if request.method=='POST':
         new_psw = request.form['newpsw']
-        email = user_email_from_xlogin
+        email = request.form['email']
         Users.update_psw(email, new_psw)
         return redirect(url_for('login'))
 
 @app.errorhandler(404)
 def error_page(error):
-    return render_template('error_page.html')
+    return render_template('error_page.html', menu = menu)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000, host='0.0.0.0')
-    
-    
-
-
-
-
-
-

@@ -18,21 +18,20 @@
                 <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
                 <div class="moreItems">
                     <div class="dropdown">
-                        <span class="fa-regular fa-user lng-personal"> Личный Кабинет</span>
-                        
+                        <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            
-                            {% for m in menu %}
-                            <a href="{{m.url}}" class="lng-message messages">{{m.name}}</a>
-                            {% endfor -%}
+                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
+                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
+                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
                           </div>
-                        
                     </div>
-                    <span class="fa-regular fa-heart lng-favourite-second favourite"> Избранные</span>
-                    <span class="fa-regular fa-comment lng-message-second messages"> Сообщения</span>
+                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <button class="add lng-newPost">Подать объявление</button>
+                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
                 </div>
                 <div>
                     <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
@@ -50,10 +49,10 @@
                     </div>
                     <div class="div2">
                         <div class="divPart2">
-                            <span class="messageLink message lng-message">Сообщения</span>
-                            <span class="messageLink lng-myPosts activeLink">Мои объявления</span>
-                            <span class="messageLink lng-payment">Платежи и счёт</span>
-                            <span class="messageLink lng-myProfile">Мой профиль</span>
+                            <span class="messageLink message"><a class="lng-message" href="{{menu[0].url}}" style="color: black; text-decoration:none;">Сообщения</a></span>
+                            <span class="messageLink activeLink"><a class="lng-myPosts" href="{{menu[1].url}}" style="color: #ffc53a; text-decoration:none;">Мои объявления</a></span>
+                            <span class="messageLink"><a class="lng-payment" href="{{menu[2].url}}" style="color: black; text-decoration:none;">Платежи и счёт</a></span>
+                            <span class="messageLink"><a class="lng-myProfile" href="{{menu[3].url}}" style="color: black; text-decoration:none;">Мой профиль</a></span>
                         </div>
                         
                     </div>
@@ -86,11 +85,11 @@
                             <div class="searchPartMy">
                                 <input type="text" class = 'lng-searchByTitle'placeholder="Поиск по заголовку">
                                 <div class="searchControl">
-                                    <div class="verticalLine"></div>
+                                    
                                     <div class="chooseCategory allCat"onclick="modal('newPost', 0)">
                                         <div classParent = 'mainMyPostsContent' class="allCatChild lng-categories-two" onclick="modal('newPost', 0)">Все категории </div><i class="fa-solid arrow fa-angle-down"></i>
                                     </div>
-                                    <div class="verticalLine"></div>
+                                    
                                     <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
                                     <div onclick="myFunction(this.classList[1])"class="wholeList wholeListOne">
                                         <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
@@ -100,9 +99,7 @@
                                           <a href="#" onclick="insert(this, 0)">По Умолчанию  </a> 
                                         </div>
                                       </div>
-                                    <div class="forButton">
-                                        <button class="fa-solid fa-search" ></button>
-                                    </div>
+                                   
                                 </div>
                             </div>
                             <div class="chooseAllAndDel">
@@ -135,7 +132,7 @@
                                             <div class="blocks a">
                                                                                               <a href="">Электроника </a>
                                             </div>
-                                            <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span class="isFree">{{post.facility}}</span></div>
                                             <div class="blocks dataDate">
                                                 <span class="publishDate">
                                                     <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - {{post.post_date}}
@@ -167,7 +164,7 @@
                            
                           
                             <div class="imgThink close">
-                                <img src="img/think.png" alt="no">
+                                <img src="static/img/think.png" alt="no">
                                 <span>Ничего не найдено</span>
                             </div>
                             <div class="bottomBut">
@@ -208,11 +205,11 @@
                             <div class="searchPartMy">
                                 <input type="text" placeholder="Поиск по заголовку">
                                 <div class="searchControl">
-                                    <div class="verticalLine"></div>
+                                     
                                     <div class="chooseCategory allCat"onclick="modal('newPost',1)">
                                         <div classParent = '' class="allCatChild" onclick="modal('newPost')">Все категории </div><i class="fa-solid arrow fa-angle-down"></i>
                                     </div>
-                                    <div class="verticalLine"></div>
+                                     
                                     <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
                                     <div onclick="myFunction(this.classList[1])"class="wholeList wholeListTwo">
                                         <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
@@ -222,9 +219,7 @@
                                           <a href="#" onclick="insert(this, 1)">По Умолчанию  </a> 
                                         </div>
                                       </div>
-                                    <div class="forButton">
-                                        <button class="fa-solid fa-search" ></button>
-                                    </div>
+                                     
                                 </div>
                             </div>
                             <div class="chooseAllAndDel">
@@ -331,11 +326,11 @@
                             <div class="searchPartMy">
                                 <input type="text" placeholder="Поиск по заголовку">
                                 <div class="searchControl">
-                                    <div class="verticalLine"></div>
+                                     
                                     <div class="chooseCategory allCat"onclick="modal('newPost',2)">
                                         <div classParent = 'mainMyPostsContent' class="allCatChild" onclick="modal('newPost')">Все категории </div><i class="fa-solid arrow fa-angle-down"></i>
                                     </div>
-                                    <div class="verticalLine"></div>
+                                     
                                     <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
                                     <div onclick="myFunction(this.classList[1])"class="wholeList wholeListThree">
                                         <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
@@ -345,9 +340,7 @@
                                           <a href="#" onclick="insert(this, 2)">По Умолчанию  </a> 
                                         </div>
                                       </div>
-                                    <div class="forButton">
-                                        <button class="fa-solid fa-search" ></button>
-                                    </div>
+                                     
                                 </div>
                             </div>
                             <div class="chooseAllAndDel">
@@ -408,6 +401,7 @@
                               
                                 <div class="imgThink close">
                                     <img src="img/think.png" alt="no">
+
                                     <span>Ничего не найдено</span>
                                 </div>
                                 <div class="bottomBut">
@@ -514,8 +508,8 @@
         </div>
     </div>
     <script src="../static/js/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
-    <script src="https://kit.fontawesome.com/db48927ab0.js" crossorigin="anonymous"></script>
+    <script src="../static/js/vuemin.js"></script>
+    <script src="../static/js/icons.js" crossorigin="anonymous"></script>
     <script src="../static/js/imask.js"></script>
     <script src="../static/js/myPostsNew.js" defer></script>
     <script src="../static/js/ex.js" defer></script>
@@ -526,6 +520,6 @@
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="../static/js/vuemin.js"></script>
 </body>
 </html>
