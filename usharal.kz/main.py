@@ -5,7 +5,7 @@ import itsdangerous
 from send_email import send_link
 from datetime import datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
-from db import db, Users, registration, Posts, Photos, favPosts
+from db import Users, registration, Posts, Photos, favPosts
 
 app = Flask(__name__)
 s = URLSafeTimedSerializer('alshdawdowg1288faklsf7fgasbfawfasdawfavxvdzwasdw2')

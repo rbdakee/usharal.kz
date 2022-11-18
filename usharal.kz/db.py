@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from types import NoneType
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.config["SECRET_KEY"] = 'jp0?ad[1-=-0-`94mpgf-pjmwr3;2owdakdnw'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
