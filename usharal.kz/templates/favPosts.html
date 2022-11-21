@@ -71,20 +71,21 @@
             <div class="mainPartWithButton">
                 <div class="mainPart line">
                     {% for post in posts %}
-                        <div class="contentBox"><a href="/content/{{post.id}}">
-                            <div class="forImgContent">
-                                <!-- <div class="top">VIP</div> -->
-                                <img src="data:;base64, {{ post.photos[0] }}" alt="">
-                            </div>
-                                <div class="dataContent">{{post.post_date}} </div>
-                                <div class="titleContent">{{post.title}}</div>
-                                <div class="costContent">{{post.cost}}</div>
-                                <div class="statusContent">
-                                <span>{{post.facility}}</span>
-                                <span class="fa-regular fa-heart" onclick="fill(this)"></span>
-                            </div></a>
-                         </div>
-                    {% endfor %}
+                                    <div class="contentBox"><a  href="/content/{{post.id}}">
+                                        <div class="forImgContent">
+                                            <!-- <div class="top">VIP</div> -->
+                                            <img src="data:;base64, {{ post.photos[0] }}" alt="">
+                                        </div>
+                                        <div class="dataContent" style="text-decoration: none; color:black;">{{post.post_date}} </div>
+                                        <div class="titleContent" style="text-decoration: none; color:black;">{{post.title}}</div>
+                                        <div class="costContent">{{post.cost}} </div> </a>
+                                        <div class="statusContent">
+                                            <span>{{post.facility}}</span>
+                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa-regular fa-heart" onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    {% endfor %}
                     
                 </div>
                 <div class="zoneForButton">

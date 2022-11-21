@@ -235,6 +235,36 @@ class Posts(db.Model):
         post = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'facility':facility, 'photos':photos}
         return post
 
+    def show_several_posts(postsId_list):
+        all_posts = []
+        for id in postsId_list:
+            post = Posts.query.filter_by(id = id).first()
+            id = post.id
+            user_id = post.user
+            user = Users.query.filter_by(id = user_id).first()
+            username = user.username
+            title = post.post_title
+            phone_number = post.phone_number
+            category = post.category
+            cost = post.cost
+            description = post.description
+            post_date = post.post_date.strftime("%m/%d/%Y %H:%M")
+            deactivate_date = post.deactivate_date
+            whatsapp_link = post.whatsapp_link
+            facility = post.facility
+            if facility == 1:
+                facility = "Цена"
+            elif facility == 2:
+                facility = 'Возможен обмен'
+            elif facility == 3:
+                facility = 'Отдам даром'
+            photos = []
+            for j in range(len(post.photo)):
+                photos.append(base64.b64encode(post.photo[j].data).decode('ascii'))
+            post_main = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'facility':facility, 'photos':photos}
+            all_posts.append(post_main)
+        return all_posts
+
     def post_activation(post_id):
         posts = Posts.query.filter_by(id=post_id).first()
         posts.status = True
@@ -288,11 +318,42 @@ class favPosts(db.Model):
     def show_favPosts(user_email):
         user = Users.query.filter_by(email=user_email).first()
         user_id = user.id
-       
         posts = favPosts.query.filter_by(user_id=user_id).all()
-        postss = []
-        for i in range(len(posts)):
-            postss.append(Posts.show_one_post(posts[i].id))                   
-        return postss
+        print(posts)
+        postsId = []
+        for i in posts:
+            postsId.append(i.post_id)
+        return Posts.show_several_posts(postsId)
+        
+    
+    def checkUserFavPosts(user_email, post_id):
+        user = Users.query.filter_by(email=user_email).first()
+        user_id = user.id
+        favPost = favPosts.query.filter_by(user_id=user_id).all()
+        posts = []
+        for i in favPost:
+            posts.append(i.id)
+        print(posts)
+        if post_id in posts:
+            checker = False
+        else:
+            checker = True
+        print(checker)
+        return checker
+        
+       
+    def add_favPost(user_email, post_id):
+        user = Users.query.filter_by(email=user_email).first()
+        user_id = user.id
+        checker = favPosts.checkUserFavPosts(user_email, post_id)
+        if checker:
+            favPost = favPosts(user_id, post_id)
+            db.session.add(favPost)
+            db.session.commit()
+        else:
+            pass
+
+
+
 
 

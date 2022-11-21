@@ -108,37 +108,6 @@
                     </div>
                 </div>
                 <div class="boxForAllAdver">
-                    <!-- <div class="premiumAdver">
-                        <div class="areaForTextPremium">
-                            <div class="someText">
-                                <span class="mainText lng-premium">Премиум объявления</span>
-                                <a href="" class="want lng-want">Хочу Сюда!</a>
-                            </div>
-                            <div class="buttonPremium">
-                                <button class="fa-solid fa-angle-left prev"></button>
-                                <button class="fa-solid fa-angle-right next"></button>
-                            </div>
-                        </div>
-                        <div class="slider">
-                        {% for vippost in posts %}
-                            {% if vippost.advertisement == True %}
-                            <div class="contentBox">
-                                <div class="forImgContent">
-                                    <div class="top">VIP</div>
-                                    <img src="data:;base64, {{ vippost.photos[0] }}" alt="">
-                                </div>
-                                <div class="dataContent">{{vippost.post_date}}</div>
-                                <div class="titleContent">{{vippost.title}}</div>
-                                <div class="costContent">{{vippost.cost}} &#8376;</div>
-                                <div class="statusContent">
-                                    <span>Договорная</span>
-                                    <span class="fa-regular fa-heart" onclick="fill(this)"></span>
-                                </div>
-                            </div>
-                            {% endif %}
-                        {% endfor %}    
-                        </div>
-                    </div> -->
                     <div class="mainAllAdver">
                         <div class="allAdver">
                             <div class="areaForText">
@@ -157,9 +126,10 @@
                                         <div class="costContent">{{post.cost}} </div> </a>
                                         <div class="statusContent">
                                             <span>{{post.facility}}</span>
-                                            <span class="fa-regular fa-heart" onclick="fill(this)"></span>
+                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa-regular fa-heart" onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
                                         </div>
                                     </div>
+                                    
                                     {% endfor %}
                                                                         
                                 </div>
@@ -247,5 +217,19 @@
         }
     </style>
     <script src="../static/js/vuemin.js"></script>
+
+    <script>
+        const socket = new WebSocket('ws://' + location.host + '/echo');
+    </script>
+
+    {% for post in posts %}
+    <script>
+        document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {
+          ev.preventDefault();
+          const text = document.getElementById('text_{{post.id}}');
+          socket.send(text.value);
+        };
+      </script>
+      {% endfor %}
 </body>
 </html>

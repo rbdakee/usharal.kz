@@ -6,8 +6,10 @@ from send_email import send_link
 from datetime import datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
 from db import Users, registration, Posts, Photos, favPosts
+from flask_sock import Sock
 
 app = Flask(__name__)
+sock = Sock(app)
 s = URLSafeTimedSerializer('alshdawdowg1288faklsf7fgasbfawfasdawfavxvdzwasdw2')
 app.config["SECRET_KEY"] = 'jp0?ad[1-=-0-`94mpgf-pjmwr3;2owdakdnw'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -23,15 +25,22 @@ menu = [{'name': 'Сообщения', 'url': "messages"},
 def add_favPost(user_id, post_id):
     post = favPosts(user_id, post_id)
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
-
     Posts.post_deactivation(today = datetime.today())
     posts = Posts.show_all_posts()
     if 'userEmail' in session:
         return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts)
     else:
         return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts)
+
+@sock.route('/echo')
+def echo(sock):
+    while True:
+        data = sock.receive()
+        userEmail = session['userEmail']
+        favPost = favPosts.add_favPost(userEmail, data)
+        sock.send(data)
 
 @app.route('/messages')
 def messages():
@@ -197,4 +206,4 @@ def error_page(error):
     return render_template('error_page.html', menu = menu)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000, host='0.0.0.0')
+    app.run(debug=True, port=8000, host='0.0.0.0')
