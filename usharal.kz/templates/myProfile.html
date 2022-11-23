@@ -102,7 +102,7 @@
                                 {% endif %}
                             </div>  
                             <div class="saveLine inner">
-                                <button class="changeProfile lng-changeProfile">Изменить пароль</button>
+                                <button class="changeProfile lng-changeProfile">Редактировать профиль</button>
                             </div>
                         </div>
                        
@@ -111,11 +111,11 @@
                     <div class="myProfileInner changeProf">
                         <div class="box boxForMainInformation">
                             <div class="mainTitle inner">
-                                <h1 class="lng-changeProfile">Изменить пароль</h1>
+                                <h1 class="lng-changeProfile">Редактировать профиль</h1>
                             </div>
                             <div class="spanWithInput inner">
                                 <div><span class="firstPart lng-yourProfile">Ваше имя</span><span class="secondPart lng-atleast4"> (не менее 4 символов)</span></div>
-                                <input type="text" name="username">
+                                <input type="text" name="username" placeholder="{{username}}">
                             </div>
                             <div class="spanWithInput inner">
                                 <div><span class="firstPart lng-photoOrLogo">Фото или логотип</span><span class="secondPart lng-format"> (Формат - jpg или png, максимальный размер 5 Мб)</span></div>
@@ -130,32 +130,10 @@
                                 </div>
                                 
                             </div>
-                            <div class="spanWithInput inner">
-                                <div><span class="firstPart">Адрес</span><span class="secondPart"></span></div>
-                                <select name="selected" id="select" >
-                                    <option>Не указан</option>
-                                    <option class="lng-AlmatyReg">Алматинская область</option>
-                                    <option class="lng-AkmolaReg">Акмолинская область</option>
-                                    <option class="lng-AtyReg">Атырауская область</option>
-                                    <option class="lng-AktobeReg">Актюбинская область</option>
-                                    <option class="lng-EKReg">Восточно-Казахстанская область</option>
-                                    <option class="lng-ZhambylReg">Жамбылская область</option>
-                                    <option class="lng-WKReg">Западно-Казахстанская область</option>
-                                    <option class="lng-KgReg">Карагандинская область</option>
-                                    <option class="lng-KosReg">Костанайская область</option>
-                                    <option class="lng-KzReg">Кызылординская область</option>
-                                    <option class="lng-MgReg">Мангистауская область</option>
-                                    <option class="lng-PvReg">Павлодарская область</option>
-                                    <option class="lng-NKReg">Северо-Казахстанская область</option>
-                                    <option class="lng-TurkReg">Туркестанская  область</option>
-                                    <option class="">Астана</option>
-                                    <option class="">Алматы</option>
-                                    <option class="">Шымкент</option>
-                                </select>
-                            </div>
+                           
                             <div class="spanWithInput inner phoneSpan">
                                 <div><span class="firstPart">Телефон</span><span class="secondPart"></span></div>
-                                <input type="text" class="profileNum" name="phone_number" >
+                                <input type="text" class="profileNum" name="phone_number" placeholder="{{user.phone_number}}">
                             </div>  
                             <!-- <div class="saveLine inner">
                                 <button class="save">Сохранить</button>
@@ -166,12 +144,12 @@
                                 <h1 class="lng-changePass">Изменить пароль</h1>
                             </div>
                             <div class="spanWithInput inner">
-                                <div><span class="firstPart lng-currentPass">Текущий пароль*</span><span class="secondPart"></span></div>
-                                <input type="password">
+                                <div><span class="firstPart lng-newPass">Новый пароль</span><span class="secondPart"></span></div>
+                                <input type="password" name="password">
                             </div>
                             <div class="spanWithInput inner">
-                                <div><span class="firstPart lng-newPass">Новый пароль*</span><span class="secondPart"></span></div>
-                                <input type="password" name="password">
+                                <div><span class="firstPart lng-newPass">Повторите пароль</span><span class="secondPart"></span></div>
+                                <input type="password">
                             </div>
                             <div class="saveLine inner">
                                 <!-- <button class="saveNewPassword lng-changePass">Изменить пароль</button> -->

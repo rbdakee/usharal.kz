@@ -22,9 +22,6 @@ menu = [{'name': 'Сообщения', 'url': "messages"},
         {'name': 'Мой профиль', 'url': 'myprofile'},
         {'name': 'Выход', 'url': 'logout'},]
 
-def add_favPost(user_id, post_id):
-    post = favPosts(user_id, post_id)
-
 @app.route('/', methods=['POST', 'GET'])
 def index():
     Posts.post_deactivation(today = datetime.today())
@@ -54,6 +51,8 @@ def myprofile():
     if 'userEmail' in session:
         if request.method == 'POST':
             username = request.form['username']
+            if username != '':
+                session['userName'] = username
             logo = request.files['logo'].read()
             phone_number = request.form['phone_number']
             password = request.form['password']

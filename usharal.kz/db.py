@@ -68,13 +68,14 @@ class Users(db.Model):
 
     def edit_user_information(email, logo, phone_number, password, username):
         user = Users.query.filter_by(email=email).first()
-        if logo != None:
+        print(type(password))
+        if logo != b'':
             user.logo = logo
-        if phone_number != None:
+        if phone_number != '':
             user.phone_number = phone_number
-        if password != None:
+        if password != '':
             user.password = password
-        if username != None:
+        if username != '':
             user.username = username
         db.session.commit()
 
