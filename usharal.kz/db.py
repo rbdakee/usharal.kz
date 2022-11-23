@@ -319,12 +319,10 @@ class favPosts(db.Model):
         user = Users.query.filter_by(email=user_email).first()
         user_id = user.id
         posts = favPosts.query.filter_by(user_id=user_id).all()
-        print(posts)
         postsId = []
         for i in posts:
             postsId.append(i.post_id)
         return Posts.show_several_posts(postsId)
-        
     
     def checkUserFavPosts(user_email, post_id):
         user = Users.query.filter_by(email=user_email).first()
@@ -332,17 +330,15 @@ class favPosts(db.Model):
         favPost = favPosts.query.filter_by(user_id=user_id).all()
         posts = []
         for i in favPost:
-            posts.append(i.id)
-        print(posts)
+            posts.append(i.post_id)
         if post_id in posts:
             checker = False
         else:
             checker = True
-        print(checker)
         return checker
-        
        
     def add_favPost(user_email, post_id):
+        post_id = int(post_id)
         user = Users.query.filter_by(email=user_email).first()
         user_id = user.id
         checker = favPosts.checkUserFavPosts(user_email, post_id)
@@ -353,7 +349,22 @@ class favPosts(db.Model):
         else:
             pass
 
+    def delete_favPost(user_email, post_id):
+        post_id=int(post_id)
+        user = Users.query.filter_by(email=user_email).first()
+        user_id = user.id
+        post_delete = favPosts.query.filter_by(user_id=user_id, post_id=post_id).first()
+        db.session.delete(post_delete)
+        db.session.commit()
 
+    def give_favPostId_of_user(user_email):
+        user = Users.query.filter_by(email=user_email).first()
+        user_id = user.id
+        posts_id = []
+        posts = favPosts.query.filter_by(user_id=user_id).all()
+        for post in posts:
+            posts_id.append(post.id)
+        return posts_id
 
 
 
