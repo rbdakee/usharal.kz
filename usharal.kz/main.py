@@ -26,10 +26,11 @@ menu = [{'name': 'Сообщения', 'url': "messages"},
 def index():
     Posts.post_deactivation(today = datetime.today())
     posts = Posts.show_all_posts()
+    session['Lang'] = 'ru'
     if 'userEmail' in session:
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts)
+        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['Lang'])
     else:
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts)
+        return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['Lang'])
 
 @sock.route('/echo')
 def echo(sock):
@@ -37,6 +38,14 @@ def echo(sock):
         data = sock.receive()
         userEmail = session['userEmail']
         favPost = favPosts.add_favPost(userEmail, data)
+        sock.send(data)
+
+@sock.route('/delet')
+def delet(sock):
+    while True:
+        data = sock.receive()
+        userEmail = session['userEmail']
+        favPost = favPosts.delete_favPost(userEmail, data)
         sock.send(data)
 
 @app.route('/messages')
@@ -168,7 +177,7 @@ def payments():
     else:
         return redirect(url_for('login'))
 
-@app.route('/favorites')
+@app.route('/favorites', methods = ['POST', 'GET'])
 def favorites():
     Posts.post_deactivation(today = datetime.today())
     if 'userEmail' in session:

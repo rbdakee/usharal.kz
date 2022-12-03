@@ -81,7 +81,7 @@
                                         <div class="costContent">{{post.cost}} </div> </a>
                                         <div class="statusContent">
                                             <span>{{post.facility}}</span>
-                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa-regular fa-heart" onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
+                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa fa-heart" onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
                                         </div>
                                     </div>
                                     
@@ -305,5 +305,20 @@ const outLi = (each, boolValue) => {
     <script src="../static/js/vuemin.js"></script>
     <script src="../static/js/icons.js" crossorigin="anonymous"></script>
     <script src="../static/js/vuemin.js"></script>
+
+    <script>
+        const socket = new WebSocket('ws://' + location.host + '/delet');
+    </script>
+
+    {% for post in posts %}
+    <script>
+        document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {
+          ev.preventDefault();
+          const text = document.getElementById('text_{{post.id}}');
+          socket.send(text.value);
+        };
+      </script>
+      {% endfor %}
+
 </body>
 </html>
