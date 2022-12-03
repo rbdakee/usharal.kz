@@ -104,6 +104,34 @@ def newpost():
     else:
         return redirect(url_for('login'))
 
+@app.route('/edit_post/<post_id>', methods = ['POST', 'GET'])
+def edit_post(post_id):
+    post = Posts.show_one_post(post_id)
+
+    if request.method == 'POST':
+        id = post_id
+        user = Users.return_user_to_db(session['userEmail'])
+        post_title=request.form['post_title']
+        category=request.form['category']
+        cost = request.form['post_cost']
+        photo = request.files.getlist('post_photo')
+        description = request.form['post_description']
+        phone_number = request.form['phone_number']
+        whatsapp_phone_number = request.form['whatsapp_phone_number']
+        whatsapp_link = f'https://wa.me/{phone_numbers_to_waLink(whatsapp_phone_number)}'
+        deactivate_date = datetime.today() + timedelta(days=14)
+        status = True
+        advertisement = False
+        facility = request.form['radio']
+        post_date = datetime.today()
+        post = Posts(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement, facility)
+        for i in range(len(photo)):
+            photos = Photos(photo[i].read(), post)
+        
+
+    post['whatsapp_link'] = post['whatsapp_link'].split('/')[-1]
+    return render_template('editPost.html', post = post, menu = menu, username=session['userName'], uuurl='myprofile')
+
 @app.route('/content/<post_id>')
 def content(post_id):
     Posts.post_deactivation(today = datetime.today())

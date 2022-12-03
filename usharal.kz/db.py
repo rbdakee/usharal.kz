@@ -123,6 +123,21 @@ class Posts(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def edit_post(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement, facility):
+        post = Posts.query.filter_by(id = id).first()
+        post.user = user
+        post.post_title = post_title
+        post.phone_number = phone_number
+        post.category = category
+        post.cost = cost
+        post.description = description
+        post.post_date = post_date
+        post.deactivate_date = deactivate_date
+        post.whatsapp_link = whatsapp_link
+        post.status = status
+        post.advertisement = advertisement
+        post.facility = facility
+
     def show_all_posts():
         posts = Posts.query.order_by(Posts.post_date).filter_by(status=True).all()
         postss = []
@@ -130,7 +145,29 @@ class Posts(db.Model):
             id = posts[i].id
             title = posts[i].post_title
             phone_number = posts[i].phone_number
-            category = posts[i].category
+            if posts[i].category == 1:
+                category = 'Услуги'
+            elif posts[i].category == 2:
+                category = 'Электроника'
+            elif posts[i].category == 3:
+                category = 'Личные вещи'
+            elif posts[i].category == 4:
+                category = 'Детям'
+            elif posts[i].category == 5:
+                category = 'Для бизнеса'
+            elif posts[i].category == 6:
+                category = 'Животные'
+            elif posts[i].category == 7:
+                category = 'Для дома'
+            elif posts[i].category == 8:
+                category = 'Работа'
+            elif posts[i].category == 9:
+                category = 'Хобби и спорт'
+            elif posts[i].category == 10:
+                category = 'Недвижимость'
+            elif posts[i].category == 11:
+                category = 'Транспорт'
+
             cost = posts[i].cost
             description = posts[i].description
             post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
@@ -188,7 +225,28 @@ class Posts(db.Model):
             id = posts[i].id
             title = posts[i].post_title
             phone_number = posts[i].phone_number
-            category = posts[i].category
+            if posts[i].category == 1:
+                category = 'Услуги'
+            elif posts[i].category == 2:
+                category = 'Электроника'
+            elif posts[i].category == 3:
+                category = 'Личные вещи'
+            elif posts[i].category == 4:
+                category = 'Детям'
+            elif posts[i].category == 5:
+                category = 'Для бизнеса'
+            elif posts[i].category == 6:
+                category = 'Животные'
+            elif posts[i].category == 7:
+                category = 'Для дома'
+            elif posts[i].category == 8:
+                category = 'Работа'
+            elif posts[i].category == 9:
+                category = 'Хобби и спорт'
+            elif posts[i].category == 10:
+                category = 'Недвижимость'
+            elif posts[i].category == 11:
+                category = 'Транспорт'
             cost = posts[i].cost
             description = posts[i].description
             post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
@@ -217,7 +275,28 @@ class Posts(db.Model):
         username = user.username
         title = posts.post_title
         phone_number = posts.phone_number
-        category = posts.category
+        if posts.category == 1:
+                category = 'Услуги'
+        elif posts.category == 2:
+            category = 'Электроника'
+        elif posts.category == 3:
+            category = 'Личные вещи'
+        elif posts.category == 4:
+            category = 'Детям'
+        elif posts.category == 5:
+            category = 'Для бизнеса'
+        elif posts.category == 6:
+            category = 'Животные'
+        elif posts.category == 7:
+            category = 'Для дома'
+        elif posts.category == 8:
+            category = 'Работа'
+        elif posts.category == 9:
+            category = 'Хобби и спорт'
+        elif posts.category == 10:
+            category = 'Недвижимость'
+        elif posts.category == 11:
+            category = 'Транспорт'
         cost = posts.cost
         description = posts.description
         post_date = posts.post_date.strftime("%m/%d/%Y %H:%M")
