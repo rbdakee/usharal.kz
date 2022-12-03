@@ -47,7 +47,7 @@ langAll.forEach((lang, index) => {
             langAll[0].classList.remove('chosen')
         }
         lang.classList.add('chosen')
-        
+
         changeLang()
     })
 });

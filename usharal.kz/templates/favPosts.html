@@ -156,7 +156,16 @@
     <script src="{{ url_for('static', filename = 'js/scroll.js') }}"></script>
    
     <script src="{{ url_for('static', filename = 'js/lang.js') }}"></script>
+
     <script>
+        document.querySelectorAll('span.fa-heart').forEach(each=> {
+        each.addEventListener('click', () => {
+            each.classList.toggle('fa-regular')
+
+            each.classList.toggle('fa')
+    })
+
+    })
         const list = ["ru", "kz"]
     let hash = 'ru'
     const langAll = document.querySelectorAll(".langSpan")
@@ -315,8 +324,12 @@ const outLi = (each, boolValue) => {
         document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {
           ev.preventDefault();
           const text = document.getElementById('text_{{post.id}}');
-          socket.send(text.value);
+          const heart = document.getElementById('spanOfHeart_{{post.id}}');
+            if (heart.classList=='fa-regular'){
+                socket.send(text.value);
+            };
         };
+        
       </script>
       {% endfor %}
 

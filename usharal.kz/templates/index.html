@@ -17,7 +17,12 @@
             <div class="headerChild">
                 
                 <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
+                {% if lang == 'ru' %}
                 <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
+                {% elif lang == 'kz' %}
+                <div class="lang"><span class="langSpan rus">рус </span>|<span class="qaz langSpan chosen"> қаз</span></div>
+                {% endif %}
+                <div id="lang_hidden" hidden>ru</div>
                 <div class="moreItems">
                     <div class="dropdown">
                         <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
@@ -27,7 +32,7 @@
                             <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
                             <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
                             <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
-                          </div>
+                        </div>
                     </div>
                     <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
                     <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
@@ -221,6 +226,16 @@
     <script src="../static/js/vuemin.js"></script>
 
     <script>
+        document.querySelectorAll('span.fa-heart').forEach(each=> {
+        each.addEventListener('click', () => {
+            each.classList.toggle('fa-regular')
+            each.classList.toggle('fa')
+    })
+
+    })
+    </script>
+
+    <script>
         const socket = new WebSocket('ws://' + location.host + '/echo');
     </script>
 
@@ -231,7 +246,11 @@
           const text = document.getElementById('text_{{post.id}}');
           socket.send(text.value);
         };
+        
       </script>
       {% endfor %}
+      <script>
+        
+      </script>
 </body>
 </html>

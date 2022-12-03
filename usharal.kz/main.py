@@ -22,11 +22,11 @@ menu = [{'name': 'Сообщения', 'url': "messages"},
         {'name': 'Мой профиль', 'url': 'myprofile'},
         {'name': 'Выход', 'url': 'logout'},]
 
-@app.route('/', methods=['POST', 'GET'])
-def index():
+@app.route('/<lang>', methods=['POST', 'GET'])
+def index(lang):
     Posts.post_deactivation(today = datetime.today())
     posts = Posts.show_all_posts()
-    session['Lang'] = 'ru'
+    session['Lang'] = lang
     if 'userEmail' in session:
         return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['Lang'])
     else:
@@ -145,8 +145,11 @@ def edit_post(post_id):
 def content(post_id):
     Posts.post_deactivation(today = datetime.today())
     if 'userEmail' in session:
-        related_posts = []
+        
         post = Posts.show_one_post(post_id)
+        category = 8
+        print(category)
+        related_posts = Posts.category_filter(category)
         return render_template('content.html', post = post, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', related_posts = related_posts)
     else:
         post = Posts.show_one_post(post_id)

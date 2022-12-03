@@ -227,16 +227,18 @@
                     </div>
                     <div class="slider">
                         {% for i in related_posts %}
-                        <div class="contentBox">
+                        <div class="contentBox"><a  href="/content/{{i.id}}">
                             <div class="forImgContent">
-                                <img src="img/apartments.svg" alt="">
+                                <!-- <div class="top">VIP</div> -->
+                                <img src="data:;base64, {{ i.photos[0] }}" alt="">
                             </div>
-                            <div class="dataContent"><span class="lng-yDay">Вчера в</span> 21:40  </div>
-                            <div class="titleContent">Какой то апартамент, хороший, очень советую</div>
-                            <div class="costContent">90.000 1 &#8376;</div>
+                            <div class="dataContent" style="text-decoration: none; color:black;">{{i.post_date}} </div>
+                            <div class="titleContent" style="text-decoration: none; color:black; margin-bottom: -20px !important;">{{i.title}}</div>
+                            <div class="categoryContent" style="text-decoration: none; color:black;">{{i.category}}</div>
+                            <div class="costContent">{{i.cost}} </div> </a>
                             <div class="statusContent">
-                                <span class="lng-nego">Договорная</span>
-                                <span class="fa-regular fa-heart" onclick="fill(this)"></span>
+                                <span>{{i.facility}}</span>
+                                <input hidden id="text_{{i.id}}" value="{{i.id}}"><span class="fa-regular fa-heart"  onclick="fill(this)" id="spanOfHeart_{{i.id}}"></span>
                             </div>
                         </div>
                         {% endfor %}
