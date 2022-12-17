@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,106 +11,138 @@
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/font-awesomemin.css') }}">
     <title>{{title}}</title>
 </head>
+
 <body>
-    
+
     <div class="all">
         <header>
             <div class="headerChild">
-                
-                <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
-                {% if lang == 'ru' %}
-                <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
-                {% elif lang == 'kz' %}
-                <div class="lang"><span class="langSpan rus">рус </span>|<span class="qaz langSpan chosen"> қаз</span></div>
+
+
+                <div class="text" title="Вернуться к главной странице"><a
+                        href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
+                        class="text">usharal.kz</a></div>
+                {% if lang == 'rulang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
+                        class="qaz langSpan">
+                        қаз</a>
+                </div>
+                {% elif lang == 'kzlang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus">рус </span>|<a href='kzlang'
+                            class="qaz langSpan chosen"> қаз</a>
+                </div>
                 {% endif %}
-                <div id="lang_hidden" hidden>ru</div>
+                <div id="lang_hidden" hidden>{{lang}}</div>
                 <div class="moreItems">
                     <div class="dropdown">
                         <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
-                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
-                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
-                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a class="lng-message messages" href="{{url_for('messages', lang=session['lang'])}}">
+                                {{menu[0].name}}</a>
+                            <a class="lng-myPosts messages" href="{{url_for('myposts', lang=session['lang'])}}">
+                                {{menu[1].name}}</a>
+                            <a href="{{url_for('payments', lang=session['lang'])}}"
+                                class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{url_for('myprofile', lang=session['lang'])}}"
+                                class="lng-myProfile messages">{{menu[3].name}}</a>
                             <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
                         </div>
                     </div>
-                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
-                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
+                    <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
+                            class=" lng-favourite-second "><i class=" fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a class="lng-message-second"
+                            href="{{url_for('messages', lang=session['lang'])}}"><i class="fa-regular fa-comment"></i>
+                            Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
+                    <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
+                            объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
+                    <a style='text-decoration:none' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                 </div>
             </div>
         </header>
-        
+
         <section class="mainSection active">
             <div class="mask"></div>
             <div class="sectionChild">
                 <div class="searchAndCateg">
                     <div class="searchArea">
                         <div onclick="myFunction(this.className)" class="wholeList">
-                            <button  class="wholeList-btn">Все категории <i class="fas arrow fa-angle-down"></i></button>
+                            <button class=" wholeList-btn" >{{category}} <i
+                                    class="fas arrow fa-angle-down"></i></button>
                             <div id="myDropdown" class="wholeList-content">
-                              <a href="">Все категории</a> 
+                                <a href="" class="">Все категории</a>
                             </div>
-                          </div>
-                          <div class="inputArea">
-                            <input type="text" placeholder="Найти объявление..." name="" id="">
-                          </div>
-                          <div class="searchBtn">
+                        </div>
+                        <div class="inputArea">
+                            <input type="text" class='lng-searchPlaceHolder' placeholder="Найти объявление..." name=""
+                                id="">
+                        </div>
+                        <div class="searchBtn">
                             <button class="fas fa-search"></button>
-                          </div>
+                        </div>
                     </div>
                     <div class="allCategories">
                         <div class="allCategoriesChild">
-                            <div class="category">
+                            <form action="/{{lang}}" method="post" class="category"><button>
                                 <img class="categoryImage" src="../static/img/services.svg" alt="">
                                 <span class="textForImg lng-service">Услуги</span>
-                            </div>
-                            <div class="category">
+                                <input hidden value="Услуги" name="category">
+                            </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button >
                                 <img class="categoryImage" src="../static/img/gadgets.svg" alt="">
                                 <span class="textForImg lng-gadgets">Электроника</span>
-                            </div>
-                            <div class="category">
+                                <input hidden value="Электроника" name="category">
+                            </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button >
                                 <img class="categoryImage" src="../static/img/personalItems.svg" alt="">
                                 <span class="textForImg lng-personalItems">Личные вещи</span>
-                            </div>
-                            <div class="category">
+                                <input hidden value="Личные вещи" name="category">
+                            </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button >
                                 <img class="categoryImage" src="../static/img/child.svg" alt="">
                                 <span class="textForImg lng-child">Детям</span>
-                            </div>
-                            <div class="category">
+                                <input hidden value="Детям" name="category">
+                            </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button >
                                 <img class="categoryImage" src="../static/img/business.svg" alt="">
                                 <span class="textForImg lng-business">Для Бизнеса</span>
-                            </div>
-                            <div class="category">
+                                <input hidden value="Для Бизнеса" name="category">
+                            </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button >
                                 <img class="categoryImage" src="../static/img/animals.svg" alt="">
                                 <span class="textForImg lng-animals">Животные</span>
-                            </div>
-                            <div class="category">
+                                <input hidden value="Животные" name="category">
+                            </button ></form>
+                            <form action="/{{lang}}" method="post" class="category"><button >
                                 <img class="categoryImage" src="../static/img/garden.svg" alt="">
                                 <span class="textForImg lng-house">Для дома</span>
-                            </div>
-                            <div class="category">
+                                <input hidden value="Для дома" name="category">
+                            </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button >
                                 <img class="categoryImage" src="../static/img/job.svg" alt="">
                                 <span class="textForImg lng-job">Работа</span>
-                            </div>
-                            <div class="category">
+                                <input hidden value="Работа" name="category">
+                            </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button >
                                 <img class="categoryImage" src="../static/img/hobby.svg" alt="">
                                 <span class="textForImg lng-hobby">Хобби и спорт</span>
-                            </div>
-                            <div class="category">
+                                <input hidden value="Хобби и спорт" name="category">
+                            </button></form>
+                            <form action="/{{lang}}" method="post"class="category"><button >
                                 <img class="categoryImage" src="../static/img/apartments.svg" alt="">
                                 <span class="textForImg lng-apartments">Недвижимость</span>
-                            </div>
-                            <div class="category">
+                                <input hidden value="Недвижимость" name="category">
+                            </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button type="submit" >
                                 <img class="categoryImage" src="../static/img/transport.svg" alt="">
                                 <span class="textForImg lng-transport">Транспорт</span>
-                            </div>
+                                <input hidden value="Транспорт" name="category">
+                            </button></form>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -122,36 +155,52 @@
                             <div class="mainAllAdverWithButtonLine">
                                 <div class="adverLine">
                                     {% for post in posts %}
-                                    <div class="contentBox"><a  href="/content/{{post.id}}">
-                                        <div class="forImgContent">
-                                            <!-- <div class="top">VIP</div> -->
-                                            <img src="data:;base64, {{ post.photos[0] }}" alt="">
-                                        </div>
-                                        <div class="dataContent" style="text-decoration: none; color:black;">{{post.post_date}} </div>
-                                        <div class="titleContent" style="text-decoration: none; color:black; margin-bottom: -20px !important;">{{post.title}}</div>
-                                        <div class="categoryContent" style="text-decoration: none; color:black;">{{post.category}}</div>
-                                        <div class="costContent">{{post.cost}} </div> </a>
+                                    <div class="contentBox"><a
+                                            href="{{url_for('content', post_id = post.id, lang = session['lang'])}}">
+                                            <div class="forImgContent">
+                                                <!-- <div class="top">VIP</div> -->
+                                                <img src="data:;base64, {{ post.photos[0] }}" alt="">
+                                            </div>
+                                            <div class="dataContent" style="text-decoration: none; color:black;">
+                                                {{post.post_date}} </div>
+                                            <div class="titleContent"
+                                                style="text-decoration: none; color:black; margin-bottom: -20px !important;">
+                                                {{post.title}}</div>
+                                            <div class="shortInfo">
+                                                <!-- <b><span>{{post.description}}</span></b> -->
+                                            </div>
+
+                                            <div class="categoryContent" style="text-decoration: none; color:black;">
+                                                {{post.category}}</div>
+                                            <div class="costContent">{{post.cost}} </div>
+                                        </a>
                                         <div class="statusContent">
                                             <span>{{post.facility}}</span>
-                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa-regular fa-heart"  onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
+                                            {% if post.id in favourites %}
+                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa fa-heart" onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
+                                            {% else %}
+                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa-regular fa-heart" onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
+                                            {% endif %}
                                         </div>
                                     </div>
-                                    
+                          
                                     {% endfor %}
-                                                                        
-                                </div>
-                                <div class="buttonLine">
-                                    <button сlass = "showMore lng-more">Показать ещё <i class="fa-solid arrow fa-angle-down"></i></button>
 
                                 </div>
-                                
+                                <div class="buttonLine">
+                                    <button сlass="showMore lng-yDay">Показать ещё <i
+                                            class="fa-solid arrow fa-angle-down"></i></button>
+
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <footer>
             <div class="footerChild">
                 <div class="first">
@@ -189,7 +238,7 @@
                 <li>Мангистауская область</li>
                 <li>Павлодарская область</li>
                 <li>Северо-Казахстанская область</li>
-                <li>Туркестанская  область</li>
+                <li>Туркестанская область</li>
                 <li>Нур-Султан</li>
                 <li>Алматы</li>
                 <li>Шымкент</li>
@@ -219,38 +268,49 @@
     <script src="../static/js/lang.js"></script>
     <!-- <script src="js/counter.js"></script> -->
     <style>
-        *:not(.fa-regular, i, .fa-solid, .fa-search, .fa-arrow-up, .fa-heart){
+        *:not(.fa-regular, i, .fa-solid, .fa-search, .fa-arrow-up, .fa-heart) {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
         }
     </style>
     <script src="../static/js/vuemin.js"></script>
 
     <script>
-        document.querySelectorAll('span.fa-heart').forEach(each=> {
-        each.addEventListener('click', () => {
-            each.classList.toggle('fa-regular')
-            each.classList.toggle('fa')
-    })
+        document.querySelectorAll('span.fa-heart').forEach(each => {
+            each.addEventListener('click', () => {
+                each.classList.toggle('fa-regular')
+                each.classList.toggle('fa')
+            })
 
-    })
+        })
     </script>
 
     <script>
-        const socket = new WebSocket('ws://' + location.host + '/echo');
+        const socket = new WebSocket('ws://' + location.host + '/favPost');
     </script>
 
     {% for post in posts %}
     <script>
         document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {
-          ev.preventDefault();
-          const text = document.getElementById('text_{{post.id}}');
-          socket.send(text.value);
+            ev.preventDefault();
+            const text = document.getElementById('text_{{post.id}}');
+            heart = document.getElementById('spanOfHeart_{{post.id}}');
+            var data = [text.value, heart.classList];
+            socket.send(data);
         };
-        
-      </script>
-      {% endfor %}
-      <script>
-        
-      </script>
+    </script>
+    {% endfor %}
+    <script>
+        const sock = new WebSocket('ws://' + location.host + '/category');
+        document.querySelectorAll('.category').forEach(each => {
+        each.addEventListener('click', () => {
+        var text = each.children[1].innerHTML
+        sock.send(text)
+    })
+}
+    )
+    </script>
+    
+
 </body>
+
 </html>

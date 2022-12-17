@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,47 +12,70 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>{{title}}</title>
 </head>
+
 <body>
     <div class="all">
         <header>
             <div class="headerChild">
-                <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
-                <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
+
+                <div class="text" title="Вернуться к главной странице"><a
+                        href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
+                        class="text">usharal.kz</a></div>
+                {% if lang == 'rulang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
+                        class="qaz langSpan">
+                        қаз</a>
+                </div>
+                {% elif lang == 'kzlang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus">рус </span>|<a href='kzlang'
+                            class="qaz langSpan chosen"> қаз</a>
+                </div>
+                {% endif %}
+                <div id="lang_hidden" hidden>{{lang}}</div>
                 <div class="moreItems">
                     <div class="dropdown">
                         <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
-                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
-                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
-                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a class="lng-message messages" href="{{url_for('messages', lang=session['lang'])}}">
+                                {{menu[0].name}}</a>
+                            <a class="lng-myPosts messages" href="{{url_for('myposts', lang=session['lang'])}}">
+                                {{menu[1].name}}</a>
+                            <a href="{{url_for('payments', lang=session['lang'])}}"
+                                class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{url_for('myprofile', lang=session['lang'])}}"
+                                class="lng-myProfile messages">{{menu[3].name}}</a>
                             <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
-                          </div>
+                        </div>
                     </div>
-                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
-                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
+                    <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
+                            class=" lng-favourite-second "><i class=" fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a class="lng-message-second"
+                            href="{{url_for('messages', lang=session['lang'])}}"><i class="fa-regular fa-comment"></i>
+                            Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
+                    <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
+                            объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
+                    <a style='text-decoration:none' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                 </div>
             </div>
         </header>
-        
+
         <div class="mask"></div>
         <section class="error_page_section">
-            <img src="../static/img/img_359860.png"  alt="" srcset="">
+            <img src="../static/img/img_359860.png" alt="" srcset="">
             <div class="lng-problem">Произошла некая ошибка</div>
-            <a href="/">Вернуться на главную</a>
+            <a href="/{{lang}}">Вернуться на главную</a>
         </section>
     </div>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/index.js"></script>
     <script src="js/lang.js"></script>
     <style>
-        *{
+        * {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
@@ -60,4 +84,5 @@
     <script src="../static/js/icons.js" crossorigin="anonymous"></script>
     </div>
 </body>
+
 </html>

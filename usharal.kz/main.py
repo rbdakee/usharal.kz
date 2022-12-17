@@ -15,69 +15,151 @@ app.config["SECRET_KEY"] = 'jp0?ad[1-=-0-`94mpgf-pjmwr3;2owdakdnw'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
 menu = [{'name': 'Сообщения', 'url': "messages"},
         {'name': 'Мои объявления', 'url': 'mypost'},
         {'name': 'Платежи и счет', 'url': 'payments'},
         {'name': 'Мой профиль', 'url': 'myprofile'},
         {'name': 'Выход', 'url': 'logout'},]
-
+arrLang = []
+arrLang2 = []
+category = 0
+@app.route('/', methods=['POST', 'GET'])
 @app.route('/<lang>', methods=['POST', 'GET'])
-def index(lang):
+def index(lang='rulang'):
+    if lang != 'rulang' and lang != 'kzlang':
+        lang = 'rulang'
+        return redirect(url_for('index', lang = 'rulang'))
+    arrLang.append(lang)
+    arrLang2 = [i for i in arrLang if i != 'favicon.ico']
     Posts.post_deactivation(today = datetime.today())
-    posts = Posts.show_all_posts()
-    session['Lang'] = lang
-    if 'userEmail' in session:
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['Lang'])
-    else:
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['Lang'])
+    
+    session['lang'] = arrLang2[-1]
+    arrLang.clear()
+    arrLang2.clear()
+    if request.method == 'POST':
+        data = request.form.get('category')
+        if data == 'Услуги':
+            category = 1
+        elif data == 'Электроника':
+            category = 2
+        elif data == 'Личные вещи':
+            category = 3
+        elif data == 'Детям':
+            category = 4
+        elif data == 'Для Бизнеса':
+            category = 5
+        elif data == 'Животные':
+            category = 6
+        elif data == 'Для дома':
+            category = 7
+        elif data == 'Работа':
+            category = 8
+        elif data == 'Хобби и спорт':
+            category = 9
+        elif data == 'Недвижимость':
+            category = 10
+        elif data == 'Транспорт':
+            category = 11
+        posts = Posts.category_filter(category)
+        print(category)
+        if 'userEmail' in session:
+            favPost = favPosts.give_favPostId_of_user(session['userEmail'])
+            return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = data)
 
-@sock.route('/echo')
+        else:
+            return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = data)
+    if 'userEmail' in session:
+        posts = Posts.show_all_posts()
+        favPost = favPosts.give_favPostId_of_user(session['userEmail'])
+        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = 'Все категории')
+
+    else:
+        return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = 'Все категории')
+    
+
+@sock.route('/favPost')
 def echo(sock):
     while True:
         data = sock.receive()
         userEmail = session['userEmail']
-        favPost = favPosts.add_favPost(userEmail, data)
+        data = data.split(',')
+        print(data)
+        classes = data[1].split()
+        if 'fa-regular' in classes:
+            favPost = favPosts.add_favPost(userEmail, data[0])
+        elif 'fa' in classes:
+            favPost = favPosts.delete_favPost(userEmail, data[0])
         sock.send(data)
-
-@sock.route('/delet')
-def delet(sock):
+@sock.route('/category')
+def search_category(sock):
     while True:
-        data = sock.receive()
-        userEmail = session['userEmail']
-        favPost = favPosts.delete_favPost(userEmail, data)
-        sock.send(data)
+        data = sock.receive().strip()   
+        if data == 'Услуги':
+            category = 1
+        elif data == 'Электроника':
+            category = 2
+        elif data == 'Личные вещи':
+            category = 3
+        elif data == 'Детям':
+            category = 4
+        elif data == 'Для Бизнеса':
+            category = 5
+        elif data == 'Животные':
+            category = 6
+        elif data == 'Для дома':
+            category = 7
+        elif data == 'Работа':
+            category = 8
+        elif data == 'Хобби и спорт':
+            category = 9
+        elif data == 'Недвижимость':
+            category = 10
+        elif data == 'Транспорт':
+            category = 11
+        sock.send(category)
 
-@app.route('/messages')
-def messages():
+
+        
+
+
+@app.route('/messages/<lang>')
+def messages(lang):
     if 'userEmail' in session:
-        return render_template('messageSection.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
+        if lang != 'rulang' and lang != 'kzlang':
+            lang = 'rulang'
+            return redirect(url_for('messages', lang = 'rulang'))
+        session['lang'] = lang
+        return render_template('messageSection.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'])
     else:
         return redirect(url_for('login'))
 
-@app.route('/myprofile', methods=['POST', 'GET'])
-def myprofile():
+@app.route('/myprofile/<lang>', methods=['POST', 'GET'])
+def myprofile(lang='rulang'):
     if 'userEmail' in session:
         if request.method == 'POST':
             username = request.form['username']
-            if username != '':
-                session['userName'] = username
+            session['userName'] = username
             logo = request.files['logo'].read()
             phone_number = request.form['phone_number']
             password = request.form['password']
+            # prevpass = request.form['userPrevPassword']
             Users.edit_user_information(session['userEmail'], logo, phone_number, password, username)
-        
+        session['lang'] = lang
         user_information = Users.show_user_information(session['userEmail'])
-        return render_template('myProfile.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', user = user_information)
+        return render_template('myProfile.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', user = user_information, lang=session['lang'])
     else:
         return redirect(url_for('login'))
 
-@app.route('/mypost')
-def myposts():
+@app.route('/mypost/<lang>')
+def myposts(lang):
     Posts.post_deactivation(today = datetime.today())
     if 'userEmail' in session:
+        session['lang'] = lang
+        if lang != 'rulang' and lang != 'kzlang':
+            lang = 'rulang'
+            return redirect(url_for('myposts', lang = 'rulang'))
         posts = Posts.show_posts_of_user(session['userEmail'])
-        return render_template('myPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts)
+        return render_template('myPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'])
     else:  
         return redirect(url_for('login'))
 
@@ -88,9 +170,13 @@ def phone_numbers_to_waLink(number):
             res+=i
     return res
 
-@app.route('/newpost', methods=['POST', 'GET'])
-def newpost():
+@app.route('/newpost/<lang>', methods=['POST', 'GET'])
+def newpost(lang):
     if 'userName' in session:
+        if lang != 'rulang' and lang != 'kzlang':
+            lang = 'rulang'
+            return redirect(url_for('newpost', lang = 'rulang'))
+        session['lang'] = lang
         if request.method == 'POST':  
             user = Users.return_user_to_db(session['userEmail'])
             post_title=request.form['post_title']
@@ -109,7 +195,8 @@ def newpost():
             post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement, facility)
             for i in range(len(photo)):
                 photos = Photos(photo[i].read(), post)
-        return render_template('newPost.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
+            
+        return render_template('newPost.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'])
     else:
         return redirect(url_for('login'))
 
@@ -141,19 +228,47 @@ def edit_post(post_id):
     post['whatsapp_link'] = post['whatsapp_link'].split('/')[-1]
     return render_template('editPost.html', post = post, menu = menu, username=session['userName'], uuurl='myprofile')
 
-@app.route('/content/<post_id>')
-def content(post_id):
+@app.route('/content/<post_id>/<lang>')
+def content(post_id, lang):
     Posts.post_deactivation(today = datetime.today())
+    if lang != 'rulang' and lang != 'kzlang':
+        lang = 'rulang'
+        return redirect(url_for('content', lang = 'rulang'))
+    session['lang'] = lang
     if 'userEmail' in session:
         
         post = Posts.show_one_post(post_id)
-        category = 8
-        print(category)
+        data = post['category']
+        if data == 'Услуги':
+            category = 1
+        elif data == 'Электроника':
+            category = 2
+        elif data == 'Личные вещи':
+            category = 3
+        elif data == 'Детям':
+            category = 4
+        elif data == 'Для Бизнеса':
+            category = 5
+        elif data == 'Животные':
+            category = 6
+        elif data == 'Для дома':
+            category = 7
+        elif data == 'Работа':
+            category = 8
+        elif data == 'Хобби и спорт':
+            category = 9
+        elif data == 'Недвижимость':
+            category = 10
+        elif data == 'Транспорт':
+            category = 11
+        
+        user_logo = Users.return_user_logo(post['user_id'])
         related_posts = Posts.category_filter(category)
-        return render_template('content.html', post = post, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', related_posts = related_posts)
+        len_of_rel_posts = len(related_posts)
+        return render_template('content.html', post = post, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', related_posts = related_posts, lang = session['lang'], user_logo = user_logo, len_of_rel_posts = len_of_rel_posts)
     else:
         post = Posts.show_one_post(post_id)
-        return render_template('content.html', post = post, menu=menu, username = 'Log In')
+        return render_template('content.html', post = post, menu=menu, username = 'Log In', lang = session['lang'])
 
 @app.route('/post_activation/<post_id>')
 def activation(post_id):
@@ -161,11 +276,15 @@ def activation(post_id):
     Posts.post_activation(post_id)
     return redirect(url_for('myposts'))
 
-@app.route('/post_deactivation/<post_id>')
-def deactivation(post_id):
+@app.route('/post_deactivation/<post_id>/<lang>')
+def deactivation(post_id, lang):
+    if lang != 'rulang' and lang != 'kzlang':
+        lang = 'rulang'
+        return redirect(url_for('myposts', lang = 'rulang'))
+    session['lang'] = lang
     post_id = int(post_id)
     Posts.post_deactivation_by_user(post_id)
-    return redirect(url_for('myposts'))
+    return redirect(url_for('myposts', lang = session['lang']))
 
 @app.route('/vippurchase/<post_id>')
 def vippurchase(post_id):
@@ -173,21 +292,30 @@ def vippurchase(post_id):
     Posts.post_to_vip(post_id)
     return redirect(url_for('index'))
 
-@app.route('/payments')
-def payments():
+@app.route('/payments/<lang>')
+def payments(lang):
     if 'userEmail' in session:
-        return render_template('payment.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile')
+        if lang != 'rulang' and lang != 'kzlang':
+            lang = 'rulang'
+            return redirect(url_for('payments', lang = 'rulang'))
+        session['lang'] = lang
+        return render_template('payment.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'])
     else:
         return redirect(url_for('login'))
 
-@app.route('/favorites', methods = ['POST', 'GET'])
-def favorites():
+@app.route('/favorites/<lang>', methods = ['POST', 'GET'])
+def favorites(lang):
     Posts.post_deactivation(today = datetime.today())
     if 'userEmail' in session:
+        if lang != 'rulang' and lang != 'kzlang':
+            lang = 'rulang'
+            return redirect(url_for('', lang = 'rulang'))
+        session['lang'] = lang
         posts = favPosts.show_favPosts(session['userEmail'])
-        return render_template('favPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts)
+        return render_template('favPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'])
     else:
-        return redirect(url_for('login'))  
+        return redirect(url_for('login'))
+        
 
    
 
@@ -201,7 +329,7 @@ def login():
             elif type(user)==list:
                 session['userName']=user[0]
                 session['userEmail']=user[1]
-                return redirect(url_for('index'))
+                return redirect(url_for('index', lang = session['lang']))
         elif 'newemail' in request.form:
             user = registration(username=request.form['newuname'], email=request.form['newemail'], password=request.form['newpsw'])
             flash(user)
@@ -212,7 +340,7 @@ def logout():
     Posts.post_deactivation(today = datetime.today())
     session.pop('userEmail', None)
     session.pop('userName', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('index', lang = session['lang'] ))
 
 @app.route('/forgot', methods=['POST','GET'])
 def xlogin():
@@ -242,7 +370,11 @@ def update_password():
 
 @app.errorhandler(404)
 def error_page(error):
-    return render_template('error_page.html', menu = menu)
+   
+    return render_template('error_page.html', menu = menu, lang=session['lang'])
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000, host='0.0.0.0')

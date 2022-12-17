@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,108 +10,130 @@
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/myPosts.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/scroll.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    
+
 </head>
+
 <body>
+    <div class="all">
         <header>
             <div class="headerChild">
-                <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
-                <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
+
+                <div class="text" title="Вернуться к главной странице"><a
+                        href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
+                        class="text">usharal.kz</a></div>
+                {% if lang == 'rulang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
+                        class="qaz langSpan">
+                        қаз</a>
+                </div>
+                {% elif lang == 'kzlang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus">рус </span>|<a href='kzlang'
+                            class="qaz langSpan chosen"> қаз</a>
+                </div>
+                {% endif %}
+                <div id="lang_hidden" hidden>{{lang}}</div>
                 <div class="moreItems">
                     <div class="dropdown">
                         <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
-                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
-                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
-                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a class="lng-message messages" href="{{url_for('messages', lang=session['lang'])}}">
+                                {{menu[0].name}}</a>
+                            <a class="lng-myPosts messages" href="{{url_for('myposts', lang=session['lang'])}}">
+                                {{menu[1].name}}</a>
+                            <a href="{{url_for('payments', lang=session['lang'])}}"
+                                class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{url_for('myprofile', lang=session['lang'])}}"
+                                class="lng-myProfile messages">{{menu[3].name}}</a>
                             <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
-                          </div>
+                        </div>
                     </div>
-                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
-                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
+                    <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
+                            class=" lng-favourite-second "><i class=" fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a class="lng-message-second"
+                            href="{{url_for('messages', lang=session['lang'])}}"><i class="fa-regular fa-comment"></i>
+                            Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
+                    <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
+                            объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
+                    <a style='text-decoration:none' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                 </div>
             </div>
         </header>
-    <section class="favouriteSection">
-        <div class="mask"></div>
-        <div class="favouriteSectionChild">
-            <div class="header">
-                <div class="favouriteText">
-                    Избранные объявления
+        <section class="favouriteSection">
+            <div class="mask"></div>
+            <div class="favouriteSectionChild">
+                <div class="header">
+                    <div class="favouriteText">
+                        Избранные объявления
+                    </div>
+                    <div class="searchPart">
+                        <input type="text" placeholder="Поиск по заголовку">
+                        <div class="searchControl">
+
+                            <div onclick="favFunction(this.className)" class="wholeList">
+                                <button class="wholeList-btn">Все категории <i
+                                        class="fas arrow fa-angle-down"></i></button>
+                                <div id="myDropdown" class="wholeList-content">
+                                    <a href="">Все категории</a>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
-                <div class="searchPart">
-                    <input type="text" placeholder="Поиск по заголовку">
-                    <div class="searchControl">
-                          
-                        <div onclick="favFunction(this.className)"class="wholeList">
-                            <button  class="wholeList-btn">Все категории <i class="fas arrow fa-angle-down"></i></button>
-                            <div id="myDropdown" class="wholeList-content">
-                              <a href="#">Все категории</a> 
+                <div class="mainPartWithButton">
+                    <div class="mainPart line">
+                        {% for post in posts %}
+                        <div class="contentBox"><a href="/content/{{post.id}}">
+                                <div class="forImgContent">
+                                    <!-- <div class="top">VIP</div> -->
+                                    <img src="data:;base64, {{ post.photos[0] }}" alt="">
+                                </div>
+                                <div class="dataContent" style="text-decoration: none; color:black;">{{post.post_date}}
+                                </div>
+                                <div class="titleContent" style="text-decoration: none; color:black;">{{post.title}}
+                                </div>
+                                <div class="costContent">{{post.cost}} </div>
+                            </a>
+                            <div class="statusContent">
+                                <span>{{post.facility}}</span>
+                                <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa fa-heart"
+                                    onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
                             </div>
-                          </div>
-                          
-                        <div onclick="myFunction(this.classList[1])"class="wholeList two">
-                            <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
-                            <div id="myDropdown" class="wholeList-content">
-                              <a href="#" onclick="insert(this)">По возростанию <i class="fa-solid arrow fa-angle-up"></i> </a> 
-                              <a href="#" onclick="insert(this)">По убыванию <i class="fa-solid arrow fa-angle-down"></i> </a> 
-                              <a href="#" onclick="insert(this)">По Умолчанию  </a> 
-                            </div>
-                          </div>
-                       
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+                    <div class="zoneForButton">
+                        <button class="showMoreFav">Показать еще <i class="fa-solid arrow fa-angle-down"></i></button>
                     </div>
                 </div>
             </div>
-            <div class="mainPartWithButton">
-                <div class="mainPart line">
-                    {% for post in posts %}
-                                    <div class="contentBox"><a  href="/content/{{post.id}}">
-                                        <div class="forImgContent">
-                                            <!-- <div class="top">VIP</div> -->
-                                            <img src="data:;base64, {{ post.photos[0] }}" alt="">
-                                        </div>
-                                        <div class="dataContent" style="text-decoration: none; color:black;">{{post.post_date}} </div>
-                                        <div class="titleContent" style="text-decoration: none; color:black;">{{post.title}}</div>
-                                        <div class="costContent">{{post.cost}} </div> </a>
-                                        <div class="statusContent">
-                                            <span>{{post.facility}}</span>
-                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa fa-heart" onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
-                                        </div>
-                                    </div>
-                                    
-                                    {% endfor %}
-                    
+        </section>
+        <footer>
+            <div class="footerChild">
+                <div class="first">
+                    <div class="text">usharal.kz<i class="fa-thin fa-calendar-circle-minus"></i></div>
+                    <div>@ 2022 usharal.kz - все права защищены</div>
+                    <div class="map">Карта сайта</div>
                 </div>
-                <div class="zoneForButton">
-                    <button class="showMoreFav">Показать еще <i class="fa-solid arrow fa-angle-down"></i></button>
+                <div class="second">
+                    <div class="text">Контакты</div>
+                    <a href="" class="secondA">usharal_kz@gmail.com</a>
+                    <a href="" class="secondA">+7(705) 332 2343</a>
+                </div>
+                <div class="third">
+                    <button class="up fa fa-arrow-up"></button>
                 </div>
             </div>
-        </div>
-    </section>
-    <footer>
-        <div class="footerChild">
-            <div class="first">
-                <div class="text">usharal.kz<i class="fa-thin fa-calendar-circle-minus"></i></div>
-                <div>@ 2022 usharal.kz - все права защищены</div>
-                <div class="map">Карта сайта</div>
-            </div>
-            <div class="second">
-                <div class="text">Контакты</div>
-                <a href="" class="secondA">usharal_kz@gmail.com</a>
-                <a href="" class="secondA">+7(705) 332 2343</a>
-            </div>
-            <div class="third">
-                <button class="up fa fa-arrow-up"></button>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
     <div class="shadow">
         <div class="cityList">
             <div class="inputModal">
@@ -130,12 +153,13 @@
                 <li>Мангистауская область</li>
                 <li>Павлодарская область</li>
                 <li>Северо-Казахстанская область</li>
-                <li>Туркестанская  область</li>
+                <li>Туркестанская область</li>
                 <li>Нур-Султан</li>
                 <li>Алматы</li>
                 <li>Шымкент</li>
             </ul>
             <ul class="ul">
+                <li>Все категории</li>
                 <li>Услуги</li>
                 <li>Электроника</li>
                 <li>Личные вещи</li>
@@ -154,158 +178,138 @@
     <script src="../static/js/vuemin.js"></script>
     <script src="../static/js/icons.js" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename = 'js/scroll.js') }}"></script>
-   
+
     <script src="{{ url_for('static', filename = 'js/lang.js') }}"></script>
 
     <script>
-        document.querySelectorAll('span.fa-heart').forEach(each=> {
-        each.addEventListener('click', () => {
-            each.classList.toggle('fa-regular')
+        document.querySelectorAll('span.fa-heart').forEach(each => {
+            each.addEventListener('click', () => {
+                each.classList.toggle('fa-regular')
 
-            each.classList.toggle('fa')
-    })
-
-    })
-        const list = ["ru", "kz"]
-    let hash = 'ru'
-    const langAll = document.querySelectorAll(".langSpan")
-    langAll.forEach((lang, index) => {
-        lang.addEventListener('click', () => {
-            
-            if(index == 0){
-                langAll[1].classList.remove('chosen')
-                hash = 'ru'
-            }
-            else{
-                hash = 'kz'
-                langAll[0].classList.remove('chosen')
-            }
-            lang.classList.add('chosen')
-            
-            changeLang()
-        })
-    });
-    const changeLang = () => {
-       
-        for (let key in langArr) {
-            // console.log(key);
-            let elemAll = document.querySelectorAll('.lng-' + key);
-            elemAll.forEach(elem => {
-                if (elem) {
-                    if(elem.tagName == 'INPUT'){
-                        elem.setAttribute("placeholder", langArr[key][hash])
-                    }
-                    else
-                    {
-                        elem.innerHTML = langArr[key][hash];
-                    }
-                }
+                each.classList.toggle('fa')
             })
-    
-        }
-    }
-    
-        $(".up").click(function(){
-    window.scrollTo(0, 0)
-})
+
+        })
+        const list = ["ru", "kz"]
+        let hash = 'ru'
+        const langAll = document.querySelectorAll(".langSpan")
+
+        $(".up").click(function () {
+            window.scrollTo(0, 0)
+        })
         const toggleId = (idClass) => {
-    var dropdowns = document.getElementsByClassName(idClass);
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
+            var dropdowns = document.getElementsByClassName(idClass);
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
         }
-      }
-  }
-  function myFunction(div) {
-    
-        //document.querySelector(`.show`).classList.remove("show");
-        document.querySelector(`.${div} #myDropdown`).classList.toggle("show");
-        
-    }
-    function insert(randA){
-        document.querySelector('.sort').innerHTML = randA.innerHTML
-    }
-  var listClassOb = {
-    'wholeList-btn':'wholeList-content',
-    'location-btn':'location-content'
-  }
-        function favFunction(arg){
+        function myFunction(div) {
+
+            //document.querySelector(`.show`).classList.remove("show");
+            document.querySelector(`.${div} #myDropdown`).classList.toggle("show");
+
+        }
+        function insert(randA) {
+            document.querySelector('.sort').innerHTML = randA.innerHTML
+        }
+        var listClassOb = {
+            'wholeList-btn': 'wholeList-content',
+            'location-btn': 'location-content'
+        }
+        function favFunction(arg) {
             $('.shadow').css('display', 'flex')
             // $('section').css('position', 'fixed')
             document.querySelectorAll('.ul')[0].style.display = 'none'
             document.querySelectorAll('.ul')[1].style.display = 'unset'
-            window.onclick = function(event) {
-    if(event.target.matches('.shadow')){
-        if (!event.target.matches('.location-btn')) {
-            toggleId(listClassOb['location-btn'])
-            $('.shadow').css('display', 'none')
-            // $('section').css('position', 'sticky')
-          
-          console.log();
-          }
-          if (!event.target.matches('.wholeList-btn')) {
-            toggleId(listClassOb['wholeList-btn'])
-          }
-          
-    }
-  }
-  var liList  =document.querySelectorAll('.ul li')
-liList.forEach(each =>{
-    each.addEventListener('click', () => {
-        outLi(each,true)
-    }) 
-    each.addEventListener('mouseover', () => {
-        outLi(each, false)
-    }) 
-       
-})
-const outLi = (each, boolValue) => {
-    if(boolValue){
-        $('.shadow').css('display', 'none')
-        var text = each.innerHTML
-        document.querySelector('.wholeList-btn').innerHTML = text + '<i class="fas arrow fa-angle-down"></i>'
-        // $('section').css('position', 'sticky')
-    }
-    else{
-        var text = each.innerHTML
-        document.querySelector('.inputModal input').value = text
-    }
-    
-        
-        
-}
+            window.onclick = function (event) {
+                if (event.target.matches('.shadow')) {
+                    if (!event.target.matches('.location-btn')) {
+                        toggleId(listClassOb['location-btn'])
+                        $('.shadow').css('display', 'none')
+                        // $('section').css('position', 'sticky')
+
+                        console.log();
+                    }
+                    if (!event.target.matches('.wholeList-btn')) {
+                        toggleId(listClassOb['wholeList-btn'])
+                    }
+
+                }
+            }
+            var liList = document.querySelectorAll('.ul li')
+            liList.forEach(each => {
+                each.addEventListener('click', () => {
+                    outLi(each, true)
+                })
+                each.addEventListener('mouseover', () => {
+                    outLi(each, false)
+                })
+
+            })
+            const outLi = (each, boolValue) => {
+                if (boolValue) {
+                    $('.shadow').css('display', 'none')
+                    var text = each.innerHTML
+                    document.querySelector('.wholeList-btn').innerHTML = text + '<i class="fas arrow fa-angle-down"></i>'
+                    // $('section').css('position', 'sticky')
+                }
+                else {
+                    var text = each.innerHTML
+                    document.querySelector('.inputModal input').value = text
+                }
+
+
+
+            }
 
         }
         window.onload = () => {
-    let inputSearch = document.querySelector('.inputModal input')
-    
-    inputSearch.oninput = function(){
-        let value = this.value.trim().toLowerCase()
-        let list = document.querySelectorAll('.ul li')
-        console.log(list);
-        value
-            ?list.forEach(elem => {
-                elem.innerText.toLowerCase().search(value) == -1
-                    ?elem.classList.add('hide')
-                    :
-                        elem.classList.remove('hide');
-                
-            })
-            : list.forEach(elem => {
-                elem.classList.remove('hide')
-            })
+            let inputSearch = document.querySelector('.inputModal input')
+
+            inputSearch.oninput = function () {
+                let value = this.value.trim().toLowerCase()
+                let list = document.querySelectorAll('.ul li')
+                console.log(list);
+                value
+                    ? list.forEach(elem => {
+                        elem.innerText.toLowerCase().search(value) == -1
+                            ? elem.classList.add('hide')
+                            :
+                            elem.classList.remove('hide');
+
+                    })
+                    : list.forEach(elem => {
+                        elem.classList.remove('hide')
+                    })
 
 
-    }
-    
-    
-}
+            }
+            let inputField = document.querySelector('.favouriteSectionChild .searchPart input')
+            inputField.oninput = function () {
+                let value = this.value.trim().toLowerCase()
+                console.log(value)
+                let list = document.querySelectorAll(`.titleContent`)
+                list.forEach(elem => {
+                    if (elem.innerText.toLowerCase().search(value) == -1) {
+                        elem.parentNode.parentNode.classList.add('hide');
+                    }
+                    else {
+                        elem.parentNode.parentNode.classList.remove('hide');
+
+                    }
+                })
+            }
+
+
+        }
     </script>
     <!-- <script src="js/counter.js"></script> -->
     <style>
-        *:not(.fa-regular, i, .fa-solid, .fa, .arrow){
+        *:not(.fa-regular, i, .fa-solid, .fa, .arrow) {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
         }
     </style>
@@ -316,22 +320,21 @@ const outLi = (each, boolValue) => {
     <script src="../static/js/vuemin.js"></script>
 
     <script>
-        const socket = new WebSocket('ws://' + location.host + '/delet');
+        const socket = new WebSocket('ws://' + location.host + '/favPost');
     </script>
 
     {% for post in posts %}
     <script>
         document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {
-          ev.preventDefault();
-          const text = document.getElementById('text_{{post.id}}');
-          const heart = document.getElementById('spanOfHeart_{{post.id}}');
-            if (heart.classList=='fa-regular'){
-                socket.send(text.value);
-            };
+            ev.preventDefault();
+            const text = document.getElementById('text_{{post.id}}');
+            heart = document.getElementById('spanOfHeart_{{post.id}}');
+            var data = [text.value, heart.classList];
+            socket.send(data);
         };
-        
-      </script>
-      {% endfor %}
+    </script>
+    {% endfor %}
 
 </body>
+
 </html>

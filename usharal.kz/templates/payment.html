@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,31 +11,54 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>{{title}}</title>
 </head>
+
 <body>
     <div class="all">
         <header>
             <div class="headerChild">
-                <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
-                <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
+
+                <div class="text" title="Вернуться к главной странице"><a
+                        href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
+                        class="text">usharal.kz</a></div>
+                {% if lang == 'rulang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
+                        class="qaz langSpan">
+                        қаз</a>
+                </div>
+                {% elif lang == 'kzlang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus">рус </span>|<a href='kzlang'
+                            class="qaz langSpan chosen"> қаз</a>
+                </div>
+                {% endif %}
+                <div id="lang_hidden" hidden>{{lang}}</div>
                 <div class="moreItems">
                     <div class="dropdown">
                         <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
-                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
-                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
-                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a class="lng-message messages" href="{{url_for('messages', lang=session['lang'])}}">
+                                {{menu[0].name}}</a>
+                            <a class="lng-myPosts messages" href="{{url_for('myposts', lang=session['lang'])}}">
+                                {{menu[1].name}}</a>
+                            <a href="{{url_for('payments', lang=session['lang'])}}"
+                                class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{url_for('myprofile', lang=session['lang'])}}"
+                                class="lng-myProfile messages">{{menu[3].name}}</a>
                             <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
-                          </div>
+                        </div>
                     </div>
-                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
-                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
+                    <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
+                            class=" lng-favourite-second "><i class=" fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a class="lng-message-second"
+                            href="{{url_for('messages', lang=session['lang'])}}"><i class="fa-regular fa-comment"></i>
+                            Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
+                    <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
+                            объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
+                    <a style='text-decoration:none' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                 </div>
             </div>
         </header>
@@ -49,15 +73,24 @@
                     </div>
                     <div class="div2">
                         <div class="divPart2">
-                            <span class="messageLink message"><a class="lng-message" href="{{menu[0].url}}" style="color: black; text-decoration:none;">Сообщения</a></span>
-                            <span class="messageLink"><a class="lng-myPosts" href="{{menu[1].url}}" style="color: black; text-decoration:none;">Мои объявления</a></span>
-                            <span class="messageLink activeLink"><a class="lng-payment" href="{{menu[2].url}}" style="color: #ffc53a; text-decoration:none;">Платежи и счёт</a></span>
-                            <span class="messageLink"><a class="lng-myProfile" href="{{menu[3].url}}" style="color: black; text-decoration:none;">Мой профиль</a></span>
+
+                            <span class="messageLink message"><a class="lng-message"
+                                    href="{{url_for('messages', lang=session['lang'])}}"
+                                    style="color: black; text-decoration:none;">Сообщения</a></span>
+                            <span class="messageLink"><a class="lng-myPosts"
+                                    href="{{url_for('myposts', lang=session['lang'])}}"
+                                    style="color: black; text-decoration:none;">Мои объявления</a></span>
+                            <span class="messageLink activeLink><a class=" lng-payment"
+                                href="{{url_for('payments', lang=session['lang'])}}"
+                                style="color: #ffc53a; text-decoration:none;">Платежи и счёт</a></span>
+                            <span class="messageLink"><a class="lng-myProfile"
+                                    href="{{url_for('myprofile', lang=session['lang'])}}"
+                                    style="color: black; text-decoration:none;">Мой профиль</a></span>
                         </div>
-                        
+
                     </div>
                 </div>
-              
+
                 <section class="payment">
                     <div class="paymentInner">
                         <div class="paymentHeader">
@@ -66,239 +99,272 @@
                                 <span class="catg lng-inOp">Пополнения</span>
                                 <span class="catg lng-outOp">Расходы</span>
                             </div>
-                            
+
                         </div>
                         <div class="mainPayment paymentSec visible">
                             <div class="searchPayment">
-                                <input paymentType="mainPayment" class = "lng-searchOp"type="text" placeholder="Поиск платежей...">
+                                <input paymentType="mainPayment" class="lng-searchOp" type="text"
+                                    placeholder="Поиск платежей...">
                                 <!-- <button class="fa-solid fa-search"></button> -->
                             </div>
                             <div class="receiptsBox">
                                 <div class="introductionPart">
                                     <span class="numberOfOperation lng-numOp">Номер операции</span>
-                                    
-                                    
+
+
                                     <div onclick="myFunction(0)" class="wholeListSpan">
-                                        <button class="dateOfOperation lng-dateOp">Дата <i class="fa-solid arrow fa-angle-down"></i></button>
+                                        <button class="dateOfOperation lng-dateOp">Дата <i
+                                                class="fa-solid arrow fa-angle-down"></i></button>
                                         <div id="myDropdown" class="wholeList-content-span ">
-                                            <a classInput = 'mainPayment' class="asc lng-ascOp" onclick="insert(this, 0)">По возрастанию </a> 
-                                            <a classInput = 'mainPayment' class="desc lng-deskOp" onclick="insert(this, 0)">По убыванию </a> 
-                                          </div>
+                                            <a classInput='mainPayment' class="asc lng-ascOp"
+                                                onclick="insert(this, 0)">По
+                                                возрастанию </a>
+                                            <a classInput='mainPayment' class="desc lng-deskOp"
+                                                onclick="insert(this, 0)">По
+                                                убыванию </a>
+                                        </div>
                                     </div>
                                     <span class="timeOfOperation lng-timeOp">Время</span>
                                     <span class="operation lng-nameOp">Объявление</span>
                                     <span class="sumOfOperation">Сумма</span>
-                                    
+
 
                                 </div>
                                 <div class="boxCon">
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">2</span>
                                         <span class="dateOfOperation number">01/10/2020</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">3</span>
                                         <span class="dateOfOperation number">01/10/2019</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">4</span>
                                         <span class="dateOfOperation number">01/10/2018</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">5</span>
                                         <span class="dateOfOperation number">01/10/2017</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">6</span>
                                         <span class="dateOfOperation number">01/10/2016</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">7</span>
                                         <span class="dateOfOperation number">01/10/2015</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">8</span>
                                         <span class="dateOfOperation number">01/10/2014</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">9</span>
                                         <span class="dateOfOperation number">01/10/2013</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">10</span>
                                         <span class="dateOfOperation number">01/10/2012</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">11</span>
                                         <span class="dateOfOperation number">01/10/2011</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">12</span>
                                         <span class="dateOfOperation number">01/10/2010</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">13</span>
                                         <span class="dateOfOperation number">01/10/2009</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">14</span>
                                         <span class="dateOfOperation number">01/10/2008</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">15</span>
                                         <span class="dateOfOperation number">01/10/2007</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">16</span>
                                         <span class="dateOfOperation number">01/10/2006</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">17</span>
                                         <span class="dateOfOperation number">01/10/2005</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">18</span>
                                         <span class="dateOfOperation number">01/10/2004</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">19</span>
                                         <span class="dateOfOperation number">01/10/2003</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
-                                    
+
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">20</span>
                                         <span class="dateOfOperation number">01/10/2002</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">21</span>
                                         <span class="dateOfOperation number">01/10/2001</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">22</span>
                                         <span class="dateOfOperation number">01/10/2001</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">23</span>
                                         <span class="dateOfOperation number">01/10/2000</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">24</span>
                                         <span class="dateOfOperation number">01/10/1999</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">25</span>
                                         <span class="dateOfOperation number">01/10/1997</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">26</span>
                                         <span class="dateOfOperation number">01/10/1996</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">27</span>
                                         <span class="dateOfOperation number">01/10/1995</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
-                                    
-                                    
-                                    
+
+
+
+
                                 </div>
                             </div>
                             <div class="lineForButton">
@@ -306,7 +372,7 @@
                                     <span class="fa-solid  ChildArrow fa-angle-left"></span>
                                     <span class="spanWithNumber">
                                         <span class="current">1</span>
-                                    <span class="allPossible"></span>
+                                        <span class="allPossible"></span>
                                     </span>
                                     <span class="fa-solid  ChildArrow fa-angle-right"></span>
                                 </div>
@@ -314,25 +380,30 @@
                         </div>
                         <div class="refillPayment paymentSec">
                             <div class="searchPayment">
-                                <input paymentType = 'refillPayment' class = "lng-searchOp" type="text" placeholder="Поиск платежей...">
+                                <input paymentType='refillPayment' class="lng-searchOp" type="text"
+                                    placeholder="Поиск платежей...">
                                 <!-- <button class="fa-solid fa-search"></button> -->
                             </div>
                             <div class="receiptsBox">
                                 <div class="introductionPart">
                                     <span class="numberOfOperation lng-numOp">Номер операции</span>
-                                    
-                                    
+
+
                                     <div onclick="myFunction(1)" class="wholeListSpan">
-                                        <button class="dateOfOperation lng-dateOp">Дата <i class="fa-solid arrow fa-angle-down"></i></button>
+                                        <button class="dateOfOperation lng-dateOp">Дата <i
+                                                class="fa-solid arrow fa-angle-down"></i></button>
                                         <div id="myDropdown" class="wholeList-content-span ">
-                                            <a classInput = 'refillPayment' class="asc lng-ascOp" onclick="insert(this,1)">По возрастанию </a> 
-                                            <a classInput = 'refillPayment' class="desc lng-deskOp" onclick="insert(this,1)">По убыванию </a> 
-                                          </div>
+                                            <a classInput='refillPayment' class="asc lng-ascOp"
+                                                onclick="insert(this,1)">По
+                                                возрастанию </a>
+                                            <a classInput='refillPayment' class="desc lng-deskOp"
+                                                onclick="insert(this,1)">По убыванию </a>
+                                        </div>
                                     </div>
                                     <span class="timeOfOperation lng-timeOp">Время</span>
                                     <span class="operation lng-nameOp">Объявление</span>
                                     <span class="sumOfOperation">Сумма</span>
-                                    
+
 
                                 </div>
                                 <div class="boxCon">
@@ -340,81 +411,92 @@
                                         <span class="numberOfOperation number">9</span>
                                         <span class="dateOfOperation number">01/10/2013</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">10</span>
                                         <span class="dateOfOperation number">01/10/2012</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">11</span>
                                         <span class="dateOfOperation number">01/10/2011</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 1</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            1</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">12</span>
                                         <span class="dateOfOperation number">01/10/2010</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">13</span>
                                         <span class="dateOfOperation number">01/10/2009</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">14</span>
                                         <span class="dateOfOperation number">01/10/2008</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">15</span>
                                         <span class="dateOfOperation number">01/10/2007</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">16</span>
                                         <span class="dateOfOperation number">01/10/2006</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">17</span>
                                         <span class="dateOfOperation number">01/10/2005</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">18</span>
                                         <span class="dateOfOperation number">01/10/2004</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">19</span>
                                         <span class="dateOfOperation number">01/10/2003</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
@@ -428,49 +510,56 @@
                                         <span class="numberOfOperation number">6497357</span>
                                         <span class="dateOfOperation number">01/01/2022</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из бетона(дом, офис, душ) товар 2</span>
+                                        <span class="operation number">Перегородки из бетона(дом, офис, душ) товар
+                                            2</span>
                                         <span class="sumOfOperation number">700 000 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">6417357</span>
                                         <span class="dateOfOperation number">07/06/2002</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из дерева(дом, офис, душ) товар 3</span>
+                                        <span class="operation number">Перегородки из дерева(дом, офис, душ) товар
+                                            3</span>
                                         <span class="sumOfOperation number">700 000 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">6427357</span>
                                         <span class="dateOfOperation number">28/06/2022</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 4</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            4</span>
                                         <span class="sumOfOperation number">700 000 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">6437357</span>
                                         <span class="dateOfOperation number">07/11/2021</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">6437357</span>
                                         <span class="dateOfOperation number">07/11/1999</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">6437357</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">6437357</span>
                                         <span class="dateOfOperation number">12/12/2011</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 000 &#8376;</span>
                                     </div>
                                 </div>
@@ -480,7 +569,7 @@
                                     <span class="fa-solid  ChildArrow fa-angle-left"></span>
                                     <span class="spanWithNumber">
                                         <span class="current">1</span>
-                                    <span class="allPossible">/1</span>
+                                        <span class="allPossible">/1</span>
                                     </span>
                                     <span class="fa-solid  ChildArrow fa-angle-right"></span>
                                 </div>
@@ -488,421 +577,480 @@
                         </div>
                         <div class="expensePayment paymentSec">
                             <div class="searchPayment">
-                                <input paymentType = 'expensePayment'  class = "lng-searchOp" type="text" placeholder="Поиск платежей...">
+                                <input paymentType='expensePayment' class="lng-searchOp" type="text"
+                                    placeholder="Поиск платежей...">
                                 <!-- <button class="fa-solid fa-search"></button> -->
                             </div>
                             <div class="receiptsBox">
                                 <div class="introductionPart">
                                     <span class="numberOfOperation lng-numOp">Номер операции</span>
-                                    
-                                    
+
+
                                     <div onclick="myFunction(2)" class="wholeListSpan">
-                                        <button class="dateOfOperation lng-dateOp">Дата <i class="fa-solid arrow fa-angle-down"></i></button>
+                                        <button class="dateOfOperation lng-dateOp">Дата <i
+                                                class="fa-solid arrow fa-angle-down"></i></button>
                                         <div id="myDropdown" class="wholeList-content-span ">
-                                            <a classInput = 'expensePayment' class="asc lng-ascOp" onclick="insert(this,2)">По возрастанию </a> 
-                                            <a classInput = 'expensePayment' class="desc lng-deskOp" onclick="insert(this,2)">По убыванию </a> 
-                                          </div>
+                                            <a classInput='expensePayment' class="asc lng-ascOp"
+                                                onclick="insert(this,2)">По
+                                                возрастанию </a>
+                                            <a classInput='expensePayment' class="desc lng-deskOp"
+                                                onclick="insert(this,2)">По убыванию </a>
+                                        </div>
                                     </div>
                                     <span class="timeOfOperation lng-timeOp">Время</span>
                                     <span class="operation lng-nameOp">Объявление</span>
                                     <span class="sumOfOperation">Сумма</span>
-                                    
+
 
                                 </div>
                                 <div class="boxCon">
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">1</span>
                                         <span class="dateOfOperation number">07/11/2024</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">2</span>
                                         <span class="dateOfOperation number">01/10/2020</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">3</span>
                                         <span class="dateOfOperation number">01/10/2019</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">4</span>
                                         <span class="dateOfOperation number">01/10/2018</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">5</span>
                                         <span class="dateOfOperation number">01/10/2017</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">6</span>
                                         <span class="dateOfOperation number">01/10/2016</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">7</span>
                                         <span class="dateOfOperation number">01/10/2015</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">8</span>
                                         <span class="dateOfOperation number">01/10/2014</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">9</span>
                                         <span class="dateOfOperation number">01/10/2013</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">10</span>
                                         <span class="dateOfOperation number">01/10/2012</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">11</span>
                                         <span class="dateOfOperation number">01/10/2011</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">12</span>
                                         <span class="dateOfOperation number">01/10/2010</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">13</span>
                                         <span class="dateOfOperation number">01/10/2009</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">14</span>
                                         <span class="dateOfOperation number">01/10/2008</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">15</span>
                                         <span class="dateOfOperation number">01/10/2007</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">16</span>
                                         <span class="dateOfOperation number">01/10/2006</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">17</span>
                                         <span class="dateOfOperation number">01/10/2005</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">18</span>
                                         <span class="dateOfOperation number">01/10/2004</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">19</span>
                                         <span class="dateOfOperation number">01/10/2003</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
-                                    
+
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">20</span>
                                         <span class="dateOfOperation number">01/10/2002</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">21</span>
                                         <span class="dateOfOperation number">01/10/2001</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">22</span>
                                         <span class="dateOfOperation number">01/10/2001</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">23</span>
                                         <span class="dateOfOperation number">01/10/2000</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">24</span>
                                         <span class="dateOfOperation number">01/10/1999</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">25</span>
                                         <span class="dateOfOperation number">01/10/1997</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">26</span>
                                         <span class="dateOfOperation number">01/10/1996</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
                                     <div class="lineForReceipt">
                                         <span class="numberOfOperation number">27</span>
                                         <span class="dateOfOperation number">01/10/1995</span>
                                         <span class="timeOfOperation number">19:47</span>
-                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар 5</span>
+                                        <span class="operation number">Перегородки из стекла(дом, офис, душ) товар
+                                            5</span>
                                         <span class="sumOfOperation number">700 000 &#8376;</span>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             <div class="lineForButton">
@@ -910,7 +1058,7 @@
                                     <span class="fa-solid  ChildArrow fa-angle-left"></span>
                                     <span class="spanWithNumber">
                                         <span class="current">1</span>
-                                    <span class="allPossible">/1</span>
+                                        <span class="allPossible">/1</span>
                                     </span>
                                     <span class="fa-solid  ChildArrow fa-angle-right"></span>
                                 </div>
@@ -919,11 +1067,11 @@
                     </div>
                 </section>
 
-                
-                
+
+
             </div>
         </section>
-        
+
         <footer>
             <div class="footerChild">
                 <div class="first">
@@ -961,7 +1109,7 @@
                 <li>Мангистауская область</li>
                 <li>Павлодарская область</li>
                 <li>Северо-Казахстанская область</li>
-                <li>Туркестанская  область</li>
+                <li>Туркестанская область</li>
                 <li>Нур-Султан</li>
                 <li>Алматы</li>
                 <li>Шымкент</li>
@@ -989,10 +1137,11 @@
     <script src="../static/js/lang.js"></script>
     <!-- <script src="js/counter.js"></script> -->
     <style>
-        *{
+        * {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
     <script src="../static/js/vuemin.js"></script>
 </body>
+
 </html>

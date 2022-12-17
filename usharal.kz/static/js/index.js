@@ -1,3 +1,4 @@
+
 const showMoreButtonMainPage = $(".buttonLine button")
 const showMoreButtonFavPage = $(".showMoreFav")
 const allAdvert = $(".adverLine")
@@ -35,41 +36,23 @@ $(".up").click(function(){
 const list = ["ru", "kz"]
 let hash = 'ru'
 const langAll = document.querySelectorAll(".langSpan")
-langAll.forEach((lang, index) => {
-    lang.addEventListener('click', () => {
+// langAll.forEach((lang, index) => {
+//     lang.addEventListener('click', () => {
         
-        if(index == 0){
-            langAll[1].classList.remove('chosen')
-            hash = 'ru'
-        }
-        else{
-            hash = 'kz'
-            langAll[0].classList.remove('chosen')
-        }
-        lang.classList.add('chosen')
+//         if(index == 0){
+//             langAll[1].classList.remove('chosen')
+//             hash = 'ru'
+//         }
+//         else{
+//             hash = 'kz'
+//             langAll[0].classList.remove('chosen')
+//         }
+//         lang.classList.add('chosen')
 
-        changeLang()
-    })
-});
-const changeLang = () => {
-   
-    for (let key in langArr) {
-        console.log(key);
-        let elemAll = document.querySelectorAll('.lng-' + key);
-        elemAll.forEach(elem => {
-            if (elem) {
-                if(elem.tagName == 'INPUT'){
-                    elem.setAttribute("placeholder", langArr[key][hash])
-                }
-                else
-                {
-                    elem.innerHTML = langArr[key][hash];
-                }
-            }
-        })
+//         changeLang()
+//     })
+// });
 
-    }
-}
 
 const postsCateg = document.querySelectorAll(".allStatusOfPosts span")
 const catBlocks = document.querySelectorAll(".findWithThat")
@@ -259,13 +242,19 @@ const outLi = (each, boolValue, index) => {
         
         
 }
-// var chooseCategory = document.querySelector('.chooseCategory div')
-// chooseCategory.addEventListener('click', () => {
-//     console.log(document.querySelectorAll('.ul')[1]);
-//     document.querySelectorAll('.ul')[0].style.display = 'none'
-//     document.querySelector('.inputModal input').value = ''
-//     var needUl = document.querySelectorAll('.ul')[1]
-//     needUl.style.display = 'unset'
-//     $('section').css('position', 'fixed')
-//     showModal()
-// })
+
+let inputField = document.querySelector('.mainSection .searchArea input')
+inputField.oninput = function(){
+    let value = this.value.trim().toLowerCase()
+    console.log(value)
+    let list = document.querySelectorAll(`.titleContent`)
+    list.forEach(elem => {
+        if(elem.innerText.toLowerCase().search(value) == -1){
+            elem.parentNode.parentNode.classList.add('hide');
+        }
+        else{
+            elem.parentNode.parentNode.classList.remove('hide');
+            
+        }
+    })
+}

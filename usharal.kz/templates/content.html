@@ -1,130 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width;">
-    <link rel="stylesheet" href="../static/css/content.css">
-    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/content.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
 
-    <link rel="stylesheet" href="../static/css/scroll.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/scroll.css')}}">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/font-awesomemin.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/all.min.css')}}">
     <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     <title>{{title}}</title>
     <style>
-        .newObject button{
+        .newObject button {
             border-radius: 10px !important;
         }
     </style>
 </head>
+
 <body>
     <div class="all">
         <header>
             <div class="headerChild">
-                <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
-                <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
+
+                <div class="text" title="Вернуться к главной странице"><a
+                        href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
+                        class="text">usharal.kz</a></div>
+                {% if lang == 'rulang' %}
+                <div class="lang"><a href='/content/{{post.id}}/rulang' class="langSpan rus chosen">рус </a>|<a
+                        href='/content/{{post.id}}/kzlang' class="qaz langSpan">
+                        қаз</a>
+                </div>
+                {% elif lang == 'kzlang' %}
+                <div class="lang"><a href='/content/{{post.id}}/rulang' class="langSpan rus">рус </span>|<a
+                            href='/content/{{post.id}}/kzlang' class="qaz langSpan chosen"> қаз</a>
+                </div>
+                {% endif %}
+                <div id="lang_hidden" hidden>{{lang}}</div>
                 <div class="moreItems">
                     <div class="dropdown">
                         <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            <a href="/{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
-                            <a href="/{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
-                            <a href="/{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
-                            <a href="/{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
-                            <a href="/{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
-                          </div>
+                            <a class="lng-message messages" href="{{url_for('messages', lang=session['lang'])}}">
+                                {{menu[0].name}}</a>
+                            <a class="lng-myPosts messages" href="{{url_for('myposts', lang=session['lang'])}}">
+                                {{menu[1].name}}</a>
+                            <a href="{{url_for('payments', lang=session['lang'])}}"
+                                class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{url_for('myprofile', lang=session['lang'])}}"
+                                class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
+                        </div>
                     </div>
-                    <span class="favourite"><a href="/{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
-                    <span class="messages"><a  class="lng-message-second" href="/{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
+                    <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
+                            class=" lng-favourite-second "><i class=" fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a class="lng-message-second"
+                            href="{{url_for('messages', lang=session['lang'])}}"><i class="fa-regular fa-comment"></i>
+                            Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <a href="/{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
+                    <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
+                            объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text" href="/{{uuurl}}">{{username}}</a>
+                    <a style='text-decoration:none' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                 </div>
             </div>
         </header>
         <section class="mainSection active">
             <div class="mask"></div>
             <div class="sectionChild">
-                <!-- <div class="searchAndCateg">
-                    <div class="searchArea">
-                        <div onclick="myFunction(this.className)"class="wholeList">
-                            <button  class="wholeList-btn">Все категории <i class="fas arrow fa-angle-down"></i></button>
-                            <div id="myDropdown" class="wholeList-content">
-                              <a href="#">Все категории</a> 
-                            </div>
-                          </div>
-                          <div class="inputArea">
-                            <input type="text" placeholder="Найти объявление..." name="" id="">
-                          </div>
-                          <div onclick="modal()" class="location">
-                            <button class="location-btn"><i class="fas fa-location-dot"></i>Весь Казахстан </button>
-                            
-                          </div>
-                          <div class="searchBtn">
-                            <button class="fas fa-search"></button>
-                          </div>
-                    </div>
-                 </div> -->
                 <div class="mainBodyContent">
-                    <a href="/">
-                    <div class="prevLine">  
-                        <span class="fa fa-angle-left"></span>
-                        <span> Назад</span>
-                    </div>
+                    <a href="/{{lang}}" style="text-decoration: none;">
+                        <div class="prevLine">
+                            <span class="fa fa-angle-left"></span>
+                            <span> Назад</span>
+                        </div>
                     </a>
                     <div class="mainText">{{post.title}}</div>
                     <div class="subTextData">Опубликовано {{post.post_date}}</div>
                     <div class="mainImageAndInfo">
                         <div class="mainImage">
-                            <div class="innerDiv controlBtn"onclick="plusSlides(-1, 0)">
-                                <span class="fa fa-angle-left" ></span>
+                            <div class="innerDiv controlBtn" onclick="plusSlides(-1, 0)">
+                                <span class="fa fa-angle-left"></span>
                             </div>
-                            
+
                             <div class="innerDiv mainImgDiv">
                                 <img src="data:;base64, {{post.photos[0]}}" alt="">
                             </div>
-                            <div class="innerDiv controlBtn"onclick="plusSlides(1, 1)">
-                                <span class="fa fa-angle-right" ></span>
+                            <div class="innerDiv controlBtn" onclick="plusSlides(1, 1)">
+                                <span class="fa fa-angle-right"></span>
                             </div>
                         </div>
                         <div class="mainInfo">
                             <div class="addToFav">
-                                <i onclick = "fill(this)"class="fa-regular fa-heart"></i>
+                                <i onclick="fill(this)" class="fa-regular fa-heart"></i>
                                 <span>Добавить в избранное</span>
                             </div>
                             <div class="cost">
-                                
+
                                 <span>{{post.cost}}</span>
-                                
+
                             </div>
                             <div class="costStat">{{post.facility}}</div>
                             <div class="miniProfile">
-                                <img src="../static/img/user.svg" alt="" srcset="">
+                                {% if user_logo != 0 %}
+                                    <img src="data:;base64, {{user_logo}}" height="57" width="57" alt="">
+                                {% else %}
+                                    <img src="{{url_for('static', filename = 'img/user.svg')}}" alt="" srcset="">
+                                {% endif %}
                                 <div class="data">
                                     <div class="name">{{post.username}}</div>
-                                    <div class="period">На сайте с 2 июля
-                                        
-                                    </div>
-                                    <div class="rating">
-                                        <fieldset class="rate">
-                                            <input type="radio" id="rating10" name="rating" value="10" /><label for="rating10" title="5 stars"></label>
-                                            <input type="radio" id="rating9" name="rating" value="9" /><label class="half" for="rating9" title="4 1/2 stars"></label>
-                                            <input type="radio" id="rating8" name="rating" value="8" /><label for="rating8" title="4 stars"></label>
-                                            <input type="radio" id="rating7" name="rating" value="7" /><label class="half" for="rating7" title="3 1/2 stars"></label>
-                                            <input type="radio" id="rating6" name="rating" value="6" /><label for="rating6" title="3 stars"></label>
-                                            <input type="radio" id="rating5" name="rating" value="5" /><label class="half" for="rating5" title="2 1/2 stars"></label>
-                                            <input type="radio" id="rating4" name="rating" value="4" /><label for="rating4" title="2 stars"></label>
-                                            <input type="radio" id="rating3" name="rating" value="3" /><label class="half" for="rating3" title="1 1/2 stars"></label>
-                                            <input type="radio" id="rating2" name="rating" value="2" /><label for="rating2" title="1 star"></label>
-                                            <input type="radio" id="rating1" name="rating" value="1" /><label class="half" for="rating1" title="1/2 star"></label>
-                                        
-                                        </fieldset>
-                                    </div>
                                 </div>
-                            </div>
+                                    </div>
                             <div class="mobNum">
                                 <div>Телефон</div>
                                 <span>{{post.phone_number}}</span>
@@ -141,10 +133,7 @@
                             <div class="writeWhats">
                                 <a href="{{post.whatsapp_link}}">Написать на WhatsApp</a>
                             </div>
-                            <div class="locationStatic">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <span>Шымкент</span>
-                            </div>
+
                         </div>
                     </div>
                     <div class="subImages">
@@ -153,7 +142,7 @@
                             <img src="data:;base64,  {{j}}" alt="" srcset="">
                         </div>
                         {% endfor %}
-                        
+
                     </div>
                     <div class="description">
                         <div class="mainDesc">
@@ -167,27 +156,13 @@
                         <div class="sendMsg">
                             <div class="firstL">
                                 <div class="miniProfile">
-                                    <img src="../static/img/user.svg" alt="" srcset="">
+                              {% if user_logo != 0 %}
+                              <img src="data:;base64, {{user_logo}}" width="57" height="57">
+                              {% else %}
+                                    <img src="{{url_for('static', filename = 'img/user.svg')}}" alt="" srcset="">
+                                {% endif %}
                                     <div class="data">
                                         <div class="name">{{post.username}}</div>
-                                        <div class="period">На сайте с 2 июля
-                                            
-                                        </div>
-                                        <div class="rating">
-                                            <fieldset class="rate">
-                                                <input type="radio" id="rating10" name="rating1" value="10" /><label for="rating10" title="5 stars"></label>
-                                                <input type="radio" id="rating9" name="rating1" value="9" /><label class="half" for="rating9" title="4 1/2 stars"></label>
-                                                <input type="radio" id="rating8" name="rating1" value="8" /><label for="rating8" title="4 stars"></label>
-                                                <input type="radio" id="rating7" name="rating1" value="7" /><label class="half" for="rating7" title="3 1/2 stars"></label>
-                                                <input type="radio" id="rating6" name="rating1" value="6" /><label for="rating6" title="3 stars"></label>
-                                                <input type="radio" id="rating5" name="rating1" value="5" /><label class="half" for="rating5" title="2 1/2 stars"></label>
-                                                <input type="radio" id="rating4" name="rating1" value="4" /><label for="rating4" title="2 stars"></label>
-                                                <input type="radio" id="rating3" name="rating1" value="3" /><label class="half" for="rating3" title="1 1/2 stars"></label>
-                                                <input type="radio" id="rating2" name="rating1" value="2" /><label for="rating2" title="1 star"></label>
-                                                <input type="radio" id="rating1" name="rating1" value="1" /><label class="half" for="rating1" title="1/2 star"></label>
-                                            
-                                            </fieldset>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="mobNum">
@@ -197,10 +172,13 @@
                             </div>
                             <h1>Написать продавцу (данный раздел на разработке)</h1>
                             <from method="POST" action="">
-                                <textarea name="" id="" cols="30" rows="10" placeholder="Ваше сообщение"></textarea>
+                                <textarea disabled name="" id="" cols="30" rows="10"
+                                    placeholder="Ваше сообщение"></textarea>
                                 <div class="lastL">
                                     <button class="sendToUser">Отправить сообщение</button>
-                                    <a class="sendToUserWhats" href="{{post.whatsapp_link}}"><p>Написать на WhatsApp</p></a>
+                                    <a class="sendToUserWhats" href="{{post.whatsapp_link}}">
+                                        <p>Написать на WhatsApp</p>
+                                    </a>
                                 </div>
                             </from>
                         </div>
@@ -210,15 +188,16 @@
                             </div>
                             <div>- Старайтесь встречаться лично с продавцом для покупки товара.</div>
                             <div>- Не отправляйте деньги, пока не получили товар или услугу.</div>
-                            <div>- Если Вы нашли странные ошибки в словах или явно низкую цену, лучше сторониться таких объявлений.</div>
+                            <div>- Если Вы нашли странные ошибки в словах или явно низкую цену, лучше сторониться таких
+                                объявлений.</div>
                         </div>
                     </div>
                     {% block content %}
-                    {% if related_posts != [] %}
+                    {% if len_of_rel_posts != 1 %}
                     <div class="areaForTextSame">
                         <div class="someText">
-                            <span class="mainText lng-premium">Похожие объявления</span>
-                            
+                            <span class="mainText lng-related">Похожие объявления</span>
+
                         </div>
                         <div class="buttonSame">
                             <button class="fa-solid fa-angle-left prev"></button>
@@ -227,48 +206,57 @@
                     </div>
                     <div class="slider">
                         {% for i in related_posts %}
-                        <div class="contentBox"><a  href="/content/{{i.id}}">
-                            <div class="forImgContent">
-                                <!-- <div class="top">VIP</div> -->
-                                <img src="data:;base64, {{ i.photos[0] }}" alt="">
-                            </div>
-                            <div class="dataContent" style="text-decoration: none; color:black;">{{i.post_date}} </div>
-                            <div class="titleContent" style="text-decoration: none; color:black; margin-bottom: -20px !important;">{{i.title}}</div>
-                            <div class="categoryContent" style="text-decoration: none; color:black;">{{i.category}}</div>
-                            <div class="costContent">{{i.cost}} </div> </a>
+                        {% if i.id != post.id%}
+                        <div class="contentBox"><a href="/content/{{i.id}}/{{lang}}">
+                                <div class="forImgContent">
+                                    <!-- <div class="top">VIP</div> -->
+                                    <img src="data:;base64, {{ i.photos[0] }}" alt="">
+                                </div>
+                                <div class="dataContent" style="text-decoration: none; color:black;">{{i.post_date}}
+                                </div>
+                                <div class="titleContent"
+                                    style="text-decoration: none; color:black; margin-bottom: -20px !important;">
+                                    {{i.title}}</div>
+                                <div class="categoryContent" style="text-decoration: none; color:black;">{{i.category}}
+                                </div>
+                                <div class="costContent">{{i.cost}} </div>
+                            </a>
                             <div class="statusContent">
                                 <span>{{i.facility}}</span>
-                                <input hidden id="text_{{i.id}}" value="{{i.id}}"><span class="fa-regular fa-heart"  onclick="fill(this)" id="spanOfHeart_{{i.id}}"></span>
+                                <input hidden id="text_{{i.id}}" value="{{i.id}}"><span class="fa-regular fa-heart"
+                                    onclick="fill(this)" id="spanOfHeart_{{i.id}}"></span>
                             </div>
                         </div>
-                        {% endfor %}
-                    
                         {% endif %}
-                    {% endblock content %}
+                        {% endfor %}
+
+                        {% endif %}
+                        {% endblock content %}
                     </div>
-                  
+
                 </div>
             </div>
         </section>
-       
+
+
+        <footer>
+            <div class="footerChild">
+                <div class="first">
+                    <div class="text">usharal.kz<i class="fa-thin fa-calendar-circle-minus"></i></div>
+                    <div>@ 2022 usharal.kz - все права защищены</div>
+                    <div class="map">Карта сайта</div>
+                </div>
+                <div class="second">
+                    <div class="text">Контакты</div>
+                    <a href="" class="secondA">usharal_kz@gmail.com</a>
+                    <a href="" class="secondA">+7(705) 332 2343</a>
+                </div>
+                <div class="third">
+                    <button class="up fa fa-arrow-up"></button>
+                </div>
+            </div>
+        </footer>
     </div>
-    <footer>
-        <div class="footerChild">
-            <div class="first">
-                <div class="text">usharal.kz<i class="fa-thin fa-calendar-circle-minus"></i></div>
-                <div>@ 2022 usharal.kz - все права защищены</div>
-                <div class="map">Карта сайта</div>
-            </div>
-            <div class="second">
-                <div class="text">Контакты</div>
-                <a href="" class="secondA">usharal_kz@gmail.com</a>
-                <a href="" class="secondA">+7(705) 332 2343</a>
-            </div>
-            <div class="third">
-                <button class="up fa fa-arrow-up"></button>
-            </div>
-        </div>
-    </footer>
     <div class="shadow">
         <div class="cityList">
             <div class="inputModal">
@@ -288,7 +276,7 @@
                 <li>Мангистауская область</li>
                 <li>Павлодарская область</li>
                 <li>Северо-Казахстанская область</li>
-                <li>Туркестанская  область</li>
+                <li>Туркестанская область</li>
                 <li>Нур-Султан</li>
                 <li>Алматы</li>
                 <li>Шымкент</li>
@@ -308,26 +296,28 @@
             </ul>
         </div>
     </div>
-    <script src="../static/js/jquery-3.6.0.min.js"></script>
-    <script src="../static/js/vuemin.js"></script>
-    <script src="../static/js/icons.js" crossorigin="anonymous"></script>
-    <script src="../static/js/scroll.js"></script>
-    <script src="../static/js/content.js"></script>
-    <script src="../static/js/lang.js"></script>
-    <script src="../static/js/counter.js"></script>
+    <script src="{{url_for('static', filename='js/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/vuemin.js')}}"></script>
+    <script src="{{url_for('static', filename='js/icons.js')}}" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='js/scroll.js')}}"></script>
+    <script src="{{url_for('static', filename='js/content.js')}}"></script>
+    <script src="{{url_for('static', filename='js/lang.js')}}"></script>
+    <script src="{{url_for('static', filename='js/counter.js')}}"></script>
+    <script src="{{url_for('static', filename='js/index.js')}}"></script>
     <style>
-        *{
+        * {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
-    <script src="../static/js/vuemin.js"></script>
+    <script src="{{url_for('static', filename='js/vuemin.js')}}"></script>
     <script>
-        $(".up").click(function(){
-    window.scrollTo(0, 0)
-})
-        function fill(elem){
-    elem.classList.toggle("fa-regular")
-    elem.classList.toggle("fa")
+        // alert()
+        $(".up").click(function () {
+            window.scrollTo(0, 0)
+        })
+        function fill(elem) {
+            elem.classList.toggle("fa-regular")
+            elem.classList.toggle("fa")
         }
         document.querySelector('#rating4').checked = true
         document.querySelectorAll('#rating4')[1].checked = true
@@ -338,4 +328,5 @@
         })
     </script>
 </body>
+
 </html>

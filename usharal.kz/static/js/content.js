@@ -1,41 +1,41 @@
 const list = ["ru", "kz"]
 let hash = 'ru'
 const langAll = document.querySelectorAll(".langSpan")
-langAll.forEach((lang, index) => {
-    lang.addEventListener('click', () => {
+// langAll.forEach((lang, index) => {
+//     lang.addEventListener('click', () => {
         
-        if(index == 0){
-            langAll[1].classList.remove('chosen')
-            hash = 'ru'
-        }
-        else{
-            hash = 'kz'
-            langAll[0].classList.remove('chosen')
-        }
-        lang.classList.add('chosen')
+//         if(index == 0){
+//             langAll[1].classList.remove('chosen')
+//             hash = 'ru'
+//         }
+//         else{
+//             hash = 'kz'
+//             langAll[0].classList.remove('chosen')
+//         }
+//         lang.classList.add('chosen')
         
-        changeLang()
-    })
-});
-const changeLang = () => {
+//         changeLang()
+//     })
+// });
+// const changeLang = () => {
    
-    for (let key in langArr) {
-        console.log(key);
-        let elemAll = document.querySelectorAll('.lng-' + key);
-        elemAll.forEach(elem => {
-            if (elem) {
-                if(elem.tagName == 'INPUT' || elem.tagName == 'TEXTAREA'){
-                    elem.setAttribute("placeholder", langArr[key][hash])
-                }
-                else
-                {
-                    elem.innerHTML = langArr[key][hash];
-                }
-            }
-        })
+//     for (let key in langArr) {
+//         console.log(key);
+//         let elemAll = document.querySelectorAll('.lng-' + key);
+//         elemAll.forEach(elem => {
+//             if (elem) {
+//                 if(elem.tagName == 'INPUT' || elem.tagName == 'TEXTAREA'){
+//                     elem.setAttribute("placeholder", langArr[key][hash])
+//                 }
+//                 else
+//                 {
+//                     elem.innerHTML = langArr[key][hash];
+//                 }
+//             }
+//         })
 
-    }
-}
+//     }
+// }
 var np = false
 const showModal = () => {
     

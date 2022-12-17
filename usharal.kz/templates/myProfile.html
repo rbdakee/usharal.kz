@@ -1,40 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width;">
-    <link rel="stylesheet" href="../static/css/index.css">
-    <link rel="stylesheet" href="../static/css/myPosts.css">
-    <link rel="stylesheet" href="../static/css/scroll.css">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/index.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/myPosts.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/scroll.css')}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>{{title}}</title>
 </head>
+
 <body>
     <div class="all">
         <header>
             <div class="headerChild">
-                <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
-                <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
+
+                <div class="text" title="Вернуться к главной странице"><a
+                        href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
+                        class="text">usharal.kz</a></div>
+                {% if lang == 'rulang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
+                        class="qaz langSpan">
+                        қаз</a>
+                </div>
+                {% elif lang == 'kzlang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus">рус </span>|<a href='kzlang'
+                            class="qaz langSpan chosen"> қаз</a>
+                </div>
+                {% endif %}
+                <div id="lang_hidden" hidden>{{lang}}</div>
                 <div class="moreItems">
                     <div class="dropdown">
                         <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
-                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
-                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
-                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a class="lng-message messages" href="{{url_for('messages', lang=session['lang'])}}">
+                                {{menu[0].name}}</a>
+                            <a class="lng-myPosts messages" href="{{url_for('myposts', lang=session['lang'])}}">
+                                {{menu[1].name}}</a>
+                            <a href="{{url_for('payments', lang=session['lang'])}}"
+                                class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{url_for('myprofile', lang=session['lang'])}}"
+                                class="lng-myProfile messages">{{menu[3].name}}</a>
                             <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
-                          </div>
+                        </div>
                     </div>
-                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
-                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
+                    <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
+                            class=" lng-favourite-second "><i class=" fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a class="lng-message-second"
+                            href="{{url_for('messages', lang=session['lang'])}}"><i class="fa-regular fa-comment"></i>
+                            Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
+                    <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
+                            объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
+                    <a style='text-decoration:none' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                 </div>
             </div>
         </header>
@@ -49,12 +73,20 @@
                     </div>
                     <div class="div2">
                         <div class="divPart2">
-                            <span class="messageLink message"><a class="lng-message" href="{{menu[0].url}}" style="color: black; text-decoration:none;">Сообщения</a></span>
-                            <span class="messageLink"><a class="lng-myPosts" href="{{menu[1].url}}" style="color: black; text-decoration:none;">Мои объявления</a></span>
-                            <span class="messageLink"><a class="lng-payment" href="{{menu[2].url}}" style="color: black; text-decoration:none;">Платежи и счёт</a></span>
-                            <span class="messageLink activeLink"><a class="lng-myProfile" href="{{menu[3].url}}" style="color: #ffc53a; text-decoration:none;">Мой профиль</a></span>
+                            <span class="messageLink message"><a class="lng-message"
+                                    href="{{url_for('messages', lang=session['lang'])}}"
+                                    style="color: black; text-decoration:none;">Сообщения</a></span>
+                            <span class="messageLink"><a class="lng-myPosts"
+                                    href="{{url_for('myposts', lang=session['lang'])}}"
+                                    style="color: black; text-decoration:none;">Мои объявления</a></span>
+                            <span class="messageLink"><a class="lng-payment"
+                                    href="{{url_for('payments', lang=session['lang'])}}"
+                                    style="color: black; text-decoration:none;">Платежи и счёт</a></span>
+                            <span class="messageLink activeLink"><a class="lng-myProfile"
+                                    href="{{url_for('myprofile', lang=session['lang'])}}"
+                                    style="color: #ffc53a; text-decoration:none;">Мой профиль</a></span>
                         </div>
-                        
+
                     </div>
                 </div>
                 <section class="myProfile">
@@ -71,23 +103,24 @@
                                 </div>
                             </div>
                             <div class="spanWithInput inner">
-                                <div><span class="firstPart lng-photoOrLogo">Фото или логотип</span><span class="secondPart"> </span></div>
+                                <div><span class="firstPart lng-photoOrLogo">Фото или логотип</span><span
+                                        class="secondPart"> </span></div>
                                 <!-- <div class="boxForImage withBack">
-                                    <img src="img/Vector.svg"width = "50"alt="" class="imageOfUser">
-                                    <input type="file" onchange = "showFile(this)"accept="image/gif, image/jpeg, image/png, image/svg" name="" class="file">
-                                    
-                                </div> -->
-                                {% if user.logo != 0 %}
-                                <div class="imageBoxProfile">
-                                    <img src="data:;base64, {{user.logo}}"width = "50"alt="" class="imageOfUserChoose">
-                                </div>
-                                {% else %}
-                                <div class="imageBoxProfile">
-                                    <img src="static/img/add-photo.png"width = "50"alt="" class="imageOfUserChoose">
-                                </div>
-                                {% endif %}
+                                        <img src="img/Vector.svg"width = "50"alt="" class="imageOfUser">
+                                        <input type="file" onchange = "showFile(this)"accept="image/gif, image/jpeg, image/png, image/svg" name="" class="file">
+                                        
+                                    </div> -->
+                                    {% if user.logo != 0 %}
+                                    <div class="imageBoxProfile">
+                                        <img src="data:;base64, {{user.logo}}"width = "50"alt="" class="imageOfUserChoose">
+                                    </div>
+                                    {% else %}
+                                    <div class="imageBoxProfile">
+                                        <img src="{{url_for('static', filename='img/add-photo.png')}}"width = "50"alt="" class="imageOfUserChoose">
+                                    </div>
+                                    {% endif %}
 
-                                
+
                             </div>
                             <div class="spanWithInput inner">
                                 <div><span class="firstPart">Адрес</span><span class="secondPart"></span></div>
@@ -96,90 +129,97 @@
                             <div class="spanWithInput inner phoneSpan">
                                 <div><span class="firstPart">Телефон</span><span class="secondPart"></span></div>
                                 {% if user.phone_number==0 %}
-                                <input type = "text" value=""  readonly class="profileNum" re/>
+                                <input type="text" value="" readonly class="profileNum" re />
                                 {% else %}
-                                <input type = "text" value="{{user.phone_number}}"  readonly class="profileNum" re/>
+                                <input type="text" value="{{user.phone_number}}" readonly class="profileNum" re />
                                 {% endif %}
-                            </div>  
+                            </div>
                             <div class="saveLine inner">
                                 <button class="changeProfile lng-changeProfile">Редактировать профиль</button>
                             </div>
                         </div>
-                       
+
                     </div>
-                    <form action="/myprofile" method="POST" enctype="multipart/form-data">
-                    <div class="myProfileInner changeProf">
-                        <div class="box boxForMainInformation">
-                            <div class="mainTitle inner">
-                                <h1 class="lng-changeProfile">Редактировать профиль</h1>
-                            </div>
-                            <div class="spanWithInput inner">
-                                <div><span class="firstPart lng-yourProfile">Ваше имя</span><span class="secondPart lng-atleast4"> (не менее 4 символов)</span></div>
-                                <input type="text" name="username" placeholder="{{username}}">
-                            </div>
-                            <div class="spanWithInput inner">
-                                <div><span class="firstPart lng-photoOrLogo">Фото или логотип</span><span class="secondPart lng-format"> (Формат - jpg или png, максимальный размер 5 Мб)</span></div>
-                                <!-- <div class="boxForImage withBack">
-                                    <img src="img/Vector.svg"width = "50"alt="" class="imageOfUser">
-                                    <input type="file" onchange = "showFile(this)"accept="image/gif, image/jpeg, image/png, image/svg" name="" class="file">
-                                    
-                                </div> -->
-                                <div class="imageBoxProfile">
-                                    <img src="img/Vector.svg"width = "50"alt="" class="imageOfUserChoose">
-                                    <input type="file" onchange = "showFileProfile(this)"accept="image/gif, image/jpeg, image/png, image/svg" name="logo" class="file">
+                    <form action="/myprofile/{{lang}}" method="POST" enctype="multipart/form-data">
+                        <div class="myProfileInner changeProf">
+                            <div class="box boxForMainInformation">
+                                <div class="mainTitle inner">
+                                    <h1 class="lng-changeProfile">Редактировать профиль</h1>
                                 </div>
-                                
+                                <div class="spanWithInput inner">
+                                    <div><span class="firstPart lng-yourProfile">Ваше имя</span><span
+                                            class="secondPart lng-atleast4"> (не менее 4 символов)</span></div>
+                                    <input type="text" name="username" placeholder="{{username}}">
+                                </div>
+                                <div class="spanWithInput inner">
+                                    <div><span class="firstPart lng-photoOrLogo">Фото или логотип</span><span
+                                            class="secondPart lng-format"> (Формат - jpg или png, максимальный размер 5
+                                            Мб)</span></div>
+                                    <div class="imageBoxProfile">
+                                        <img src="{{url_for('static', filename='img/add-photo.png')}}" width="50" alt="" class="imageOfUserChoose">
+                                        <input type="file" onchange="showFileProfile(this)"
+                                            accept="image/gif, image/jpeg, image/png, image/svg" name="logo"
+                                            class="file">
+                                    </div>
+
+                                </div>
+
+                                <div class="spanWithInput inner phoneSpan">
+                                    <div><span class="firstPart">Телефон</span><span class="secondPart"></span></div>
+                                    {% if user.phone_number == 0 %}
+                                    <input type="text" class="profileNum" name="phone_number">
+                                    {% else %}
+                                    <input type="text" class="profileNum" name="phone_number"
+                                        placeholder="{{user.phone_number}}">
+                                    {% endif %}
+                                </div>
+                                <!-- <div class="saveLine inner">
+                                    <button class="save">Сохранить</button>
+                                </div> -->
                             </div>
-                           
-                            <div class="spanWithInput inner phoneSpan">
-                                <div><span class="firstPart">Телефон</span><span class="secondPart"></span></div>
-                                <input type="text" class="profileNum" name="phone_number" placeholder="{{user.phone_number}}">
-                            </div>  
-                            <!-- <div class="saveLine inner">
-                                <button class="save">Сохранить</button>
-                            </div> -->
-                        </div>
-                        <div class="box boxForChangingPassword">
-                            <div class="mainTitle inner">
-                                <h1 class="lng-changePass">Изменить пароль</h1>
+                            <div class="box boxForChangingPassword">
+                                <div class="mainTitle inner">
+                                    <h1 class="lng-changePass">Изменить пароль</h1>
+                                </div>
+                                <div class="spanWithInput inner">
+                                    <div><span class="firstPart lng-newPass">Новый пароль</span><span
+                                            class="secondPart"></span></div>
+                                    <input type="password" name="password">
+                                </div>
+                                <div class="spanWithInput inner">
+                                    <div><span class="firstPart lng-repeatPass">Повторите пароль</span><span
+                                            class="secondPart"></span></div>
+                                    <input type="password">
+                                </div>
+                                <div class="saveLine inner">
+                                    <!-- <button class="saveNewPassword lng-changePass">Изменить пароль</button> -->
+                                </div>
                             </div>
-                            <div class="spanWithInput inner">
-                                <div><span class="firstPart lng-newPass">Новый пароль</span><span class="secondPart"></span></div>
-                                <input type="password" name="password">
-                            </div>
-                            <div class="spanWithInput inner">
-                                <div><span class="firstPart lng-newPass">Повторите пароль</span><span class="secondPart"></span></div>
-                                <input type="password">
-                            </div>
-                            <div class="saveLine inner">
-                                <!-- <button class="saveNewPassword lng-changePass">Изменить пароль</button> -->
-                            </div>
-                        </div>
-                        <div class="box boxConfirm">
-                            <div class="mainTitle inner">
-                                <h1 class="lng-confirm">Подтверждение</h1>
-                            </div>
-                            <div class="confirmButtonLine inner">
-                                
-                                    <div><span class="firstPart lng-newPass">Введите текущий пароль</span></div>
+                            <div class="box boxConfirm">
+                                <div class="mainTitle inner">
+                                    <h1 class="lng-confirm">Подтверждение</h1>
+                                </div>
+                                <div class="confirmButtonLine inner">
+
+                                    <div><span class="firstPart lng-currentPass">Введите текущий пароль</span></div>
                                     <input type="password" name="userPrevPassword" required>
-                              
-                                <button type="submit" class="lng-changeNew">Сохранить изменения</button>
+
+                                    <button type="submit" class="lng-changeNew">Сохранить изменения</button>
+                                </div>
+
                             </div>
-                        
+
                         </div>
-                    
-                    </div>
-                </form> 
+                    </form>
                 </section>
                 {% endblock content %}
-                
 
-                
-                
+
+
+
             </div>
         </section>
-        
+
         <footer>
             <div class="footerChild">
                 <div class="first">
@@ -197,6 +237,10 @@
                 </div>
             </div>
         </footer>
+
+    </div>
+
+
     </div>
     <div class="shadow">
         <div class="cityList">
@@ -217,7 +261,7 @@
                 <li>Мангистауская область</li>
                 <li>Павлодарская область</li>
                 <li>Северо-Казахстанская область</li>
-                <li>Туркестанская  область</li>
+                <li>Туркестанская область</li>
                 <li>Нур-Султан</li>
                 <li>Алматы</li>
                 <li>Шымкент</li>
@@ -246,10 +290,11 @@
     <script src="../static/js/lang.js"></script>
     <!-- <script src="js/counter.js"></script> -->
     <style>
-        *{
+        * {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
     <script src="../static/js/vuemin.js"></script>
 </body>
+
 </html>

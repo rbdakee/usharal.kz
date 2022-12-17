@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,34 +11,58 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>{{title}}</title>
 </head>
+
 <body>
     <div class="all">
         <header>
             <div class="headerChild">
-                <div class="text" title="Вернуться к главной странице"><a href="/" style='text-decoration:none' class="text">usharal.kz</a></div>
-                <div class="lang"><span class="langSpan rus chosen">рус </span>|<span class="qaz langSpan"> қаз</span></div>
+
+                <div class="text" title="Вернуться к главной странице"><a
+                        href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
+                        class="text">usharal.kz</a></div>
+                {% if lang == 'rulang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
+                        class="qaz langSpan">
+                        қаз</a>
+                </div>
+                {% elif lang == 'kzlang' %}
+                <div class="lang"><a href='rulang' class="langSpan rus">рус </span>|<a href='kzlang'
+                            class="qaz langSpan chosen"> қаз</a>
+                </div>
+                {% endif %}
+                <div id="lang_hidden" hidden>{{lang}}</div>
                 <div class="moreItems">
                     <div class="dropdown">
                         <span class="lng-personal"><i class="fa-regular fa-user "></i> Личный Кабинет</span>
                         <div class="dropdown-content">
-                            <a href="{{menu[0].url}}" class="lng-message messages">{{menu[0].name}}</a>
-                            <a href="{{menu[1].url}}" class="lng-myPosts messages">{{menu[1].name}}</a>
-                            <a href="{{menu[2].url}}" class="lng-payment messages">{{menu[2].name}}</a>
-                            <a href="{{menu[3].url}}" class="lng-myProfile messages">{{menu[3].name}}</a>
+                            <a class="lng-message messages" href="{{url_for('messages', lang=session['lang'])}}">
+                                {{menu[0].name}}</a>
+                            <a class="lng-myPosts messages" href="{{url_for('myposts', lang=session['lang'])}}">
+                                {{menu[1].name}}</a>
+                            <a href="{{url_for('payments', lang=session['lang'])}}"
+                                class="lng-payment messages">{{menu[2].name}}</a>
+                            <a href="{{url_for('myprofile', lang=session['lang'])}}"
+                                class="lng-myProfile messages">{{menu[3].name}}</a>
                             <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
-                          </div>
+                        </div>
                     </div>
-                    <span class="favourite"><a href="{{'favorites'}}" class="lng-favourite-second "><i class="fa-regular fa-heart"></i> Избранные</a></span>
-                    <span class=" messages"><a  class="lng-message-second" href="{{'messages'}}" ><i class="fa-regular fa-comment"></i> Сообщения</a></span>
+                    <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
+                            class=" lng-favourite-second "><i class=" fa-regular fa-heart"></i> Избранные</a></span>
+                    <span class=" messages"><a class="lng-message-second"
+                            href="{{url_for('messages', lang=session['lang'])}}"><i class="fa-regular fa-comment"></i>
+                            Сообщения</a></span>
                 </div>
                 <div class="newObject">
-                    <a href="{{'newpost'}}"><button class="add lng-newPost">Подать объявление</button></a>
+                    <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
+                            объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text" href="{{uuurl}}">{{username}}</a>
+                    <a style='text-decoration:none' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                 </div>
             </div>
         </header>
+
         <section class="messageSection active">
             <div class="mask"></div>
             <div class="messageSectionChild">
@@ -49,96 +74,102 @@
                     </div>
                     <div class="div2">
                         <div class="divPart2">
-                            <span class="messageLink message"><a class="lng-message" href="{{menu[0].url}}" style="color: black; text-decoration:none;">Сообщения</a></span>
-                            <span class="messageLink activeLink"><a class="lng-myPosts" href="{{menu[1].url}}" style="color: #ffc53a; text-decoration:none;">Мои объявления</a></span>
-                            <span class="messageLink"><a class="lng-payment" href="{{menu[2].url}}" style="color: black; text-decoration:none;">Платежи и счёт</a></span>
-                            <span class="messageLink"><a class="lng-myProfile" href="{{menu[3].url}}" style="color: black; text-decoration:none;">Мой профиль</a></span>
+
+                            <span class="messageLink message"><a class="lng-message"
+                                    href="{{url_for('messages', lang=session['lang'])}}"
+                                    style="color: black; text-decoration:none;">Сообщения</a></span>
+                            <span class="messageLink activeLink"><a class="lng-myPosts"
+                                    href="{{url_for('myposts', lang=session['lang'])}}"
+                                    style="color: #ffc53a; text-decoration:none;">Мои объявления</a></span>
+                            <span class="messageLink"><a class="lng-payment"
+                                    href="{{url_for('payments', lang=session['lang'])}}"
+                                    style="color: black; text-decoration:none;">Платежи и счёт</a></span>
+                            <span class="messageLink"><a class="lng-myProfile"
+                                    href="{{url_for('myprofile', lang=session['lang'])}}"
+                                    style="color: black; text-decoration:none;">Мой профиль</a></span>
                         </div>
-                        
+
                     </div>
                 </div>
-               <!--<section class="mainMessage activePart">
-                    <div class="contactSide">
-                        <div class="sellAndBye">
-                            <div class="sell activeLink btnSAB">Продаю</div>
-                            <div class="bye btnSAB">Покупаю</div>
+                <!--<section class="mainMessage activePart">
+                        <div class="contactSide">
+                            <div class="sellAndBye">
+                                <div class="sell activeLink btnSAB">Продаю</div>
+                                <div class="bye btnSAB">Покупаю</div>
+                            </div>
+                            <div class="messageCategories">
+                                <span class="allMessages messagesType activeLink">Все</span>
+                                <span class="favouriteMessages messagesType">Избранные</span>
+                                <span class="trashMessages messagesType">Корзина</span>
+                            </div>
                         </div>
-                        <div class="messageCategories">
-                            <span class="allMessages messagesType activeLink">Все</span>
-                            <span class="favouriteMessages messagesType">Избранные</span>
-                            <span class="trashMessages messagesType">Корзина</span>
-                        </div>
-                    </div>
-                    <div class="messageSide"></div>
-                </section> -->
+                        <div class="messageSide"></div>
+                    </section> -->
                 <section class="myPosts">
                     <div class="myPostsInner">
                         <div class="header">
                             <div class="allStatusOfPosts">
                                 <span class="activeMPC lng-active activeLink">Активные</span>
                                 <span class="nonActive lng-nonActive">Не активные</span>
-                                <span class="deleted lng-trash">Корзина</span>
                             </div>
-                            
+
                         </div>
                         <div class="mainMyPostsContent findWithThat">
                             <div class="searchPartMy">
-                                <input type="text" class = 'lng-searchByTitle'placeholder="Поиск по заголовку">
+                                <input type="text" class='lng-searchByTitle' placeholder="Поиск по заголовку">
                                 <div class="searchControl">
-                                    
-                                    <div class="chooseCategory allCat"onclick="modal('newPost', 0)">
-                                        <div classParent = 'mainMyPostsContent' class="allCatChild lng-categories-two" onclick="modal('newPost', 0)">Все категории </div><i class="fa-solid arrow fa-angle-down"></i>
+
+                                    <div class="chooseCategory allCat" onclick="modal('newPost', 0)">
+                                        <div classParent='mainMyPostsContent' class="allCatChild lng-categories-two"
+                                            onclick="modal('newPost', 0)">Все категории </div><i
+                                            class="fa-solid arrow fa-angle-down"></i>
                                     </div>
-                                    
+
                                     <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
-                                    <div onclick="myFunction(this.classList[1])"class="wholeList wholeListOne">
-                                        <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
-                                        <div id="myDropdown" class="wholeList-content">
-                                          <a href="#" onclick="insert(this, 0)">По возростанию <i class="fa-solid arrow fa-angle-up"></i> </a> 
-                                          <a href="#" onclick="insert(this, 0)">По убыванию <i class="fa-solid arrow fa-angle-down"></i> </a> 
-                                          <a href="#" onclick="insert(this, 0)">По Умолчанию  </a> 
-                                        </div>
-                                      </div>
-                                   
+
+
                                 </div>
                             </div>
                             <div class="chooseAllAndDel">
-                               <div class="chooseDiv">
-                                    <input type="checkbox"  name="chooseAll" id="check" onchange="checkboxFunc(0)">
+                                <div class="chooseDiv">
+                                    <input type="checkbox" name="chooseAll" id="check" onchange="checkboxFunc(0)">
                                     <label for="chooseAll">Выбрать все</label>
-                               </div>
-                               <div class="delAll">
-                                    <span class="absolutelyNotYou">В Корзину</span>
-                               </div>
+                                </div>
+
                             </div>
                             <div class="allMyContent visible">
 
-                        {% block content %}    
-                            {% for post in posts %}
+                                {% block content %}
+                                {% for post in posts %}
                                 {% if post.status == 1 %}
                                 <div class="myContent">
                                     <div class="lineForCheckbox">
-                                        <input type="checkbox" onchange = "  " name="" id="check">
+                                        <input type="checkbox" onchange="  " name="" id="check">
                                     </div>
                                     <div class="boxForCon">
                                         <div class="forImg">
                                             <img src="data:;base64, {{post.photos[0]}}" alt="" srcset="">
                                         </div>
                                         <div class="forMainContent">
-    
+
                                             <div class="blocks nameOfTheProduct">
-                                                <a href="/content/{{post.id}}" style="color: black; text-decoration:underline;">{{post.title}}</a>
+                                                <a href="/content/{{post.id}}"
+                                                    style="color: black; text-decoration:underline;">{{post.title}}</a>
                                             </div>
                                             <div class="blocks a">
-                                                                                              <a href="">Электроника </a>
+                                                <a href="">{{post.category}}</a>
                                             </div>
-                                            <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span class="isFree">{{post.facility}}</span></div>
+                                            <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span
+                                                    class="isFree">{{post.facility}}</span></div>
                                             <div class="blocks dataDate">
                                                 <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - {{post.post_date}}
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата
+                                                        добавления </span> - {{post.post_date}}
                                                 </span>
                                                 <span class="deleteDate">
-                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - {{post.deactivate_date}}
+                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span
+                                                        class="bold">Дата
+                                                        удаления</span> - {{post.deactivate_date}}
                                                 </span>
                                             </div>
                                             <div class="blocks">
@@ -149,20 +180,21 @@
                                                 </div>
                                                 <div class="buttons">
                                                     <button>Редактировать</button>
-                                                    <button><a href="/post_deactivation/{{post.id}}" style="color: black; text-decoration:none;">Деактивировать</a></button>
+                                                    <button><a href="/post_deactivation/{{post.id}}/{{session['lang']}}"
+                                                            style="color: black; text-decoration:none;">Деактивировать</a></button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 {% endif %}
-                            {% endfor %}
-                        
+                                {% endfor %}
+
                             </div>
-                                
-                           
-                           
-                          
+
+
+
+
                             <div class="imgThink close">
                                 <img src="static/img/think.png" alt="no">
                                 <span>Ничего не найдено</span>
@@ -171,11 +203,11 @@
                                 <div class="myContentAngle firstCon">
                                     <span class="fa-solid fa-angles-left"></span>
                                 </div>
-                                <div class="myContentAngle previousMyContents" >
-                                    <span class="fa-solid  fa-angle-left" ></span>
+                                <div class="myContentAngle previousMyContents">
+                                    <span class="fa-solid  fa-angle-left"></span>
                                 </div>
                                 <div class="lineForNewButtons"></div>
-                                <div class="myContentAngle nextMyContents" >
+                                <div class="myContentAngle nextMyContents">
                                     <span class="fa-solid  fa-angle-right"></span>
                                 </div>
                                 <div class="myContentAngle lastCon">
@@ -183,124 +215,6 @@
                                 </div>
                             </div>
                             <!-- <div class="searchButtonLine">
-                                <div class="myContentAngle firstCon">
-                                    <span class="fa-solid fa-angles-left"></span>
-                                </div>
-                                <div class="myContentAngle previousMyContents" >
-                                    <span class="fa-solid  fa-angle-left" ></span>
-                                </div>
-                                <div class="lineForNewButtons"></div>
-                                <div class="myContentAngle nextMyContents" >
-                                    <span class="fa-solid  fa-angle-right"></span>
-                                </div>
-                                <div class="myContentAngle lastCon">
-                                    <span class="fa-solid fa-angles-right"></span>
-                                </div>
-                            </div> -->
-                         
-                            
-                        </div>
-                      
-                        <div class="nonActivePosts findWithThat mpc">
-                            <div class="searchPartMy">
-                                <input type="text" placeholder="Поиск по заголовку">
-                                <div class="searchControl">
-                                     
-                                    <div class="chooseCategory allCat"onclick="modal('newPost',1)">
-                                        <div classParent = '' class="allCatChild" onclick="modal('newPost')">Все категории </div><i class="fa-solid arrow fa-angle-down"></i>
-                                    </div>
-                                     
-                                    <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
-                                    <div onclick="myFunction(this.classList[1])"class="wholeList wholeListTwo">
-                                        <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
-                                        <div id="myDropdown" class="wholeList-content">
-                                          <a href="#" onclick="insert(this, 1)">По возростанию <i class="fa-solid arrow fa-angle-up"></i> </a> 
-                                          <a href="#" onclick="insert(this, 1)">По убыванию <i class="fa-solid arrow fa-angle-down"></i> </a> 
-                                          <a href="#" onclick="insert(this, 1)">По Умолчанию  </a> 
-                                        </div>
-                                      </div>
-                                     
-                                </div>
-                            </div>
-                            <div class="chooseAllAndDel">
-                               <div class="chooseDiv">
-                                    <input type="checkbox"  name="chooseAll" id="check" onchange="checkboxFunc(1)">
-                                    <label for="chooseAll">Выбрать все</label>
-                               </div>
-                               <div class="delAll">
-                                    <span class="absolutelyNotYou">В Корзину</span>
-                               </div>
-                            </div>
-                           
-                            <div class="allMyContent visible">
-                                   
-                            {% for post in posts %}
-                                {% if post.status == 0 %}
-                                <div class="myContent">
-                                    <div class="lineForCheckbox">
-                                        <input type="checkbox" onchange = "  " name="" id="check">
-                                    </div>
-                                    <div class="boxForCon">
-                                        <div class="forImg">
-                                            <img src="data:;base64, {{post.photos[0]}}" alt="" srcset="">
-                                        </div>
-                                        <div class="forMainContent">
-    
-                                            <div class="blocks nameOfTheProduct">
-                                                <a href="/content/{{post.id}}" style="color: black; text-decoration:underline;">{{post.title}}</a>
-                                            </div>
-                                            <div class="blocks a">
-                                                                                              <a href="">Электроника </a>
-                                            </div>
-                                            <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span class="isFree">(возможен обмен)</span></div>
-                                            <div class="blocks dataDate">
-                                                <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - {{post.post_date}}
-                                                </span>
-                                                <span class="deleteDate">
-                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - {{post.deactivate_date}}
-                                                </span>
-                                            </div>
-                                            <div class="blocks">
-                                                <div class="signs">
-                                                    <i class="fa fa-eye"></i><span class="number">1</span>
-                                                    <i class='fa fa-heart-o'></i><span class="number">1</span>
-                                                    <i class="fa-regular fa-comment"></i><span class="number">1</span>
-                                                </div>
-                                                <div class="buttons">
-                                                    <button>Редактировать</button>
-                                                    <button><a href="/post_activation/{{post.id}}" style="color: black; text-decoration:none;">Aктивировать</a></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endif %}
-                            {% endfor %}
-                        {% endblock content %}
-                            </div>
-                               
-                              
-                                <div class="imgThink close">
-                                    <img src="img/think.png" alt="no">
-                                    <span>Ничего не найдено</span>
-                                </div>
-                                <div class="bottomBut">
-                                    <div class="myContentAngle firstCon">
-                                        <span class="fa-solid fa-angles-left"></span>
-                                    </div>
-                                    <div class="myContentAngle previousMyContents" >
-                                        <span class="fa-solid  fa-angle-left" ></span>
-                                    </div>
-                                    <div class="lineForNewButtons"></div>
-                                    <div class="myContentAngle nextMyContents" >
-                                        <span class="fa-solid  fa-angle-right"></span>
-                                    </div>
-                                    <div class="myContentAngle lastCon">
-                                        <span class="fa-solid fa-angles-right"></span>
-                                    </div>
-                                </div>
-                                <!-- <div class="searchButtonLine">
                                     <div class="myContentAngle firstCon">
                                         <span class="fa-solid fa-angles-left"></span>
                                     </div>
@@ -315,68 +229,64 @@
                                         <span class="fa-solid fa-angles-right"></span>
                                     </div>
                                 </div> -->
-                             
-                            
-                         
-                            
-                       
+
+
                         </div>
-                        
-                        <div class="trashMyPostsContent findWithThat mpc">
+
+                        <div class="nonActivePosts findWithThat mpc">
                             <div class="searchPartMy">
                                 <input type="text" placeholder="Поиск по заголовку">
                                 <div class="searchControl">
-                                     
-                                    <div class="chooseCategory allCat"onclick="modal('newPost',2)">
-                                        <div classParent = 'mainMyPostsContent' class="allCatChild" onclick="modal('newPost')">Все категории </div><i class="fa-solid arrow fa-angle-down"></i>
+
+                                    <div class="chooseCategory allCat" onclick="modal('newPost',1)">
+                                        <div classParent='' class="allCatChild" onclick="modal('newPost')">Все категории
+                                        </div><i class="fa-solid arrow fa-angle-down"></i>
                                     </div>
-                                     
+
                                     <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
-                                    <div onclick="myFunction(this.classList[1])"class="wholeList wholeListThree">
-                                        <button  class="wholeList-btn sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></button>
-                                        <div id="myDropdown" class="wholeList-content">
-                                          <a href="#" onclick="insert(this, 2)">По возростанию <i class="fa-solid arrow fa-angle-up"></i> </a> 
-                                          <a href="#" onclick="insert(this, 2)">По убыванию <i class="fa-solid arrow fa-angle-down"></i> </a> 
-                                          <a href="#" onclick="insert(this, 2)">По Умолчанию  </a> 
-                                        </div>
-                                      </div>
-                                     
+
                                 </div>
                             </div>
                             <div class="chooseAllAndDel">
-                               <div class="chooseDiv">
-                                    <input type="checkbox"  name="chooseAll" id="check" onchange="checkboxFunc(2)">
+                                <div class="chooseDiv">
+                                    <input type="checkbox" name="chooseAll" id="check" onchange="checkboxFunc(1)">
                                     <label for="chooseAll">Выбрать все</label>
-                               </div>
-                               <div class="delAll">
-                                    <span class="absolutelyNotYou">В Корзину</span>
-                               </div>
+                                </div>
+
                             </div>
-                           
+
                             <div class="allMyContent visible">
+
+                                {% for post in posts %}
+                                {% if post.status == 0 %}
                                 <div class="myContent">
                                     <div class="lineForCheckbox">
-                                        <input type="checkbox" onchange = "  " name="" id="check">
+                                        <input type="checkbox" onchange="  " name="" id="check">
                                     </div>
                                     <div class="boxForCon">
                                         <div class="forImg">
-                                            <img src="img/ex.png" alt="" srcset="">
+                                            <img src="data:;base64, {{post.photos[0]}}" alt="" srcset="">
                                         </div>
                                         <div class="forMainContent">
-    
+
                                             <div class="blocks nameOfTheProduct">
-                                                1
+                                                <a href="/content/{{post.id}}"
+                                                    style="color: black; text-decoration:underline;">{{post.title}}</a>
                                             </div>
                                             <div class="blocks a">
-                                                                                              <a href="">Электроника </a>
+                                                <a href="">Электроника </a>
                                             </div>
-                                            <div class="blocks"><input readonly class="cost" value="90000000"><span class="isFree">(возможен обмен)</span></div>
+                                            <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span
+                                                    class="isFree">(возможен обмен)</span></div>
                                             <div class="blocks dataDate">
                                                 <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата добавления    </span> - 12.07.2022
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата
+                                                        добавления </span> - {{post.post_date}}
                                                 </span>
                                                 <span class="deleteDate">
-                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span class="bold">Дата удаления</span> - 13.07.2022
+                                                    <i class=" calen fa fa-calendar-minus-o"></i> <span
+                                                        class="bold">Дата
+                                                        удаления</span> - {{post.deactivate_date}}
                                                 </span>
                                             </div>
                                             <div class="blocks">
@@ -386,70 +296,73 @@
                                                     <i class="fa-regular fa-comment"></i><span class="number">1</span>
                                                 </div>
                                                 <div class="buttons">
-                                                    <button>Активировать</button>
                                                     <button>Редактировать</button>
-                                                    <button>Деактивировать</button>
+                                                    <button><a href="/post_activation/{{post.id}}"
+                                                            style="color: black; text-decoration:none;">Aктивировать</a></button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endblock content %}
                             </div>
 
-                               
-                               
-                              
-                                <div class="imgThink close">
-                                    <img src="img/think.png" alt="no">
 
-                                    <span>Ничего не найдено</span>
+                            <div class="imgThink close">
+                                <img src="img/think.png" alt="no">
+                                <span>Ничего не найдено</span>
+                            </div>
+                            <div class="bottomBut">
+                                <div class="myContentAngle firstCon">
+                                    <span class="fa-solid fa-angles-left"></span>
                                 </div>
-                                <div class="bottomBut">
-                                    <div class="myContentAngle firstCon">
-                                        <span class="fa-solid fa-angles-left"></span>
-                                    </div>
-                                    <div class="myContentAngle previousMyContents" >
-                                        <span class="fa-solid  fa-angle-left" ></span>
-                                    </div>
-                                    <div class="lineForNewButtons"></div>
-                                    <div class="myContentAngle nextMyContents" >
-                                        <span class="fa-solid  fa-angle-right"></span>
-                                    </div>
-                                    <div class="myContentAngle lastCon">
-                                        <span class="fa-solid fa-angles-right"></span>
-                                    </div>
+                                <div class="myContentAngle previousMyContents">
+                                    <span class="fa-solid  fa-angle-left"></span>
                                 </div>
-                                <!-- <div class="searchButtonLine">
-                                    <div class="myContentAngle firstCon">
-                                        <span class="fa-solid fa-angles-left"></span>
-                                    </div>
-                                    <div class="myContentAngle previousMyContents" >
-                                        <span class="fa-solid  fa-angle-left" ></span>
-                                    </div>
-                                    <div class="lineForNewButtons"></div>
-                                    <div class="myContentAngle nextMyContents" >
-                                        <span class="fa-solid  fa-angle-right"></span>
-                                    </div>
-                                    <div class="myContentAngle lastCon">
-                                        <span class="fa-solid fa-angles-right"></span>
-                                    </div>
+                                <div class="lineForNewButtons"></div>
+                                <div class="myContentAngle nextMyContents">
+                                    <span class="fa-solid  fa-angle-right"></span>
                                 </div>
-                            
-                          -->
-                            
+                                <div class="myContentAngle lastCon">
+                                    <span class="fa-solid fa-angles-right"></span>
+                                </div>
+                            </div>
+                            <!-- <div class="searchButtonLine">
+                                        <div class="myContentAngle firstCon">
+                                            <span class="fa-solid fa-angles-left"></span>
+                                        </div>
+                                        <div class="myContentAngle previousMyContents" >
+                                            <span class="fa-solid  fa-angle-left" ></span>
+                                        </div>
+                                        <div class="lineForNewButtons"></div>
+                                        <div class="myContentAngle nextMyContents" >
+                                            <span class="fa-solid  fa-angle-right"></span>
+                                        </div>
+                                        <div class="myContentAngle lastCon">
+                                            <span class="fa-solid fa-angles-right"></span>
+                                        </div>
+                                    </div> -->
+
+
+
+
+
                         </div>
-                       
-                    </div>
-                    
-                    
-                </section>
-               
 
-                
-                
+
+                    </div>
+
+
+                </section>
+
+
+
+
             </div>
         </section>
-        
+
         <footer>
             <div class="footerChild">
                 <div class="first">
@@ -467,6 +380,8 @@
                 </div>
             </div>
         </footer>
+    </div>
+
     </div>
     <div class="shadow">
         <div class="cityList">
@@ -487,7 +402,7 @@
                 <li>Мангистауская область</li>
                 <li>Павлодарская область</li>
                 <li>Северо-Казахстанская область</li>
-                <li>Туркестанская  область</li>
+                <li>Туркестанская область</li>
                 <li>Нур-Султан</li>
                 <li>Алматы</li>
                 <li>Шымкент</li>
@@ -516,10 +431,11 @@
     <script src="../static/js/lang.js"></script>
     <!-- <script src="js/counter.js"></script> -->
     <style>
-        *{
+        * {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
     <script src="../static/js/vuemin.js"></script>
 </body>
+
 </html>

@@ -56,8 +56,7 @@ class Users(db.Model):
         email = user.email
         username = user.username
         if user.logo != None:
-            logo = base64.b64encode(user.logo).decode('ascii')
-           
+            logo = base64.b64encode(user.logo).decode('ascii')  
         else:
             logo = 0
         if user.phone_number != None:
@@ -79,6 +78,13 @@ class Users(db.Model):
             user.username = username
         db.session.commit()
 
+    def return_user_logo(user_id):
+        user = Users.query.filter_by(id = user_id).first()
+        if user.logo != None:
+            logo = base64.b64encode(user.logo).decode('ascii')
+            return logo
+        else:
+            return 0
 
 def registration(username, email, password):
     user = Users.query.filter_by(email=email).first()
@@ -195,7 +201,28 @@ class Posts(db.Model):
             id = posts[i].id
             title = posts[i].post_title
             phone_number = posts[i].phone_number
-            category = posts[i].category
+            if posts[i].category == 1:
+                category = 'Услуги'
+            elif posts[i].category == 2:
+                category = 'Электроника'
+            elif posts[i].category == 3:
+                category = 'Личные вещи'
+            elif posts[i].category == 4:
+                category = 'Детям'
+            elif posts[i].category == 5:
+                category = 'Для бизнеса'
+            elif posts[i].category == 6:
+                category = 'Животные'
+            elif posts[i].category == 7:
+                category = 'Для дома'
+            elif posts[i].category == 8:
+                category = 'Работа'
+            elif posts[i].category == 9:
+                category = 'Хобби и спорт'
+            elif posts[i].category == 10:
+                category = 'Недвижимость'
+            elif posts[i].category == 11:
+                category = 'Транспорт'
             cost = posts[i].cost
             description = posts[i].description
             post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
@@ -312,7 +339,7 @@ class Posts(db.Model):
         photos = []
         for j in range(len(posts.photo)):
             photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
-        post = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'facility':facility, 'photos':photos}
+        post = {'id':id, 'user_id': user_id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'facility':facility, 'photos':photos}
         return post
 
     def show_several_posts(postsId_list):

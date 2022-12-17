@@ -103,6 +103,10 @@ const langArr = {
         "ru": " Премиум объявления",
         "kz": " Премиум жарнама"
     },
+    "related":{
+        "ru": " Похожие объявления",
+        "kz": " Ұқсас жарнамалар"
+    },
     "want":{
         "ru": " Узнать больше",
         "kz": " Көбірек білу"
@@ -362,12 +366,16 @@ const langArr = {
         "kz": "  (Формат - jpg немесе png, максималды өлшем 5 Мб)"
     },
     "newPass":{
-        "ru": "Новый пароль*", 
+        "ru": "Новый пароль", 
         "kz": "Жаңа құпия сөз"
     },
     "currentPass":{
-        "ru": "Текуший пароль*",
-        "kz": "Қазіргі құпия сөз*"
+        "ru": "Текущий пароль",
+        "kz": "Қазіргі құпия сөз"
+    },
+    "repeatPass":{
+        "ru": "Повторите пароль",
+        "kz": "Құпия сөзді қайталаңыз"
     },
     "changePass": {
         "ru": "Изменить пароль",
@@ -465,7 +473,33 @@ const langArr = {
     "problem": {
         "ru": "Произошла некая ошибка",
         "kz": "Қателік орын алды"
-    }
+    },
+    
 
 
 }
+const changeLang = () => {
+
+    for (let key in langArr) {
+        // console.log(key);
+        let elemAll = document.querySelectorAll('.lng-' + key);
+        elemAll.forEach(elem => {
+            if (elem) {
+                if (elem.tagName == 'INPUT') {
+                    elem.setAttribute("placeholder", langArr[key][hash])
+                }
+                else {
+                    elem.innerHTML = langArr[key][hash];
+                }
+            }
+        })
+
+    }
+}
+
+var dictLang = {
+    'rulang': 'ru',
+    'kzlang': 'kz'
+}
+hash = dictLang[document.querySelector('#lang_hidden').innerText]
+changeLang()

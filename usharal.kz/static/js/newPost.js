@@ -54,45 +54,8 @@ const deleteFunction = (btn) => {
 const list = ["ru", "kz"]
 const langAll = document.querySelectorAll(".langSpan")
 let hash = 'ru'
-langAll.forEach((lang, index) => {
-    lang.addEventListener('click', () => {
-        
-        if(index == 0){
-            langAll[1].classList.remove('chosen')
-            hash = 'ru'
-        }
-        else{
-            langAll[0].classList.remove('chosen')
-            hash = 'kz'
-        }
-        lang.classList.add('chosen')
-        changeLang()
-    })
-});
-const changeLang = () => {
-    
-    for (let key in langArr) {
-        // console.log(key);
-        let elemAll = document.querySelectorAll('.lng-' + key);
-        elemAll.forEach(elem => {
-            if (elem) {
-                if((elem.tagName == 'INPUT' && elem.value.length == 0) || elem.tagName == 'TEXTAREA'){
-                    elem.setAttribute("placeholder", langArr[key][hash])
-                }
-                else
-                {
-                    if(elem.tagName != 'INPUT'){
-                        elem.innerHTML = langArr[key][hash];
-                    }
-                    else{
-                        elem.value = langArr[key][hash];
-                    }
-                }
-            }
-        })
 
-    }
-}
+
 var np = false
 const showModal = () => {
     
@@ -449,3 +412,11 @@ var currencyMask = IMask(
         }
     }
     
+
+
+
+const freeField = (el) => {
+    if (el.checked){
+        document.querySelector('.costBlock .inner.lng-costInTenge').value = '₸ 0'
+    }
+} 
