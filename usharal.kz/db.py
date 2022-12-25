@@ -108,6 +108,8 @@ class Posts(db.Model):
     whatsapp_link = db.Column(db.String(100))
     status = db.Column(db.Boolean, default=False, nullable=False)
     advertisement = db.Column(db.Boolean, default=False, nullable=False)
+    view_counter = db.Column(db.Integer)
+    fav_counter = db.Column(db.Integer)
     facility = db.Column(db.Integer)
     photo = db.relationship('Photos', backref='posts')
     favpost = db.relationship('favPosts', backref = 'posts')
@@ -126,6 +128,8 @@ class Posts(db.Model):
         self.status = status
         self.advertisement = advertisement
         self.facility = facility
+        self.view_counter = 0
+        self.fav_counter = 0
         db.session.add(self)
         db.session.commit()
 
@@ -280,6 +284,8 @@ class Posts(db.Model):
             deactivate_date = posts[i].deactivate_date.strftime("%m/%d/%Y %H:%M")
             whatsapp_link = posts[i].whatsapp_link
             status = posts[i].status
+            view_counter = posts[i].view_counter
+            fav_counter = posts[i].fav_counter
             facility = posts[i].facility
             if facility == 1:
                 facility = "Цена"
@@ -290,12 +296,14 @@ class Posts(db.Model):
             photos = []
             for j in range(len(posts[i].photo)):
                 photos.append(base64.b64encode(posts[i].photo[j].data).decode('ascii'))
-            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'status':status, "facility":facility, 'photos':photos})
+            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'status':status, "view_counter":view_counter, "fav_counter":fav_counter, "facility":facility, 'photos':photos})
         postss.reverse()
         return postss
 
     def show_one_post(post_id):
         posts = Posts.query.filter_by(id=post_id).first()
+        posts.view_counter += 1
+        db.session.commit()
         id = posts.id
         user_id = posts.user
         user = Users.query.filter_by(id = user_id).first()
@@ -329,6 +337,8 @@ class Posts(db.Model):
         post_date = posts.post_date.strftime("%m/%d/%Y %H:%M")
         deactivate_date = posts.deactivate_date
         whatsapp_link = posts.whatsapp_link
+        view_counter = posts.view_counter
+        fav_counter = posts.fav_counter
         facility = posts.facility
         if facility == 1:
             facility = "Цена"
@@ -339,7 +349,7 @@ class Posts(db.Model):
         photos = []
         for j in range(len(posts.photo)):
             photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
-        post = {'id':id, 'user_id': user_id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'facility':facility, 'photos':photos}
+        post = {'id':id, 'user_id': user_id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, "view_counter":view_counter, "fav_counter":fav_counter, 'facility':facility, 'photos':photos}
         return post
 
     def show_several_posts(postsId_list):
@@ -449,6 +459,8 @@ class favPosts(db.Model):
         user = Users.query.filter_by(email=user_email).first()
         user_id = user.id
         checker = favPosts.checkUserFavPosts(user_email, post_id)
+        post = Posts.query.filter_by(id = post_id).first()
+        post.fav_counter += 1
         if checker:
             favPost = favPosts(user_id, post_id)
             db.session.add(favPost)
@@ -460,9 +472,12 @@ class favPosts(db.Model):
         post_id=int(post_id)
         user = Users.query.filter_by(email=user_email).first()
         user_id = user.id
+        post = Posts.query.filter_by(id = post_id).first()
+        post.fav_counter -= 1
         post_delete = favPosts.query.filter_by(user_id=user_id, post_id=post_id).first()
         db.session.delete(post_delete)
         db.session.commit()
+
 
     def give_favPostId_of_user(user_email):
         user = Users.query.filter_by(email=user_email).first()
@@ -470,8 +485,5 @@ class favPosts(db.Model):
         posts_id = []
         posts = favPosts.query.filter_by(user_id=user_id).all()
         for post in posts:
-            posts_id.append(post.id)
+            posts_id.append(post.post_id)
         return posts_id
-
-
-

@@ -74,6 +74,7 @@ def index(lang='rulang'):
         return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = 'Все категории')
 
     else:
+        posts = Posts.show_all_posts()
         return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = 'Все категории')
     
 
