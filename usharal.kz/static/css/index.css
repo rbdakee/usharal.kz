@@ -100,7 +100,7 @@ html {
   color: #ffffff90;
 }
 .headerChild {
-  width: 90%;
+  width: 95%;
   height: 100%;
   display: flex;
   justify-content: space-around;
@@ -323,13 +323,20 @@ input:focus {
 .sectionChild {
   background-color: #e5e5e5;
 }
-.category {
+form.category {
   display: flex;
-  flex-direction: column;
+  flex-direction: column !important;
   align-items: center;
   height: 100%;
   width: 120px;
+}
+.category button {
+  display: flex;
+  flex-direction: column !important;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 .textForImg {
   font-size: 13px;
@@ -398,6 +405,9 @@ input:focus {
   font-size: 20px;
 }
 .category:hover {
+}
+.category button:hover {
+  height: 100%;
   background-color: #e5e5e5;
   border-top: 5px solid #ffc53a;
 }
@@ -580,14 +590,18 @@ input:focus {
   height: auto;
 }
 .favouriteSectionChild > .header {
-  width: 70%;
+  width: 80%;
   height: auto;
   margin: 0 auto;
-  display: grid;
+  display: flex;
+  margin-top: 3%;
+  /* border: 1px solid; */
+  justify-content: space-around;
+  /* display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(2, 0.8fr);
   grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-row-gap: 0px; */
 }
 .favouriteText {
   grid-area: 1 / 1 / 2 / 2;
@@ -611,7 +625,9 @@ input:focus {
   z-index: 2;
   border-radius: 7px;
   border: 0.5px solid #6d6b6ba6;
-  width: 100%;
+  width: 60%;
+  margin: auto;
+  height: 50px;
 }
 
 .searchPart input {
@@ -1333,6 +1349,8 @@ textarea:focus {
   height: 50px;
   justify-content: space-around;
   margin-bottom: 25px;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 .twoButtons div {
   width: 45%;
@@ -1342,11 +1360,17 @@ textarea:focus {
 .twoButtons div button {
   width: 100%;
   margin: auto;
+
   border-radius: 5px;
   border: none;
   height: 100%;
   border: 3px solid #ffc53a;
   font-size: 15px;
+}
+.twoButtons a {
+  text-decoration: none;
+  color: #000;
+  padding: 8% 22%;
 }
 .finalButtonDiv button {
   background-color: #ffc53a;
@@ -1642,8 +1666,66 @@ header .lang a {
   color: #fff;
   text-decoration: none;
 }
+.lastel {
+  font-size: 15px;
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+  overflow: hidden;
+  white-space: nowrap;
+  width: 140px !important;
+  border: 0px solid;
+  display: flex;
+}
+.lastel a {
+  font-size: 20px;
+  display: flex;
+  margin: auto;
+}
 
-.category button{
+.category button {
   background-color: white;
   border: none;
+}
+/* 
+.statusContent span.fa:hover {
+  color: red !important;
+  cursor: pointer;
+} */
+.favouriteSectionChild .mainPart.line {
+  height: 720px;
+}
+.reviewBlock {
+  width: 80%;
+  margin: auto;
+  height: 70px;
+  margin-top: 40px;
+  margin-bottom: 0;
+  display: flex;
+  padding: 0 !important;
+}
+.reviewBlock > div {
+  width: 70%;
+  height: 100%;
+  margin-right: auto;
+  margin-left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.reviewBlock > div button {
+  padding: 10px 40px;
+  font-size: large;
+  border-radius: 10px;
+  border: none;
+}
+.reviewBlock > div button:nth-child(2) {
+  border: 2px solid #ffc53a;
+  background-color: #ffc53a;
+  color: white;
+}
+.reviewBlock > div button:nth-child(1) {
+  border: 2px solid #ffc53a;
+  background-color: #f5f5f5;
+  color: black;
 }

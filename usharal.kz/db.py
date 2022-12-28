@@ -86,6 +86,10 @@ class Users(db.Model):
         else:
             return 0
 
+    def return_user_id(user_email):
+        user = Users.query.filter_by(email = user_email).first()
+        return user.id
+
 def registration(username, email, password):
     user = Users.query.filter_by(email=email).first()
     if type(user) == NoneType:
@@ -94,7 +98,6 @@ def registration(username, email, password):
     else:
         return 'Пользователь с таким Email уже существует!'
 
-        
 class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -132,6 +135,9 @@ class Posts(db.Model):
         self.fav_counter = 0
         db.session.add(self)
         db.session.commit()
+
+
+
 
     def edit_post(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement, facility):
         post = Posts.query.filter_by(id = id).first()

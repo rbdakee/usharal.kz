@@ -35,23 +35,7 @@ $(".up").click(function(){
 })
 const list = ["ru", "kz"]
 let hash = 'ru'
-const langAll = document.querySelectorAll(".langSpan")
-// langAll.forEach((lang, index) => {
-//     lang.addEventListener('click', () => {
-        
-//         if(index == 0){
-//             langAll[1].classList.remove('chosen')
-//             hash = 'ru'
-//         }
-//         else{
-//             hash = 'kz'
-//             langAll[0].classList.remove('chosen')
-//         }
-//         lang.classList.add('chosen')
 
-//         changeLang()
-//     })
-// });
 
 
 const postsCateg = document.querySelectorAll(".allStatusOfPosts span")

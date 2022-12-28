@@ -12,7 +12,8 @@
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/font-awesomemin.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/all.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     <title>{{title}}</title>
     <style>
         .newObject button {
@@ -71,6 +72,7 @@
                 </div>
             </div>
         </header>
+
         <section class="mainSection active">
             <div class="mask"></div>
             <div class="sectionChild">
@@ -78,11 +80,12 @@
                     <a href="/{{lang}}" style="text-decoration: none;">
                         <div class="prevLine">
                             <span class="fa fa-angle-left"></span>
-                            <span> Назад</span>
+                            <span class="lng-back"> Назад</span>
                         </div>
                     </a>
                     <div class="mainText">{{post.title}}</div>
-                    <div class="subTextData">Опубликовано {{post.post_date}}</div>
+                    <div><span class="lng-published subTextData"></span> <span
+                            class="subTextData">{{post.post_date}}</span></div>
                     <div class="mainImageAndInfo">
                         <div class="mainImage">
                             <div class="innerDiv controlBtn" onclick="plusSlides(-1, 0)">
@@ -99,24 +102,24 @@
                         <div class="mainInfo">
                             <div class="addToFav">
                                 <i onclick="fill(this)" class="fa-regular fa-heart"></i>
-                                <span>Добавить в избранное</span>
+                                <span class="lng-addToFav">Добавить в избранное</span>
                             </div>
                             <div class="cost">
 
                                 <span>{{post.cost}}</span>
 
                             </div>
-                            <div class="costStat">{{post.facility}}</div>
+                            <div class="costStat {{cat[post.facility]}}">{{post.facility}}</div>
                             <div class="miniProfile">
                                 {% if user_logo != 0 %}
-                                    <img src="data:;base64, {{user_logo}}" height="57" width="57" alt="">
+                                <img src="data:;base64, {{user_logo}}" height="57" width="57" alt="">
                                 {% else %}
-                                    <img src="{{url_for('static', filename = 'img/user.svg')}}" alt="" srcset="">
+                                <img src="{{url_for('static', filename = 'img/user.svg')}}" alt="" srcset="">
                                 {% endif %}
                                 <div class="data">
                                     <div class="name">{{post.username}}</div>
                                 </div>
-                                    </div>
+                            </div>
                             <div class="mobNum">
                                 <div>Телефон</div>
                                 <span>{{post.phone_number}}</span>
@@ -131,7 +134,7 @@
                                 <span>Еще не продали?</span>
                             </div>
                             <div class="writeWhats">
-                                <a href="{{post.whatsapp_link}}">Написать на WhatsApp</a>
+                                <a href="{{post.whatsapp_link}}" class="lng-writeWhats">Написать на WhatsApp</a>
                             </div>
 
                         </div>
@@ -146,7 +149,7 @@
                     </div>
                     <div class="description">
                         <div class="mainDesc">
-                            <h1>Описание</h1>
+                            <h1 class="lng-description">Описание</h1>
                             <div class="actDesc">
                                 {{post.description}}
                             </div>
@@ -156,11 +159,11 @@
                         <div class="sendMsg">
                             <div class="firstL">
                                 <div class="miniProfile">
-                              {% if user_logo != 0 %}
-                              <img src="data:;base64, {{user_logo}}" width="57" height="57">
-                              {% else %}
+                                    {% if user_logo != 0 %}
+                                    <img src="data:;base64, {{user_logo}}" width="57" height="57">
+                                    {% else %}
                                     <img src="{{url_for('static', filename = 'img/user.svg')}}" alt="" srcset="">
-                                {% endif %}
+                                    {% endif %}
                                     <div class="data">
                                         <div class="name">{{post.username}}</div>
                                     </div>
@@ -170,28 +173,37 @@
                                     <span>{{post.phone_number}}</span>
                                 </div>
                             </div>
-                            <h1>Написать продавцу (данный раздел на разработке)</h1>
+                            <h1 class="lng-uDev">Написать продавцу (данный раздел на разработке)</h1>
                             <from method="POST" action="">
-                                <textarea disabled name="" id="" cols="30" rows="10"
+                                <textarea class='lng-yourMessage ' disabled name="" id="" cols="30" rows="10"
                                     placeholder="Ваше сообщение"></textarea>
                                 <div class="lastL">
-                                    <button class="sendToUser">Отправить сообщение</button>
+                                    <button class="sendToUser lng-writeToSeller">Отправить сообщение</button>
                                     <a class="sendToUserWhats" href="{{post.whatsapp_link}}">
-                                        <p>Написать на WhatsApp</p>
+                                        <p class="lng-writeWhats">Написать на WhatsApp</p>
                                     </a>
                                 </div>
                             </from>
                         </div>
                         <div class="advice">
-                            <h2>Советы</h2>
-                            <div>- Никогда не отправляйте предоплату!
+                            <h2 class="lng-advices">Советы</h2>
+                            <div class="lng-d1">- Никогда не отправляйте предоплату!
                             </div>
-                            <div>- Старайтесь встречаться лично с продавцом для покупки товара.</div>
-                            <div>- Не отправляйте деньги, пока не получили товар или услугу.</div>
-                            <div>- Если Вы нашли странные ошибки в словах или явно низкую цену, лучше сторониться таких
+                            <div class="lng-d2">- Старайтесь встречаться лично с продавцом для покупки товара.</div>
+                            <div class="lng-d3">- Не отправляйте деньги, пока не получили товар или услугу.</div>
+                            <div class="lng-d4">- Если Вы нашли странные ошибки в словах или явно низкую цену, лучше
+                                сторониться таких
                                 объявлений.</div>
                         </div>
                     </div>
+
+                    {% if review %}
+                    <div class="reviewBlock">
+                        <div class="reviewBlockChild">
+                            <button onclick="history.back()">Редактировать и опубликовать</button>
+                        </div>
+                    </div>
+                    {% else %}
                     {% block content %}
                     {% if len_of_rel_posts != 1 %}
                     <div class="areaForTextSame">
@@ -217,12 +229,13 @@
                                 <div class="titleContent"
                                     style="text-decoration: none; color:black; margin-bottom: -20px !important;">
                                     {{i.title}}</div>
-                                <div class="categoryContent" style="text-decoration: none; color:black;">{{i.category}}
+                                <div class="categoryContent {{cat[i.category]}}"
+                                    style="text-decoration: none; color:black;">{{i.category}}
                                 </div>
                                 <div class="costContent">{{i.cost}} </div>
                             </a>
                             <div class="statusContent">
-                                <span>{{i.facility}}</span>
+                                <span class="{{cat[i.facility]}}">{{i.facility}}</span>
                                 <input hidden id="text_{{i.id}}" value="{{i.id}}"><span class="fa-regular fa-heart"
                                     onclick="fill(this)" id="spanOfHeart_{{i.id}}"></span>
                             </div>
@@ -233,7 +246,7 @@
                         {% endif %}
                         {% endblock content %}
                     </div>
-
+                    {% endif %}
                 </div>
             </div>
         </section>

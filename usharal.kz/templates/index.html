@@ -58,9 +58,14 @@
                     <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
                             объявление</button></a>
                 </div>
-                <div>
-                    <a style='text-decoration:none' class="text"
+                <div class="lastel">
+                    {% if lenOfUserName <= 11 %}
+                    <a style='text-decoration:none;' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
+                    {% else %}
+                    <a style='text-decoration:none;' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
+                    {% endif %}
                 </div>
             </div>
         </header>
@@ -71,10 +76,10 @@
                 <div class="searchAndCateg">
                     <div class="searchArea">
                         <div onclick="myFunction(this.className)" class="wholeList">
-                            <button class=" wholeList-btn" >{{category}} <i
+                            <button class=" wholeList-btn {{cat[category]}}">{{category}} <i
                                     class="fas arrow fa-angle-down"></i></button>
                             <div id="myDropdown" class="wholeList-content">
-                                <a href="" class="">Все категории</a>
+                                <a href="" class="lng-categories-two">Все категории</a>
                             </div>
                         </div>
                         <div class="inputArea">
@@ -88,60 +93,60 @@
                     <div class="allCategories">
                         <div class="allCategoriesChild">
                             <form action="/{{lang}}" method="post" class="category"><button>
-                                <img class="categoryImage" src="../static/img/services.svg" alt="">
-                                <span class="textForImg lng-service">Услуги</span>
-                                <input hidden value="Услуги" name="category">
-                            </button></form>
-                            <form action="/{{lang}}" method="post" class="category"><button >
-                                <img class="categoryImage" src="../static/img/gadgets.svg" alt="">
-                                <span class="textForImg lng-gadgets">Электроника</span>
-                                <input hidden value="Электроника" name="category">
-                            </button></form>
-                            <form action="/{{lang}}" method="post" class="category"><button >
-                                <img class="categoryImage" src="../static/img/personalItems.svg" alt="">
-                                <span class="textForImg lng-personalItems">Личные вещи</span>
-                                <input hidden value="Личные вещи" name="category">
-                            </button></form>
-                            <form action="/{{lang}}" method="post" class="category"><button >
-                                <img class="categoryImage" src="../static/img/child.svg" alt="">
-                                <span class="textForImg lng-child">Детям</span>
-                                <input hidden value="Детям" name="category">
-                            </button></form>
-                            <form action="/{{lang}}" method="post" class="category"><button >
-                                <img class="categoryImage" src="../static/img/business.svg" alt="">
-                                <span class="textForImg lng-business">Для Бизнеса</span>
-                                <input hidden value="Для Бизнеса" name="category">
-                            </button></form>
-                            <form action="/{{lang}}" method="post" class="category"><button >
-                                <img class="categoryImage" src="../static/img/animals.svg" alt="">
-                                <span class="textForImg lng-animals">Животные</span>
-                                <input hidden value="Животные" name="category">
-                            </button ></form>
-                            <form action="/{{lang}}" method="post" class="category"><button >
-                                <img class="categoryImage" src="../static/img/garden.svg" alt="">
-                                <span class="textForImg lng-house">Для дома</span>
-                                <input hidden value="Для дома" name="category">
-                            </button></form>
-                            <form action="/{{lang}}" method="post" class="category"><button >
-                                <img class="categoryImage" src="../static/img/job.svg" alt="">
-                                <span class="textForImg lng-job">Работа</span>
-                                <input hidden value="Работа" name="category">
-                            </button></form>
-                            <form action="/{{lang}}" method="post" class="category"><button >
-                                <img class="categoryImage" src="../static/img/hobby.svg" alt="">
-                                <span class="textForImg lng-hobby">Хобби и спорт</span>
-                                <input hidden value="Хобби и спорт" name="category">
-                            </button></form>
-                            <form action="/{{lang}}" method="post"class="category"><button >
-                                <img class="categoryImage" src="../static/img/apartments.svg" alt="">
-                                <span class="textForImg lng-apartments">Недвижимость</span>
-                                <input hidden value="Недвижимость" name="category">
-                            </button></form>
-                            <form action="/{{lang}}" method="post" class="category"><button type="submit" >
-                                <img class="categoryImage" src="../static/img/transport.svg" alt="">
-                                <span class="textForImg lng-transport">Транспорт</span>
-                                <input hidden value="Транспорт" name="category">
-                            </button></form>
+                                    <img class="categoryImage" src="../static/img/services.svg" alt="">
+                                    <span class="textForImg lng-service">Услуги</span>
+                                    <input hidden value="Услуги" name="category">
+                                </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button>
+                                    <img class="categoryImage" src="../static/img/gadgets.svg" alt="">
+                                    <span class="textForImg lng-gadgets">Электроника</span>
+                                    <input hidden value="Электроника" name="category">
+                                </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button>
+                                    <img class="categoryImage" src="../static/img/personalItems.svg" alt="">
+                                    <span class="textForImg lng-personalItems">Личные вещи</span>
+                                    <input hidden value="Личные вещи" name="category">
+                                </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button>
+                                    <img class="categoryImage" src="../static/img/child.svg" alt="">
+                                    <span class="textForImg lng-child">Детям</span>
+                                    <input hidden value="Детям" name="category">
+                                </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button>
+                                    <img class="categoryImage" src="../static/img/business.svg" alt="">
+                                    <span class="textForImg lng-business">Для Бизнеса</span>
+                                    <input hidden value="Для Бизнеса" name="category">
+                                </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button>
+                                    <img class="categoryImage" src="../static/img/animals.svg" alt="">
+                                    <span class="textForImg lng-animals">Животные</span>
+                                    <input hidden value="Животные" name="category">
+                                </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button>
+                                    <img class="categoryImage" src="../static/img/garden.svg" alt="">
+                                    <span class="textForImg lng-house">Для дома</span>
+                                    <input hidden value="Для дома" name="category">
+                                </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button>
+                                    <img class="categoryImage" src="../static/img/job.svg" alt="">
+                                    <span class="textForImg lng-job">Работа</span>
+                                    <input hidden value="Работа" name="category">
+                                </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button>
+                                    <img class="categoryImage" src="../static/img/hobby.svg" alt="">
+                                    <span class="textForImg lng-hobby">Хобби и спорт</span>
+                                    <input hidden value="Хобби и спорт" name="category">
+                                </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button>
+                                    <img class="categoryImage" src="../static/img/apartments.svg" alt="">
+                                    <span class="textForImg lng-apartments">Недвижимость</span>
+                                    <input hidden value="Недвижимость" name="category">
+                                </button></form>
+                            <form action="/{{lang}}" method="post" class="category"><button type="submit">
+                                    <img class="categoryImage" src="../static/img/transport.svg" alt="">
+                                    <span class="textForImg lng-transport">Транспорт</span>
+                                    <input hidden value="Транспорт" name="category">
+                                </button></form>
                             </form>
                         </div>
                     </div>
@@ -170,26 +175,30 @@
                                                 <!-- <b><span>{{post.description}}</span></b> -->
                                             </div>
 
-                                            <div class="categoryContent" style="text-decoration: none; color:black;">
+                                            <div class="categoryContent {{cat[post.category]}}"
+                                                style="text-decoration: none; color:black;">
                                                 {{post.category}}</div>
                                             <div class="costContent">{{post.cost}} </div>
                                         </a>
                                         <div class="statusContent">
-                                            <span>{{post.facility}}</span>
+                                            <span class="{{cat[post.facility]}}">{{post.facility}}</span>
                                             {% if post.id in favourites %}
-                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa fa-heart" onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
+                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span
+                                                class="fa fa-heart" onclick="fill(this)"
+                                                id="spanOfHeart_{{post.id}}"></span>
                                             {% else %}
-                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa-regular fa-heart" onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
+                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span
+                                                class="fa-regular fa-heart" onclick="fill(this)"
+                                                id="spanOfHeart_{{post.id}}"></span>
                                             {% endif %}
                                         </div>
                                     </div>
-                          
+
                                     {% endfor %}
 
                                 </div>
                                 <div class="buttonLine">
-                                    <button сlass="showMore lng-yDay">Показать ещё <i
-                                            class="fa-solid arrow fa-angle-down"></i></button>
+                                    <button сlass="lng-showFav"><span class="lng-showFav">Показать ещё</span> </button>
 
                                 </div>
 
@@ -302,14 +311,14 @@
     <script>
         const sock = new WebSocket('ws://' + location.host + '/category');
         document.querySelectorAll('.category').forEach(each => {
-        each.addEventListener('click', () => {
-        var text = each.children[1].innerHTML
-        sock.send(text)
-    })
-}
-    )
+            each.addEventListener('click', () => {
+                var text = each.children[1].innerHTML
+                sock.send(text)
+            })
+        }
+        )
     </script>
-    
+
 
 </body>
 

@@ -57,8 +57,13 @@
                             объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text"
+                    {% if lenOfUserName <= 11 %}
+                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
+                    {% else %}
+                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
+                    {% endif %}
                 </div>
             </div>
         </header>
@@ -69,7 +74,7 @@
                 <div class="headerMessage">
                     <div class="div1">
                         <div class="divPart1">
-                            <span class="messageText">Мои объявления</span>
+                            <span class="messageText lng-myPosts">Мои объявления</span>
                         </div>
                     </div>
                     <div class="div2">
@@ -110,7 +115,7 @@
                         <div class="header">
                             <div class="allStatusOfPosts">
                                 <span class="activeMPC lng-active activeLink">Активные</span>
-                                <span class="nonActive lng-nonActive">Не активные</span>
+                                <span class="nonActive lng-non-active">Не активные</span>
                             </div>
 
                         </div>
@@ -119,11 +124,11 @@
                                 <input type="text" class='lng-searchByTitle' placeholder="Поиск по заголовку">
                                 <div class="searchControl">
 
-                                    <div class="chooseCategory allCat" onclick="modal('newPost', 0)">
+                                    <!-- <div class="chooseCategory allCat" onclick="modal('newPost', 0)">
                                         <div classParent='mainMyPostsContent' class="allCatChild lng-categories-two"
                                             onclick="modal('newPost', 0)">Все категории </div><i
                                             class="fa-solid arrow fa-angle-down"></i>
-                                    </div>
+                                    </div> -->
 
                                     <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
 
@@ -131,10 +136,10 @@
                                 </div>
                             </div>
                             <div class="chooseAllAndDel">
-                                <div class="chooseDiv">
+                                <!-- <div class="chooseDiv">
                                     <input type="checkbox" name="chooseAll" id="check" onchange="checkboxFunc(0)">
                                     <label for="chooseAll">Выбрать все</label>
-                                </div>
+                                </div> -->
 
                             </div>
                             <div class="allMyContent visible">
@@ -157,31 +162,35 @@
                                                     style="color: black; text-decoration:underline;">{{post.title}}</a>
                                             </div>
                                             <div class="blocks a">
-                                                <a href="">{{post.category}}</a>
+                                                <a href="" class="{{cat[post.category]}}">{{post.category}}</a>
                                             </div>
                                             <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span
-                                                    class="isFree">{{post.facility}}</span></div>
+                                                    class="isFree {{cat[post.facility]}}">{{post.facility}}</span></div>
                                             <div class="blocks dataDate">
                                                 <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span
+                                                        class="bold lng-published_day">Дата
                                                         добавления </span> - {{post.post_date}}
                                                 </span>
                                                 <span class="deleteDate">
                                                     <i class=" calen fa fa-calendar-minus-o"></i> <span
-                                                        class="bold">Дата
+                                                        class="bold lng-deactivation_day">Дата
                                                         удаления</span> - {{post.deactivate_date}}
                                                 </span>
                                             </div>
                                             <div class="blocks">
                                                 <div class="signs">
-                                                    <i class="fa fa-eye"></i><span class="number">{{post.view_counter}}</span>
-                                                    <i class='fa fa-heart-o'></i><span class="number">{{post.fav_counter}}</span>
+                                                    <i class="fa fa-eye"></i><span
+                                                        class="number">{{post.view_counter}}</span>
+                                                    <i class='fa fa-heart-o'></i><span
+                                                        class="number">{{post.fav_counter}}</span>
                                                     <i class="fa-regular fa-comment"></i><span class="number">1</span>
                                                 </div>
                                                 <div class="buttons">
-                                                    <button>Редактировать</button>
+                                                    <button class="lng-post_update">Редактировать</button>
                                                     <button><a href="/post_deactivation/{{post.id}}/{{session['lang']}}"
-                                                            style="color: black; text-decoration:none;">Деактивировать</a></button>
+                                                            style="color: black; text-decoration:none;"
+                                                            class="lng-post_deactivate">Деактивировать</a></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -235,25 +244,25 @@
 
                         <div class="nonActivePosts findWithThat mpc">
                             <div class="searchPartMy">
-                                <input type="text" placeholder="Поиск по заголовку">
+                                <input type="text" class="lng-searchByTitle" placeholder="Поиск по заголовку">
                                 <div class="searchControl">
-
+                                    <!-- 
                                     <div class="chooseCategory allCat" onclick="modal('newPost',1)">
                                         <div classParent='' class="allCatChild" onclick="modal('newPost')">Все категории
                                         </div><i class="fa-solid arrow fa-angle-down"></i>
-                                    </div>
+                                    </div> -->
 
                                     <!-- <div class="sort">Сортировать по <i class="fa-solid arrow fa-angle-down"></i></div> -->
 
                                 </div>
                             </div>
-                            <div class="chooseAllAndDel">
+                            <!-- <div class="chooseAllAndDel">
                                 <div class="chooseDiv">
                                     <input type="checkbox" name="chooseAll" id="check" onchange="checkboxFunc(1)">
                                     <label for="chooseAll">Выбрать все</label>
                                 </div>
 
-                            </div>
+                            </div> -->
 
                             <div class="allMyContent visible">
 
@@ -274,30 +283,34 @@
                                                     style="color: black; text-decoration:underline;">{{post.title}}</a>
                                             </div>
                                             <div class="blocks a">
-                                                <a href="">Электроника </a>
+                                                <a href="" class="{{cat[post.category]}}">{{post.category}}</a>
                                             </div>
                                             <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span
-                                                    class="isFree">(возможен обмен)</span></div>
+                                                    class="isFree {{cat[post.facility]}}">{{post.facility}}</span></div>
                                             <div class="blocks dataDate">
                                                 <span class="publishDate">
-                                                    <i class="calen fa fa-calendar-plus-o"></i> <span class="bold">Дата
+                                                    <i class="calen fa fa-calendar-plus-o"></i> <span
+                                                        class="bold lng-published_day">Дата
                                                         добавления </span> - {{post.post_date}}
                                                 </span>
                                                 <span class="deleteDate">
                                                     <i class=" calen fa fa-calendar-minus-o"></i> <span
-                                                        class="bold">Дата
+                                                        class="bold lng-deactivation_day">Дата
                                                         удаления</span> - {{post.deactivate_date}}
                                                 </span>
                                             </div>
                                             <div class="blocks">
                                                 <div class="signs">
-                                                    <i class="fa fa-eye"></i><span class="number">{{post.view_counter}}</span>
-                                                    <i class='fa fa-heart-o'></i><span class="number">{{post.fav_counter}}</span>
+                                                    <i class="fa fa-eye"></i><span
+                                                        class="number">{{post.view_counter}}</span>
+                                                    <i class='fa fa-heart-o'></i><span
+                                                        class="number">{{post.fav_counter}}</span>
                                                     <i class="fa-regular fa-comment"></i><span class="number">1</span>
                                                 </div>
                                                 <div class="buttons">
-                                                    <button>Редактировать</button>
+                                                    <button class="lng-post_update">Редактировать</button>
                                                     <button><a href="/post_activation/{{post.id}}"
+                                                            class="lng-post_activate"
                                                             style="color: black; text-decoration:none;">Aктивировать</a></button>
                                                 </div>
                                             </div>

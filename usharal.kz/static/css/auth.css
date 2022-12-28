@@ -1,14 +1,16 @@
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
-body{
-    width: 100%;
-    height: 100vh;
-    display: flex;
+body {
+  width: 100%;
+  height: 100vh;
+  display: flex;
 }
-.loginSection{
-    height: 50%;
-    width: 70%;
-    border: 1px solid;
+.loginSection {
+  min-height: 50%;
+  height: auto;
+  width: 70%;
+  border: 1px solid;
+  padding: 100px;
 }

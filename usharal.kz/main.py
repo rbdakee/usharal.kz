@@ -1,3 +1,4 @@
+import base64
 from types import NoneType
 from flask import Flask, render_template, url_for, request, redirect, flash, session
 from itsdangerous import URLSafeTimedSerializer
@@ -20,6 +21,37 @@ menu = [{'name': 'Сообщения', 'url': "messages"},
         {'name': 'Платежи и счет', 'url': 'payments'},
         {'name': 'Мой профиль', 'url': 'myprofile'},
         {'name': 'Выход', 'url': 'logout'},]
+dataCat = {
+            1: 'Услуги',
+            2: 'Электроника',
+            3: 'Личные вещи',
+            4: 'Детям',
+            5: 'Для Бизнеса',
+            6: 'Животные', 
+            7: 'Для дома',
+            8: 'Работа',
+            9: 'Хобби и спорт',
+            10: 'Недвижимость',
+            11: 'Транпорт'
+        }
+dictValues = {
+    'Услуги': 'lng-service',
+    'Электроника' :'lng-gadgets',
+    'Личные вещи' : 'lng-personalItems',
+    'Детям' : 'lng-child',
+    'Для Бизнеса' : 'lng-business',
+    'Животные' : 'lng-animals',
+    'Для Дома' : 'lng-house',
+    'Работа' : 'lng-job',
+    'Хобби и спорт' : 'lng-hobby',
+    'Недвижимость' : 'lng-apartments',
+    'Транспорт' : 'lng-transport',
+    'Договорная цена': 'lng-dogov',
+    'Цена': 'lng-cost',
+    'Отдам даром': 'lng-free',
+    'Возможен обмен': 'lng-swap',
+    'Все категории':'lng-categories'
+}
 arrLang = []
 arrLang2 = []
 category = 0
@@ -60,22 +92,23 @@ def index(lang='rulang'):
             category = 10
         elif data == 'Транспорт':
             category = 11
+        
         posts = Posts.category_filter(category)
         print(category)
         if 'userEmail' in session:
             favPost = favPosts.give_favPostId_of_user(session['userEmail'])
-            return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = data)
+            return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = data, cat = dictValues, lenOfUserName = len(session['userName']))
 
         else:
-            return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = data)
+            return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = data, cat = dictValues, lenOfUserName = 1)
     if 'userEmail' in session:
         posts = Posts.show_all_posts()
         favPost = favPosts.give_favPostId_of_user(session['userEmail'])
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = 'Все категории')
+        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = 'Все категории', cat = dictValues, lenOfUserName = len(session['userName']))
 
     else:
         posts = Posts.show_all_posts()
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = 'Все категории')
+        return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = 'Все категории', cat = dictValues, lenOfUserName = 1)
     
 
 @sock.route('/favPost')
@@ -130,7 +163,7 @@ def messages(lang):
             lang = 'rulang'
             return redirect(url_for('messages', lang = 'rulang'))
         session['lang'] = lang
-        return render_template('messageSection.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'])
+        return render_template('messageSection.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login'))
 
@@ -147,7 +180,7 @@ def myprofile(lang='rulang'):
             Users.edit_user_information(session['userEmail'], logo, phone_number, password, username)
         session['lang'] = lang
         user_information = Users.show_user_information(session['userEmail'])
-        return render_template('myProfile.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', user = user_information, lang=session['lang'])
+        return render_template('myProfile.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', user = user_information, lang=session['lang'], lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login'))
 
@@ -160,7 +193,7 @@ def myposts(lang):
             lang = 'rulang'
             return redirect(url_for('myposts', lang = 'rulang'))
         posts = Posts.show_posts_of_user(session['userEmail'])
-        return render_template('myPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'])
+        return render_template('myPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], cat = dictValues, lenOfUserName = len(session['userName']))
     else:  
         return redirect(url_for('login'))
 
@@ -178,7 +211,7 @@ def newpost(lang):
             lang = 'rulang'
             return redirect(url_for('newpost', lang = 'rulang'))
         session['lang'] = lang
-        if request.method == 'POST':  
+        if request.method == 'POST':
             user = Users.return_user_to_db(session['userEmail'])
             post_title=request.form['post_title']
             category=request.form['category']
@@ -194,10 +227,10 @@ def newpost(lang):
             facility = request.form['radio']
             post_date = datetime.today()
             post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement, facility)
-            for i in range(len(photo)):
-                photos = Photos(photo[i].read(), post)
+            for i in photo:
+                photos = Photos(i.read(), post)
             
-        return render_template('newPost.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'])
+        return render_template('newPost.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login'))
 
@@ -227,7 +260,21 @@ def edit_post(post_id):
         
 
     post['whatsapp_link'] = post['whatsapp_link'].split('/')[-1]
-    return render_template('editPost.html', post = post, menu = menu, username=session['userName'], uuurl='myprofile')
+    return render_template('editPost.html', post = post, menu = menu, username=session['userName'], uuurl='myprofile', lenOfUserName = len(session['userName']))
+
+dictType = {
+            '1': 'Услуги',
+            '2': 'Электроника',
+            '3': 'Личные вещи',
+            '4': 'Детям',
+            '5': 'Для Бизнеса',
+            '6': 'Животные',
+            '7': 'Для Дома',
+            '8': 'Работа',
+            '9': 'Хобби и спорт',
+            '10': 'Недвижимость',
+            '11': 'Транспорт',
+        }
 
 @app.route('/content/<post_id>/<lang>')
 def content(post_id, lang):
@@ -237,7 +284,6 @@ def content(post_id, lang):
         return redirect(url_for('content', lang = 'rulang'))
     session['lang'] = lang
     if 'userEmail' in session:
-        
         post = Posts.show_one_post(post_id)
         data = post['category']
         if data == 'Услуги':
@@ -266,10 +312,11 @@ def content(post_id, lang):
         user_logo = Users.return_user_logo(post['user_id'])
         related_posts = Posts.category_filter(category)
         len_of_rel_posts = len(related_posts)
-        return render_template('content.html', post = post, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', related_posts = related_posts, lang = session['lang'], user_logo = user_logo, len_of_rel_posts = len_of_rel_posts)
+        favPost = favPosts.give_favPostId_of_user(session['userEmail'])
+        return render_template('content.html', post = post, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', related_posts = related_posts, lang = session['lang'], user_logo = user_logo, favourites = favPost, len_of_rel_posts = len_of_rel_posts, lenOfUserName = len(session['userName']), review = False, cat = dictValues)
     else:
         post = Posts.show_one_post(post_id)
-        return render_template('content.html', post = post, menu=menu, username = 'Log In', lang = session['lang'])
+        return render_template('content.html', post = post, menu=menu, username = 'Log In', lang = session['lang'], review = False)
 
 @app.route('/post_activation/<post_id>')
 def activation(post_id):
@@ -300,9 +347,47 @@ def payments(lang):
             lang = 'rulang'
             return redirect(url_for('payments', lang = 'rulang'))
         session['lang'] = lang
-        return render_template('payment.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'])
+        return render_template('payment.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login'))
+
+
+@app.route('/review/<lang>', methods = ["POST", 'GET'])
+def review(lang, post_inf = {}):
+    if lang != 'rulang' and lang != 'kzlang':
+        lang = 'rulang'
+    session['lang'] = lang
+    if request.method == 'POST':
+        user = Users.return_user_to_db(session['userEmail'])
+        post_title=request.form['post_title']
+        category=request.form['category']
+        cost = request.form['post_cost']
+        photo = request.files.getlist('post_photo')
+        description = request.form['post_description']
+        phone_number = request.form['phone_number']
+        whatsapp_phone_number = request.form['whatsapp_phone_number']
+        whatsapp_link = f'https://wa.me/{phone_numbers_to_waLink(whatsapp_phone_number)}'
+        deactivate_date = datetime.today() + timedelta(days=14)
+        status = True
+        advertisement = False
+        facility = request.form['radio']
+        post_date = datetime.today()
+        photo_inf = []
+        for i in photo:
+            photo_inf.append(base64.b64encode(i.read()).decode('ascii'))
+        if facility == "1":
+            facility_inf = 'Цена'
+        elif facility == "2":
+            facility_inf = 'Возможен обмен'
+        elif facility == "3":
+            facility_inf = 'Отдам даром'
+
+        post_inf = {'title': post_title, 'username':session['userName'], 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date.strftime("%m/%d/%Y %H:%M"), 'whatsapp_link':whatsapp_link, 'facility':facility_inf, 'photos':photo_inf}
+        user_logo = Users.return_user_logo(Users.return_user_id(session['userEmail']))
+        return render_template('content.html', post = post_inf, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo)
+    return render_template('content.html', post = post_inf, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo)
+
+
 
 @app.route('/favorites/<lang>', methods = ['POST', 'GET'])
 def favorites(lang):
@@ -313,7 +398,8 @@ def favorites(lang):
             return redirect(url_for('', lang = 'rulang'))
         session['lang'] = lang
         posts = favPosts.show_favPosts(session['userEmail'])
-        return render_template('favPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'])
+        print(dictType['1'])
+        return render_template('favPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], cat = dictValues, dictType = dictType, dataCat = dataCat, lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login'))
         
@@ -372,7 +458,7 @@ def update_password():
 @app.errorhandler(404)
 def error_page(error):
    
-    return render_template('error_page.html', menu = menu, lang=session['lang'])
+    return render_template('error_page.html', menu = menu, lang=session['lang'], lenofUserName = len(session['userName']))
 
 
 

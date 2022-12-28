@@ -57,8 +57,13 @@
                             объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text"
+                    {% if lenOfUserName <= 11 %}
+                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
+                    {% else %}
+                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
+                    {% endif %}
                 </div>
             </div>
         </header>
@@ -68,7 +73,7 @@
                 <div class="headerMessage">
                     <div class="div1">
                         <div class="divPart1">
-                            <span class="messageText">Платежи и счёт</span>
+                            <span class="messageText lng-payment">Платежи и счёт</span>
                         </div>
                     </div>
                     <div class="div2">
@@ -80,9 +85,9 @@
                             <span class="messageLink"><a class="lng-myPosts"
                                     href="{{url_for('myposts', lang=session['lang'])}}"
                                     style="color: black; text-decoration:none;">Мои объявления</a></span>
-                            <span class="messageLink activeLink><a class=" lng-payment"
-                                href="{{url_for('payments', lang=session['lang'])}}"
-                                style="color: #ffc53a; text-decoration:none;">Платежи и счёт</a></span>
+                            <span class="messageLink activeLink"><a class=" lng-payment"
+                                    href="{{url_for('payments', lang=session['lang'])}}"
+                                    style="color: #ffc53a; text-decoration:none;">Платежи и счёт</a></span>
                             <span class="messageLink"><a class="lng-myProfile"
                                     href="{{url_for('myprofile', lang=session['lang'])}}"
                                     style="color: black; text-decoration:none;">Мой профиль</a></span>

@@ -58,8 +58,13 @@
                             объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text"
+                    {% if lenOfUserName <= 11 %}
+                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
+                    {% else %}
+                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
+                    {% endif %}
                 </div>
             </div>
         </header>

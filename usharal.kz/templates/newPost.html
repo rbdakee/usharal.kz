@@ -60,28 +60,34 @@
                             объявление</button></a>
                 </div>
                 <div>
-                    <a style='text-decoration:none' class="text"
+                    {% if lenOfUserName <= 11 %}
+                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
+                    {% else %}
+                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                        href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
+                    {% endif %}
                 </div>
             </div>
         </header>
 
 
         <section class="pageForNewPost">
-            <form action="/newpost/{{session['lang']}}" method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data">
                 <div class="mask"></div>
                 <div class="pageForNewPostChild">
                     <div class="titleForPage">
-                        <h1>Подать объявление</h1>
+                        <h1 class="lng-newPost">Подать объявление</h1>
                     </div>
 
                     <div class="mainBody">
                         <div class="informationAboutProduct">
-                            <h3>Информация о товаре</h3>
+                            <h3 class="lng-infoAboutProd">Информация о товаре</h3>
                             <div class="newPostHeader">
-                                <div><span class="firstPart mainTextInfo">Заголовок</span><span class="secondPart">(не
+                                <div><span class="firstPart mainTextInfo lng-nameInfo">Заголовок</span><span
+                                        class="secondPart lng-atLeast">(не
                                         менее 16 символов)</span></div>
-                                <input type="text" name='post_title'
+                                <input type="text" name='post_title' class="lng-example"
                                     placeholder="Например, «samsung galaxy s22» или «Услуги сантехника»">
                             </div>
                             <div class="categoryForNewPost">
@@ -91,38 +97,38 @@
 
                                     <div class='categoryHide' name="category">Выберите категорию</div>
                                     <select name="category">
-                                        <option value="1">Услуги</option>
-                                        <option value="2">Электроника</option>
-                                        <option value="3">Личные вещи</option>
-                                        <option value="4">Детям</option>
-                                        <option value="5">Для Бизнеса</option>
-                                        <option value="6">Животные</option>
-                                        <option value="7">Для дома</option>
-                                        <option value="8">Работа</option>
-                                        <option value="9">Хобби и спорт</option>
-                                        <option value="10">Недвижимость</option>
-                                        <option value="11">Транспорт</option>
+                                        <option value="1" class="lng-service">Услуги</option>
+                                        <option value="2" class="lng-gadjets">Электроника</option>
+                                        <option value="3" class="lng-personalItems">Личные вещи</option>
+                                        <option value="4" class="lng-child">Детям</option>
+                                        <option value="5" class="lng-business">Для Бизнеса</option>
+                                        <option value="6" class="lng-animals">Животные</option>
+                                        <option value="7" class="lng-house">Для дома</option>
+                                        <option value="8" class="lng-job">Работа</option>
+                                        <option value="9" class="lng-hobby">Хобби и спорт</option>
+                                        <option value="10" class="lng-apartments">Недвижимость</option>
+                                        <option value="11" class="lng-transport">Транспорт</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="costBlock">
-                                <div class="inner costText mainTextInfo">Цена</div>
+                                <div class="inner costText mainTextInfo lng-cost">Цена</div>
                                 <input type="text" class="inner lng-costInTenge" name="post_cost"
                                     placeholder="Цена в тенге" name="" id="">
 
                                 <div class="inner withRadio">
                                     <div class="middleBox">
                                         <input checked type="radio" value="1" name="radio" id="middle ">
-                                        <label for="middle">Цена</label>
+                                        <label for="middle" class="lng-cost">Цена</label>
                                     </div>
                                     <div class="swapBox">
                                         <input type="radio" value="2" name="radio" id="swap ">
-                                        <label for="swap">Возможен обмен</label>
+                                        <label for="swap" class="lng-swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
                                         <input type="radio" onchange="freeField(this)" value="3" name="radio"
                                             id="free ">
-                                        <label for="free">Отдам даром</label>
+                                        <label for="free" class="lng-free">Отдам даром</label>
                                     </div>
 
                                 </div>
@@ -191,9 +197,9 @@
                                 </div>
                             </div>
                             <div class="extraInfo">
-                                <div class="mainTextInfo"><span class="firstPart">Описание</span><span
-                                        class="secondPart"> (не менее 80 символов)</span></div>
-                                <div><textarea id="message" cols="" rows="" name="post_description"
+                                <div class="mainTextInfo"><span class="firstPart lng-description">Описание</span><span
+                                        class="secondPart lng-atLeast80"> (не менее 80 символов)</span></div>
+                                <div><textarea id="message" cols="" rows="" name="post_description" class="lng-moreInp"
                                         placeholder="Подробно расскажите про товар. Подумайте какие подробности вы хотели бы узнать из объявления"
                                         onkeyup="counter()"></textarea></div>
                                 <div class="counter">
@@ -205,7 +211,7 @@
 
                         <div class="contactInformation">
                             <div class="textLine">
-                                <h3>Контактная Информация</h3>
+                                <h3 class="lng-contactInfo">Контактная Информация</h3>
                             </div>
                             <div class="periodOfInputs">
 
@@ -225,10 +231,10 @@
                         </div>
                         <div class="twoButtons">
                             <div class="finalButtonDiv">
-                                <button type="submit">Подать объявление</button>
+                                <button type="submit" class="lng-newBtnAd" formaction="/newpost/{{lang}}">Подать объявление</button>
                             </div>
                             <div class="betaButtonDiv">
-                                <button>Предпросмотр</button>
+                                <button formaction="/review/{{lang}}">Предпросмотр</button>
                             </div>
                         </div>
                     </div>
