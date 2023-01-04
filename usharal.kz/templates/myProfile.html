@@ -10,6 +10,20 @@
     <link rel="stylesheet" href="{{url_for('static', filename = 'css/scroll.css')}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>{{title}}</title>
+    <style>
+        .booleanValue{
+            display: none;
+        }
+        .status{
+            background-color: #ffe8e8;
+            width: 100%;
+            padding: 10px 20px ;
+            font-size: large;
+        }
+        .boxConfirm input.activeInput{
+            border: 1px solid rgba(255, 0, 0, 0.877) !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -56,12 +70,12 @@
                     <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
                             объявление</button></a>
                 </div>
-                <div>
+                <div class="lastel">
                     {% if lenOfUserName <= 11 %}
-                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                    <a style='text-decoration:none; ' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                     {% else %}
-                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                    <a style='text-decoration:none; ' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
                     {% endif %}
                 </div>
@@ -152,9 +166,10 @@
                                     <h1 class="lng-changeProfile">Редактировать профиль</h1>
                                 </div>
                                 <div class="spanWithInput inner">
+                                    <div class = 'booleanValue' style="display: none;">{{value}}</div>
                                     <div><span class="firstPart lng-yourProfile">Ваше имя</span><span
                                             class="secondPart lng-atleast4"> (не менее 4 символов)</span></div>
-                                    <input type="text" name="username" placeholder="{{username}}">
+                                    <input type="text" name="username" value="{{username}}">
                                 </div>
                                 <div class="spanWithInput inner">
                                     <div><span class="firstPart lng-photoOrLogo">Фото или логотип</span><span
@@ -175,7 +190,7 @@
                                     <input type="text" class="profileNum" name="phone_number">
                                     {% else %}
                                     <input type="text" class="profileNum" name="phone_number"
-                                        placeholder="{{user.phone_number}}">
+                                        value="{{user.phone_number}}">
                                     {% endif %}
                                 </div>
                                 <!-- <div class="saveLine inner">
@@ -189,13 +204,15 @@
                                 <div class="spanWithInput inner">
                                     <div><span class="firstPart lng-newPass">Новый пароль</span><span
                                             class="secondPart"></span></div>
-                                    <input type="password" name="password">
+                                    <input type="password" name="password" class="forValid">
                                 </div>
+                                
                                 <div class="spanWithInput inner">
                                     <div><span class="firstPart lng-repeatPass">Повторите пароль</span><span
                                             class="secondPart"></span></div>
-                                    <input type="password">
+                                    <input type="password" oninput="checkForValidation(this)">
                                 </div>
+                                <div class="status booleanValue" style="color: red;"></div>
                                 <div class="saveLine inner">
                                     <!-- <button class="saveNewPassword lng-changePass">Изменить пароль</button> -->
                                 </div>
@@ -205,10 +222,13 @@
                                     <h1 class="lng-confirm">Подтверждение</h1>
                                 </div>
                                 <div class="confirmButtonLine inner">
-
+                                    {% for msg in get_flashed_messages() %}
+                                    <a>{{msg}}</a>
+                                    {% endfor %}
                                     <div><span class="firstPart lng-currentPass">Введите текущий пароль</span></div>
-                                    <input type="password" name="userPrevPassword" required>
-
+                                    <input type="password" name="userPrevPassword" class="userPrevPassword activeInput" oninput="prevPassword(this)" required>
+                                    <!-- <div>{{userpass}}</div> -->
+                                    <!-- <div class="status" style="color: red;"></div> -->
                                     <button type="submit" class="lng-changeNew">Сохранить изменения</button>
                                 </div>
 

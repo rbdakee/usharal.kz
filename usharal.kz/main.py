@@ -55,6 +55,7 @@ dictValues = {
 arrLang = []
 arrLang2 = []
 category = 0
+title='usharal.kz'
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/<lang>', methods=['POST', 'GET'])
 def index(lang='rulang'):
@@ -94,21 +95,28 @@ def index(lang='rulang'):
             category = 11
         
         posts = Posts.category_filter(category)
-        print(category)
         if 'userEmail' in session:
-            favPost = favPosts.give_favPostId_of_user(session['userEmail'])
-            return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = data, cat = dictValues, lenOfUserName = len(session['userName']))
-
+            try:
+                favPost = favPosts.give_favPostId_of_user(session['userEmail'])
+                return render_template('index.html',title = title, menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = data, cat = dictValues, lenOfUserName = len(session['userName']))
+            except AttributeError:
+                session.pop('userEmail', None)
+                session.pop('userName', None)
+                return redirect(url_for('index', lang = session['lang'] ))
         else:
-            return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = data, cat = dictValues, lenOfUserName = 1)
+            return render_template('index.html',title = title, menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = data, cat = dictValues, lenOfUserName = 1)
     if 'userEmail' in session:
         posts = Posts.show_all_posts()
-        favPost = favPosts.give_favPostId_of_user(session['userEmail'])
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = 'Все категории', cat = dictValues, lenOfUserName = len(session['userName']))
-
+        try:
+            favPost = favPosts.give_favPostId_of_user(session['userEmail'])
+            return render_template('index.html',title = title, menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], favourites = favPost, category = 'Все категории', cat = dictValues, lenOfUserName = len(session['userName']))
+        except AttributeError:
+            session.pop('userEmail', None)
+            session.pop('userName', None)
+            return redirect(url_for('index', lang = session['lang'] ))
     else:
         posts = Posts.show_all_posts()
-        return render_template('index.html',title = 'usharal.kz', menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = 'Все категории', cat = dictValues, lenOfUserName = 1)
+        return render_template('index.html',title = title, menu = menu, username=f'Log In', uuurl='authentification', posts = posts, lang = session['lang'], category = 'Все категории', cat = dictValues, lenOfUserName = 1)
     
 
 @sock.route('/favPost')
@@ -163,24 +171,32 @@ def messages(lang):
             lang = 'rulang'
             return redirect(url_for('messages', lang = 'rulang'))
         session['lang'] = lang
-        return render_template('messageSection.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
+        return render_template('messageSection.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login'))
 
 @app.route('/myprofile/<lang>', methods=['POST', 'GET'])
 def myprofile(lang='rulang'):
     if 'userEmail' in session:
+        booleanValue = 0
+        userpass = Users.return_user_password(session['userEmail'])
         if request.method == 'POST':
-            username = request.form['username']
-            session['userName'] = username
-            logo = request.files['logo'].read()
-            phone_number = request.form['phone_number']
-            password = request.form['password']
-            # prevpass = request.form['userPrevPassword']
-            Users.edit_user_information(session['userEmail'], logo, phone_number, password, username)
+            prevpass = request.form['userPrevPassword']
+            if prevpass == userpass: 
+                username = request.form['username']
+                session['userName'] = username
+                logo = request.files['logo'].read()
+                phone_number = request.form['phone_number']
+                password = request.form['password']
+                Users.edit_user_information(session['userEmail'], logo, phone_number, password, username)
+            else:
+                flash('Неверный пароль')
+                booleanValue = 1
+                user_information = Users.show_user_information(session['userEmail'])
+                return render_template('myProfile.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', user = user_information, lang=session['lang'], lenOfUserName = len(session['userName']), value = booleanValue)
         session['lang'] = lang
         user_information = Users.show_user_information(session['userEmail'])
-        return render_template('myProfile.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', user = user_information, lang=session['lang'], lenOfUserName = len(session['userName']))
+        return render_template('myProfile.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', user = user_information, lang=session['lang'], lenOfUserName = len(session['userName']), value = booleanValue)
     else:
         return redirect(url_for('login'))
 
@@ -193,7 +209,7 @@ def myposts(lang):
             lang = 'rulang'
             return redirect(url_for('myposts', lang = 'rulang'))
         posts = Posts.show_posts_of_user(session['userEmail'])
-        return render_template('myPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], cat = dictValues, lenOfUserName = len(session['userName']))
+        return render_template('myPosts.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], cat = dictValues, lenOfUserName = len(session['userName']))
     else:  
         return redirect(url_for('login'))
 
@@ -222,22 +238,30 @@ def newpost(lang):
             whatsapp_phone_number = request.form['whatsapp_phone_number']
             whatsapp_link = f'https://wa.me/{phone_numbers_to_waLink(whatsapp_phone_number)}'
             deactivate_date = datetime.today() + timedelta(days=14)
+            delete_date = deactivate_date + timedelta(days=14)
             status = True
             advertisement = False
             facility = request.form['radio']
             post_date = datetime.today()
-            post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement, facility)
-            for i in photo:
-                photos = Photos(i.read(), post)
+            post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility)
+            if len(photo)>=9:
+                for i in range(8):
+                    photos = Photos(photo[i].read(), post)
+            else:
+                for i in photo:
+                    photos = Photos(i.read(), post)
             
-        return render_template('newPost.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
+        return render_template('newPost.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login'))
 
-@app.route('/edit_post/<post_id>', methods = ['POST', 'GET'])
-def edit_post(post_id):
+@app.route('/edit_post/<post_id>/<lang>', methods = ['POST', 'GET'])
+def edit_post(post_id, lang):
     post = Posts.show_one_post(post_id)
-
+    if lang != 'rulang' and lang != 'kzlang':
+        lang = 'rulang'
+        return redirect(url_for('newpost', lang = 'rulang'))
+    session['lang'] = lang
     if request.method == 'POST':
         id = post_id
         user = Users.return_user_to_db(session['userEmail'])
@@ -250,17 +274,18 @@ def edit_post(post_id):
         whatsapp_phone_number = request.form['whatsapp_phone_number']
         whatsapp_link = f'https://wa.me/{phone_numbers_to_waLink(whatsapp_phone_number)}'
         deactivate_date = datetime.today() + timedelta(days=14)
+        delete_date = deactivate_date + timedelta(days=14)
         status = True
         advertisement = False
         facility = request.form['radio']
         post_date = datetime.today()
-        post = Posts(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement, facility)
+        post = Posts(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility)
         for i in range(len(photo)):
             photos = Photos(photo[i].read(), post)
         
 
     post['whatsapp_link'] = post['whatsapp_link'].split('/')[-1]
-    return render_template('editPost.html', post = post, menu = menu, username=session['userName'], uuurl='myprofile', lenOfUserName = len(session['userName']))
+    return render_template('editPost.html', post = post, menu = menu, username=session['userName'], uuurl='myprofile', lenOfUserName = len(session['userName']), lang = session['lang'])
 
 dictType = {
             '1': 'Услуги',
@@ -283,46 +308,49 @@ def content(post_id, lang):
         lang = 'rulang'
         return redirect(url_for('content', lang = 'rulang'))
     session['lang'] = lang
+    post = Posts.show_one_post(post_id)
+    print(post['category'])
+    data = post['category']
+    if data == 'Услуги':
+        category = 1
+    elif data == 'Электроника':
+        category = 2
+    elif data == 'Личные вещи':
+        category = 3
+    elif data == 'Детям':
+        category = 4
+    elif data == 'Для Бизнеса':
+        category = 5
+    elif data == 'Животные':
+        category = 6
+    elif data == 'Для дома':
+        category = 7
+    elif data == 'Работа':
+        category = 8
+    elif data == 'Хобби и спорт':
+        category = 9
+    elif data == 'Недвижимость':
+        category = 10
+    elif data == 'Транспорт':
+        category = 11
+    
+    user_logo = Users.return_user_logo(post['user_id'])
+    related_posts = Posts.category_filter(category)
+    len_of_rel_posts = len(related_posts)
     if 'userEmail' in session:
-        post = Posts.show_one_post(post_id)
-        data = post['category']
-        if data == 'Услуги':
-            category = 1
-        elif data == 'Электроника':
-            category = 2
-        elif data == 'Личные вещи':
-            category = 3
-        elif data == 'Детям':
-            category = 4
-        elif data == 'Для Бизнеса':
-            category = 5
-        elif data == 'Животные':
-            category = 6
-        elif data == 'Для дома':
-            category = 7
-        elif data == 'Работа':
-            category = 8
-        elif data == 'Хобби и спорт':
-            category = 9
-        elif data == 'Недвижимость':
-            category = 10
-        elif data == 'Транспорт':
-            category = 11
-        
-        user_logo = Users.return_user_logo(post['user_id'])
-        related_posts = Posts.category_filter(category)
-        len_of_rel_posts = len(related_posts)
         favPost = favPosts.give_favPostId_of_user(session['userEmail'])
-        return render_template('content.html', post = post, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', related_posts = related_posts, lang = session['lang'], user_logo = user_logo, favourites = favPost, len_of_rel_posts = len_of_rel_posts, lenOfUserName = len(session['userName']), review = False, cat = dictValues)
+        return render_template('content.html', post = post, menu=menu, title=title, username = session['userName'], uuurl='myprofile', related_posts = related_posts, lang = session['lang'], user_logo = user_logo, favourites = favPost, len_of_rel_posts = len_of_rel_posts, lenOfUserName = len(session['userName']), review = False, cat = dictValues)
     else:
-        post = Posts.show_one_post(post_id)
-        return render_template('content.html', post = post, menu=menu, username = 'Log In', lang = session['lang'], review = False)
+        return render_template('content.html', username = 'Log In', lang = session['lang'], post = post, menu=menu, title=title, uuurl='myprofile', related_posts = related_posts, user_logo = user_logo, len_of_rel_posts = len_of_rel_posts, lenOfUserName = 1, review = False, cat = dictValues)
 
-@app.route('/post_activation/<post_id>')
-def activation(post_id):
+@app.route('/post_activation/<post_id>/<lang>')
+def activation(post_id, lang):
+    if lang != 'rulang' and lang != 'kzlang':
+        lang = 'rulang'
+        return redirect(url_for('myposts', lang = 'rulang'))
     post_id = int(post_id)
     Posts.post_activation(post_id)
-    return redirect(url_for('myposts'))
+    return redirect(url_for('myposts', lang = session['lang']))
 
 @app.route('/post_deactivation/<post_id>/<lang>')
 def deactivation(post_id, lang):
@@ -347,7 +375,7 @@ def payments(lang):
             lang = 'rulang'
             return redirect(url_for('payments', lang = 'rulang'))
         session['lang'] = lang
-        return render_template('payment.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
+        return render_template('payment.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login'))
 
@@ -384,8 +412,8 @@ def review(lang, post_inf = {}):
 
         post_inf = {'title': post_title, 'username':session['userName'], 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date.strftime("%m/%d/%Y %H:%M"), 'whatsapp_link':whatsapp_link, 'facility':facility_inf, 'photos':photo_inf}
         user_logo = Users.return_user_logo(Users.return_user_id(session['userEmail']))
-        return render_template('content.html', post = post_inf, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo)
-    return render_template('content.html', post = post_inf, menu=menu, title='usharal.kz', username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo)
+        return render_template('content.html', post = post_inf, menu=menu, title=title, username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo)
+    return render_template('content.html', post = post_inf, menu=menu, title=title, username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo)
 
 
 
@@ -399,7 +427,7 @@ def favorites(lang):
         session['lang'] = lang
         posts = favPosts.show_favPosts(session['userEmail'])
         print(dictType['1'])
-        return render_template('favPosts.html', title = 'usharal.kz', menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], cat = dictValues, dictType = dictType, dataCat = dataCat, lenOfUserName = len(session['userName']))
+        return render_template('favPosts.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], cat = dictValues, dictType = dictType, dataCat = dataCat, lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login'))
         
@@ -420,7 +448,7 @@ def login():
         elif 'newemail' in request.form:
             user = registration(username=request.form['newuname'], email=request.form['newemail'], password=request.form['newpsw'])
             flash(user)
-    return render_template('auth.html', title = 'usharal.kz')
+    return render_template('auth.html', title = title)
 
 @app.route('/logout')
 def logout():
@@ -437,7 +465,7 @@ def xlogin():
         message = f'Это письмо было отправлено для сброса пароля на сайте usharal.kz пользователя с электронным адресом "{user_email}"\nЕсли вы не хотите изменять пароль, не открывайте ссылку и не отправляйте ее никому\n' + url_for('confirm_email', token=token, email=user_email, _external=True)
         send_link(message, user_email)
 
-    return render_template('unableToLog.html', title = 'usharal.kz')
+    return render_template('unableToLog.html', title = title)
 
 @app.route('/confirm_email/<token>/<email>')
 def confirm_email(token, email):
@@ -457,9 +485,16 @@ def update_password():
 
 @app.errorhandler(404)
 def error_page(error):
-   
-    return render_template('error_page.html', menu = menu, lang=session['lang'], lenofUserName = len(session['userName']))
-
+    if 'userName' in session:
+        return render_template('error_page.html', menu = menu, lang=session['lang'], lenOfUserName = len(session['userName']))
+    else:
+        return render_template('error_page.html', menu = menu, lang=session['lang'], lenOfUserName = 1)
+@app.errorhandler(AttributeError)
+@app.errorhandler(KeyError)
+def attributeError_habdler(error):
+    session.pop('userEmail', None)
+    session.pop('userName', None)
+    return redirect(url_for('index', lang = session['lang'] ))
 
 
 

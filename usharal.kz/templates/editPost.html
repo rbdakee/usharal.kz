@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width;">
-    <link rel="stylesheet" href="../static/css/index.css">
-    <link rel="stylesheet" href="../static/css/myPosts.css">
-    <link rel="stylesheet" href="../static/css/scroll.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/scroll.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/myPosts.css')}}">
     <style>
         .categoryHide {
             display: none;
@@ -25,6 +25,7 @@
     <div class="all">
         <header>
             <div class="headerChild">
+
 
                 <div class="text" title="Вернуться к главной странице"><a
                         href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
@@ -65,19 +66,19 @@
                     <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
                             объявление</button></a>
                 </div>
-                <div>
+                <div class="lastel">
                     {% if lenOfUserName <= 11 %}
-                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                    <a style='text-decoration:none;' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                     {% else %}
-                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                    <a style='text-decoration:none;' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
                     {% endif %}
                 </div>
             </div>
         </header>
         <section class="pageForNewPost">
-            <form action="/newpost" method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data">
                 <div class="mask"></div>
                 <div class="pageForNewPostChild">
                     <div class="titleForPage">
@@ -266,19 +267,46 @@
                                     name="" id="">
 
                                 <div class="inner withRadio">
+                                    {% if post.facility=="Цена" %}
                                     <div class="middleBox">
-                                        <input type="radio" value="1" name="radio" id="middle ">
+                                        <input type="radio" value="1" name="radio" id="middle " checked>
                                         <label for="middle">Цена</label>
                                     </div>
                                     <div class="swapBox">
-                                        <input type="radio" value="2" name="radio" id="swap ">
+                                        <input type="radio" value="2" name="radio" id="swap " >
                                         <label for="swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
                                         <input type="radio" value="3" name="radio" id="free ">
                                         <label for="free">Отдам даром</label>
                                     </div>
-
+                                    {% elif post.facility == 'Возможен обмен' %}
+                                    <div class="middleBox">
+                                        <input type="radio" value="1" name="radio" id="middle " >
+                                        <label for="middle">Цена</label>
+                                    </div>
+                                    <div class="swapBox">
+                                        <input type="radio" value="2" name="radio" id="swap " checked>
+                                        <label for="swap">Возможен обмен</label>
+                                    </div>
+                                    <div class="freeBox">
+                                        <input type="radio" value="3" name="radio" id="free ">
+                                        <label for="free">Отдам даром</label>
+                                    </div>
+                                    {% elif post.facility == "Отдам даром" %}
+                                    <div class="middleBox">
+                                        <input type="radio" value="1" name="radio" id="middle " >
+                                        <label for="middle">Цена</label>
+                                    </div>
+                                    <div class="swapBox">
+                                        <input type="radio" value="2" name="radio" id="swap " >
+                                        <label for="swap">Возможен обмен</label>
+                                    </div>
+                                    <div class="freeBox">
+                                        <input type="radio" value="3" name="radio" id="free " checked>
+                                        <label for="free">Отдам даром</label>
+                                    </div>
+                                    {% endif %}
                                 </div>
 
                             </div>
@@ -286,14 +314,15 @@
                                 <span class="mainTextInfo ">Фото</span>
                                 <div class="containerForAllImages">
                                     <div class="imageBox1">
-                                        <img src="../static/img/Vector.svg" width="50" alt="" class="imageOfUserChoose">
+                                        
+                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" width="50" alt="" class="imageOfUserChoose">
                                         <input type="file" onchange="showFile(this)"
                                             accept="image/gif, image/jpeg, image/png, image/svg" name="post_photo"
                                             multiple="True" class="file">
                                     </div>
                                     <div count='0' class="imageBox2 imageBox " onmouseenter="anim(this)"
                                         onmouseleave="animOut(this)" oncontextmenu="return false">
-                                        <img src="../static/img/Vector1.svg" width="50" alt="" name="post_photo"
+                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" width="50" alt="" name="post_photo"
                                             class="imageOfUser">
                                         <div class="backColor"></div>
                                         <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
@@ -301,7 +330,7 @@
                                     </div>
                                     <div count='1' class="imageBox3 imageBox " oncontextmenu="return false"
                                         onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="../static/img/Vector1.svg" alt="" class="imageOfUser">
+                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
                                         <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
                                                     class="fa fa-trash-can"></i> Delete</button></div>
@@ -309,35 +338,35 @@
 
                                     <div count='2' class="imageBox4 imageBox  " oncontextmenu="return false"
                                         onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="../static/img/Vector1.svg" alt="" class="imageOfUser">
+                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
                                         <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
                                                     class="fa fa-trash-can"></i> Delete</button></div>
                                     </div>
                                     <div count='3' class="imageBox5 imageBox " oncontextmenu="return false"
                                         onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="../static/img/Vector1.svg" alt="" class="imageOfUser">
+                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
                                         <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
                                                     class="fa fa-trash-can"></i> Delete</button></div>
                                     </div>
                                     <div count='4' class="imageBox6 imageBox " oncontextmenu="return false"
                                         onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="../static/img/Vector1.svg" alt="" class="imageOfUser">
+                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
                                         <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
                                                     class="fa fa-trash-can"></i> Delete</button></div>
                                     </div>
                                     <div count='5' class="imageBox7 imageBox " oncontextmenu="return false"
                                         onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="../static/img/Vector1.svg" alt="" class="imageOfUser">
+                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
                                         <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
                                                     class="fa fa-trash-can"></i> Delete</button></div>
                                     </div>
                                     <div count='6' class="imageBox8 imageBox " oncontextmenu="return false"
                                         onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="../static/img/Vector1.svg" alt="" class="imageOfUser">
+                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
                                         <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
                                                     class="fa fa-trash-can"></i> Delete</button></div>
@@ -364,11 +393,6 @@
                             </div>
                             <div class="periodOfInputs">
                                 <div class="locationInput">
-                                    <span>Местоположение</span>
-                                    <input onclick="modal('newPost')" type="text" name="" id="" required
-                                        placeholder="Поиск по районам">
-                                </div>
-                                <div class="locationInput">
                                     <span>Телефон</span>
                                     <input type="text" class="phoneNumber" name="phone_number" id=""
                                         value="{{post.phone_number}}" required>
@@ -386,10 +410,10 @@
                         </div>
                         <div class="twoButtons">
                             <div class="finalButtonDiv">
-                                <button type="submit">Подать объявление</button>
+                                <button type="submit" formaction="/edit_post/{{post.id}}/{{lang}}">Подать объявление</button>
                             </div>
                             <div class="betaButtonDiv">
-                                <button>Предпросмотр</button>
+                                <button type="submit" formaction="/review/{{lang}}">Предпросмотр</button>
                             </div>
                         </div>
                     </div>
@@ -459,15 +483,16 @@
         </div>
     </div>
 
-    <script src="../static/js/jquery-3.6.0.min.js"></script>
 
-    <script src="../static/js/vuemin.js"></script>
-    <script src="../static/js/imask.js"></script>
-    <script src="../static/js/icons.js" crossorigin="anonymous"></script>
-    <script src="../static/js/scroll.js"></script>
-    <script src="../static/js/newPost.js"></script>
-    <script src="../static/js/lang.js"></script>
-    <script src="../static/js/counter.js"></script>
+    <script src="{{url_for('static', filename='js/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/vuemin.js')}}"></script>
+    <script src="{{url_for('static', filename='js/imask.js')}}"></script>
+    <script src="{{url_for('static', filename='js/icons.js')}}"></script>
+    <script src="{{url_for('static', filename='js/scroll.js')}}"></script>
+    <script src="{{url_for('static', filename='js/newPost.js')}}"></script>
+    <script src="{{url_for('static', filename='js/lang.js')}}"></script>
+    <script src="{{url_for('static', filename='js/counter.js')}}"></script>
+
 
     <!-- <script src="js/counter.js"></script> -->
     <style>
@@ -475,7 +500,7 @@
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
-    <script src="../static/js/vuemin.js"></script>
+    <script src="{{url_for('static', filename='js/vuemin.js')}}"></script>
 </body>
 
 </html>

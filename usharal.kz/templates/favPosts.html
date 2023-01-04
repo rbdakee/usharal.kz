@@ -57,12 +57,12 @@
                     <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
                             объявление</button></a>
                 </div>
-                <div>
+                <div class="lastel">
                     {% if lenOfUserName <= 11 %}
-                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                    <a style='text-decoration:none; ' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                     {% else %}
-                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                    <a style='text-decoration:none; ' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
                     {% endif %}
                 </div>
@@ -98,7 +98,7 @@
                             <a href="{{url_for('content', post_id = post.id, lang = session['lang'])}}">
                                 <div class="forImgContent">
                                     <!-- <div class="top">VIP</div> -->
-                                    <img src="data:;base64, {{ post.photos[0] }}" alt="">
+                                    <img src="data:;base64, {{ post.photos }}" alt="">
                                 </div>
                                 <div class="dataContent" style="text-decoration: none; color:black;">{{post.post_date}}
                                 </div>

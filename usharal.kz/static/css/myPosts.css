@@ -296,7 +296,8 @@ grid-row-gap: 0px;
 .searchPartMy .wholeList a{
     font-size: small;
 }
-.boxForCon .forImg{
+
+.boxForCon a {
     width: 23%;
     height: 100%;
 }
@@ -307,11 +308,15 @@ grid-row-gap: 0px;
     object-fit:cover;
     
 }
+.forImg{
+    height: 100%;
+}
 .forMainContent{
     width: 100%;
     height: 100%;
     display: block;
 }
+
 .findWithThat{
     /**/
 }

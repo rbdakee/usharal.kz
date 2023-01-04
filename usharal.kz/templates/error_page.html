@@ -57,12 +57,12 @@
                     <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
                             объявление</button></a>
                 </div>
-                <div>
+                <div class="lastel">
                     {% if lenOfUserName <= 11 %}
-                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                    <a style='text-decoration:none; ' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                     {% else %}
-                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                    <a style='text-decoration:none; ' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
                     {% endif %}
                 </div>

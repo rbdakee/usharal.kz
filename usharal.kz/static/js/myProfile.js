@@ -84,7 +84,7 @@ var seephoneMask = IMask(
 document.querySelector('.changeProfile').addEventListener('click', () => {
     $('.prof').removeClass('prof')
     document.querySelectorAll('.myProfileInner')[1].classList.add('prof')
-    document.querySelector('.changeProf .spanWithInput.inner input').value = document.querySelector('.nameOfUser').innerHTML.split(' ').join('')
+    // document.querySelector('.changeProf .spanWithInput.inner input').value = document.querySelector('.nameOfUser').innerHTML
     document.querySelector('.changeProf img').src = document.querySelector('img').src
     if(document.querySelector('img').getAttribute('src') != 'img/Vector.svg'){
         document.querySelector('.changeProf img').style.width = '100px'
@@ -97,7 +97,7 @@ document.querySelector('.changeProfile').addEventListener('click', () => {
         }
     })
     // document.querySelectorAll('option')[0].innerHTML = document.querySelector('.spanWithInput .userAddress').innerHTML
-    document.querySelector('.changeProf .phoneSpan input').value = document.querySelector('.phoneSpan input').value.split(' ').join('')
+    document.querySelector('.changeProf .phoneSpan input').value = document.querySelector('.phoneSpan input').value
     // document.querySelector('.nameOfUser').innerHTML
 })
 const saveData = () => {
@@ -129,3 +129,31 @@ const saveData = () => {
     }
 }
 document.querySelector('.confirmButtonLine button').addEventListener('click', saveData)
+var valBool = document.querySelector('.booleanValue').innerHTML
+if(+valBool == 1){
+    // alert()
+    $('.prof').removeClass('prof')
+    document.querySelectorAll('.myProfileInner')[1].classList.add('prof')
+    window.scrollTo(300, 800)
+}
+function checkForValidation(el){
+    if(el.value != document.querySelector('.spanWithInput .forValid').value){
+        document.querySelector('.status').classList.remove('booleanValue')
+        document.querySelector('.status').innerHTML = 'Данные не совпадают'
+        document.querySelector('.confirmButtonLine .lng-changeNew').disabled = true
+    }
+    else{
+        document.querySelector('.status').classList.add('booleanValue')
+        document.querySelector('.confirmButtonLine .lng-changeNew').disabled = false
+    }
+}
+function prevPassword(el){
+    if(el.value.length == 0){
+        document.querySelector('.boxConfirm input').classList.add('activeInput')
+        document.querySelector('.confirmButtonLine .lng-changeNew').disabled = true
+    }
+    else{
+        document.querySelector('.boxConfirm input').classList.remove('activeInput')
+        document.querySelector('.confirmButtonLine .lng-changeNew').disabled = false   
+    }
+}

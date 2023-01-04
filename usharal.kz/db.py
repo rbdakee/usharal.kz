@@ -35,6 +35,10 @@ class Users(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def return_user_password(user_email):
+        user = Users.query.filter_by(email = user_email).first()
+        return user.password
+
     def loginning(email, password):
         user = Users.query.filter_by(email=email, password=password).first()
         try:
@@ -108,6 +112,7 @@ class Posts(db.Model):
     description = db.Column(db.String(8000), nullable=True)
     post_date = db.Column(db.DateTime)
     deactivate_date = db.Column(db.DateTime)
+    delete_date = db.Column(db.DateTime)
     whatsapp_link = db.Column(db.String(100))
     status = db.Column(db.Boolean, default=False, nullable=False)
     advertisement = db.Column(db.Boolean, default=False, nullable=False)
@@ -118,7 +123,7 @@ class Posts(db.Model):
     favpost = db.relationship('favPosts', backref = 'posts')
 
 
-    def __init__(self, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement, facility):
+    def __init__(self, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility):
         self.user = user.id
         self.post_title = post_title
         self.phone_number = phone_number
@@ -127,6 +132,7 @@ class Posts(db.Model):
         self.description = description
         self.post_date = post_date
         self.deactivate_date = deactivate_date
+        self.delete_date = delete_date
         self.whatsapp_link = whatsapp_link
         self.status = status
         self.advertisement = advertisement
@@ -139,7 +145,7 @@ class Posts(db.Model):
 
 
 
-    def edit_post(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, whatsapp_link, status, advertisement, facility):
+    def edit_post(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility):
         post = Posts.query.filter_by(id = id).first()
         post.user = user
         post.post_title = post_title
@@ -149,6 +155,7 @@ class Posts(db.Model):
         post.description = description
         post.post_date = post_date
         post.deactivate_date = deactivate_date
+        post.delete_date = delete_date
         post.whatsapp_link = whatsapp_link
         post.status = status
         post.advertisement = advertisement
@@ -188,6 +195,7 @@ class Posts(db.Model):
             description = posts[i].description
             post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
             deactivate_date = posts[i].deactivate_date.strftime("%m/%d/%Y %H:%M")
+            delete_date = posts[i].delete_date.strftime("%m/%d/%Y %H:%M")
             whatsapp_link = posts[i].whatsapp_link
             advertisement = posts[i].advertisement
             facility = posts[i].facility
@@ -197,10 +205,11 @@ class Posts(db.Model):
                 facility = 'Возможен обмен'
             elif facility == 3:
                 facility = 'Отдам даром'
-            photos = []
-            for j in range(len(posts[i].photo)):
-                photos.append(base64.b64encode(posts[i].photo[j].data).decode('ascii'))
-            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'photos':photos, 'advertisement':advertisement, 'facility':facility})
+            try:
+                photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
+            except:
+                photos = 0
+            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'photos':photos, 'advertisement':advertisement, 'facility':facility})
         postss.reverse()
         return postss
 
@@ -237,6 +246,7 @@ class Posts(db.Model):
             description = posts[i].description
             post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
             deactivate_date = posts[i].deactivate_date.strftime("%m/%d/%Y %H:%M")
+            delete_date = posts[i].delete_date.strftime("%m/%d/%Y %H:%M")
             whatsapp_link = posts[i].whatsapp_link
             status = posts[i].status
             facility = posts[i].facility
@@ -246,10 +256,11 @@ class Posts(db.Model):
                 facility = 'Возможен обмен'
             elif facility == 3:
                 facility = 'Отдам даром'
-            photos = []
-            for j in range(len(posts[i].photo)):
-                photos.append(base64.b64encode(posts[i].photo[j].data).decode('ascii'))
-            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'status':status, "facility":facility, 'photos':photos})
+            try:
+                photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
+            except:
+                photos = 0
+            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, "facility":facility, 'photos':photos})
         postss.reverse()
         return postss
 
@@ -288,6 +299,7 @@ class Posts(db.Model):
             description = posts[i].description
             post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
             deactivate_date = posts[i].deactivate_date.strftime("%m/%d/%Y %H:%M")
+            delete_date = posts[i].delete_date.strftime("%m/%d/%Y %H:%M")
             whatsapp_link = posts[i].whatsapp_link
             status = posts[i].status
             view_counter = posts[i].view_counter
@@ -299,10 +311,11 @@ class Posts(db.Model):
                 facility = 'Возможен обмен'
             elif facility == 3:
                 facility = 'Отдам даром'
-            photos = []
-            for j in range(len(posts[i].photo)):
-                photos.append(base64.b64encode(posts[i].photo[j].data).decode('ascii'))
-            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'status':status, "view_counter":view_counter, "fav_counter":fav_counter, "facility":facility, 'photos':photos})
+            try:
+                photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
+            except:
+                photos = 0
+            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, "view_counter":view_counter, "fav_counter":fav_counter, "facility":facility, 'photos':photos})
         postss.reverse()
         return postss
 
@@ -341,7 +354,8 @@ class Posts(db.Model):
         cost = posts.cost
         description = posts.description
         post_date = posts.post_date.strftime("%m/%d/%Y %H:%M")
-        deactivate_date = posts.deactivate_date
+        deactivate_date = posts.deactivate_date.strftime("%m/%d/%Y %H:%M")
+        delete_date = posts.delete_date.strftime("%m/%d/%Y %H:%M")
         whatsapp_link = posts.whatsapp_link
         view_counter = posts.view_counter
         fav_counter = posts.fav_counter
@@ -355,7 +369,7 @@ class Posts(db.Model):
         photos = []
         for j in range(len(posts.photo)):
             photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
-        post = {'id':id, 'user_id': user_id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, "view_counter":view_counter, "fav_counter":fav_counter, 'facility':facility, 'photos':photos}
+        post = {'id':id, 'user_id': user_id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, "view_counter":view_counter, "fav_counter":fav_counter, 'facility':facility, 'photos':photos}
         return post
 
     def show_several_posts(postsId_list):
@@ -372,7 +386,8 @@ class Posts(db.Model):
             cost = post.cost
             description = post.description
             post_date = post.post_date.strftime("%m/%d/%Y %H:%M")
-            deactivate_date = post.deactivate_date
+            deactivate_date = post.deactivate_date.strftime("%m/%d/%Y %H:%M")
+            delete_date = post.delete_date.strftime("%m/%d/%Y %H:%M")
             whatsapp_link = post.whatsapp_link
             facility = post.facility
             if facility == 1:
@@ -381,10 +396,11 @@ class Posts(db.Model):
                 facility = 'Возможен обмен'
             elif facility == 3:
                 facility = 'Отдам даром'
-            photos = []
-            for j in range(len(post.photo)):
-                photos.append(base64.b64encode(post.photo[j].data).decode('ascii'))
-            post_main = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, 'whatsapp_link':whatsapp_link, 'facility':facility, 'photos':photos}
+            try:
+                photos = base64.b64encode(post.photo[0].data).decode('ascii')
+            except:
+                photos = 0
+            post_main = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'facility':facility, 'photos':photos}
             all_posts.append(post_main)
         return all_posts
 

@@ -56,12 +56,12 @@
                     <a href="{{url_for('newpost', lang=session['lang'])}}"><button class="add lng-newPost">Подать
                             объявление</button></a>
                 </div>
-                <div>
+                <div class="lastel">
                     {% if lenOfUserName <= 11 %}
-                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                    <a style='text-decoration:none; ' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
                     {% else %}
-                    <a style='text-decoration:none; font-size: 20px; padding-left: 10px;' class="text"
+                    <a style='text-decoration:none; ' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
                     {% endif %}
                 </div>
@@ -147,25 +147,36 @@
                                 {% block content %}
                                 {% for post in posts %}
                                 {% if post.status == 1 %}
+                                
                                 <div class="myContent">
-                                    <div class="lineForCheckbox">
+                                    
+                                   <div class="lineForCheckbox">
                                         <input type="checkbox" onchange="  " name="" id="check">
                                     </div>
                                     <div class="boxForCon">
+                                        <a href="/content/{{post.id}}/{{lang}}" style="color: black; text-decoration:none;">
+                                    
                                         <div class="forImg">
-                                            <img src="data:;base64, {{post.photos[0]}}" alt="" srcset="">
+                                            <img src="data:;base64, {{post.photos}}" alt="" srcset="">
                                         </div>
+                                        </a>
+                                        
                                         <div class="forMainContent">
-
+                                            <a href="/content/{{post.id}}/{{lang}}" style="color: black; text-decoration:none;">
+                                    
                                             <div class="blocks nameOfTheProduct">
-                                                <a href="/content/{{post.id}}"
-                                                    style="color: black; text-decoration:underline;">{{post.title}}</a>
+                                                <div
+                                                    style="color: black; text-decoration:underline;">{{post.title}}</div>
                                             </div>
+                                        </a>
+                                        
                                             <div class="blocks a">
                                                 <a href="" class="{{cat[post.category]}}">{{post.category}}</a>
                                             </div>
                                             <div class="blocks"><input readonly class="cost" value="{{post.cost}}"><span
-                                                    class="isFree {{cat[post.facility]}}">{{post.facility}}</span></div>
+                                                    class="isFree {{cat[post.facility]}}">{{post.facility}}</span>
+                                                
+                                                </div>
                                             <div class="blocks dataDate">
                                                 <span class="publishDate">
                                                     <i class="calen fa fa-calendar-plus-o"></i> <span
@@ -187,7 +198,8 @@
                                                     <i class="fa-regular fa-comment"></i><span class="number">1</span>
                                                 </div>
                                                 <div class="buttons">
-                                                    <button class="lng-post_update">Редактировать</button>
+                                                    <button ><a href="/edit_post/{{post.id}}/{{session['lang']}}"
+                                                        style="color: black; text-decoration:none;" class="lng-post_update">Редактировать</a></button>
                                                     <button><a href="/post_deactivation/{{post.id}}/{{session['lang']}}"
                                                             style="color: black; text-decoration:none;"
                                                             class="lng-post_deactivate">Деактивировать</a></button>
@@ -195,6 +207,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                
                                 </div>
                                 {% endif %}
                                 {% endfor %}
@@ -274,7 +287,7 @@
                                     </div>
                                     <div class="boxForCon">
                                         <div class="forImg">
-                                            <img src="data:;base64, {{post.photos[0]}}" alt="" srcset="">
+                                            <img src="data:;base64, {{post.photos}}" alt="" srcset="">
                                         </div>
                                         <div class="forMainContent">
 
@@ -309,7 +322,7 @@
                                                 </div>
                                                 <div class="buttons">
                                                     <button class="lng-post_update">Редактировать</button>
-                                                    <button><a href="/post_activation/{{post.id}}"
+                                                    <button><a href="/post_activation/{{post.id}}/{{session['lang']}}"
                                                             class="lng-post_activate"
                                                             style="color: black; text-decoration:none;">Aктивировать</a></button>
                                                 </div>

@@ -1667,20 +1667,20 @@ header .lang a {
   text-decoration: none;
 }
 .lastel {
-  font-size: 15px;
+  /* font-size: 15px; */
   /* white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; */
   overflow: hidden;
   white-space: nowrap;
-  width: 140px !important;
-  border: 0px solid;
+  width: 150px !important;
+  /* border: 1px solid; */
   display: flex;
 }
 .lastel a {
   font-size: 20px;
-  display: flex;
-  margin: auto;
+  display: flex !important;
+  margin: auto !important;
 }
 
 .category button {

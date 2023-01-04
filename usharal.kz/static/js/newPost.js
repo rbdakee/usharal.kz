@@ -243,7 +243,9 @@ chooseCategory.addEventListener('click', () => {
 })
 var allBoxAbs 
 var imgArr= []
+
 var imgArr = ['../static/img/Vector1.svg', '../static/img/Vector1.svg', '../static/img/Vector1.svg','../static/img/Vector1.svg','../static/img/Vector1.svg','../static/img/Vector1.svg','../static/img/Vector1.svg']
+var finalImgArr = []
 function showFile(input) {
     if(imgArr[6] == '../static/img/Vector1.svg'){
         var files = input.files || input.currentTarget.files;
@@ -276,16 +278,21 @@ function showFile(input) {
                     each.src = imgArr[index]
                 })
             };
-          
+            
         
             
             
             
             
         }
-        
+        document.querySelector('.blobImages').value = ''
+            for(var it = 0; it <  imgArr.length; it++){
+                document.querySelector('.blobImages').value += ` ${imgArr[it]}`
+            }  
     }
     }
+    
+   
         //     allBoxAbs = input.files || input.current
     
     // if(imgArr[6] == '../static/img/Vector1.svg'){

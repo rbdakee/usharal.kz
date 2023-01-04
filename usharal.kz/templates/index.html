@@ -163,8 +163,11 @@
                                     <div class="contentBox"><a
                                             href="{{url_for('content', post_id = post.id, lang = session['lang'])}}">
                                             <div class="forImgContent">
-                                                <!-- <div class="top">VIP</div> -->
-                                                <img src="data:;base64, {{ post.photos[0] }}" alt="">
+                                                {% if post.photos != 0 and post.photos != '' and post.photos != None%}
+                                                <img src="data:;base64, {{ post.photos }}" alt="">
+                                                {% else %}
+                                                <img src="../static/img/no_image.png">
+                                                {% endif %}
                                             </div>
                                             <div class="dataContent" style="text-decoration: none; color:black;">
                                                 {{post.post_date}} </div>
