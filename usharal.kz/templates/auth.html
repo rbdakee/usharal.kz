@@ -152,10 +152,18 @@
             border: 1px solid red;
         }
 
-        .flash {
+        .flash.red {
             text-align: center;
             border: 1px, solid, #FF4343;
             background: #FF9C9C;
+            padding: 10px 0;
+        }
+
+        .flash.success {
+            text-align: center;
+            border: 1px, solid, #43ff5cb9;
+            background: #5cb85c;
+            padding: 10px 0;
         }
 
         #signin {
@@ -166,6 +174,13 @@
 
 <body>
     <section class="loginSection">
+        {% for msg in get_flashed_messages() %}
+        {% if msg.split(' ')[0] == 'Зарегестрирован'%}
+        <div class="flash success">{{msg}}</div>
+        {%else%}
+        <div class="flash red">{{msg}}</div>
+        {%endif%}
+        {% endfor %}
         <div class="firstBlock">
             <div class="loginPart activeAuth">
                 Вход
@@ -174,9 +189,7 @@
                 Регистрация
             </div>
         </div>
-        {% for msg in get_flashed_messages() %}
-        <div class="flash">{{msg}}</div>
-        {% endfor %}
+
         <form action="/authentification" method="post" class="active">
             <div class="container" id="signin">
                 <label for="email"><b>E-mail</b></label>

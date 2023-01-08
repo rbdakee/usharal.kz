@@ -23,6 +23,19 @@ const anim =(imgBox) =>{
     }
         
 }
+
+function deleteAll(){
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox2.imageBox > img").src = '../static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox3.imageBox > img").src = '../static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox4.imageBox > img").src = '../static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox5.imageBox > img").src = '../static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox6.imageBox > img").src = '../static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox7.imageBox > img").src = '../static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox8.imageBox > img").src = '../static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox1 > input").value = null; 
+
+}
+
 const deleteFunction = (btn) => {
     var btnParentIndex = +btn.parentNode.parentNode.getAttribute('count')
     imgArr.splice(btnParentIndex, 1)
@@ -35,6 +48,7 @@ const deleteFunction = (btn) => {
     btn.parentNode.previousElementSibling.previousElementSibling.style.objectFit = null
     
     
+    document.querySelector('.absolute').value = ''
     document.querySelectorAll('.imageBox').forEach((each, index) => {
         
         if(imgArr[index] != '../static/img/Vector1.svg'){
@@ -48,6 +62,7 @@ const deleteFunction = (btn) => {
             document.querySelector(`.${each.classList[0]} img`).style.objectFit = null
         }
         document.querySelector(`.${each.classList[0]} img`).setAttribute('src', imgArr[index])
+        document.querySelector('.absolute').value += ` ${imgArr[index]}` + ' '
     })
     
 }
@@ -255,6 +270,7 @@ function showFile(input) {
     var name;
     for (var i in files) {
         if (files.hasOwnProperty(i)) {
+            document.querySelector('.absolute').value = '';
             name = 'file' + i;
             
             reader[i] = new FileReader();
@@ -276,6 +292,7 @@ function showFile(input) {
                                     document.querySelectorAll('.imageOfUser')[index].style.objectFit = 'cover'
                                 }
                     each.src = imgArr[index]
+                    document.querySelector('.absolute').value += ` ${imgArr[index]}` + ' '
                 })
             };
             
@@ -285,10 +302,8 @@ function showFile(input) {
             
             
         }
-        document.querySelector('.blobImages').value = ''
-            for(var it = 0; it <  imgArr.length; it++){
-                document.querySelector('.blobImages').value += ` ${imgArr[it]}`
-            }  
+        
+            
     }
     }
     
@@ -315,6 +330,14 @@ function showFile(input) {
     //     alert()
     // }
   }
+
+function btnclck(){
+    const socket = new WebSocket('ws://' + location.host + '/post_photo');
+    socket.send(imgArr);
+}
+
+
+
   var fileProf
   
 var currencyMask = IMask(
@@ -354,8 +377,8 @@ var currencyMask = IMask(
         document.querySelectorAll('.periodOfInputs input')[2]
     ]
     var q = 0
-    document.querySelector('.finalButtonDiv').addEventListener('click', checkInput)
-    document.querySelector('.betaButtonDiv').addEventListener('click', checkInput)
+    // document.querySelector('.finalButtonDiv button').addEventListener('click', checkInput)
+    // document.querySelector('.betaButtonDiv').addEventListener('click', checkInput)
     function checkInput(){
         checkForValid.length = 0
         checkForValid.push(document.querySelector('.newPostHeader input').value.length >= 16)
@@ -427,3 +450,54 @@ const freeField = (el) => {
         document.querySelector('.costBlock .inner.lng-costInTenge').value = '₸ 0'
     }
 } 
+
+
+const checkForFree = (el) => {
+    if (el.value.replace(/\s/g,'')!= '₸' && el.value.replace(/\s/g,'') != '' && el.value.replace(/\s/g,'')!= '₸0'){
+        document.querySelector('.withRadio .middleBox input').checked = true
+    }
+    else if(el.value.replace(/\s/g,'')== '₸' || el.value.replace(/\s/g,'') == '' || el.value.replace(/\s/g,'')== '₸0') {
+        
+        document.querySelector('.withRadio .freeBox input').checked = true
+    }
+}
+var arrindex = [80,16]
+const titleProduct = (el, index) => {
+    if(!index){
+        
+        const textarea = document.querySelector("textarea");
+        const count = document.querySelector(".counter .currentValue");
+        const text = textarea.value;
+        const textlength = textarea.value.length;
+        count.innerText = `${textlength}`;
+    }
+    if (el.value.length < arrindex[index]){
+        if(!el.classList.contains('activeInput')){
+            el.classList.add('activeInput')
+        }
+        disableButton(true)
+    }
+    else{
+        el.classList.remove('activeInput')
+        disableButton(true)
+    }
+}
+const disableButton = (value) => {
+    document.querySelectorAll('.finalButtonDiv button').forEach(each => {
+        each.disabled = value
+    })
+}
+
+
+ch = document.getElementById('default_phone_number');
+inp = document.getElementById('phone_number_input');
+phone_number = document.getElementById('phone_number').value;
+if (ch.checked){
+    inp.hidden = true;
+    phone_number.hidden = false;
+    inp.value = phone_number;
+}
+else if(ch.checked == false){
+    inp.hidden = false;
+    phone_number.hidden = true;
+}

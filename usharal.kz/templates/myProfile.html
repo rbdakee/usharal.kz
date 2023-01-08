@@ -11,16 +11,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>{{title}}</title>
     <style>
-        .booleanValue{
+        .booleanValue {
             display: none;
         }
-        .status{
+
+        .status {
             background-color: #ffe8e8;
             width: 100%;
-            padding: 10px 20px ;
+            padding: 10px 20px;
             font-size: large;
         }
-        .boxConfirm input.activeInput{
+
+        .boxConfirm input.activeInput {
             border: 1px solid rgba(255, 0, 0, 0.877) !important;
         }
     </style>
@@ -71,13 +73,12 @@
                             объявление</button></a>
                 </div>
                 <div class="lastel">
-                    {% if lenOfUserName <= 11 %}
-                    <a style='text-decoration:none; ' class="text"
+                    {% if lenOfUserName <= 11 %} <a style='text-decoration:none;' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
-                    {% else %}
-                    <a style='text-decoration:none; ' class="text"
-                        href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
-                    {% endif %}
+                        {% else %}
+                        <a style='text-decoration:none;' class="text lng-nickProfile"
+                            href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
+                        {% endif %}
                 </div>
             </div>
         </header>
@@ -129,21 +130,26 @@
                                         <input type="file" onchange = "showFile(this)"accept="image/gif, image/jpeg, image/png, image/svg" name="" class="file">
                                         
                                     </div> -->
-                                    {% if user.logo != 0 %}
-                                    <div class="imageBoxProfile">
-                                        <img src="data:;base64, {{user.logo}}"width = "50"alt="" class="imageOfUserChoose">
-                                    </div>
-                                    {% else %}
-                                    <div class="imageBoxProfile">
-                                        <img src="{{url_for('static', filename='img/add-photo.png')}}"width = "50"alt="" class="imageOfUserChoose">
-                                    </div>
-                                    {% endif %}
+                                {% if user.logo != 0 %}
+                                <div class="imageBoxProfile">
+                                    <img src="data:;base64, {{user.logo}}" width="50" alt="" class="imageOfUserChoose">
+                                </div>
+                                {% else %}
+                                <div class="imageBoxProfile">
+                                    <img src="{{url_for('static', filename='img/add-photo.png')}}" width="50" alt=""
+                                        class="imageOfUserChoose">
+                                </div>
+                                {% endif %}
 
 
                             </div>
                             <div class="spanWithInput inner">
-                                <div><span class="firstPart">Адрес</span><span class="secondPart"></span></div>
-                                <div class="userAddress rInfo">Шымкент</div>
+                                <div><span class="firstPart">WhatsApp</span><span class="secondPart"></span></div>
+                                {% if whatsapp_number %}
+                                <div class="userAddress rInfo">{{whatsapp_number}}</div>
+                                {% else %}
+                                <div class="userAddress rInfo">                   </div>
+                                {% endif %}
                             </div>
                             <div class="spanWithInput inner phoneSpan">
                                 <div><span class="firstPart">Телефон</span><span class="secondPart"></span></div>
@@ -166,7 +172,7 @@
                                     <h1 class="lng-changeProfile">Редактировать профиль</h1>
                                 </div>
                                 <div class="spanWithInput inner">
-                                    <div class = 'booleanValue' style="display: none;">{{value}}</div>
+                                    <div class='booleanValue' style="display: none;">{{value}}</div>
                                     <div><span class="firstPart lng-yourProfile">Ваше имя</span><span
                                             class="secondPart lng-atleast4"> (не менее 4 символов)</span></div>
                                     <input type="text" name="username" value="{{username}}">
@@ -176,23 +182,33 @@
                                             class="secondPart lng-format"> (Формат - jpg или png, максимальный размер 5
                                             Мб)</span></div>
                                     <div class="imageBoxProfile">
-                                        <img src="{{url_for('static', filename='img/add-photo.png')}}" width="50" alt="" class="imageOfUserChoose">
+                                        <img src="{{url_for('static', filename='img/add-photo.png')}}" width="50" alt=""
+                                            class="imageOfUserChoose">
                                         <input type="file" onchange="showFileProfile(this)"
                                             accept="image/gif, image/jpeg, image/png, image/svg" name="logo"
                                             class="file">
                                     </div>
 
                                 </div>
+                                <div class="spanWithInput inner whatsSpan">
+                                    <div><span class="firstPart">WhatsApp</span><span class="secondPart"></span></div>
+                                    {% if whatsapp_number %}
+                                    <input type="tel" class="profileNum" name="whatsapp_number" value="{{user.whatsapp_number}}">
+                                    {% else %}
+                                    <input type="tel" class="profileNum" name="whatsapp_number">
+                                    {% endif %}
+                                </div>
 
                                 <div class="spanWithInput inner phoneSpan">
                                     <div><span class="firstPart">Телефон</span><span class="secondPart"></span></div>
                                     {% if user.phone_number == 0 %}
-                                    <input type="text" class="profileNum" name="phone_number">
+                                    <input type="tel" class="profileNum" name="phone_number">
                                     {% else %}
-                                    <input type="text" class="profileNum" name="phone_number"
+                                    <input type="tel" class="profileNum" name="phone_number"
                                         value="{{user.phone_number}}">
                                     {% endif %}
                                 </div>
+                                
                                 <!-- <div class="saveLine inner">
                                     <button class="save">Сохранить</button>
                                 </div> -->
@@ -206,7 +222,7 @@
                                             class="secondPart"></span></div>
                                     <input type="password" name="password" class="forValid">
                                 </div>
-                                
+
                                 <div class="spanWithInput inner">
                                     <div><span class="firstPart lng-repeatPass">Повторите пароль</span><span
                                             class="secondPart"></span></div>
@@ -226,7 +242,8 @@
                                     <a>{{msg}}</a>
                                     {% endfor %}
                                     <div><span class="firstPart lng-currentPass">Введите текущий пароль</span></div>
-                                    <input type="password" name="userPrevPassword" class="userPrevPassword activeInput" oninput="prevPassword(this)" required>
+                                    <input type="password" name="userPrevPassword" class="userPrevPassword activeInput"
+                                        oninput="prevPassword(this)" required>
                                     <!-- <div>{{userpass}}</div> -->
                                     <!-- <div class="status" style="color: red;"></div> -->
                                     <button type="submit" class="lng-changeNew">Сохранить изменения</button>

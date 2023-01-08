@@ -67,13 +67,12 @@
                             объявление</button></a>
                 </div>
                 <div class="lastel">
-                    {% if lenOfUserName <= 11 %}
-                    <a style='text-decoration:none;' class="text"
+                    {% if lenOfUserName <= 11 %} <a style='text-decoration:none;' class="text"
                         href="{{url_for('myprofile', lang=session['lang'])}}">{{username}}</a>
-                    {% else %}
-                    <a style='text-decoration:none;' class="text"
-                        href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
-                    {% endif %}
+                        {% else %}
+                        <a style='text-decoration:none;' class="text lng-nickProfile"
+                            href="{{url_for('myprofile', lang=session['lang'])}}">Мой профиль</a>
+                        {% endif %}
                 </div>
             </div>
         </header>
@@ -82,7 +81,7 @@
             <div class="mask"></div>
             <div class="sectionChild">
                 <div class="mainBodyContent">
-                    <a href="/{{lang}}" style="text-decoration: none;">
+                    <a  onclick="history.back()" style="text-decoration: none;">
                         <div class="prevLine">
                             <span class="fa fa-angle-left"></span>
                             <span class="lng-back"> Назад</span>
@@ -163,14 +162,16 @@
                     <div class="MsgAndAdvice">
                         <div class="sendMsg">
                             <div class="firstL">
-                                <div class="miniProfile">
+                                <div class="miniProfile" style=" align-items: center;">
                                     {% if user_logo != 0 %}
                                     <img src="data:;base64, {{user_logo}}" width="57" height="57">
                                     {% else %}
                                     <img src="{{url_for('static', filename = 'img/user.svg')}}" alt="" srcset="">
                                     {% endif %}
-                                    <div class="data">
-                                        <div class="name">{{post.username}}</div>
+                                    <div class="data" style=" display: flex;">
+                                        <div class="name" style="margin: auto;  display: flex; align-items: center;">
+                                            {{post.username}}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="mobNum">

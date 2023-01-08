@@ -220,6 +220,11 @@ def phone_numbers_to_waLink(number):
             res+=i
     return res
 
+@sock.route('/post_photo')
+def post_photo(sock):
+    data = sock.receive()
+    # print(data)
+
 @app.route('/newpost/<lang>', methods=['POST', 'GET'])
 def newpost(lang):
     if 'userName' in session:
@@ -233,6 +238,7 @@ def newpost(lang):
             category=request.form['category']
             cost = request.form['post_cost']
             photo = request.files.getlist('post_photo')
+            # photo = request.form['absolute'].split()
             description = request.form['post_description']
             phone_number = request.form['phone_number']
             whatsapp_phone_number = request.form['whatsapp_phone_number']
@@ -251,7 +257,7 @@ def newpost(lang):
                 for i in photo:
                     photos = Photos(i.read(), post)
             
-        return render_template('newPost.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
+        return render_template('newPost.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), phone_number='+7 (777) 227-00-88', whatsapp_number = '+7 (777) 227-00-88')
     else:
         return redirect(url_for('login'))
 
@@ -447,7 +453,7 @@ def login():
                 return redirect(url_for('index', lang = session['lang']))
         elif 'newemail' in request.form:
             user = registration(username=request.form['newuname'], email=request.form['newemail'], password=request.form['newpsw'])
-            flash(user)
+            flash(user, 'h')
     return render_template('auth.html', title = title)
 
 @app.route('/logout')
@@ -492,6 +498,7 @@ def error_page(error):
 @app.errorhandler(AttributeError)
 @app.errorhandler(KeyError)
 def attributeError_habdler(error):
+    print('ОШИБКА')
     session.pop('userEmail', None)
     session.pop('userName', None)
     return redirect(url_for('index', lang = session['lang'] ))
