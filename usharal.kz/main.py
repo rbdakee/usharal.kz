@@ -1,6 +1,6 @@
 import base64
 from types import NoneType
-from flask import Flask, render_template, url_for, request, redirect, flash, session
+from flask import Flask, render_template, url_for, request, redirect, flash, session, abort
 from itsdangerous import URLSafeTimedSerializer
 import itsdangerous
 from send_email import send_link
@@ -202,6 +202,8 @@ def myprofile(lang='rulang'):
 
 @app.route('/mypost/<lang>')
 def myposts(lang):
+    a_token = s.dumps( session['userEmail'], salt='post-activation' )
+    d_token = s.dumps( session['userEmail'], salt='post-deactivation' )
     Posts.post_deactivation(today = datetime.today())
     if 'userEmail' in session:
         session['lang'] = lang
@@ -209,7 +211,7 @@ def myposts(lang):
             lang = 'rulang'
             return redirect(url_for('myposts', lang = 'rulang'))
         posts = Posts.show_posts_of_user(session['userEmail'])
-        return render_template('myPosts.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], cat = dictValues, lenOfUserName = len(session['userName']))
+        return render_template('myPosts.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], cat = dictValues, lenOfUserName = len(session['userName']), a_token=a_token, d_token=d_token)
     else:  
         return redirect(url_for('login'))
 
@@ -267,6 +269,8 @@ def edit_post(post_id, lang):
     if lang != 'rulang' and lang != 'kzlang':
         lang = 'rulang'
         return redirect(url_for('newpost', lang = 'rulang'))
+    if post['userEmail']!=session['userEmail']:
+        abort(404)
     session['lang'] = lang
     if request.method == 'POST':
         id = post_id
@@ -274,7 +278,15 @@ def edit_post(post_id, lang):
         post_title=request.form['post_title']
         category=request.form['category']
         cost = request.form['post_cost']
-        photo = request.files.getlist('post_photo')
+        try:
+            photo = request.files.getlist('post_photo')
+            if "''" in str(photo):
+                photo = Photos.return_post_photos(post_id)
+            else:
+                photo = list(map(lambda x: x.read(), photo))
+        except:
+            photo = Photos.return_post_photos(post_id)
+
         description = request.form['post_description']
         phone_number = request.form['phone_number']
         whatsapp_phone_number = request.form['whatsapp_phone_number']
@@ -285,13 +297,13 @@ def edit_post(post_id, lang):
         advertisement = False
         facility = request.form['radio']
         post_date = datetime.today()
-        post = Posts(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility)
-        for i in range(len(photo)):
-            photos = Photos(photo[i].read(), post)
-        
-
+        new_post = Posts.edit_post(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility)
+        Photos.edit_photos(photo, id)
+        return redirect(url_for('content', post_id=id, lang=session['lang']))
+    
+    lenOfPostPhotos = len(post['photos'])
     post['whatsapp_link'] = post['whatsapp_link'].split('/')[-1]
-    return render_template('editPost.html', post = post, menu = menu, username=session['userName'], uuurl='myprofile', lenOfUserName = len(session['userName']), lang = session['lang'])
+    return render_template('editPost.html', post = post, menu = menu, username=session['userName'], uuurl='myprofile', lenOfUserName = len(session['userName']), lang = session['lang'], lenOfPostPhotos = lenOfPostPhotos)
 
 dictType = {
             '1': 'Услуги',
@@ -349,8 +361,12 @@ def content(post_id, lang):
     else:
         return render_template('content.html', username = 'Log In', lang = session['lang'], post = post, menu=menu, title=title, uuurl='myprofile', related_posts = related_posts, user_logo = user_logo, len_of_rel_posts = len_of_rel_posts, lenOfUserName = 1, review = False, cat = dictValues)
 
-@app.route('/post_activation/<post_id>/<lang>')
-def activation(post_id, lang):
+@app.route('/post_activation/<post_id>/<a_token>/<lang>')
+def activation(post_id, a_token, lang):
+    try:
+        s.loads(a_token, salt='post-activation', max_age=60)
+    except (itsdangerous.exc.SignatureExpired, itsdangerous.exc.BadTimeSignature, itsdangerous.exc.BadSignature):
+        return render_template('expired_token.html')
     if lang != 'rulang' and lang != 'kzlang':
         lang = 'rulang'
         return redirect(url_for('myposts', lang = 'rulang'))
@@ -358,8 +374,12 @@ def activation(post_id, lang):
     Posts.post_activation(post_id)
     return redirect(url_for('myposts', lang = session['lang']))
 
-@app.route('/post_deactivation/<post_id>/<lang>')
-def deactivation(post_id, lang):
+@app.route('/post_deactivation/<post_id>/<d_token>/<lang>')
+def deactivation(post_id, d_token, lang):
+    try:
+        s.loads(d_token, salt='post-deactivation', max_age=60)
+    except (itsdangerous.exc.SignatureExpired, itsdangerous.exc.BadTimeSignature, itsdangerous.exc.BadSignature):
+        return render_template('expired_token.html')
     if lang != 'rulang' and lang != 'kzlang':
         lang = 'rulang'
         return redirect(url_for('myposts', lang = 'rulang'))
@@ -386,39 +406,79 @@ def payments(lang):
         return redirect(url_for('login'))
 
 
-@app.route('/review/<lang>', methods = ["POST", 'GET'])
-def review(lang, post_inf = {}):
+@app.route('/review/<post_id>/<lang>', methods = ["POST", 'GET'])
+def review(lang, post_id = 0):
+    
     if lang != 'rulang' and lang != 'kzlang':
         lang = 'rulang'
     session['lang'] = lang
     if request.method == 'POST':
-        user = Users.return_user_to_db(session['userEmail'])
-        post_title=request.form['post_title']
-        category=request.form['category']
-        cost = request.form['post_cost']
-        photo = request.files.getlist('post_photo')
-        description = request.form['post_description']
-        phone_number = request.form['phone_number']
-        whatsapp_phone_number = request.form['whatsapp_phone_number']
-        whatsapp_link = f'https://wa.me/{phone_numbers_to_waLink(whatsapp_phone_number)}'
-        deactivate_date = datetime.today() + timedelta(days=14)
-        status = True
-        advertisement = False
-        facility = request.form['radio']
-        post_date = datetime.today()
-        photo_inf = []
-        for i in photo:
-            photo_inf.append(base64.b64encode(i.read()).decode('ascii'))
-        if facility == "1":
-            facility_inf = 'Цена'
-        elif facility == "2":
-            facility_inf = 'Возможен обмен'
-        elif facility == "3":
-            facility_inf = 'Отдам даром'
+        
+        if post_id == 0:
+            user = Users.return_user_to_db(session['userEmail'])
+            post_title=request.form['post_title']
+            category=request.form['category']
+            cost = request.form['post_cost']
+            photo = request.files.getlist('post_photo')
+            description = request.form['post_description']
+            phone_number = request.form['phone_number']
+            whatsapp_phone_number = request.form['whatsapp_phone_number']
+            whatsapp_link = f'https://wa.me/{phone_numbers_to_waLink(whatsapp_phone_number)}'
+            deactivate_date = datetime.today() + timedelta(days=14)
+            status = True
+            advertisement = False
+            facility = request.form['radio']
+            post_date = datetime.today()
+            photo_inf = []
+            for i in photo:
+                photo_inf.append(base64.b64encode(i.read()).decode('ascii'))
+            if facility == "1":
+                facility_inf = 'Цена'
+            elif facility == "2":
+                facility_inf = 'Возможен обмен'
+            elif facility == "3":
+                facility_inf = 'Отдам даром'
 
-        post_inf = {'title': post_title, 'username':session['userName'], 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date.strftime("%m/%d/%Y %H:%M"), 'whatsapp_link':whatsapp_link, 'facility':facility_inf, 'photos':photo_inf}
-        user_logo = Users.return_user_logo(Users.return_user_id(session['userEmail']))
-        return render_template('content.html', post = post_inf, menu=menu, title=title, username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo)
+            post_inf = {'title': post_title, 'username':session['userName'], 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date.strftime("%m/%d/%Y %H:%M"), 'whatsapp_link':whatsapp_link, 'facility':facility_inf, 'photos':photo_inf}
+            user_logo = Users.return_user_logo(Users.return_user_id(session['userEmail']))
+            return render_template('content.html', post = post_inf, menu=menu, title=title, username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo)
+        else:
+            
+            user = Users.return_user_to_db(session['userEmail'])
+            post_title=request.form['post_title']
+            category=request.form['category']
+            cost = request.form['post_cost']
+            print('its ok')
+            try:
+                photo = request.files.getlist('post_photo')
+                if "''" in str(photo):
+                    photo = Photos.return_post_photos(post_id)
+                else:
+                    photo = list(map(lambda x: x.read(), photo))
+            except:
+                photo = Photos.return_post_photos(post_id)
+
+            description = request.form['post_description']
+            phone_number = request.form['phone_number']
+            whatsapp_phone_number = request.form['whatsapp_phone_number']
+            whatsapp_link = f'https://wa.me/{phone_numbers_to_waLink(whatsapp_phone_number)}'
+            deactivate_date = datetime.today() + timedelta(days=14)
+            status = True
+            advertisement = False
+            facility = request.form['radio']
+            post_date = datetime.today()
+            photo_inf = []
+            for i in photo:
+                photo_inf.append(base64.b64encode(i).decode('ascii'))
+            if facility == "1":
+                facility_inf = 'Цена'
+            elif facility == "2":
+                facility_inf = 'Возможен обмен'
+            elif facility == "3":
+                facility_inf = 'Отдам даром'
+
+            post_inf = {'title': post_title, 'username':session['userName'], 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date.strftime("%m/%d/%Y %H:%M"), 'whatsapp_link':whatsapp_link, 'facility':facility_inf, 'photos':photo_inf}
+            user_logo = Users.return_user_logo(Users.return_user_id(session['userEmail']))
     return render_template('content.html', post = post_inf, menu=menu, title=title, username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo)
 
 
@@ -495,13 +555,13 @@ def error_page(error):
         return render_template('error_page.html', menu = menu, lang=session['lang'], lenOfUserName = len(session['userName']))
     else:
         return render_template('error_page.html', menu = menu, lang=session['lang'], lenOfUserName = 1)
-@app.errorhandler(AttributeError)
-@app.errorhandler(KeyError)
-def attributeError_habdler(error):
-    print('ОШИБКА')
-    session.pop('userEmail', None)
-    session.pop('userName', None)
-    return redirect(url_for('index', lang = session['lang'] ))
+# @app.errorhandler(AttributeError)
+# @app.errorhandler(KeyError)
+# def attributeError_habdler(error):
+#     print('ОШИБКА')
+#     session.pop('userEmail', None)
+#     session.pop('userName', None)
+#     return redirect(url_for('index', lang = session['lang'] ))
 
 
 

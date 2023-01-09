@@ -25,13 +25,13 @@ const anim =(imgBox) =>{
 }
 
 function deleteAll(){
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox2.imageBox > img").src = '../static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox3.imageBox > img").src = '../static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox4.imageBox > img").src = '../static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox5.imageBox > img").src = '../static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox6.imageBox > img").src = '../static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox7.imageBox > img").src = '../static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox8.imageBox > img").src = '../static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox2.imageBox > img").src = '/static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox3.imageBox > img").src = '/static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox4.imageBox > img").src = '/static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox5.imageBox > img").src = '/static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox6.imageBox > img").src = '/static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox7.imageBox > img").src = '/static/img/Vector1.svg';
+    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox8.imageBox > img").src = '/static/img/Vector1.svg';
     document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox1 > input").value = null; 
 
 }

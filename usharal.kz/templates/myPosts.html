@@ -202,7 +202,7 @@
                                                     <button><a href="/edit_post/{{post.id}}/{{session['lang']}}"
                                                             style="color: black; text-decoration:none;"
                                                             class="lng-post_update">Редактировать</a></button>
-                                                    <button><a href="/post_deactivation/{{post.id}}/{{session['lang']}}"
+                                                    <button><a href="/post_deactivation/{{post.id}}/{{d_token}}/{{session['lang']}}"
                                                             style="color: black; text-decoration:none;"
                                                             class="lng-post_deactivate">Деактивировать</a></button>
                                                 </div>
@@ -324,7 +324,7 @@
                                                 </div>
                                                 <div class="buttons">
                                                     <button class="lng-post_update">Редактировать</button>
-                                                    <button><a href="/post_activation/{{post.id}}/{{session['lang']}}"
+                                                    <button><a href="/post_activation/{{post.id}}/{{a_token}}/{{session['lang']}}"
                                                             class="lng-post_activate"
                                                             style="color: black; text-decoration:none;">Aктивировать</a></button>
                                                 </div>

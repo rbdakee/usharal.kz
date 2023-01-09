@@ -147,7 +147,7 @@ class Posts(db.Model):
 
     def edit_post(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility):
         post = Posts.query.filter_by(id = id).first()
-        post.user = user
+        post.user = user.id
         post.post_title = post_title
         post.phone_number = phone_number
         post.category = category
@@ -160,6 +160,7 @@ class Posts(db.Model):
         post.status = status
         post.advertisement = advertisement
         post.facility = facility
+        db.session.commit()
 
     def show_all_posts():
         posts = Posts.query.order_by(Posts.post_date).filter_by(status=True).all()
@@ -327,6 +328,7 @@ class Posts(db.Model):
         user_id = posts.user
         user = Users.query.filter_by(id = user_id).first()
         username = user.username
+        userEmail = user.email
         title = posts.post_title
         phone_number = posts.phone_number
         if posts.category == 1:
@@ -369,7 +371,7 @@ class Posts(db.Model):
         photos = []
         for j in range(len(posts.photo)):
             photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
-        post = {'id':id, 'user_id': user_id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, "view_counter":view_counter, "fav_counter":fav_counter, 'facility':facility, 'photos':photos}
+        post = {'id':id, 'user_id': user_id, 'userEmail':userEmail, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, "view_counter":view_counter, "fav_counter":fav_counter, 'facility':facility, 'photos':photos}
         return post
 
     def show_several_posts(postsId_list):
@@ -439,9 +441,28 @@ class Photos(db.Model):
 
     def __init__(self, data, post_id):
         self.data = data
-        self.post_id = post_id.id
+        try:
+            self.post_id = post_id.id
+        except AttributeError:
+            self.post_id = post_id
         db.session.add(self)
         db.session.commit()
+    
+    def edit_photos(photos, post_id):
+        prevPhotos = Photos.query.filter_by(post_id=post_id).all()
+        for i in prevPhotos:
+            db.session.delete(i)
+            db.session.commit()
+        for i in photos:
+            photo = Photos(i, post_id)
+            
+
+    def return_post_photos(post_id):
+        post = Posts.query.filter_by(id = post_id).first()
+        photos = []
+        for j in range(len(post.photo)):
+            photos.append(post.photo[j].data)
+        return photos
 
 class favPosts(db.Model):
     id = db.Column(db.Integer, primary_key = True)

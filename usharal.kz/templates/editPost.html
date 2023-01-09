@@ -5,10 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width;">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/scroll.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/myPosts.css')}}">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/myPosts.css">
+    <link rel="stylesheet" href="/static/css/scroll.css">
     <style>
+        input.activeInput,
+        textarea.activeInput {
+            border: 1px solid rgba(255, 0, 0, 0.877) !important;
+            box-shadow: 0 0 10px rgba(197, 30, 30, 0.5);
+        }
+
         .categoryHide {
             display: none;
         }
@@ -20,12 +26,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>{{title}}</title>
 </head>
-
 <body>
     <div class="all">
         <header>
             <div class="headerChild">
-
 
                 <div class="text" title="Вернуться к главной странице"><a
                         href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
@@ -76,21 +80,27 @@
                 </div>
             </div>
         </header>
+
+
         <section class="pageForNewPost">
             <form method="post" enctype="multipart/form-data">
                 <div class="mask"></div>
                 <div class="pageForNewPostChild">
                     <div class="titleForPage">
-                        <h1>Подать объявление</h1>
+                        <h1 class="lng-newPost">Подать объявление</h1>
                     </div>
 
                     <div class="mainBody">
                         <div class="informationAboutProduct">
-                            <h3>Информация о товаре</h3>
+                            <h3 class="lng-infoAboutProd">Информация о товаре</h3>
                             <div class="newPostHeader">
-                                <div><span class="firstPart mainTextInfo">Заголовок</span><span class="secondPart">(не
+                                <div><span class="firstPart mainTextInfo lng-nameInfo">Заголовок</span><span
+                                        class="secondPart lng-atLeast">(не
                                         менее 16 символов)</span></div>
-                                <input type="text" name='post_title' value="{{post.title}}">
+                                <input type="text" name='post_title' class="lng-example"
+                                    placeholder="Например, «samsung galaxy s22» или «Услуги сантехника»"
+                                    oninput="titleProduct(this,1)" value="{{post.title}}" required>
+
                             </div>
                             <div class="categoryForNewPost">
                                 <div><span class="firstPart mainTextInfo">Категория</span><span
@@ -101,7 +111,8 @@
                                     <div class='categoryHide' name="category">Выберите категорию</div>
                                     {% block content %}
                                     {% if post.category == 'Услуги' %}
-                                    <select name="category">
+                                    <select name="category" required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1" selected>Услуги</option>
                                         <option value="2">Электроника</option>
                                         <option value="3">Личные вещи</option>
@@ -115,7 +126,8 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Электроника' %}
-                                    <select name="category">
+                                    <select name="category" required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2" selected>Электроника</option>
                                         <option value="3">Личные вещи</option>
@@ -129,7 +141,8 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Личные вещи' %}
-                                    <select name="category">
+                                    <select name="category" required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2">Электроника</option>
                                         <option value="3" selected>Личные вещи</option>
@@ -143,7 +156,8 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Детям' %}
-                                    <select name="category">
+                                    <select name="category" required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2">Электроника</option>
                                         <option value="3">Личные вещи</option>
@@ -157,7 +171,8 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Для Бизнеса' %}
-                                    <select name="category">
+                                    <select name="category" required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2">Электроника</option>
                                         <option value="3">Личные вещи</option>
@@ -171,7 +186,8 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Животные' %}
-                                    <select name="category">
+                                    <select name="category" required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2">Электроника</option>
                                         <option value="3">Личные вещи</option>
@@ -185,7 +201,8 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Для дома' %}
-                                    <select name="category">
+                                    <select name="category" required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2">Электроника</option>
                                         <option value="3">Личные вещи</option>
@@ -199,7 +216,8 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Работа' %}
-                                    <select name="category">
+                                    <select name="category" required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2">Электроника</option>
                                         <option value="3">Личные вещи</option>
@@ -213,7 +231,8 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Хобби и спорт' %}
-                                    <select name="category">
+                                    <select name="category" required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2">Электроника</option>
                                         <option value="3">Личные вещи</option>
@@ -227,7 +246,8 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Недвижимость' %}
-                                    <select name="category">
+                                    <select name="category" required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2">Электроника</option>
                                         <option value="3">Личные вещи</option>
@@ -241,7 +261,8 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Транспорт' %}
-                                    <select name="category">
+                                    <select name="category"  required>
+                                        <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2">Электроника</option>
                                         <option value="3">Личные вещи</option>
@@ -268,37 +289,37 @@
                                 <div class="inner withRadio">
                                     {% if post.facility=="Цена" %}
                                     <div class="middleBox">
-                                        <input type="radio" value="1" name="radio" id="middle " checked>
+                                        <input type="radio" value="1" name="radio" id="middle " required checked>
                                         <label for="middle">Цена</label>
                                     </div>
                                     <div class="swapBox">
-                                        <input type="radio" value="2" name="radio" id="swap ">
+                                        <input type="radio" value="2" name="radio" id="swap " required>
                                         <label for="swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
-                                        <input type="radio" value="3" name="radio" id="free ">
+                                        <input type="radio" value="3" name="radio" id="free " required>
                                         <label for="free">Отдам даром</label>
                                     </div>
                                     {% elif post.facility == 'Возможен обмен' %}
                                     <div class="middleBox">
-                                        <input type="radio" value="1" name="radio" id="middle ">
+                                        <input type="radio" value="1" name="radio" id="middle " required>
                                         <label for="middle">Цена</label>
                                     </div>
                                     <div class="swapBox">
-                                        <input type="radio" value="2" name="radio" id="swap " checked>
+                                        <input type="radio" value="2" name="radio" id="swap " required checked>
                                         <label for="swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
-                                        <input type="radio" value="3" name="radio" id="free ">
+                                        <input type="radio" value="3" name="radio" id="free " required>
                                         <label for="free">Отдам даром</label>
                                     </div>
                                     {% elif post.facility == "Отдам даром" %}
                                     <div class="middleBox">
-                                        <input type="radio" value="1" name="radio" id="middle ">
+                                        <input type="radio" value="1" name="radio" id="middle " required>
                                         <label for="middle">Цена</label>
                                     </div>
                                     <div class="swapBox">
-                                        <input type="radio" value="2" name="radio" id="swap ">
+                                        <input type="radio" value="2" name="radio" id="swap " required>
                                         <label for="swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
@@ -311,81 +332,85 @@
                             </div>
                             <div class="bigBoxForImages">
                                 <span class="mainTextInfo ">Фото</span>
+                                <!-- <button class="outimg" onclick="console.log(imgArr)"></button> -->
                                 <div class="containerForAllImages">
                                     <div class="imageBox1">
+                                        <img src="{{ url_for('static', filename='img/Vector.svg') }}" width="50" alt="" class="imageOfUserChoose">
+                                        <input type="file" onchange="showFile(this)" accept="image/*" name="post_photo" multiple="True" class="file"  value="{{post.photos}}" >
+                                    </div>
 
-                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" width="50" alt=""
-                                            class="imageOfUserChoose">
-                                        <input type="file" onchange="showFile(this)"
-                                            accept="image/gif, image/jpeg, image/png, image/svg" name="post_photo"
-                                            multiple="True" class="file">
+                                    {% for j in range(lenOfPostPhotos) %}
+                                    <div  class="imageBox{{j+2}} imageBox">
+                                        <img src="data:;base64,  {{post.photos[j]}}" alt="" srcset="">
                                     </div>
-                                    <div count='0' class="imageBox2 imageBox " onmouseenter="anim(this)"
-                                        onmouseleave="animOut(this)" oncontextmenu="return false">
-                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" width="50" alt=""
-                                            name="post_photo" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
-                                                    class="fa fa-trash-can"></i> Delete</button></div>
-                                    </div>
-                                    <div count='1' class="imageBox3 imageBox " oncontextmenu="return false"
-                                        onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt=""
+                                    {% endfor %}
+                                    <!-- <div count='0' class="imageBox2 imageBox " oncontextmenu="return false">
+                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" width="50" alt="" 
                                             class="imageOfUser">
                                         <div class="backColor"></div>
-                                        <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
-                                                    class="fa fa-trash-can"></i> Delete</button></div>
+                                    </div>
+                                    <div count='1' class="imageBox3 imageBox " oncontextmenu="return false"
+                                        >
+                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
+                                        <div class="backColor"></div>
+                                        
                                     </div>
 
                                     <div count='2' class="imageBox4 imageBox  " oncontextmenu="return false"
-                                        onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt=""
-                                            class="imageOfUser">
+                                        >
+                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
-                                        <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
-                                                    class="fa fa-trash-can"></i> Delete</button></div>
                                     </div>
                                     <div count='3' class="imageBox5 imageBox " oncontextmenu="return false"
-                                        onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt=""
-                                            class="imageOfUser">
+                                        >
+                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
-                                        <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
-                                                    class="fa fa-trash-can"></i> Delete</button></div>
+                                        
                                     </div>
                                     <div count='4' class="imageBox6 imageBox " oncontextmenu="return false"
-                                        onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt=""
-                                            class="imageOfUser">
+                                        >
+                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
-                                        <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
-                                                    class="fa fa-trash-can"></i> Delete</button></div>
+                                       
                                     </div>
                                     <div count='5' class="imageBox7 imageBox " oncontextmenu="return false"
-                                        onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt=""
-                                            class="imageOfUser">
+                                        >
+                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
-                                        <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
-                                                    class="fa fa-trash-can"></i> Delete</button></div>
+                                        
                                     </div>
                                     <div count='6' class="imageBox8 imageBox " oncontextmenu="return false"
-                                        onmouseenter="anim(this)" onmouseleave="animOut(this)">
-                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" alt=""
-                                            class="imageOfUser">
+                                       >
+                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
-                                        <div class="deleteAnim"><button onclick="deleteFunction(this)"><i
-                                                    class="fa fa-trash-can"></i> Delete</button></div>
+                                        
+                                    </div> -->
+                                    <!-- <div count='7' class="imageBox9 imageBox " oncontextmenu="return false"
+                                       >
+                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
+                                        <div class="backColor"></div>
+                                        
                                     </div>
+                                    <div count='8' class="imageBox10 imageBox " oncontextmenu="return false"
+                                       >
+                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
+                                        <div class="backColor"></div>
+                                        
+                                    </div> -->
                                 </div>
+                                <span onclick="deleteAll()">Очистить</span>
                             </div>
                             <div class="extraInfo">
-                                <div class="mainTextInfo"><span class="firstPart">Описание</span><span
-                                        class="secondPart">
-                                        (не менее 80 символов)</span></div>
-                                <div><textarea id="message" cols="" rows="" name="post_description"
+                                <div>
+                                   <h3>Совет</h3> <br>
+                                   <label>Вы можете загрузить максимум 10 фотографий</label> 
+                                </div>
+                                <div class="mainTextInfo"><span class="firstPart lng-description">Описание</span><span
+                                        class="secondPart lng-atLeast80"> (не менее 80 символов)</span></div>
+                                <div><textarea maxlength="6000" id="message" cols="" rows="" name="post_description"
+                                        class="lng-moreInp"
                                         placeholder="Подробно расскажите про товар. Подумайте какие подробности вы хотели бы узнать из объявления"
-                                        onkeyup="counter()">{{post.description}}</textarea></div>
+                                        oninput="titleProduct(this, 0)">{{post.description}}</textarea></div>
                                 <div class="counter">
                                     <span class="currentValue">0</span>
                                     <span class="maxValue">/6000</span>
@@ -395,32 +420,46 @@
 
                         <div class="contactInformation">
                             <div class="textLine">
-                                <h3>Контактная Информация</h3>
+                                <h3 class="lng-contactInfo">Контактная Информация</h3>
                             </div>
                             <div class="periodOfInputs">
+                                {% if post.phone_number %}
+                                
                                 <div class="locationInput">
                                     <span>Телефон</span>
-                                    <input type="text" class="phoneNumber" name="phone_number" id=""
-                                        value="{{post.phone_number}}" required>
+                                    <input type="tel" class="phoneNumber" name="phone_number" value="{{post.phone_number}}" required>
                                 </div>
+                                {% else %}
+                                <div class="locationInput">
+                                    <span>Телефон</span>
+                                    <input type="tel" class="phoneNumber" name="phone_number" required>
+                                </div>
+                                {% endif %}
+                                {% if post.whatsapp_link %}
+                              
                                 <div class="locationInput">
                                     <span>Номер WhatsApp</span>
-                                    <input type="text" class="phoneNumber" name="whatsapp_phone_number"
-                                        value="{{post.whatsapp_link}}" id="" required>
+                                    <input type="tel" class="phoneNumber" name="whatsapp_phone_number" value="{{post.whatsapp_link}}" id="" required>
                                 </div>
+                                {% else %}
+                                <div class="locationInput">
+                                    <span>Номер WhatsApp</span>
+                                    <input type="tel" class="phoneNumber" name="whatsapp_phone_number" id="" required>
+                                </div>
+                                {% endif %}
                                 <div class="locationInput">
                                     <span>E-mail</span>
-                                    <input type="email" name="" id="">
+                                    <input type="email" name="" id="" value="{{session['userEmail']}}" required>
                                 </div>
                             </div>
                         </div>
+                        <input class="absolute" type="text" name="blobImages" style="display: none;">
                         <div class="twoButtons">
                             <div class="finalButtonDiv">
-                                <button type="submit" formaction="/edit_post/{{post.id}}/{{lang}}">Подать
-                                    объявление</button>
+                                <input type="submit" class="lng-newBtnAd" formaction="/edit_post/{{post.id}}/{{lang}}" value="Подать объявление">
                             </div>
                             <div class="betaButtonDiv">
-                                <button type="submit" formaction="/review/{{lang}}">Предпросмотр</button>
+                                <input type="submit" formaction="/review/{{post.id}}/{{lang}}" value="Предпросмотр">
                             </div>
                         </div>
                     </div>
@@ -446,8 +485,6 @@
                 </div>
             </div>
         </footer>
-
-
     </div>
     <div class="shadow">
         <div class="cityList">
@@ -490,24 +527,35 @@
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vuemin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/imask.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/icons.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/scroll.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/newPost.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lang.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/counter.js') }}"></script>
 
-    <script src="{{url_for('static', filename='js/jquery-3.6.0.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/vuemin.js')}}"></script>
-    <script src="{{url_for('static', filename='js/imask.js')}}"></script>
-    <script src="{{url_for('static', filename='js/icons.js')}}"></script>
-    <script src="{{url_for('static', filename='js/scroll.js')}}"></script>
-    <script src="{{url_for('static', filename='js/newPost.js')}}"></script>
-    <script src="{{url_for('static', filename='js/lang.js')}}"></script>
-    <script src="{{url_for('static', filename='js/counter.js')}}"></script>
-
-
+    <script>
+        var dictLang = {
+            'rulang': 'ru',
+            'kzlang': 'kz'
+        }
+        hash = dictLang[document.querySelector('#lang_hidden').innerText]
+        changeLang()
+    </script>
     <!-- <script src="js/counter.js"></script> -->
     <style>
         * {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
-    <script src="{{url_for('static', filename='js/vuemin.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/vuemin.js') }}"></script>
+
+    <script>
+        
+    </script>
+
 </body>
 
 </html>
