@@ -55,7 +55,7 @@ dictValues = {
 arrLang = []
 arrLang2 = []
 category = 0
-title='usharal.kz'
+title='úsharal'
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/<lang>', methods=['POST', 'GET'])
 def index(lang='rulang'):
@@ -186,9 +186,10 @@ def myprofile(lang='rulang'):
                 username = request.form['username']
                 session['userName'] = username
                 logo = request.files['logo'].read()
+                whatsapp_number = request.form['whatsapp_number']
                 phone_number = request.form['phone_number']
                 password = request.form['password']
-                Users.edit_user_information(session['userEmail'], logo, phone_number, password, username)
+                Users.edit_user_information(email=session['userEmail'], logo=logo, whatsapp_number=whatsapp_number, phone_number=phone_number, password=password, username=username)
             else:
                 flash('Неверный пароль')
                 booleanValue = 1
@@ -230,6 +231,7 @@ def post_photo(sock):
 @app.route('/newpost/<lang>', methods=['POST', 'GET'])
 def newpost(lang):
     if 'userName' in session:
+        user_is = Users.show_user_information(session['userEmail'])
         if lang != 'rulang' and lang != 'kzlang':
             lang = 'rulang'
             return redirect(url_for('newpost', lang = 'rulang'))
@@ -239,8 +241,7 @@ def newpost(lang):
             post_title=request.form['post_title']
             category=request.form['category']
             cost = request.form['post_cost']
-            photo = request.files.getlist('post_photo')
-            # photo = request.form['absolute'].split()
+            photo = request.files.getlist('post_photo')[0:10]
             description = request.form['post_description']
             phone_number = request.form['phone_number']
             whatsapp_phone_number = request.form['whatsapp_phone_number']
@@ -252,14 +253,10 @@ def newpost(lang):
             facility = request.form['radio']
             post_date = datetime.today()
             post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility)
-            if len(photo)>=9:
-                for i in range(8):
-                    photos = Photos(photo[i].read(), post)
-            else:
-                for i in photo:
-                    photos = Photos(i.read(), post)
-            
-        return render_template('newPost.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), phone_number='+7 (777) 227-00-88', whatsapp_number = '+7 (777) 227-00-88')
+            for i in photo:
+                photos = Photos(i.read(), post.id)
+
+        return render_template('newPost.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), phone_number=user_is['phone_number'], whatsapp_number = user_is['whatsapp_number'])
     else:
         return redirect(url_for('login'))
 
@@ -279,7 +276,7 @@ def edit_post(post_id, lang):
         category=request.form['category']
         cost = request.form['post_cost']
         try:
-            photo = request.files.getlist('post_photo')
+            photo = request.files.getlist('post_photo')[0:10]
             if "''" in str(photo):
                 photo = Photos.return_post_photos(post_id)
             else:
@@ -419,7 +416,7 @@ def review(lang, post_id = 0):
             post_title=request.form['post_title']
             category=request.form['category']
             cost = request.form['post_cost']
-            photo = request.files.getlist('post_photo')
+            photo = request.files.getlist('post_photo')[0:10]
             description = request.form['post_description']
             phone_number = request.form['phone_number']
             whatsapp_phone_number = request.form['whatsapp_phone_number']
@@ -450,7 +447,7 @@ def review(lang, post_id = 0):
             cost = request.form['post_cost']
             print('its ok')
             try:
-                photo = request.files.getlist('post_photo')
+                photo = request.files.getlist('post_photo')[0:10]
                 if "''" in str(photo):
                     photo = Photos.return_post_photos(post_id)
                 else:
@@ -516,9 +513,10 @@ def login():
             flash(user, 'h')
     return render_template('auth.html', title = title)
 
-@app.route('/logout')
-def logout():
+@app.route('/logout/<lang>')
+def logout(lang='rulang'):
     Posts.post_deactivation(today = datetime.today())
+    session['lang'] = lang
     session.pop('userEmail', None)
     session.pop('userName', None)
     return redirect(url_for('index', lang = session['lang'] ))
@@ -555,13 +553,13 @@ def error_page(error):
         return render_template('error_page.html', menu = menu, lang=session['lang'], lenOfUserName = len(session['userName']))
     else:
         return render_template('error_page.html', menu = menu, lang=session['lang'], lenOfUserName = 1)
-# @app.errorhandler(AttributeError)
-# @app.errorhandler(KeyError)
-# def attributeError_habdler(error):
-#     print('ОШИБКА')
-#     session.pop('userEmail', None)
-#     session.pop('userName', None)
-#     return redirect(url_for('index', lang = session['lang'] ))
+@app.errorhandler(AttributeError)
+@app.errorhandler(KeyError)
+def attributeError_habdler(error):
+    print('ОШИБКА')
+    session.pop('userEmail', None)
+    session.pop('userName', None)
+    return redirect(url_for('index', lang = session['lang'] ))
 
 
 

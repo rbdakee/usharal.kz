@@ -143,12 +143,12 @@
 
 
                             </div>
-                            <div class="spanWithInput inner">
-                                <div><span class="firstPart">WhatsApp</span><span class="secondPart"></span></div>
-                                {% if whatsapp_number %}
-                                <div class="userAddress rInfo">{{whatsapp_number}}</div>
+                            <div class="spanWithInput inner phoneSpan">
+                                <div><span class="firstPart">Номер WhatsApp</span><span class="secondPart"></span></div>
+                                {% if user.whatsapp_number %}
+                                <input class="userAddress rInfo" readonly value="{{user.whatsapp_number}}" type="text">
                                 {% else %}
-                                <div class="userAddress rInfo">                   </div>
+                                <input class="userAddress rInfo" readonly type="text">
                                 {% endif %}
                             </div>
                             <div class="spanWithInput inner phoneSpan">
@@ -190,9 +190,9 @@
                                     </div>
 
                                 </div>
-                                <div class="spanWithInput inner whatsSpan">
-                                    <div><span class="firstPart">WhatsApp</span><span class="secondPart"></span></div>
-                                    {% if whatsapp_number %}
+                                <div class="spanWithInput inner phoneSpan">
+                                    <div><span class="firstPart">Номер WhatsApp</span><span class="secondPart"></span></div>
+                                    {% if user.whatsapp_number %}
                                     <input type="tel" class="profileNum" name="whatsapp_number" value="{{user.whatsapp_number}}">
                                     {% else %}
                                     <input type="tel" class="profileNum" name="whatsapp_number">

@@ -22,6 +22,7 @@ class Users(db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(500), nullable=True)
     logo = db.Column(db.LargeBinary)
+    whatsapp_number = db.Column(db.Integer, nullable = True)
     phone_number = db.Column(db.Integer, nullable = True)
     photo = db.relationship('Posts', backref='users')
     favPosts = db.relationship('favPosts', backref='users')
@@ -63,17 +64,23 @@ class Users(db.Model):
             logo = base64.b64encode(user.logo).decode('ascii')  
         else:
             logo = 0
+        if user.whatsapp_number != None:
+            whatsapp_number = user.whatsapp_number
+        else:
+            whatsapp_number = 0
         if user.phone_number != None:
             phone_number = user.phone_number
         else: 
             phone_number = 0
-        return ({'email':email, 'username':username, 'logo':logo, 'phone_number':phone_number})
+        return ({'email':email, 'username':username, 'logo':logo, 'whatsapp_number':whatsapp_number, 'phone_number':phone_number})
 
-    def edit_user_information(email, logo, phone_number, password, username):
+    def edit_user_information(email, logo, whatsapp_number, phone_number, password, username):
         user = Users.query.filter_by(email=email).first()
         print(type(password))
         if logo != b'':
             user.logo = logo
+        if whatsapp_number!='':
+            user.whatsapp_number = whatsapp_number
         if phone_number != '':
             user.phone_number = phone_number
         if password != '':
@@ -178,7 +185,7 @@ class Posts(db.Model):
             elif posts[i].category == 4:
                 category = 'Детям'
             elif posts[i].category == 5:
-                category = 'Для бизнеса'
+                category = 'Для Бизнеса'
             elif posts[i].category == 6:
                 category = 'Животные'
             elif posts[i].category == 7:
@@ -230,7 +237,7 @@ class Posts(db.Model):
             elif posts[i].category == 4:
                 category = 'Детям'
             elif posts[i].category == 5:
-                category = 'Для бизнеса'
+                category = 'Для Бизнеса'
             elif posts[i].category == 6:
                 category = 'Животные'
             elif posts[i].category == 7:
@@ -283,7 +290,7 @@ class Posts(db.Model):
             elif posts[i].category == 4:
                 category = 'Детям'
             elif posts[i].category == 5:
-                category = 'Для бизнеса'
+                category = 'Для Бизнеса'
             elif posts[i].category == 6:
                 category = 'Животные'
             elif posts[i].category == 7:
@@ -340,7 +347,7 @@ class Posts(db.Model):
         elif posts.category == 4:
             category = 'Детям'
         elif posts.category == 5:
-            category = 'Для бизнеса'
+            category = 'Для Бизнеса'
         elif posts.category == 6:
             category = 'Животные'
         elif posts.category == 7:
