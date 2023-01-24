@@ -19,7 +19,7 @@
 
                 <div class="text" title="Вернуться к главной странице"><a
                         href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
-                        class="text">usharal.kz</a></div>
+                        class="text">{{title}}</a></div>
                 {% if lang == 'rulang' %}
                 <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
                         class="qaz langSpan">
@@ -43,7 +43,8 @@
                                 class="lng-payment messages">{{menu[2].name}}</a>
                             <a href="{{url_for('myprofile', lang=session['lang'])}}"
                                 class="lng-myProfile messages">{{menu[3].name}}</a>
-                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
+                            <a href="{{url_for('logout', lang=session['lang'])}}"
+                                class="lng-exit messages">{{menu[4].name}}</a>
                         </div>
                     </div>
                     <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
@@ -149,9 +150,9 @@
 
                                 <div class="myContent">
 
-                                    <div class="lineForCheckbox">
+                                    <!-- <div class="lineForCheckbox">
                                         <input type="checkbox" onchange="  " name="" id="check">
-                                    </div>
+                                    </div> -->
                                     <div class="boxForCon">
                                         <a href="/content/{{post.id}}/{{lang}}"
                                             style="color: black; text-decoration:none;">
@@ -187,7 +188,7 @@
                                                 <span class="deleteDate">
                                                     <i class=" calen fa fa-calendar-minus-o"></i> <span
                                                         class="bold lng-deactivation_day">Дата
-                                                        удаления</span> - {{post.deactivate_date}}
+                                                        деактивации</span> - {{post.deactivate_date}}
                                                 </span>
                                             </div>
                                             <div class="blocks">
@@ -202,7 +203,8 @@
                                                     <button><a href="/edit_post/{{post.id}}/{{session['lang']}}"
                                                             style="color: black; text-decoration:none;"
                                                             class="lng-post_update">Редактировать</a></button>
-                                                    <button><a href="/post_deactivation/{{post.id}}/{{d_token}}/{{session['lang']}}"
+                                                    <button><a
+                                                            href="/post_deactivation/{{post.id}}/{{d_token}}/{{session['lang']}}"
                                                             style="color: black; text-decoration:none;"
                                                             class="lng-post_deactivate">Деактивировать</a></button>
                                                 </div>
@@ -284,9 +286,9 @@
                                 {% for post in posts %}
                                 {% if post.status == 0 %}
                                 <div class="myContent">
-                                    <div class="lineForCheckbox">
+                                    <!-- <div class="lineForCheckbox">
                                         <input type="checkbox" onchange="  " name="" id="check">
-                                    </div>
+                                    </div> -->
                                     <div class="boxForCon">
                                         <div class="forImg">
                                             <img src="data:;base64, {{post.photos}}" alt="" srcset="">
@@ -310,7 +312,7 @@
                                                 </span>
                                                 <span class="deleteDate">
                                                     <i class=" calen fa fa-calendar-minus-o"></i> <span
-                                                        class="bold lng-deactivation_day">Дата
+                                                        class="bold lng-delete_day">Дата
                                                         удаления</span> - {{post.deactivate_date}}
                                                 </span>
                                             </div>
@@ -324,7 +326,8 @@
                                                 </div>
                                                 <div class="buttons">
                                                     <button class="lng-post_update">Редактировать</button>
-                                                    <button><a href="/post_activation/{{post.id}}/{{a_token}}/{{session['lang']}}"
+                                                    <button><a
+                                                            href="/post_activation/{{post.id}}/{{a_token}}/{{session['lang']}}"
                                                             class="lng-post_activate"
                                                             style="color: black; text-decoration:none;">Aктивировать</a></button>
                                                 </div>

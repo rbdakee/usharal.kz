@@ -29,7 +29,7 @@
 
                 <div class="text" title="Вернуться к главной странице"><a
                         href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
-                        class="text">usharal.kz</a></div>
+                        class="text">{{title}}</a></div>
                 {% if lang == 'rulang' %}
                 <div class="lang"><a href='/content/{{post.id}}/rulang' class="langSpan rus chosen">рус </a>|<a
                         href='/content/{{post.id}}/kzlang' class="qaz langSpan">
@@ -53,7 +53,8 @@
                                 class="lng-payment messages">{{menu[2].name}}</a>
                             <a href="{{url_for('myprofile', lang=session['lang'])}}"
                                 class="lng-myProfile messages">{{menu[3].name}}</a>
-                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
+                            <a href="{{url_for('logout', lang=session['lang'])}}"
+                                class="lng-exit messages">{{menu[4].name}}</a>
                         </div>
                     </div>
                     <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
@@ -81,13 +82,14 @@
             <div class="mask"></div>
             <div class="sectionChild">
                 <div class="mainBodyContent">
-                    <a  onclick="history.back()" style="text-decoration: none;">
+                    <a onclick="history.back()" style="text-decoration: none;">
                         <div class="prevLine">
                             <span class="fa fa-angle-left"></span>
                             <span class="lng-back"> Назад</span>
                         </div>
                     </a>
                     <div class="mainText">{{post.title}}</div>
+                    
                     <div><span class="lng-published subTextData"></span> <span
                             class="subTextData">{{post.post_date}}</span></div>
                     <div class="mainImageAndInfo">
@@ -116,18 +118,21 @@
                             <div class="costStat {{cat[post.facility]}}">{{post.facility}}</div>
                             <div class="miniProfile">
                                 {% if user_logo != 0 %}
-                                <img src="data:;base64, {{user_logo}}" height="57" width="57" alt="">
+                                <img src="data:;base64, {{user_logo}}" style='border-radius: 50%;' height="57"
+                                    width="57" alt="">
                                 {% else %}
-                                <img src="{{url_for('static', filename = 'img/user.svg')}}" alt="" srcset="">
+                                <img src="{{url_for('static', filename = 'img/user.svg')}}" style='border-radius: 50%;'
+                                    alt="" srcset="">
                                 {% endif %}
-                                <div class="data">
+                                <div class="data"
+                                    style="display: flex; flex-direction: column; justify-content: center;">
                                     <div class="name">{{post.username}}</div>
+                                    <div class="mobNum" >
+                                        <span>{{post.phone_number}}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mobNum">
-                                <div>Телефон</div>
-                                <span>{{post.phone_number}}</span>
-                            </div>
+
                             <div class="writeUser">
                                 <button>Написать продавцу</button>
                             </div>
@@ -138,17 +143,24 @@
                                 <span>Еще не продали?</span>
                             </div>
                             <div class="writeWhats">
-                                <a href="{{post.whatsapp_link}}" class="lng-writeWhats">Написать на WhatsApp</a>
+                                <a target="_blank" href="{{post.whatsapp_link}}" class="lng-writeWhats">Написать на WhatsApp</a>
                             </div>
 
                         </div>
                     </div>
                     <div class="subImages">
-                        {% for j in post.photos %}
-                        <div class="imgBox">
-                            <img src="data:;base64,  {{j}}" alt="" srcset="">
+                        <!-- <div class="buttonSame" style=" height: 40px; width: 100px;">
+                            <button class="fa-solid fa-angle-left prev1"></button>
+                            <button class="fa-solid fa-angle-right next1"></button>
                         </div>
-                        {% endfor %}
+                        <br> -->
+                        <div class="sliderCon">
+                            {% for j in post.photos %}
+                            <div class="imgBox">
+                                <img src="data:;base64,  {{j}}" alt="" srcset="">
+                            </div>
+                            {% endfor %}
+                        </div>
 
                     </div>
                     <div class="description">
@@ -162,31 +174,32 @@
                     <div class="MsgAndAdvice">
                         <div class="sendMsg">
                             <div class="firstL">
-                                <div class="miniProfile" style=" align-items: center;">
+                                <div class="miniProfile">
                                     {% if user_logo != 0 %}
-                                    <img src="data:;base64, {{user_logo}}" width="57" height="57">
+                                    <img src="data:;base64, {{user_logo}}" style='border-radius: 50%;' height="57"
+                                        width="57" alt="">
                                     {% else %}
-                                    <img src="{{url_for('static', filename = 'img/user.svg')}}" alt="" srcset="">
+                                    <img src="{{url_for('static', filename = 'img/user.svg')}}"
+                                        style='border-radius: 50%;' alt="" srcset="">
                                     {% endif %}
-                                    <div class="data" style=" display: flex;">
-                                        <div class="name" style="margin: auto;  display: flex; align-items: center;">
-                                            {{post.username}}
+                                    <div class="data"
+                                        style="display: flex; flex-direction: column; justify-content: center;">
+                                        <div class="name">{{post.username}}</div>
+                                        <div class="mobNum">
+                                            <span>{{post.phone_number}}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mobNum">
-                                    <div>Телефон</div>
-                                    <span>{{post.phone_number}}</span>
-                                </div>
+
                             </div>
-                            <h1 class="lng-uDev">Написать продавцу (данный раздел на разработке)</h1>
+                            <h1 class="lng-uDev">Написать продавцу </h1>
                             <from method="POST" action="">
-                                <textarea class='lng-yourMessage ' disabled name="" id="" cols="30" rows="10"
+                                <textarea class='lng-yourMessage '  name="" id="" cols="30" rows="10"
                                     placeholder="Ваше сообщение"></textarea>
                                 <div class="lastL">
-                                    <button class="sendToUser lng-writeToSeller">Отправить сообщение</button>
-                                    <a class="sendToUserWhats" href="{{post.whatsapp_link}}">
-                                        <p class="lng-writeWhats">Написать на WhatsApp</p>
+                                    <!-- <button class="sendToUser lng-writeToSeller">Написать продавцу на WhatsApp</button> -->
+                                    <a class="sendToUserWhats" href="{{post.whatsapp_link}}" target="_blank" style="padding: 10px 30px ; width: auto;">
+                                        <p class="lng-writeWhats">Написать продавцу на WhatsApp</p>
                                     </a>
                                 </div>
                             </from>
@@ -206,7 +219,18 @@
                     {% if review %}
                     <div class="reviewBlock">
                         <div class="reviewBlockChild">
-                            <button onclick="history.back()">Редактировать и опубликовать</button>
+                            <form method="post">
+                            <input hidden name="post_title" value="{{post.title}}">
+                            <input hidden name="category" value="{{post.category}}">
+                            <input hidden name="post_cost" value="{{post.cost}}">
+                            <input hidden name="photos_from_review" value="{{post.photos}}">
+                            <input hidden name="post_description" value="{{post.description}}">
+                            <input hidden name="phone_number" value="{{post.phone_number}}">
+                            <input hidden name="whatsapp_phone_number" value="{{post.whatsapp_phone_number}}">
+                            <input hidden name="radio" value="{{post.photos}}">
+
+                            <input type="submit" formaction="/newpost/{{lang}}">
+                            </form>
                         </div>
                     </div>
                     {% else %}
@@ -217,18 +241,21 @@
                             <span class="mainText lng-related">Похожие объявления</span>
 
                         </div>
-                        <div class="buttonSame">
+                        <div class="buttonSame" >
                             <button class="fa-solid fa-angle-left prev"></button>
                             <button class="fa-solid fa-angle-right next"></button>
                         </div>
                     </div>
                     <div class="slider">
                         {% for i in related_posts %}
-                        {% if i.id != post.id%}
+                        {% if i.id != post.id and i.status==1%}
                         <div class="contentBox"><a href="/content/{{i.id}}/{{lang}}">
                                 <div class="forImgContent">
-                                    <!-- <div class="top">VIP</div> -->
-                                    <img src="data:;base64, {{ i.photos[0] }}" alt="">
+                                    {% if i.photos != 0 and i.photos != '' and i.photos != None%}
+                                                <img src="data:;base64, {{ i.photos }}" alt="" loading="lazy">
+                                                {% else %}
+                                                <img src="../static/img/no_image.png">
+                                                {% endif %}
                                 </div>
                                 <div class="dataContent" style="text-decoration: none; color:black;">{{i.post_date}}
                                 </div>

@@ -34,7 +34,7 @@
 
                 <div class="text" title="Вернуться к главной странице"><a
                         href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
-                        class="text">úsharal</a></div>
+                        class="text">{{title}}</a></div>
                 {% if lang == 'rulang' %}
                 <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
                         class="qaz langSpan">
@@ -58,7 +58,8 @@
                                 class="lng-payment messages">{{menu[2].name}}</a>
                             <a href="{{url_for('myprofile', lang=session['lang'])}}"
                                 class="lng-myProfile messages">{{menu[3].name}}</a>
-                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
+                            <a href="{{url_for('logout', lang=session['lang'])}}"
+                                class="lng-exit messages">{{menu[4].name}}</a>
                         </div>
                     </div>
                     <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
@@ -98,10 +99,15 @@
                                 <div><span class="firstPart mainTextInfo lng-nameInfo">Заголовок</span><span
                                         class="secondPart lng-atLeast">(не
                                         менее 16 символов)</span></div>
+                                {% if not post %}
                                 <input type="text" name='post_title' class="lng-example"
                                     placeholder="Например, «samsung galaxy s22» или «Услуги сантехника»"
                                     oninput="titleProduct(this,1)" required>
-
+                                {% else %}
+                                <input type="text" name='post_title' class="lng-example"
+                                    placeholder="Например, «samsung galaxy s22» или «Услуги сантехника»"
+                                    oninput="titleProduct(this,1)" required value="{{post.post_title}}">
+                                {% endif %}
                             </div>
                             <div class="categoryForNewPost">
                                 <div><span class="firstPart mainTextInfo">Категория</span><span
@@ -132,11 +138,12 @@
 
                                 <div class="inner withRadio">
                                     <div class="middleBox">
-                                        <input checked type="radio" value="1" name="radio" id="middle ">
+                                        <input checked type="radio" onchange="field(this)" value="1" name="radio"
+                                            id="middle ">
                                         <label for="middle" class="lng-cost">Цена</label>
                                     </div>
                                     <div class="swapBox">
-                                        <input type="radio" value="2" name="radio" id="swap ">
+                                        <input type="radio" onchange="field(this)" value="2" name="radio" id="swap ">
                                         <label for="swap" class="lng-swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
@@ -148,77 +155,91 @@
                                 </div>
 
                             </div>
-                            <div class="bigBoxForImages">
-                                <span class="mainTextInfo ">Фото</span>
-                                <!-- <button class="outimg" onclick="console.log(imgArr)"></button> -->
-                                <div class="containerForAllImages">
-                                    <div class="imageBox1">
-                                        <img src="/static/img/Vector.svg" width="50" alt="" class="imageOfUserChoose">
-                                        <input type="file" onchange="showFile(this)" maxlength=7 accept="image/*" name="post_photo" multiple="True" class="file" required max="7">
+                            <div class="bigBoxGeneral" style="display: flex; align-items: center; justify-content: space-between;  ">
+                                <div class="bigBoxForImages">
+                                    <span class="mainTextInfo ">Фото</span>
+                                    <!-- <button class="outimg" onclick="console.log(imgArr)"></button> -->
+                                    <div class="containerForAllImages">
+                                        <div class="imageBox1 " style="overflow: hidden !important;">
+                                            <img src="/static/img/Vector.svg"  width="50" alt="" class="imageOfUserChoose imageOfUser">
+                                            <input type="file" onchange="showFile(this)" maxlength=7 accept="image/*"
+                                                name="post_photo" multiple="True" class="file" required max="7">
+                                        </div>
+                                        <div count='0' class="imageBox2 imageBox " oncontextmenu="">
+                                            <img src="/static/img/Vector1.svg" width="50" alt="" class="imageOfUser">
+                                            <div class="backColor"></div>
+                                        </div>
+                                        <div count='1' class="imageBox3 imageBox " oncontextmenu="">
+                                            <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
+                                            <div class="backColor"></div>
+    
+                                        </div>
+    
+                                        <div count='2' class="imageBox4 imageBox  " oncontextmenu="">
+                                            <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
+                                            <div class="backColor"></div>
+                                        </div>
+                                        <div count='3' class="imageBox5 imageBox " oncontextmenu="">
+                                            <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
+                                            <div class="backColor"></div>
+    
+                                        </div>
+                                        <div count='4' class="imageBox6 imageBox " oncontextmenu="">
+                                            <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
+                                            <div class="backColor"></div>
+    
+                                        </div>
+                                        <div count='5' class="imageBox7 imageBox " oncontextmenu="">
+                                            <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
+                                            <div class="backColor"></div>
+    
+                                        </div>
+                                        <div count='6' class="imageBox8 imageBox " oncontextmenu="">
+                                            <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
+                                            <div class="backColor"></div>
+    
+                                        </div>
+    
+                                        <!-- <div count='7' class="imageBox9 imageBox " oncontextmenu=""
+                                           >
+                                            <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
+                                            <div class="backColor"></div>
+                                            
+                                        </div>
+                                        <div count='8' class="imageBox10 imageBox " oncontextmenu=""
+                                           >
+                                            <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
+                                            <div class="backColor"></div>
+                                            
+                                        </div> -->
                                     </div>
-                                    <div count='0' class="imageBox2 imageBox " oncontextmenu="return false">
-                                        <img src="/static/img/Vector1.svg" width="50" alt="" 
-                                            class="imageOfUser">
-                                        <div class="backColor"></div>
-                                    </div>
-                                    <div count='1' class="imageBox3 imageBox " oncontextmenu="return false"
-                                        >
-                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div>
-
-                                    <div count='2' class="imageBox4 imageBox  " oncontextmenu="return false"
-                                        >
-                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                    </div>
-                                    <div count='3' class="imageBox5 imageBox " oncontextmenu="return false"
-                                        >
-                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div>
-                                    <div count='4' class="imageBox6 imageBox " oncontextmenu="return false"
-                                        >
-                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                       
-                                    </div>
-                                    <div count='5' class="imageBox7 imageBox " oncontextmenu="return false"
-                                        >
-                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div>
-                                    <div count='6' class="imageBox8 imageBox " oncontextmenu="return false"
-                                       >
-                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div>
-                                    <!-- <div count='7' class="imageBox9 imageBox " oncontextmenu="return false"
-                                       >
-                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div>
-                                    <div count='8' class="imageBox10 imageBox " oncontextmenu="return false"
-                                       >
-                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div> -->
+    
                                 </div>
-                                <button onclick="deleteAll()">Очистить</button>
+    
+                                <div class="advice" style="width: 250px; border: 1px solid;">
+                                    <h2 class="lng-advices">Советы</h2>
+                                    <div class="lng-newpost_d1">- Вы можете загрузить максимум 8 фотографий
+                                    </div>
+                                    <div class="lng-newpost_d2">- Вы <b>не можете</b> загрузить фотографии дважды, пока не очистите поле
+                                    </div>
+                                    <div class="lng-newpost_d3">- Будут опубликованы фотографии, которые отображаются на поле</div>
+                                    <!-- <div class="lng-newpost_d3">- Не отправляйте деньги, пока не получили товар или услугу.</div>
+                                    <div class="lng-newpost_d4">- Если Вы нашли странные ошибки в словах или явно низкую цену, лучше
+                                        сторониться таких
+                                        объявлений.</div> -->
+                                </div>
                             </div>
-                           
                             <div class="extraInfo">
-                                <div>
-                                   <h3>Совет</h3> <br>
-                                   <label>Вы можете загрузить максимум 10 фотографий</label> 
+                                <div class="line"
+                                    style="display: flex; align-items: center; gap: 20px; margin-top: -5%;">
+                                    <div>
+                                        <span style="padding:10px 20px" onclick="deleteAll()"
+                                            class='deleteAll lng-delete-all'>Очистить</span>
+                                    </div>
+                                    
+
                                 </div>
-                                <div class="mainTextInfo"><span class="firstPart lng-description">Описание</span><span
+                                <div class="mainTextInfo" style="margin-top: 20px;"><span class="firstPart lng-description">Описание</span><span
                                         class="secondPart lng-atLeast80"> (не менее 80 символов)</span></div>
                                 <div><textarea maxlength="6000" id="message" cols="" rows="" name="post_description"
                                         class="lng-moreInp"
@@ -227,6 +248,17 @@
                                 <div class="counter">
                                     <span class="currentValue">0</span>
                                     <span class="maxValue">/6000</span>
+                                </div>
+                                <div class="mainTextInfo"><span
+                                        class="firstPart lng-description-location">Местожительство</span><span
+                                        class="secondPart "> </span></div>
+                                <div><textarea maxlength="100" id="message" cols="" rows="" name="post_description"
+                                        class="lng-moreInpLocation"
+                                        placeholder="Коротко объясните о своей локации для лучшего понимания"
+                                        oninput="location1(this)"></textarea></div>
+                                <div class="counter">
+                                    <span class="currentValue">0</span>
+                                    <span class="maxValue">/100</span>
                                 </div>
                             </div>
                         </div>
@@ -239,7 +271,8 @@
                                 {% if phone_number %}
                                 <div class="locationInput">
                                     <span>Телефон</span>
-                                    <input type="text" class="phoneNumber" name="phone_number" value="{{phone_number}}" required>
+                                    <input type="text" class="phoneNumber" name="phone_number" value="{{phone_number}}"
+                                        required>
                                 </div>
                                 {% else %}
                                 <div class="locationInput">
@@ -250,7 +283,8 @@
                                 {% if whatsapp_number %}
                                 <div class="locationInput">
                                     <span>Номер WhatsApp</span>
-                                    <input type="text" class="phoneNumber" name="whatsapp_phone_number" value="{{whatsapp_number}}" id="" required>
+                                    <input type="text" class="phoneNumber" name="whatsapp_phone_number"
+                                        value="{{whatsapp_number}}" id="" required>
                                 </div>
                                 {% else %}
                                 <div class="locationInput">
@@ -264,13 +298,15 @@
                                 </div>
                             </div>
                         </div>
-                        <input class="absolute" type="text" name="blobImages" style="display: none;">
+                        <input class="absolute" type="text" name="blobImages" style="display: none;" value="{{bc}}">
                         <div class="twoButtons">
-                            <div class="finalButtonDiv">
-                                <input type="submit" class="lng-newBtnAd" formaction="/newpost/{{lang}}" value="Подать объявление">
+                            <div class="finalButtonDi">
+                                <input type="submit" class="lng-newBtnAd" formaction="/newpost/{{lang}}"
+                                    value="Подать объявление">
                             </div>
                             <div class="betaButtonDiv">
-                                <input type="submit" formaction="/review/0/{{lang}}" value="Предпросмотр">
+                                <input type="submit" class="lng-seeBefore" formaction="/review/0/{{lang}}"
+                                    value="Предпросмотр">
                             </div>
                         </div>
                     </div>
@@ -364,7 +400,7 @@
     <script src="/static/js/vuemin.js"></script>
 
     <script>
-        
+
     </script>
 
 </body>

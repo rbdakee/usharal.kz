@@ -14,13 +14,13 @@
 </head>
 
 <body>
-    <div class="all">
+    <div class="all" style="border: 1px solid; height: 100vh;">
         <header>
             <div class="headerChild">
 
                 <div class="text" title="Вернуться к главной странице"><a
                         href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
-                        class="text">usharal.kz</a></div>
+                        class="text">{{title}}</a></div>
                 {% if lang == 'rulang' %}
                 <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
                         class="qaz langSpan">
@@ -69,15 +69,15 @@
         </header>
 
         <div class="mask"></div>
-        <section class="error_page_section">
+        <section class="error_page_section" style="border: 1px solid; width: 100%; height: 100%; margin: auto;">
             <img src="../static/img/img_359860.png" alt="" srcset="">
             <div class="lng-problem">Произошла некая ошибка</div>
-            <a href="/{{lang}}">Вернуться на главную</a>
+            <a href="/{{lang}}" class="lng-backToPage">Вернуться на главную</a>
         </section>
     </div>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/index.js"></script>
-    <script src="js/lang.js"></script>
+    <script src="../static/js/lang.js"></script>
     <style>
         * {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;

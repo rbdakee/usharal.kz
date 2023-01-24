@@ -12,13 +12,16 @@
 .slider {
   height: 330px;
   width: auto;
-  min-width: 100%;
+  min-width: 80vw;
+  width: 100px;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   overflow: hidden;
+  gap: 50px;
+  margin: auto;
 }
 .slider .contentBox {
-  margin-left: 4%;
+ 
 }
 .contentBox a {
   text-decoration: none;
@@ -100,4 +103,16 @@
 }
 .contentTemp {
   display: none;
+}
+.slider .contentBox{
+  margin: auto;
+}
+.slider{
+  padding: 0 !important;
+}
+.slider .contentBox:first-child{
+  margin-left: 50px;
+}
+.slider .contentBox:last-child{
+  margin-right: 50px;
 }

@@ -150,6 +150,30 @@ var np = false
         
     }
 //dich?
+const transferClick = () => {
+    document.querySelectorAll(' .newCreatedButton').forEach(each => {
+        // console.log(each);
+        each.addEventListener('click', () => {
+            
+            var parentFind = each.parentNode.parentNode.parentNode.classList[0];
+            var tin = document.querySelector(`.${parentFind} .chosenButton`).innerHTML
+            document.querySelector(`.${parentFind} .chosenButton`).classList.remove('chosenButton')
+            each.classList.add('chosenButton')
+            if(+each.innerHTML > +tin ){
+                var a = (+each.innerHTML - +tin)*768
+                $(`.${parentFind} .allMyContent`).animate({
+                    scrollTop: '+=' + a
+                },1,'swing')
+            }
+            else{
+                var a = (+tin - +each.innerHTML  )*768
+                $(`.${parentFind} .allMyContent`).animate({
+                    scrollTop: '-=' + a
+                },1,'swing')
+            }
+        })
+    })
+};
 let input = document.querySelectorAll('.searchPartMy input')
 input.forEach((fInput, index) => {
     fInput.oninput = function(){
@@ -162,10 +186,10 @@ input.forEach((fInput, index) => {
             document.querySelectorAll(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .nameOfTheProduct`).forEach(name => {
             
                 if(name.innerText.toLowerCase().search(fInputValue) == -1){
-                    name.parentNode.parentNode.parentNode.classList.add('hide')  
+                    name.parentNode.parentNode.parentNode.parentNode.classList.add('hide')  
                 }
                 else{
-                    name.parentNode.parentNode.parentNode.classList.remove('hide')
+                    name.parentNode.parentNode.parentNode.parentNode.classList.remove('hide')
                 }
                 
                
@@ -190,7 +214,7 @@ input.forEach((fInput, index) => {
             document.querySelector(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .imgThink`).classList.add('close')
             document.querySelectorAll(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .nameOfTheProduct`).forEach(name => {
             
-                name.parentNode.parentNode.parentNode.classList.remove('hide')
+                name.parentNode.parentNode.parentNode.parentNode.classList.remove('hide')
             })
             button_future_counts = Math.ceil(+(document.querySelectorAll(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .myContent:not(.hide)`).length)/4)
             createButtons(button_future_counts, index)
@@ -321,7 +345,7 @@ input.forEach((fInput, index) => {
     })
     
    
-    for(var i = 0; i < 3; i++){
+    for(var i = 0; i < 2; i++){
         button_future_counts = Math.ceil(+(document.querySelectorAll(`.${document.querySelectorAll('.findWithThat')[i].classList[0]} .myContent:not(.hide)`).length)/4)
         createButtons(button_future_counts, i)
         createGhostDiv(i)
@@ -343,8 +367,9 @@ input.forEach((fInput, index) => {
         }, 1, 'swing')
     })
     var lastCon = document.querySelectorAll('.lastCon')
-    lastCon.forEach((lc, index) => lc.onclick = () => {
-
+    lastCon.forEach((lc, index)=>{
+       lc.addEventListener('click', ()=> {
+        // alert()
         $(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .chosenButton`).removeClass('chosenButton')
         document.querySelectorAll(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .newCreatedButton`)[document.querySelectorAll(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .newCreatedButton`).length - 1].classList.add('chosenButton')
         $(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .allMyContent`).animate({
@@ -355,76 +380,13 @@ input.forEach((fInput, index) => {
             scrollLeft: $(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .lineForNewButtons`).get(0).scrollWidth
 
         }, 1, 'swing')
+       })
+        
     })
-    const transferClick = () => {
-        document.querySelectorAll(' .newCreatedButton').forEach(each => {
-            // console.log(each);
-            each.addEventListener('click', () => {
-                
-                var parentFind = each.parentNode.parentNode.parentNode.classList[0];
-                var tin = document.querySelector(`.${parentFind} .chosenButton`).innerHTML
-                document.querySelector(`.${parentFind} .chosenButton`).classList.remove('chosenButton')
-                each.classList.add('chosenButton')
-                if(+each.innerHTML > +tin ){
-                    var a = (+each.innerHTML - +tin)*768
-                    $(`.${parentFind} .allMyContent`).animate({
-                        scrollTop: '+=' + a
-                    },1,'swing')
-                }
-                else{
-                    var a = (+tin - +each.innerHTML  )*768
-                    $(`.${parentFind} .allMyContent`).animate({
-                        scrollTop: '-=' + a
-                    },1,'swing')
-                }
-            })
-        })
-    };
+    
     transferClick()
 
-    document.querySelectorAll('.absolutelyNotYou').forEach((each, index) => {
-        each.addEventListener('click', () => {
-            var parentFind = document.querySelectorAll('.findWithThat')[index].classList[0]
-            if(document.querySelector(`.${parentFind} .chooseDiv input`).checked){// удалить все выбран
-                document.querySelectorAll(`.${parentFind} .allMyContent .myContent:not(.hide)`).forEach(each => {
-                    each.remove()
-                })
-                document.querySelector(`.${parentFind} .lineForNewButtons`).innerHTML = ''
-                document.querySelector(`.${parentFind} .imgThink`).classList.remove('close')
-                document.querySelector(`.${parentFind} .chooseDiv input`).checked = false
-            }
-            else{//solo
-              
-                // document.querySelectorAll(`.${parentFind} .lineForCheckbox input:checked`).forEach((eachChecked, index) => {
-                //     document.querySelectorAll(`.${parentFind} .myContent`)[index+1].remove()
-                // })
-                var allElem = document.querySelectorAll(`.${parentFind} #check`)
-                allMyContent = document.querySelectorAll(`.${parentFind} .myContent`)
-                for(var i = 1; i < allElem.length; i++){
-                    if(allElem[i].checked){
-                        allMyContent[i-1].remove()
-                    }
-                }
-                button_future_counts = Math.ceil(+(document.querySelectorAll(`.${document.querySelectorAll('.findWithThat')[index].classList[0]} .myContent:not(.hide)`).length)/4)
-                if(button_future_counts == 0){
-                    document.querySelector(`.${parentFind} .imgThink`).classList.remove('close')
-                }
-                createButtons(button_future_counts, index)
-                createGhostDiv(index)
-                createGhostButtons(button_future_counts, index)
-                createGhostDiv(index)
-                if(+document.querySelector(`.${parentFind} .chosenButton`).innerHTML != 1){
-                    const last = Array.from(
-                        document.querySelectorAll(`.${parentFind} .lineForNewButtons button.newCreatedButton`)
-                      ).pop();
-                      $(`.${parentFind} .chosenButton`).removeClass('chosenButton')
-                      last.classList.add('chosenButton')
-                }
-                
-                  transferClick()
-            }
-        })
-    })
+    
     var ittrash = 0
     var sum = 10000
 //    document.querySelectorAll('.mainMyPostsContent .myContent .cost').forEach(each => {

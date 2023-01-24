@@ -560,13 +560,13 @@ input:focus {
   background-color: #f3f3f3;
   border-radius: 10px;
 }
-.subImages .imgBox:hover {
+/* .subImages .imgBox:hover {
   width: 105px;
   height: 105px;
   box-shadow: 4px 4px 18px 4px rgba(34, 60, 80, 0.2);
   /* position: relative;
     margin-bottom: 10px; */
-}
+
 .advice {
   display: block;
   padding: 10px 15px 10px;
@@ -618,7 +618,7 @@ input:focus {
 .subImages {
   height: auto;
   align-items: center;
-  display: flex;
+  /* display: flex; */
   width: 70%;
 
   flex-wrap: wrap;
@@ -627,7 +627,8 @@ input:focus {
 }
 .subImages .imgBox {
   height: 100px;
-  width: 100px;
+  min-width: 100px;
+  /* border: 1px solid; */
   margin-top: 10px;
   margin-right: 10px;
   background-color: #fff;
@@ -662,14 +663,19 @@ input:focus {
   margin: auto;
   margin-top: 20px;
   height: 350px;
+  border: 1px solid !important;
 }
 .areaForTextSame {
   width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 50px;
   line-height: 50px;
+}
+.slider {
+  /* border: 1px solid; */
 }
 .sameAdver {
   padding-left: 0 !important;
@@ -689,7 +695,8 @@ input:focus {
   height: 100%;
   width: 10%;
   display: flex;
-  margin-right: 20px;
+  margin-right: 130px;
+  /* border: 1px solid; */
 }
 .buttonSame button {
   border: 3px solid #2f323a;
@@ -943,4 +950,14 @@ button:hover {
 .fa-regular:hover {
   cursor: pointer;
   color: #fff;
+}
+
+.slider > .contentBox {
+  /* border: 1px solid; */
+}
+.sliderCon {
+  /* border: 1px solid; */
+  display: flex;
+  max-width: 90%;
+  overflow-x: scroll;
 }

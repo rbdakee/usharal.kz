@@ -89,6 +89,7 @@ html {
   border: none;
   border-radius: 5px;
   color: #fff;
+  z-index: 1000;
   font-size: larger; /*исправить на пиксели*/
 }
 .map {
@@ -755,8 +756,9 @@ button .arrow {
   grid-template-rows: repeat(5, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  height: 660px;
+  height: 660px !important;
   overflow: hidden;
+  /* border: 1px solid; */
   margin: 0 auto;
 }
 .adverLine {
@@ -768,10 +770,14 @@ button .arrow {
   grid-template-rows: repeat(5, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  min-height: 720px;
+  min-height: 690px;
   overflow: hidden;
+  /* border: 1px solid; */
   z-index: 1;
   margin: 0 auto;
+}
+.adverLine > div {
+  /* border: 1px solid; */
 }
 .wholeListSpan {
   width: 8em !important;
@@ -1210,7 +1216,7 @@ select {
 .extraInfo {
   width: auto;
   height: auto;
-  margin-top: 60px;
+  margin-top: 100px;
 }
 /* .imageBox2{
     display: flex;
@@ -1349,8 +1355,9 @@ textarea:focus {
   height: 50px;
   justify-content: space-around;
   margin-bottom: 25px;
-  justify-content: flex-end;
+  /* justify-content: f; */
   align-items: flex-end;
+  /* border: 1px solid; */
 }
 .twoButtons div {
   width: 45%;
@@ -1370,14 +1377,21 @@ textarea:focus {
 .twoButtons a {
   text-decoration: none;
   color: #000;
-  padding: 8% 22%;
+  /* padding: 8% 22%; */
 }
 .finalButtonDiv input {
   margin: auto;
   display: flex;
+  padding: 0;
   background-color: #ffc53a;
   color: #fff;
 }
+
+.finalButtonDi input {
+  background-color: #ffc53a;
+  color: #fff;
+}
+
 button:hover {
   cursor: pointer !important;
 }
@@ -1524,9 +1538,6 @@ button:hover {
 .imageBoxProfile {
   width: 100px !important;
   height: 100px;
-  border: 1px solid #b1b0b0;
-  border-radius: 10px;
-  background-color: #f3f3f3;
   display: flex;
   overflow: hidden !important;
   align-items: center;
@@ -1695,7 +1706,7 @@ header .lang a {
   cursor: pointer;
 } */
 .favouriteSectionChild .mainPart.line {
-  height: 720px;
+  height: 680px !important;
 }
 .reviewBlock {
   width: 80%;
@@ -1738,4 +1749,30 @@ header .lang a {
   height: 200px;
   border: 1px solid;
   background-color: white;
+}
+.hiddenInput {
+  visibility: hidden;
+}
+.deleteAll {
+  width: 100px;
+  border: 2px solid #ffc53a;
+  border-radius: 10px;
+  height: 40px;
+  margin: 20px auto;
+  font-size: large;
+}
+.extraInfo h3 {
+  /* text-decoration: dotted !important; */
+}
+.imageBoxProfile img{
+  border-radius: 50%;
+}
+.pageForNewPostChild .advice{
+  background-color: #FFE8E8;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-top: 30px;
+  font-size: small;
+  padding: 10px 20px;
+  margin-top: 70px;
 }

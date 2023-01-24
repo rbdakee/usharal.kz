@@ -22,11 +22,12 @@ const btnSABall = document.querySelectorAll('.btnSAB')
 var itForBut = 2
 var  itForButFav = 2
 showMoreButtonMainPage.click(function(){
+    // alert()
     if(itForBut < ($(".adverLine .contentBox").length)/4){
         itForBut++
-        allAdvertHeight += 360
+        allAdvertHeight += 330
         allAdvert.css('height', allAdvertHeight)
-        window.scrollBy(0, 360)
+        window.scrollBy(0, 200)
     }
 })
 

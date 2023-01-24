@@ -44,7 +44,8 @@
                                 class="lng-payment messages">{{menu[2].name}}</a>
                             <a href="{{url_for('myprofile', lang=session['lang'])}}"
                                 class="lng-myProfile messages">{{menu[3].name}}</a>
-                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
+                            <a href="{{url_for('logout', lang=session['lang'])}}"
+                                class="lng-exit messages">{{menu[4].name}}</a>
                         </div>
                     </div>
                     <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
@@ -93,31 +94,39 @@
                 <div class="mainPartWithButton">
                     <div class="mainPart line">
                         {% for post in posts %}
-                        <div class="contentBox">
-                            <a href="{{url_for('content', post_id = post.id, lang = session['lang'])}}">
-                                <div class="forImgContent">
-                                    <!-- <div class="top">VIP</div> -->
-                                    <img src="data:;base64, {{ post.photos }}" alt="">
-                                </div>
-                                <div class="dataContent" style="text-decoration: none; color:black;">{{post.post_date}}
-                                </div>
-                                <div class="titleContent"
-                                    style="text-decoration: none; color:black; height: 20px; padding-bottom: 10px;">
-                                    {{post.title}}
-                                </div>
+                        
+                                    <div class="contentBox"><a
+                                            href="{{url_for('content', post_id = post.id, lang = session['lang'])}}">
+                                            <div class="forImgContent">
+                                                {% if post.photos != 0 and post.photos != '' and post.photos != None%}
+                                                <img src="data:;base64, {{ post.photos }}" alt="" loading="lazy">
+                                                {% else %}
+                                                <img src="../static/img/no_image.png">
+                                                {% endif %}
+                                            </div>
+                                            <div class="dataContent" style="text-decoration: none; color:black;">
+                                                {{post.post_date}} </div>
+                                            <div class="titleContent"
+                                                style="text-decoration: none; color:black; margin-bottom: -20px !important;">
+                                                {{post.title}}</div>
+                                            <div class="shortInfo">
+                                                <!-- <b><span>{{post.description}}</span></b> -->
+                                            </div>
 
-                                <div class="categoryContent {{cat[post.category]}}"
-                                    style="text-decoration: none; color:black;">
-                                    {{dataCat[post.category]}}</div>
-                                <div class="costContent">{{post.cost}} </div>
-                            </a>
-                            <div class="statusContent">
-                                <span class="{{cat[post.facility]}}">{{post.facility}}</span>
-                                <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa fa-heart"
-                                    onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
-                            </div>
-                        </div>
+                                            <div class="categoryContent {{cat[post.category]}}"
+                                                style="text-decoration: none; color:black;">
+                                                {{dataCat[post.category]}}</div>
+                                            <div class="costContent">{{post.cost}} </div>
+                                        </a>
+                                        <div class="statusContent">
+                                            <span class="{{cat[post.facility]}}">{{post.facility}}</span>
+                                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><span class="fa fa-heart"
+                                                onclick="fill(this)" id="spanOfHeart_{{post.id}}"></span>
+                                        </div>
+                                    </div>
 
+                                    
+                            
                         {% endfor %}
 
                     </div>
@@ -193,8 +202,23 @@
     <script src="{{ url_for('static', filename = 'js/scroll.js') }}"></script>
 
     <script src="{{ url_for('static', filename = 'js/lang.js') }}"></script>
-
+    
     <script>
+        var allFavAdvert = $(".mainPart.line")
+        var allSize = allFavAdvert.height()
+        var itButForfav = 2;
+        document.querySelector('.zoneForButton button').addEventListener('click', () => {
+            
+            if(itButForfav < ($(".mainPart.line .contentBox").length)/4){
+                itButForfav++
+                allSize += 330
+                $(".mainPart.line").css('height', allSize)
+                document.querySelector('.mainPart.line').setAttribute('style', `height:${allSize}px !important`)
+                window.scrollBy(0, 200)
+                
+    }
+    console.log(allSize)
+        })
         document.querySelectorAll('span.fa-heart').forEach(each => {
             each.addEventListener('click', () => {
                 each.classList.toggle('fa-regular')
@@ -253,117 +277,10 @@
         $(".up").click(function () {
             window.scrollTo(0, 0)
         })
-        const toggleId = (idClass) => {
-            var dropdowns = document.getElementsByClassName(idClass);
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
-        function myFunction(div) {
-
-            //document.querySelector(`.show`).classList.remove("show");
-            document.querySelector(`.${div} #myDropdown`).classList.toggle("show");
-
-        }
-        function insert(randA) {
-            document.querySelector('.sort').innerHTML = randA.innerHTML
-        }
+        
         var listClassOb = {
             'wholeList-btn': 'wholeList-content',
             'location-btn': 'location-content'
-        }
-        function favFunction(arg) {
-            $('.shadow').css('display', 'flex')
-            // $('section').css('position', 'fixed')
-            document.querySelectorAll('.ul')[0].style.display = 'none'
-            document.querySelectorAll('.ul')[1].style.display = 'unset'
-            window.onclick = function (event) {
-                if (event.target.matches('.shadow')) {
-                    if (!event.target.matches('.location-btn')) {
-                        toggleId(listClassOb['location-btn'])
-                        $('.shadow').css('display', 'none')
-                        // $('section').css('position', 'sticky')
-
-                        //();
-                    }
-                    if (!event.target.matches('.wholeList-btn')) {
-                        toggleId(listClassOb['wholeList-btn'])
-                    }
-
-                }
-            }
-            var liList = document.querySelectorAll('.ul li')
-            liList.forEach(each => {
-                each.addEventListener('click', () => {
-                    outLi(each, true)
-                })
-                each.addEventListener('mouseover', () => {
-                    outLi(each, false)
-                })
-
-            })
-            // //(maindict[hash][document.querySelector('.hidden_cat').innerHTML])
-            const outLi = (each, boolValue) => {
-                if (boolValue) {
-
-                    $('.shadow').css('display', 'none')
-                    text = each.innerHTML
-                    var allElem = document.querySelectorAll('.contentBox .hidden_cat')
-
-                    // //(text.trim())
-                    document.querySelector('.wholeList-btn').innerHTML = text + '<i class="fas arrow fa-angle-down"></i>'
-                    // $('section').css('position', 'sticky')
-                    let list = document.querySelectorAll(`.contentBox .hidden_cat`)
-                    // let listHidden = document.querySelectorAll(`.contentBox:not(.hide) .hidden_cat`)
-                    //(list)
-                    // list.forEach(elem => {
-                    //     console.log(document.querySelector('.favouriteSectionChild .searchPart input').value.toLowerCase().trim(elem.previousElementSibling.previousElementSibling.innerText.trim().toLowerCase()) != -1)
-                    //     if ((text.trim() == 'Все категории' || text.trim() == 'Толық тізім') && document.querySelector('.favouriteSectionChild .searchPart input').value.toLowerCase().trim(elem.previousElementSibling.previousElementSibling.innerText.trim().toLowerCase()) != -1) {
-                    //         elem.parentNode.parentNode.classList.remove('hide');
-                    //     }
-                    //     else {
-                    //         elem.parentNode.parentNode.classList.remove('hide');
-                    //         if (maindict[hash][elem.innerText].trim().toLowerCase() != text.trim().toLowerCase()) {
-                    //             elem.parentNode.parentNode.classList.add('hide');
-
-
-                    //         }
-
-                    //         else {
-                    //             var alle = document.querySelectorAll('.contentBox:not(.hide) .titleContent')
-                    //             alle.forEach(each => {
-                    //                 if (each.innerText.toLowerCase().trim().search(document.querySelector('.favouriteSectionChild .searchPart input').value.trim().toLowerCase()) == -1) {
-                    //                     each.parentNode.parentNode.classList.add('hide');
-                    //                 }
-                    //                 else {
-                    //                     each.parentNode.parentNode.classList.remove('hide');
-                    //                 }
-                    //             })
-
-
-
-
-
-                    //         }
-                    //     }
-
-                    // })
-
-
-                }
-                else {
-                    text = each.innerHTML
-                    document.querySelector('.inputModal input').value = text
-                }
-
-
-
-            }
-
         }
         window.onload = () => {
             let inputSearch = document.querySelector('.inputModal input')

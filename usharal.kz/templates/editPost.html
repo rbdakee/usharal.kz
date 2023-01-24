@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>{{title}}</title>
 </head>
+
 <body>
     <div class="all">
         <header>
@@ -33,7 +34,7 @@
 
                 <div class="text" title="Вернуться к главной странице"><a
                         href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
-                        class="text">usharal.kz</a></div>
+                        class="text">{{title}}</a></div>
                 {% if lang == 'rulang' %}
                 <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
                         class="qaz langSpan">
@@ -57,7 +58,8 @@
                                 class="lng-payment messages">{{menu[2].name}}</a>
                             <a href="{{url_for('myprofile', lang=session['lang'])}}"
                                 class="lng-myProfile messages">{{menu[3].name}}</a>
-                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
+                            <a href="{{url_for('logout', lang=session['lang'])}}"
+                                class="lng-exit messages">{{menu[4].name}}</a>
                         </div>
                     </div>
                     <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
@@ -261,7 +263,7 @@
                                         <option value="11">Транспорт</option>
                                     </select>
                                     {% elif post.category == 'Транспорт' %}
-                                    <select name="category"  required>
+                                    <select name="category" required>
                                         <option value="">Выберите категорию</option>
                                         <option value="1">Услуги</option>
                                         <option value="2">Электроника</option>
@@ -289,132 +291,130 @@
                                 <div class="inner withRadio">
                                     {% if post.facility=="Цена" %}
                                     <div class="middleBox">
-                                        <input type="radio" value="1" name="radio" id="middle " required checked>
+                                        <input type="radio" value="1" onchange="field(this)" name="radio" id="middle "
+                                            required checked>
                                         <label for="middle">Цена</label>
                                     </div>
                                     <div class="swapBox">
-                                        <input type="radio" value="2" name="radio" id="swap " required>
+                                        <input type="radio" value="2" onchange="field(this)" name="radio" id="swap "
+                                            required>
                                         <label for="swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
-                                        <input type="radio" value="3" name="radio" id="free " required>
+                                        <input type="radio" onchange="freeField(this)" value="3" name="radio" id="free "
+                                            required>
                                         <label for="free">Отдам даром</label>
                                     </div>
                                     {% elif post.facility == 'Возможен обмен' %}
                                     <div class="middleBox">
-                                        <input type="radio" value="1" name="radio" id="middle " required>
+                                        <input type="radio" value="1" onchange="field(this)" name="radio" id="middle "
+                                            required>
                                         <label for="middle">Цена</label>
                                     </div>
                                     <div class="swapBox">
-                                        <input type="radio" value="2" name="radio" id="swap " required checked>
+                                        <input type="radio" value="2" onchange="field(this)" name="radio" id="swap "
+                                            required checked>
                                         <label for="swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
-                                        <input type="radio" value="3" name="radio" id="free " required>
+                                        <input type="radio" onchange="freeField(this)" value="3" name="radio" id="free "
+                                            required>
                                         <label for="free">Отдам даром</label>
                                     </div>
                                     {% elif post.facility == "Отдам даром" %}
                                     <div class="middleBox">
-                                        <input type="radio" value="1" name="radio" id="middle " required>
+                                        <input type="radio" value="1" onchange="field(this)" name="radio" id="middle "
+                                            required>
                                         <label for="middle">Цена</label>
                                     </div>
                                     <div class="swapBox">
-                                        <input type="radio" value="2" name="radio" id="swap " required>
+                                        <input type="radio" value="2" onchange="field(this)" name="radio" id="swap "
+                                            required>
                                         <label for="swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
-                                        <input type="radio" value="3" name="radio" id="free " checked>
+                                        <input type="radio" onchange="freeField(this)" value="3" name="radio" id="free "
+                                            checked>
                                         <label for="free">Отдам даром</label>
                                     </div>
-                                    {% endif %}
+                                    {% endif %}<div class="inner withRadio">
+
+                                    </div>
                                 </div>
 
                             </div>
+                            <div  class="bigBoxGeneral" style="display: flex; align-items: center; justify-content: space-between;  ">
                             <div class="bigBoxForImages">
                                 <span class="mainTextInfo ">Фото</span>
                                 <!-- <button class="outimg" onclick="console.log(imgArr)"></button> -->
                                 <div class="containerForAllImages">
-                                    <div class="imageBox1">
-                                        <img src="{{ url_for('static', filename='img/Vector.svg') }}" width="50" alt="" class="imageOfUserChoose">
-                                        <input type="file" onchange="showFile(this)" accept="image/*" name="post_photo" multiple="True" class="file"  value="{{post.photos}}" >
+                                    <div class="imageBox1 " style="overflow: hidden !important;">
+                                        <img src="data:;base64, {{post.photos[0]}}"  width="50" alt="" class="imageOfUserChoose imageOfUser">
+                                        <input type="file" onchange="showFile(this)" maxlength=7 accept="image/*"
+                                            name="post_photo" multiple="True" class="file" required max="7">
                                     </div>
-
-                                    {% for j in range(lenOfPostPhotos) %}
-                                    <div  class="imageBox{{j+2}} imageBox">
-                                        <img src="data:;base64,  {{post.photos[j]}}" alt="" srcset="">
+                                    {% for j in range(lenOfPostPhotos-1) %}
+                                    <div class="imageBox{{j+2}} imageBox">
+                                        <img src="data:;base64,  {{post.photos[j+1]}}" alt="" srcset=""
+                                            style="object-fit:cover; width: 100px;">
                                     </div>
                                     {% endfor %}
-                                    <!-- <div count='0' class="imageBox2 imageBox " oncontextmenu="return false">
-                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" width="50" alt="" 
-                                            class="imageOfUser">
+                                    {% for i in range(9, 8-lenOfPostPhotos-1, -1) %}
+                                    <div count='1' class="imageBox{{i}} imageBox " oncontextmenu="">
+                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
                                         <div class="backColor"></div>
-                                    </div>
-                                    <div count='1' class="imageBox3 imageBox " oncontextmenu="return false"
-                                        >
-                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div>
 
-                                    <div count='2' class="imageBox4 imageBox  " oncontextmenu="return false"
-                                        >
-                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
                                     </div>
-                                    <div count='3' class="imageBox5 imageBox " oncontextmenu="return false"
-                                        >
-                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div>
-                                    <div count='4' class="imageBox6 imageBox " oncontextmenu="return false"
-                                        >
-                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                       
-                                    </div>
-                                    <div count='5' class="imageBox7 imageBox " oncontextmenu="return false"
-                                        >
-                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div>
-                                    <div count='6' class="imageBox8 imageBox " oncontextmenu="return false"
-                                       >
-                                        <img src="{{ url_for('static', filename='img/Vector1.svg') }}" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div> -->
-                                    <!-- <div count='7' class="imageBox9 imageBox " oncontextmenu="return false"
-                                       >
-                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div>
-                                    <div count='8' class="imageBox10 imageBox " oncontextmenu="return false"
-                                       >
-                                        <img src="/static/img/Vector1.svg" alt="" class="imageOfUser">
-                                        <div class="backColor"></div>
-                                        
-                                    </div> -->
+                                    {% endfor %}
+                                    
                                 </div>
-                                <span onclick="deleteAll()">Очистить</span>
+                                
+                            </div>
+                            <div class="advice" style="width: 250px; border: 1px solid;">
+                                <h2 class="lng-advices">Советы</h2>
+                                <div class="lng-newpost_d1">- Вы можете загрузить максимум 8 фотографий
+                                </div>
+                                <div class="lng-newpost_d2">- Вы <b>не можете</b> загрузить фотографии дважды, пока не очистите поле
+                                </div>
+                                <div class="lng-newpost_d3">- Будут опубликованы фотографии, которые отображаются на поле</div>
+                                <!-- <div class="lng-newpost_d3">- Не отправляйте деньги, пока не получили товар или услугу.</div>
+                                <div class="lng-newpost_d4">- Если Вы нашли странные ошибки в словах или явно низкую цену, лучше
+                                    сторониться таких
+                                    объявлений.</div> -->
+                            </div>
                             </div>
                             <div class="extraInfo">
-                                <div>
-                                   <h3>Совет</h3> <br>
-                                   <label>Вы можете загрузить максимум 10 фотографий</label> 
+                                <div class="line"
+                                    style="display: flex; align-items: center; gap: 20px; margin-top: -5%;">
+                                    <div>
+                                        <span style="padding:10px 20px" onclick="deleteAll()"
+                                            class='deleteAll lng-delete-all'>Очистить</span>
+                                    </div>
+                                    
+
                                 </div>
-                                <div class="mainTextInfo"><span class="firstPart lng-description">Описание</span><span
+                                <div class="mainTextInfo" style="margin-top: 20px;"><span class="firstPart lng-description">Описание</span><span
                                         class="secondPart lng-atLeast80"> (не менее 80 символов)</span></div>
                                 <div><textarea maxlength="6000" id="message" cols="" rows="" name="post_description"
                                         class="lng-moreInp"
                                         placeholder="Подробно расскажите про товар. Подумайте какие подробности вы хотели бы узнать из объявления"
-                                        oninput="titleProduct(this, 0)">{{post.description}}</textarea></div>
+                                        oninput="titleProduct(this, 0)"></textarea></div>
                                 <div class="counter">
                                     <span class="currentValue">0</span>
                                     <span class="maxValue">/6000</span>
                                 </div>
+                                <div class="mainTextInfo"><span
+                                        class="firstPart lng-description-location">Местожительство</span><span
+                                        class="secondPart "> </span></div>
+                                <div><textarea maxlength="100" id="message" cols="" rows="" name="post_description"
+                                        class="lng-moreInpLocation"
+                                        placeholder="Коротко объясните о своей локации для лучшего понимания"
+                                        oninput="location1(this)"></textarea></div>
+                                <div class="counter">
+                                    <span class="currentValue">0</span>
+                                    <span class="maxValue">/100</span>
+                                </div>
+                                
                             </div>
                         </div>
 
@@ -424,10 +424,11 @@
                             </div>
                             <div class="periodOfInputs">
                                 {% if post.phone_number %}
-                                
+
                                 <div class="locationInput">
                                     <span>Телефон</span>
-                                    <input type="tel" class="phoneNumber" name="phone_number" value="{{post.phone_number}}" required>
+                                    <input type="tel" class="phoneNumber" name="phone_number"
+                                        value="{{post.phone_number}}" required>
                                 </div>
                                 {% else %}
                                 <div class="locationInput">
@@ -436,10 +437,11 @@
                                 </div>
                                 {% endif %}
                                 {% if post.whatsapp_link %}
-                              
+
                                 <div class="locationInput">
                                     <span>Номер WhatsApp</span>
-                                    <input type="tel" class="phoneNumber" name="whatsapp_phone_number" value="{{post.whatsapp_link}}" id="" required>
+                                    <input type="tel" class="phoneNumber" name="whatsapp_phone_number"
+                                        value="{{post.whatsapp_link}}" id="" required>
                                 </div>
                                 {% else %}
                                 <div class="locationInput">
@@ -455,11 +457,13 @@
                         </div>
                         <input class="absolute" type="text" name="blobImages" style="display: none;">
                         <div class="twoButtons">
-                            <div class="finalButtonDiv">
-                                <input type="submit" class="lng-newBtnAd" formaction="/edit_post/{{post.id}}/{{lang}}" value="Подать объявление">
+                            <div class="finalButtonDi">
+                                <input type="submit" class="lng-newBtnAd" formaction="/edit_post/{{post.id}}/{{lang}}"
+                                    value="Подать объявление">
                             </div>
                             <div class="betaButtonDiv">
-                                <input type="submit" formaction="/review/{{post.id}}/{{lang}}" value="Предпросмотр">
+                                <input type="submit" class="lng-seeBefore" formaction="/review/{{post.id}}/{{lang}}"
+                                    value="Предпросмотр">
                             </div>
                         </div>
                     </div>
@@ -553,7 +557,7 @@
     <script src="{{ url_for('static', filename='js/vuemin.js') }}"></script>
 
     <script>
-        
+
     </script>
 
 </body>

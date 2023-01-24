@@ -112,22 +112,40 @@ a{
     color: black;
     font-size: larger;
 }
+
+.flash.red {
+            text-align: center;
+            border: 1px, solid, #FF4343;
+            background: #FF9C9C;
+            padding: 10px 0;
+        }
+
+        .flash.success {
+            text-align: center;
+            border: 1px, solid, #43ff5cb9;
+            background: #5cb85c;
+            padding: 10px 0;
+        }
     </style>
 </head>
 <body>
+    
     <section class="loginSection">
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="flash {{category}}">{{message}}</div>
+        {% endfor %}
         <div class="linePrev">
             <span class="fa fa-angle-left"></span>
             <a href="{{'authentification'}}"> Назад</a>
         </div>
         <div class="messageUn">
             <div class="mainMes">Не можете войти?</div>
-            <div class="underMes">Введите ваш email или номер телефона, и мы <br> вышлем  
-                вам код подтверждения. Вы сможете <br> установить новый пароль после ввода этого кода.</div>
+            <div class="underMes">Введите ваш email, и мы вышлем  
+                вам ссылку для восстановления.<br>Вы сможете установить новый пароль, перейдя по ссылке.</div>
         </div>
         <form action="/forgot" method="post">
-            <label for="uname">E-mail или номер телефона</label>
-            <input type="text" placeholder="E-mail или номер телефона" name="uname" required>
+            <label for="uname">E-mail связанный с аккаунтом в úsharal</label>
+            <input type="text" placeholder="account@example.com" name="uname" required>
             <button type="submit">Изменить</button>
         </form>
     </section>

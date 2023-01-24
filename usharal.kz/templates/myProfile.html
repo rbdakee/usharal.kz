@@ -35,7 +35,7 @@
 
                 <div class="text" title="Вернуться к главной странице"><a
                         href="{{url_for('index', lang=session['lang'])}}" style='text-decoration:none'
-                        class="text">usharal.kz</a></div>
+                        class="text">{{title}}</a></div>
                 {% if lang == 'rulang' %}
                 <div class="lang"><a href='rulang' class="langSpan rus chosen">рус </a>|<a href='kzlang'
                         class="qaz langSpan">
@@ -59,7 +59,8 @@
                                 class="lng-payment messages">{{menu[2].name}}</a>
                             <a href="{{url_for('myprofile', lang=session['lang'])}}"
                                 class="lng-myProfile messages">{{menu[3].name}}</a>
-                            <a href="{{menu[4].url}}" class="lng-exit messages">{{menu[4].name}}</a>
+                            <a href="{{url_for('logout', lang=session['lang'])}}"
+                                class="lng-exit messages">{{menu[4].name}}</a>
                         </div>
                     </div>
                     <span class="favourite"><a href="{{url_for('favorites', lang=session['lang'])}}"
@@ -132,11 +133,12 @@
                                     </div> -->
                                 {% if user.logo != 0 %}
                                 <div class="imageBoxProfile">
-                                    <img src="data:;base64, {{user.logo}}" width="50" alt="" class="imageOfUserChoose">
+                                    <img src="data:;base64, {{user.logo}}" alt="" class="imageOfUserChoose"
+                                        style="width: 100px !important; height: 100px !important;">
                                 </div>
                                 {% else %}
                                 <div class="imageBoxProfile">
-                                    <img src="{{url_for('static', filename='img/add-photo.png')}}" width="50" alt=""
+                                    <img src="{{url_for('static', filename='img/Vector.svg')}}" width="50" alt=""
                                         class="imageOfUserChoose">
                                 </div>
                                 {% endif %}
@@ -154,9 +156,10 @@
                             <div class="spanWithInput inner phoneSpan">
                                 <div><span class="firstPart">Телефон</span><span class="secondPart"></span></div>
                                 {% if user.phone_number==0 %}
-                                <input type="text" value="" readonly class="profileNum" re />
+                                <input type="text" value="" readonly class="profileNum userAddress rInfo" re />
                                 {% else %}
-                                <input type="text" value="{{user.phone_number}}" readonly class="profileNum" re />
+                                <input type="text" value="{{user.phone_number}}" readonly
+                                    class="userAddress rInfo profileNum" re />
                                 {% endif %}
                             </div>
                             <div class="saveLine inner">
@@ -182,18 +185,24 @@
                                             class="secondPart lng-format"> (Формат - jpg или png, максимальный размер 5
                                             Мб)</span></div>
                                     <div class="imageBoxProfile">
-                                        <img src="{{url_for('static', filename='img/add-photo.png')}}" width="50" alt=""
+                                        <img src="{{url_for('static', filename='img/Vector.svg')}}" width="50" alt="" 
                                             class="imageOfUserChoose">
                                         <input type="file" onchange="showFileProfile(this)"
                                             accept="image/gif, image/jpeg, image/png, image/svg" name="logo"
                                             class="file">
+
                                     </div>
+                                    <button onclick="deletePic()"
+                                        style="z-index:1; width: 150px; padding: 0 10px;margin-top: 20px; border-radius:10px; background-color: #f5f5f5; border: 2px solid #ffc53a;">Удалить
+                                        фото</button>
 
                                 </div>
                                 <div class="spanWithInput inner phoneSpan">
-                                    <div><span class="firstPart">Номер WhatsApp</span><span class="secondPart"></span></div>
+                                    <div><span class="firstPart">Номер WhatsApp</span><span class="secondPart"></span>
+                                    </div>
                                     {% if user.whatsapp_number %}
-                                    <input type="tel" class="profileNum" name="whatsapp_number" value="{{user.whatsapp_number}}">
+                                    <input type="tel" class="profileNum" name="whatsapp_number"
+                                        value="{{user.whatsapp_number}}">
                                     {% else %}
                                     <input type="tel" class="profileNum" name="whatsapp_number">
                                     {% endif %}
@@ -208,7 +217,7 @@
                                         value="{{user.phone_number}}">
                                     {% endif %}
                                 </div>
-                                
+
                                 <!-- <div class="saveLine inner">
                                     <button class="save">Сохранить</button>
                                 </div> -->
@@ -239,7 +248,7 @@
                                 </div>
                                 <div class="confirmButtonLine inner">
                                     {% for msg in get_flashed_messages() %}
-                                    <a>{{msg}}</a>
+                                    <a class="lng-wrong" style="color:red">{{msg}}</a>
                                     {% endfor %}
                                     <div><span class="firstPart lng-currentPass">Введите текущий пароль</span></div>
                                     <input type="password" name="userPrevPassword" class="userPrevPassword activeInput"

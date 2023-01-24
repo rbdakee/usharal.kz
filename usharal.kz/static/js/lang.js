@@ -103,6 +103,18 @@ const langArr = {
         "ru": " Премиум объявления",
         "kz": " Премиум жарнама"
     },
+    "wrong":{
+        'ru':'Неверный пароль',
+        'kz': 'Құпия сөз дұрыс емес'
+    },
+    'moreInpLocation':{
+        'ru':'Коротко объясните о своей локации для лучшего понимания',
+        'kz':'Жақсырақ түсіну үшін орналасқан жеріңізді қысқаша түсіндіріңіз'
+    },
+    'description-location':{
+        'ru':'Местожительство',
+        'kz':'Резиденция'
+    },
     "related":{
         "ru": " Похожие объявления",
         "kz": " Ұқсас жарнамалар"
@@ -209,6 +221,14 @@ const langArr = {
         "ru": "Предпросмотр",
         "kz": "Алдын ала көру"
     },
+    'delete-all':{
+        'ru':'Очистить',
+        'kz':'Өшіру'
+    },
+    'delete-advise':{
+        'ru':'Совет: Вы можете загрузить максимум 10 фотографий',
+        'kz':'Кеңес: Сіз тек 10 дана сурет еңгізе аласыз'
+    },
     "nego": {
         "ru": "Договорная",
         "kz":"Келісімді"
@@ -298,8 +318,8 @@ const langArr = {
         "kz":"Қала немесе облыс атауы"
     },
     "uDev": {
-        "ru": "Написать продавцу (данный раздел на разработке)",
-        "kz": "Сатышуға жазу (Бұл бөлім әзірленуде)"
+        "ru": "Написать продавцу",
+        "kz": "Сатышуға жазу"
     },
     "otherSec": {
         "ru": "Другие Разделы",
@@ -430,8 +450,8 @@ const langArr = {
         "kz": "Сатушыға жазу"
     },
     "writeWhats": {
-        "ru": "Написать на WhatsApp",
-        "kz": "WhatsApp-қа жазу"
+        "ru": "Написать продавцу на WhatsApp",
+        "kz": "Сатушыға WhatsApp-қа жазу"
     },
     "viewCount": {
         "ru": "Просмотров:",
@@ -506,8 +526,12 @@ const langArr = {
         'ru': 'Дата добавления',
         'kz': 'Жарияланған күн'
     },
-    "deactivation_day": {
+    "delete_day": {
         'ru': 'Дата удаления',
+        'kz': 'Өшіру күні'
+    },
+    "deactivation_day": {
+        'ru': 'Дата деактивации',
         'kz': 'Деактивация күні'
     },
     "defaultValue": {
@@ -527,8 +551,11 @@ const changeLang = () => {
         let elemAll = document.querySelectorAll('.lng-' + key);
         elemAll.forEach(elem => {
             if (elem) {
-                if (elem.tagName == 'INPUT' || elem.tagName == 'TEXTAREA') {
+                if (elem.tagName == 'INPUT' && elem.type !='submit' || elem.tagName == 'TEXTAREA') {
                     elem.setAttribute("placeholder", langArr[key][hash])
+                }
+                else if ((elem.tagName == 'INPUT' && elem.type =='submit')){
+                    elem.value = langArr[key][hash];
                 }
                 else {
                     elem.innerHTML = langArr[key][hash];

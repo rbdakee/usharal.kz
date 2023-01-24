@@ -1,10 +1,10 @@
-import base64
+import base64, pytz
 from types import NoneType
 from flask import Flask, render_template, url_for, request, redirect, flash, session, abort
 from itsdangerous import URLSafeTimedSerializer
 import itsdangerous
 from send_email import send_link
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from flask_sqlalchemy import SQLAlchemy
 from db import Users, registration, Posts, Photos, favPosts
 from flask_sock import Sock
@@ -33,6 +33,19 @@ dataCat = {
             9: 'Хобби и спорт',
             10: 'Недвижимость',
             11: 'Транпорт'
+        }
+catData = {
+            'Услуги':1,
+             'Электроника':2,
+             'Личные вещи':3,
+             'Детям':4,
+             'Для Бизнеса':5,
+             'Животные':6, 
+             'Для дома':7,
+             'Работа':8,
+            'Хобби и спорт':9,
+            'Недвижимость':10,
+            'Транпорт':11
         }
 dictValues = {
     'Услуги': 'lng-service',
@@ -71,28 +84,7 @@ def index(lang='rulang'):
     arrLang2.clear()
     if request.method == 'POST':
         data = request.form.get('category')
-        if data == 'Услуги':
-            category = 1
-        elif data == 'Электроника':
-            category = 2
-        elif data == 'Личные вещи':
-            category = 3
-        elif data == 'Детям':
-            category = 4
-        elif data == 'Для Бизнеса':
-            category = 5
-        elif data == 'Животные':
-            category = 6
-        elif data == 'Для дома':
-            category = 7
-        elif data == 'Работа':
-            category = 8
-        elif data == 'Хобби и спорт':
-            category = 9
-        elif data == 'Недвижимость':
-            category = 10
-        elif data == 'Транспорт':
-            category = 11
+        category = catData[data]
         
         posts = Posts.category_filter(category)
         if 'userEmail' in session:
@@ -125,40 +117,19 @@ def echo(sock):
         data = sock.receive()
         userEmail = session['userEmail']
         data = data.split(',')
-        print(data)
+        # print(data)
         classes = data[1].split()
         if 'fa-regular' in classes:
             favPost = favPosts.add_favPost(userEmail, data[0])
         elif 'fa' in classes:
             favPost = favPosts.delete_favPost(userEmail, data[0])
         sock.send(data)
-@sock.route('/category')
-def search_category(sock):
-    while True:
-        data = sock.receive().strip()   
-        if data == 'Услуги':
-            category = 1
-        elif data == 'Электроника':
-            category = 2
-        elif data == 'Личные вещи':
-            category = 3
-        elif data == 'Детям':
-            category = 4
-        elif data == 'Для Бизнеса':
-            category = 5
-        elif data == 'Животные':
-            category = 6
-        elif data == 'Для дома':
-            category = 7
-        elif data == 'Работа':
-            category = 8
-        elif data == 'Хобби и спорт':
-            category = 9
-        elif data == 'Недвижимость':
-            category = 10
-        elif data == 'Транспорт':
-            category = 11
-        sock.send(category)
+# @sock.route('/category')
+# def search_category(sock):
+#     while True:
+#         data = sock.receive().strip()   
+#         category = catData[data]
+#         sock.send(category)
 
 
         
@@ -223,11 +194,11 @@ def phone_numbers_to_waLink(number):
             res+=i
     return res
 
-@sock.route('/post_photo')
-def post_photo(sock):
-    data = sock.receive()
+# @sock.route('/post_photo')
+# def post_photo(sock):
+#     data = sock.receive()
     # print(data)
-
+boolclicked = [-1]
 @app.route('/newpost/<lang>', methods=['POST', 'GET'])
 def newpost(lang):
     if 'userName' in session:
@@ -237,26 +208,42 @@ def newpost(lang):
             return redirect(url_for('newpost', lang = 'rulang'))
         session['lang'] = lang
         if request.method == 'POST':
-            user = Users.return_user_to_db(session['userEmail'])
-            post_title=request.form['post_title']
-            category=request.form['category']
-            cost = request.form['post_cost']
-            photo = request.files.getlist('post_photo')[0:10]
-            description = request.form['post_description']
-            phone_number = request.form['phone_number']
-            whatsapp_phone_number = request.form['whatsapp_phone_number']
-            whatsapp_link = f'https://wa.me/{phone_numbers_to_waLink(whatsapp_phone_number)}'
-            deactivate_date = datetime.today() + timedelta(days=14)
-            delete_date = deactivate_date + timedelta(days=14)
-            status = True
-            advertisement = False
-            facility = request.form['radio']
-            post_date = datetime.today()
-            post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility)
-            for i in photo:
-                photos = Photos(i.read(), post.id)
+            if 'photo_from_review' not in request.form:
+                print(123)
+                user = Users.return_user_to_db(session['userEmail'])
+                post_title=request.form['post_title']
+                category=request.form['category']
+                cost = request.form['post_cost']
+                photo = request.files.getlist('post_photo')[0:10]
+                description = request.form['post_description']
+                phone_number = request.form['phone_number']
+                whatsapp_phone_number = request.form['whatsapp_phone_number']
+                whatsapp_link = f'https://wa.me/{phone_numbers_to_waLink(whatsapp_phone_number)}'
+                deactivate_date = datetime.today() + timedelta(days=14)
+                delete_date = deactivate_date + timedelta(days=14)
+                status = True
+                advertisement = False
+                facility = request.form['radio']
+                post_date = datetime.today()
+                post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility)
+                for i in photo:
+                    photos = Photos(i.read(), post.id)
+        
+                return redirect(url_for('index', lang = session['lang']))
+            else:
+                user = Users.return_user_to_db(session['userEmail'])
+                post_title=request.form['post_title']
+                category=request.form['category']
+                cost = request.form['post_cost']
+                photo = request.form['photos_from_review']
+                description = request.form['post_description']
+                phone_number = request.form['phone_number']
+                whatsapp_phone_number = request.form['whatsapp_phone_number']            
+                post = {"user":user, "post_title":post_title, "phone_number":phone_number, "category":category, "cost":cost, "description":description, "photos":photo}
+                return render_template('newPost.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), phone_number=user_is['phone_number'], whatsapp_number = user_is['whatsapp_number'], bc = boolclicked[-1], post=post)
 
-        return render_template('newPost.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), phone_number=user_is['phone_number'], whatsapp_number = user_is['whatsapp_number'])
+
+        return render_template('newPost.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), phone_number=user_is['phone_number'], whatsapp_number = user_is['whatsapp_number'], bc = boolclicked[-1])
     else:
         return redirect(url_for('login'))
 
@@ -300,7 +287,8 @@ def edit_post(post_id, lang):
     
     lenOfPostPhotos = len(post['photos'])
     post['whatsapp_link'] = post['whatsapp_link'].split('/')[-1]
-    return render_template('editPost.html', post = post, menu = menu, username=session['userName'], uuurl='myprofile', lenOfUserName = len(session['userName']), lang = session['lang'], lenOfPostPhotos = lenOfPostPhotos)
+    other = 7- lenOfPostPhotos
+    return render_template('editPost.html', post = post, menu = menu, username=session['userName'], uuurl='myprofile', lenOfUserName = len(session['userName']), lang = session['lang'], lenOfPostPhotos = lenOfPostPhotos, other = other)
 
 dictType = {
             '1': 'Услуги',
@@ -324,30 +312,9 @@ def content(post_id, lang):
         return redirect(url_for('content', lang = 'rulang'))
     session['lang'] = lang
     post = Posts.show_one_post(post_id)
-    print(post['category'])
+    # print(post['category'])
     data = post['category']
-    if data == 'Услуги':
-        category = 1
-    elif data == 'Электроника':
-        category = 2
-    elif data == 'Личные вещи':
-        category = 3
-    elif data == 'Детям':
-        category = 4
-    elif data == 'Для Бизнеса':
-        category = 5
-    elif data == 'Животные':
-        category = 6
-    elif data == 'Для дома':
-        category = 7
-    elif data == 'Работа':
-        category = 8
-    elif data == 'Хобби и спорт':
-        category = 9
-    elif data == 'Недвижимость':
-        category = 10
-    elif data == 'Транспорт':
-        category = 11
+    category = catData[data]
     
     user_logo = Users.return_user_logo(post['user_id'])
     related_posts = Posts.category_filter(category)
@@ -402,7 +369,7 @@ def payments(lang):
     else:
         return redirect(url_for('login'))
 
-
+photo_inf = []
 @app.route('/review/<post_id>/<lang>', methods = ["POST", 'GET'])
 def review(lang, post_id = 0):
     
@@ -438,7 +405,7 @@ def review(lang, post_id = 0):
 
             post_inf = {'title': post_title, 'username':session['userName'], 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date.strftime("%m/%d/%Y %H:%M"), 'whatsapp_link':whatsapp_link, 'facility':facility_inf, 'photos':photo_inf}
             user_logo = Users.return_user_logo(Users.return_user_id(session['userEmail']))
-            return render_template('content.html', post = post_inf, menu=menu, title=title, username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo)
+            return render_template('content.html', post = post_inf, menu=menu, title=title, username = session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), review = True, cat = dictValues, user_logo=user_logo, photo = photo)
         else:
             
             user = Users.return_user_to_db(session['userEmail'])
@@ -489,7 +456,7 @@ def favorites(lang):
             return redirect(url_for('', lang = 'rulang'))
         session['lang'] = lang
         posts = favPosts.show_favPosts(session['userEmail'])
-        print(dictType['1'])
+        # print(dictType['1'])
         return render_template('favPosts.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], cat = dictValues, dictType = dictType, dataCat = dataCat, lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login'))
@@ -524,10 +491,14 @@ def logout(lang='rulang'):
 @app.route('/forgot', methods=['POST','GET'])
 def xlogin():
     if request.method=="POST":
-        user_email = request.form['uname']
-        token = s.dumps(user_email, salt='email-confirm')
-        message = f'Это письмо было отправлено для сброса пароля на сайте usharal.kz пользователя с электронным адресом "{user_email}"\nЕсли вы не хотите изменять пароль, не открывайте ссылку и не отправляйте ее никому\n' + url_for('confirm_email', token=token, email=user_email, _external=True)
-        send_link(message, user_email)
+        try:
+            user_email = request.form['uname']
+            token = s.dumps(user_email, salt='email-confirm')
+            message = f'Это письмо было отправлено для сброса пароля на сайте usharal.market пользователя с электронным адресом "{user_email}"\nЕсли вы не хотите изменять пароль, не открывайте ссылку и не отправляйте ее никому\n' + url_for('confirm_email', token=token, email=user_email, _external=True)
+            send_link(message, user_email)
+            flash(f'Письмо было отправлено на почту {user_email}', 'success')
+        except:
+            flash('Что-то пошло не так, пожалуйста повторите попытку', 'red')
 
     return render_template('unableToLog.html', title = title)
 
@@ -553,13 +524,14 @@ def error_page(error):
         return render_template('error_page.html', menu = menu, lang=session['lang'], lenOfUserName = len(session['userName']))
     else:
         return render_template('error_page.html', menu = menu, lang=session['lang'], lenOfUserName = 1)
-@app.errorhandler(AttributeError)
-@app.errorhandler(KeyError)
-def attributeError_habdler(error):
-    print('ОШИБКА')
-    session.pop('userEmail', None)
-    session.pop('userName', None)
-    return redirect(url_for('index', lang = session['lang'] ))
+    # return redirect(url_for('index', lang =))
+# @app.errorhandler(AttributeError)
+# @app.errorhandler(KeyError)
+# def attributeError_habdler(error):
+#     print('ОШИБКА')
+#     session.pop('userEmail', None)
+#     session.pop('userName', None)
+#     return redirect(url_for('index', lang = session['lang'] ))
 
 
 

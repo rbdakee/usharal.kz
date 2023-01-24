@@ -6,34 +6,27 @@ function myFunction(div) {
     document.querySelector(`.${div} #myDropdown`).classList.toggle("show");
     
 }
-const animOut =(imgBox) =>{
-    // $('.imageBox2 div').css('display', 'none')
-    if(imgArr[+imgBox.getAttribute('count')] != '../static/img/Vector1.svg'){
-        obj = imgBox.classList[0]
-        $(`.${obj} .backColor.active`).removeClass('active')
-        $(`.${obj} div.deleteAnim`).css('animation', 'myAnimOut 0.8s ease 0s 1 normal forwards')
-    }
-}
-const anim =(imgBox) =>{
-    if(imgArr[+imgBox.getAttribute('count')] != '../static/img/Vector1.svg'){
-        obj = imgBox.classList[0]
-        $(`.${obj} div.deleteAnim`).css('animation', 'myAnim 0.8s ease 0s 1 normal forwards')
-        $(`.${obj} div.deleteAnim`).css('display', 'flex')
-        $(`.${obj} .backColor`).addClass('active')
-    }
-        
-}
+
 
 function deleteAll(){
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox2.imageBox > img").src = '/static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox3.imageBox > img").src = '/static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox4.imageBox > img").src = '/static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox5.imageBox > img").src = '/static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox6.imageBox > img").src = '/static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox7.imageBox > img").src = '/static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox8.imageBox > img").src = '/static/img/Vector1.svg';
-    document.querySelector("body > div.all > section > form > div.pageForNewPostChild > div.mainBody > div.informationAboutProduct > div.bigBoxForImages > div > div.imageBox1 > input").value = null; 
+    document.querySelectorAll('.imageBox img').forEach((each, index) => {
+        each.src =  '/static/img/Vector1.svg';
+        each.style.width = '50px'
+        each.style.height='50px'
+        each.style.objectFit = null
+        imgArr[index] = '../static/img/Vector1.svg'
+     })
+     document.querySelector('.imageBox1 input').value = '';
+     document.querySelector('.imageBox1 input').disabled = false;
+     document.querySelector('.imageBox1 img').setAttribute('src', '/static/img/Vector.svg')
+     document.querySelector('.imageBox1 img').setAttribute('style', 'position:absolute; z-index:1')
+     document.querySelector('.imageBox1').classList.remove('imageBox')
+     document.querySelector('.imageBox1').classList.remove('imageOfUserChoose')
+     document.querySelector('.imageBox1').objectFit = null
 
+
+    
+    
 }
 
 const deleteFunction = (btn) => {
@@ -48,7 +41,7 @@ const deleteFunction = (btn) => {
     btn.parentNode.previousElementSibling.previousElementSibling.style.objectFit = null
     
     
-    document.querySelector('.absolute').value = ''
+    // document.querySelector('.absolute').value = ''
     document.querySelectorAll('.imageBox').forEach((each, index) => {
         
         if(imgArr[index] != '../static/img/Vector1.svg'){
@@ -62,7 +55,7 @@ const deleteFunction = (btn) => {
             document.querySelector(`.${each.classList[0]} img`).style.objectFit = null
         }
         document.querySelector(`.${each.classList[0]} img`).setAttribute('src', imgArr[index])
-        document.querySelector('.absolute').value += ` ${imgArr[index]}` + ' '
+        // document.querySelector('.absolute').value += ` ${imgArr[index]}` + ' '
     })
     
 }
@@ -246,6 +239,7 @@ const outLi = (each, boolValue,index) => {
         
         
 }
+var reader = []
 var chooseCategory = document.querySelector('.chooseCategory div')
 chooseCategory.addEventListener('click', () => {
     // console.log(document.querySelectorAll('.ul')[1]);
@@ -262,37 +256,49 @@ var imgArr= []
 var imgArr = ['../static/img/Vector1.svg', '../static/img/Vector1.svg', '../static/img/Vector1.svg','../static/img/Vector1.svg','../static/img/Vector1.svg','../static/img/Vector1.svg','../static/img/Vector1.svg']
 var finalImgArr = []
 function showFile(input) {
+    input.disabled = true
     if(imgArr[6] == '../static/img/Vector1.svg'){
         var files = input.files || input.currentTarget.files;
+        console.log(files)
 
-    var reader = [];
+    reader = [];
     var images = document.querySelectorAll('.imageOfUser');
     var name;
+    var bImgClicked = false
     for (var i in files) {
         if (files.hasOwnProperty(i)) {
-            document.querySelector('.absolute').value = '';
+            // document.querySelector('.absolute').value = '';
             name = 'file' + i;
-            
+           
             reader[i] = new FileReader();
             reader[i].readAsDataURL(input.files[i]);
-            
+            console.log(reader[i])
             
             reader[i].onload = function (e) {
                 // console.log(document.getElementById(name));
                 images[i].src = e.target.result;
                 imgArr.unshift(e.target.result)
-                if(imgArr.length > 7){
+                if(imgArr.length > 8){
                    imgArr.pop()
                 }
                 console.log(imgArr)
                 document.querySelectorAll('.imageOfUser').forEach((each, index) => {
                     if(imgArr[index] != '../static/img/Vector1.svg'){
-                                    each.style.width = '100%'
-                                    each.style.height = '100%'
+                                    bImgClicked = true
+                                    if(each.classList.contains('imageOfUserChoose')){
+                                        each.style.width='115px'
+                                        each.style.height='109px'
+                                        each.style.borderRadius='10px'
+                                    }
+                                    else{
+                                        each.style.width = '100%'
+                                        each.style.height = '100%'
+                                        
+                                    }
                                     document.querySelectorAll('.imageOfUser')[index].style.objectFit = 'cover'
                                 }
                     each.src = imgArr[index]
-                    document.querySelector('.absolute').value += ` ${imgArr[index]}` + ' '
+                    // document.querySelector('.absolute').value += ` ${imgArr[index]}` + ' '
                 })
             };
             
@@ -447,9 +453,17 @@ var currencyMask = IMask(
 
 const freeField = (el) => {
     if (el.checked){
-        document.querySelector('.costBlock .inner.lng-costInTenge').value = '₸ 0'
+        document.querySelector('.costBlock .inner.lng-costInTenge').classList.add('hiddenInput')
+        
+        document.querySelector('.costBlock .inner.lng-costInTenge').value = -1
     }
 } 
+const field = (el) => {
+    if(el.checked){
+        document.querySelector('.costBlock .inner.lng-costInTenge').classList.remove('hiddenInput')
+        document.querySelector('.costBlock .inner.lng-costInTenge').value = ''
+    }
+}
 
 
 const checkForFree = (el) => {
@@ -482,6 +496,16 @@ const titleProduct = (el, index) => {
         disableButton(true)
     }
 }
+const location1 = (el, index) => {
+    if(!index){
+        const textarea1 = document.querySelectorAll("textarea")[1];
+        const count1 = document.querySelectorAll(".counter .currentValue")[1];
+        const text1 = textarea1.value;
+        const textlength1= textarea1.value.length;
+        count1.innerText = `${textlength1}`;
+    }
+    
+}
 const disableButton = (value) => {
     document.querySelectorAll('.finalButtonDiv button').forEach(each => {
         each.disabled = value
@@ -489,15 +513,73 @@ const disableButton = (value) => {
 }
 
 
-ch = document.getElementById('default_phone_number');
-inp = document.getElementById('phone_number_input');
-phone_number = document.getElementById('phone_number').value;
-if (ch.checked){
-    inp.hidden = true;
-    phone_number.hidden = false;
-    inp.value = phone_number;
-}
-else if(ch.checked == false){
-    inp.hidden = false;
-    phone_number.hidden = true;
-}
+// ch = document.getElementById('default_phone_number');
+// inp = document.getElementById('phone_number_input');
+// phone_number = document.getElementById('phone_number').value;
+// if (ch.checked){
+//     inp.hidden = true;
+//     phone_number.hidden = false;
+//     inp.value = phone_number;
+// }
+// else if(ch.checked == false){
+//     inp.hidden = false;
+//     phone_number.hidden = true;
+// }
+
+// if(document.querySelector('.absolute').value == 1){
+//     alert()
+//     var input = document.querySelector('.bigBoxForImages input')
+//     var files = input.files || input.currentTarget.files
+//     reader = []
+//     var images = document.querySelectorAll('.imageOfUser');
+//         var name;
+//         for (var i in files) {
+//             if (files.hasOwnProperty(i)) {
+//                 // document.querySelector('.absolute').value = '';
+//                 // name = 'file' + i;
+            
+//                 reader[i] = new FileReader();
+//                 reader[i].readAsDataURL(input.files[i]);
+//                 console.log(reader[i])
+                
+//                 reader[i].onload = function (e) {
+//                     images[i].src = e.target.result
+//                 }
+// }
+//         }
+//     }
+
+// if(imgArr[6] == '../static/img/Vector1.svg'){
+//     var files = input.files || input.currentTarget.files;
+//     console.log(files)
+
+// reader = [];
+// var images = document.querySelectorAll('.imageOfUser');
+// var name;
+// for (var i in files) {
+//     if (files.hasOwnProperty(i)) {
+//         // document.querySelector('.absolute').value = '';
+//         name = 'file' + i;
+       
+//         reader[i] = new FileReader();
+//         reader[i].readAsDataURL(input.files[i]);
+//         console.log(reader[i])
+        
+//         reader[i].onload = function (e) {
+//             // console.log(document.getElementById(name));
+//             images[i].src = e.target.result;
+//             imgArr.unshift(e.target.result)
+//             if(imgArr.length > 7){
+//                imgArr.pop()
+//             }
+//             console.log(imgArr)
+//             document.querySelectorAll('.imageOfUser').forEach((each, index) => {
+//                 if(imgArr[index] != '../static/img/Vector1.svg'){
+//                                 each.style.width = '100%'
+//                                 each.style.height = '100%'
+//                                 document.querySelectorAll('.imageOfUser')[index].style.objectFit = 'cover'
+//                             }
+//                 each.src = imgArr[index]
+//                 // document.querySelector('.absolute').value += ` ${imgArr[index]}` + ' '
+//             })
+//         };

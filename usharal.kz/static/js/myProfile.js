@@ -72,7 +72,7 @@ liList.forEach(each =>{
        
 })
 var phoneMask = IMask(
-    document.querySelector('.profileNum'), {
+    document.querySelectorAll('.profileNum')[2], {
     
       mask: '+{7} (000) 000-00-00'
     });
@@ -156,4 +156,9 @@ function prevPassword(el){
         document.querySelector('.boxConfirm input').classList.remove('activeInput')
         document.querySelector('.confirmButtonLine .lng-changeNew').disabled = false   
     }
+}
+const deletePic = () => {
+    document.querySelector('form .imageBoxProfile img').src = '../static/img/Vector.svg'
+    document.querySelector('.changeProf img').style.width = '50px'
+        document.querySelector('.changeProf img').style.height = '50px'
 }

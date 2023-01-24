@@ -1,5 +1,5 @@
 import base64
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from types import NoneType
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -205,6 +205,7 @@ class Posts(db.Model):
             deactivate_date = posts[i].deactivate_date.strftime("%m/%d/%Y %H:%M")
             delete_date = posts[i].delete_date.strftime("%m/%d/%Y %H:%M")
             whatsapp_link = posts[i].whatsapp_link
+            status = posts[i].status
             advertisement = posts[i].advertisement
             facility = posts[i].facility
             if facility == 1:
@@ -217,7 +218,7 @@ class Posts(db.Model):
                 photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
             except:
                 photos = 0
-            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'photos':photos, 'advertisement':advertisement, 'facility':facility})
+            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, 'photos':photos, 'advertisement':advertisement, 'facility':facility})
         postss.reverse()
         return postss
 
@@ -266,6 +267,7 @@ class Posts(db.Model):
                 facility = 'Отдам даром'
             try:
                 photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
+                print(type(photos))
             except:
                 photos = 0
             postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, "facility":facility, 'photos':photos})
@@ -398,6 +400,7 @@ class Posts(db.Model):
             deactivate_date = post.deactivate_date.strftime("%m/%d/%Y %H:%M")
             delete_date = post.delete_date.strftime("%m/%d/%Y %H:%M")
             whatsapp_link = post.whatsapp_link
+            status = post.status
             facility = post.facility
             if facility == 1:
                 facility = "Цена"
@@ -409,7 +412,7 @@ class Posts(db.Model):
                 photos = base64.b64encode(post.photo[0].data).decode('ascii')
             except:
                 photos = 0
-            post_main = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'facility':facility, 'photos':photos}
+            post_main = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, 'facility':facility, 'photos':photos}
             all_posts.append(post_main)
         return all_posts
 
