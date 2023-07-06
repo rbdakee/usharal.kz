@@ -1,19 +1,14 @@
 import base64
-from datetime import datetime, timedelta
-from types import NoneType
+from datetime import datetime, timedelta, timezone
+# from types import NoneType
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config["SECRET_KEY"] = 'jp0?ad[1-=-0-`94mpgf-pjmwr3;2owdakdnw'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
-'''
-from db import db
-db.create_all()
-exit()
-'''
 
 
 class Users(db.Model):
@@ -103,11 +98,19 @@ class Users(db.Model):
 
 def registration(username, email, password):
     user = Users.query.filter_by(email=email).first()
-    if type(user) == NoneType:
+    if user == None:
         user = Users(username=username, email=email, password=password)
         return f'Зарегестрирован новый пользователь {username}\nEmail: {email}'
     else:
         return 'Пользователь с таким Email уже существует!'
+    
+
+class Payments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    purchase_date = db.Column(db.DateTime)
+    cost = db.Column(db.String(100))
+    check = db.Column((db.LargeBinary))
+    type = db.Column(db.String(255))
 
 class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -126,11 +129,13 @@ class Posts(db.Model):
     view_counter = db.Column(db.Integer)
     fav_counter = db.Column(db.Integer)
     facility = db.Column(db.Integer)
+    email = db.Column(db.String(255))
+    location = db.Column(db.String(150))
     photo = db.relationship('Photos', backref='posts')
     favpost = db.relationship('favPosts', backref = 'posts')
 
 
-    def __init__(self, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility):
+    def __init__(self, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility, email, location):
         self.user = user.id
         self.post_title = post_title
         self.phone_number = phone_number
@@ -144,6 +149,8 @@ class Posts(db.Model):
         self.status = status
         self.advertisement = advertisement
         self.facility = facility
+        self.email = email
+        self.location = location
         self.view_counter = 0
         self.fav_counter = 0
         db.session.add(self)
@@ -152,7 +159,7 @@ class Posts(db.Model):
 
 
 
-    def edit_post(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility):
+    def edit_post(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility, email, location):
         post = Posts.query.filter_by(id = id).first()
         post.user = user.id
         post.post_title = post_title
@@ -167,6 +174,8 @@ class Posts(db.Model):
         post.status = status
         post.advertisement = advertisement
         post.facility = facility
+        post.email = email
+        post.location = location
         db.session.commit()
 
     def show_all_posts():
@@ -201,10 +210,11 @@ class Posts(db.Model):
 
             cost = posts[i].cost
             description = posts[i].description
-            post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
-            deactivate_date = posts[i].deactivate_date.strftime("%m/%d/%Y %H:%M")
-            delete_date = posts[i].delete_date.strftime("%m/%d/%Y %H:%M")
+            post_date = posts[i].post_date.strftime("%d/%m/%Y %H:%M")
+            deactivate_date = posts[i].deactivate_date.strftime("%d/%m/%Y %H:%M")
+            delete_date = posts[i].delete_date.strftime("%d/%m/%Y %H:%M")
             whatsapp_link = posts[i].whatsapp_link
+            status = posts[i].status
             advertisement = posts[i].advertisement
             facility = posts[i].facility
             if facility == 1:
@@ -217,7 +227,7 @@ class Posts(db.Model):
                 photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
             except:
                 photos = 0
-            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'photos':photos, 'advertisement':advertisement, 'facility':facility})
+            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, 'photos':photos, 'advertisement':advertisement, 'facility':facility})
         postss.reverse()
         return postss
 
@@ -252,9 +262,9 @@ class Posts(db.Model):
                 category = 'Транспорт'
             cost = posts[i].cost
             description = posts[i].description
-            post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
-            deactivate_date = posts[i].deactivate_date.strftime("%m/%d/%Y %H:%M")
-            delete_date = posts[i].delete_date.strftime("%m/%d/%Y %H:%M")
+            post_date = posts[i].post_date.strftime("%d/%m/%Y %H:%M")
+            deactivate_date = posts[i].deactivate_date.strftime("%d/%m/%Y %H:%M")
+            delete_date = posts[i].delete_date.strftime("%d/%m/%Y %H:%M")
             whatsapp_link = posts[i].whatsapp_link
             status = posts[i].status
             facility = posts[i].facility
@@ -266,6 +276,7 @@ class Posts(db.Model):
                 facility = 'Отдам даром'
             try:
                 photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
+                print(type(photos))
             except:
                 photos = 0
             postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, "facility":facility, 'photos':photos})
@@ -305,9 +316,9 @@ class Posts(db.Model):
                 category = 'Транспорт'
             cost = posts[i].cost
             description = posts[i].description
-            post_date = posts[i].post_date.strftime("%m/%d/%Y %H:%M")
-            deactivate_date = posts[i].deactivate_date.strftime("%m/%d/%Y %H:%M")
-            delete_date = posts[i].delete_date.strftime("%m/%d/%Y %H:%M")
+            post_date = posts[i].post_date.strftime("%d/%m/%Y %H:%M")
+            deactivate_date = posts[i].deactivate_date.strftime("%d/%m/%Y %H:%M")
+            delete_date = posts[i].delete_date.strftime("%d/%m/%Y %H:%M")
             whatsapp_link = posts[i].whatsapp_link
             status = posts[i].status
             view_counter = posts[i].view_counter
@@ -362,13 +373,15 @@ class Posts(db.Model):
             category = 'Транспорт'
         cost = posts.cost
         description = posts.description
-        post_date = posts.post_date.strftime("%m/%d/%Y %H:%M")
-        deactivate_date = posts.deactivate_date.strftime("%m/%d/%Y %H:%M")
-        delete_date = posts.delete_date.strftime("%m/%d/%Y %H:%M")
+        post_date = posts.post_date.strftime("%d/%m/%Y %H:%M")
+        deactivate_date = posts.deactivate_date.strftime("%d/%m/%Y %H:%M")
+        delete_date = posts.delete_date.strftime("%d/%m/%Y %H:%M")
         whatsapp_link = posts.whatsapp_link
         view_counter = posts.view_counter
         fav_counter = posts.fav_counter
         facility = posts.facility
+        email = posts.email
+        location = posts.location
         if facility == 1:
             facility = "Цена"
         elif facility == 2:
@@ -378,7 +391,7 @@ class Posts(db.Model):
         photos = []
         for j in range(len(posts.photo)):
             photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
-        post = {'id':id, 'user_id': user_id, 'userEmail':userEmail, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, "view_counter":view_counter, "fav_counter":fav_counter, 'facility':facility, 'photos':photos}
+        post = {'id':id, 'user_id': user_id, 'userEmail':userEmail, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, "view_counter":view_counter, "fav_counter":fav_counter, 'facility':facility, 'photos':photos, 'email':email, 'location':location}
         return post
 
     def show_several_posts(postsId_list):
@@ -394,10 +407,11 @@ class Posts(db.Model):
             category = post.category
             cost = post.cost
             description = post.description
-            post_date = post.post_date.strftime("%m/%d/%Y %H:%M")
-            deactivate_date = post.deactivate_date.strftime("%m/%d/%Y %H:%M")
-            delete_date = post.delete_date.strftime("%m/%d/%Y %H:%M")
+            post_date = post.post_date.strftime("%d/%m/%Y %H:%M")
+            deactivate_date = post.deactivate_date.strftime("%d/%m/%Y %H:%M")
+            delete_date = post.delete_date.strftime("%d/%m/%Y %H:%M")
             whatsapp_link = post.whatsapp_link
+            status = post.status
             facility = post.facility
             if facility == 1:
                 facility = "Цена"
@@ -409,7 +423,7 @@ class Posts(db.Model):
                 photos = base64.b64encode(post.photo[0].data).decode('ascii')
             except:
                 photos = 0
-            post_main = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'facility':facility, 'photos':photos}
+            post_main = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, 'facility':facility, 'photos':photos}
             all_posts.append(post_main)
         return all_posts
 
@@ -437,6 +451,26 @@ class Posts(db.Model):
         posts = Posts.query.filter_by(id = post_id).first()
         posts.status = False
         db.session.commit()
+
+    def search_posts(search_data, category):
+        posts_for_1_step = Posts.show_all_posts()
+        posts = []
+        searchs = search_data.split()
+        for post in posts_for_1_step:
+            for data in searchs:
+                if category!=0:
+                    titl = post['title'].lower()
+                    titl_search = titl.replace(' ', '')
+                    desc = post['description'].lower()
+                    desc_search = desc.replace(' ', '')
+                    if (data.lower() in titl_search.replace(' ', '') or data.lower() in desc_search.replace(' ', '')) and post['category']==category:
+                        posts.append(post)
+                else:
+                    if data.lower() in titl_search.replace(' ', '') or data.lower() in desc_search.replace(' ', ''):
+                        posts.append(post)
+        return posts
+
+
       
 
 
@@ -482,14 +516,28 @@ class favPosts(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def show_favPosts(user_email):
+    def show_favPosts(user_email, search_data = None):
         user = Users.query.filter_by(email=user_email).first()
         user_id = user.id
-        posts = favPosts.query.filter_by(user_id=user_id).all()
+        first_posts = favPosts.query.filter_by(user_id=user_id).all()
         postsId = []
-        for i in posts:
+        for i in first_posts:
             postsId.append(i.post_id)
-        return Posts.show_several_posts(postsId)
+        if search_data!=None:
+            posts_for_1_step = Posts.show_several_posts(postsId)
+            posts = []
+            searchs = search_data.split()
+            for post in posts_for_1_step:
+                for data in searchs:
+                    titl = post['title'].lower()
+                    titl_search = titl.replace(' ', '')
+                    desc = post['description'].lower()
+                    desc_search = desc.replace(' ', '')
+                    if data.lower() in titl_search.replace(' ', '') or data.lower() in desc_search.replace(' ', ''):
+                        posts.append(post)
+        else:
+            posts = Posts.show_several_posts(postsId)
+        return posts
     
     def checkUserFavPosts(user_email, post_id):
         user = Users.query.filter_by(email=user_email).first()
@@ -537,3 +585,6 @@ class favPosts(db.Model):
         for post in posts:
             posts_id.append(post.post_id)
         return posts_id
+
+
+

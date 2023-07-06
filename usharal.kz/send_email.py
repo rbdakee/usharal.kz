@@ -4,7 +4,7 @@ import smtplib
 
 def send_link(body, email_receiver):
     email_sender = 'dakee088@gmail.com'
-    email_password = 'zkxabqaddltydqfj'
+    email_password = 'xhflcxeqzamgnyxf'
     subject = 'СБРОСИТЬ ПАРОЛЬ'
 
     em = EmailMessage()
@@ -19,6 +19,4 @@ def send_link(body, email_receiver):
         smtp.login(email_sender, email_password)
         smtp.sendmail(email_sender, email_receiver, em.as_string())
         print('Письмо отправлено')
-
-
 

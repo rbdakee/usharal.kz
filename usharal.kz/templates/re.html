@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>{{title}}</title>
     <style>
@@ -144,11 +146,12 @@ form label{
         <form action="/update_password" method="post">
             <input type="hidden" name="email" value="{{email}}">
             <label for="newpsw">Введите новый пароль</label>
-            <input type="password" placeholder="Новый пароль" name="newpsw" required>
+            <input type="password" placeholder="Новый пароль" name="newpassword" required>
             <label for="newpsw2">Повторите пароль</label>
-            <input type="password" placeholder="Повторите пароль" name="newpsw2" required>
+            <input type="password" placeholder="Повторите пароль" name="newpassword2" required>
             <button type="submit">Изменить</button>
         </form>
     </section>
+
 </body>
 </html>
