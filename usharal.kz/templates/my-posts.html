@@ -134,11 +134,11 @@
             </a>
 
         </div>
-        <input type="text" class='lng-searchPlaceHolder search-input length ps-4 p-2 rounded border-1 border-secondary bg-transparent' placeholder="Поиск по заголовку" name="" id="">
+        <!-- <input type="text" class='lng-searchPlaceHolder search-input length ps-4 p-2 rounded border-1 border-secondary bg-transparent' placeholder="Поиск по заголовку" name="" id=""> -->
 
     </div>
 
-    <main class="w-100 active-notactive openActive">
+    <main class="w-100 active-notactive openActive" style="margin-top: -80px;">
         <div class="posts">
             {% for post in posts %}
             {% if post.status %}
@@ -155,7 +155,8 @@
                             <div class="ps-5 text-secondary text-dissapear" >{{post.facility}}</div>
                         </div>
                         <div class="d-flex mb-2 dates">
-                            <div class="text-secondary" style="font-size: 14px; margin-right: 40px;"><i class="fa-regular fa-calendar-plus pe-1 " style="color: #6e6e6e;"></i> - 04/22/2023 10:30</div>
+                            <div class="text-secondary" style="font-size: 14px; margin-right: 40px;"><i class="fa-regular fa-calendar-plus pe-1 " style="color: #6e6e6e;"></i> - {{post.post_date}}</div>
+                            <div class="text-secondary" style="font-size: 14px; margin-right: 40px;"><i class="fa-regular fa-calendar-minus pe-1 " style="color: #6e6e6e;"></i> - {{post.deactivate_date}}</div>
                         </div>
                         <div class="d-flex w-100 justify-content-between pe-5 like-buttons">
                             <div class="d-flex">
@@ -183,7 +184,7 @@
             
     </main>
 
-    <main2 class="w-100 active-notactive openNotActive">
+    <main2 class="w-100 active-notactive openNotActive" style="margin-top: -80px;">
         <div class="posts">
             {% for post in posts %}
             {% if not post.status %}
@@ -200,7 +201,8 @@
                             <div class="ps-5 text-secondary text-dissapear" >{{post.facility}}</div>
                         </div>
                         <div class="d-flex mb-2 dates">
-                            <div class="text-secondary" style="font-size: 14px; margin-right: 40px;"><i class="fa-regular fa-calendar-plus pe-1 " style="color: #6e6e6e;"></i> - 04/22/2023 10:30</div>
+                            <div class="text-secondary" style="font-size: 14px; margin-right: 40px;"><i class="fa-regular fa-calendar-minus pe-1 " style="color: #6e6e6e;"></i> - {{post.deactivate_date}}</div>
+                            <div class="text-secondary" style="font-size: 14px; margin-right: 40px;"><i class="fas fa-trash-alt " style="color: #6e6e6e;"></i> - {{post.delete_date}}</div>
                         </div>
                         <div class="d-flex w-100 justify-content-between pe-5 like-buttons">
                             <div class="d-flex">
@@ -212,9 +214,9 @@
                                 <button class="buttons me-4"><a href="/edit_post/{{post.id}}/{{session['lang']}}"
                                     style="color: black; text-decoration:none;"
                                     class="lng-post_update">Редактировать</a></button>
-                                <button class="buttons"><a href="/post_deactivation/{{post.id}}/{{d_token}}/{{session['lang']}}"
+                                <button class="buttons"><a href="/post_activation/{{post.id}}/{{a_token}}/{{session['lang']}}"
                                     style="color: black; text-decoration:none;"
-                                    class="lng-post_deactivate">Деактивировать</a></button>
+                                    class="lng-post_deactivate">Активировать</a></button>
                             </div>
                             
                         </div>
@@ -235,13 +237,13 @@
         <div class="container p-4 d-flex justify-content-around">
          
         <div class="col-md-6 col-xs-12 me-1">
-            <h4 class="textF text-center text-warning">Usharal.kz</h4>
-            <p>@ 2022 usharal.kz - все права<br> защищены</p>
+            <h4 class="textF text-center text-warning">usharal.market</h4>
+            <p>@ 2023 usharal.market - все права<br> защищены</p>
         </div>
         <div class="col-md-6 col-xs-12 ms-1">
             <h4 class="textF text-center text-warning">Контакты</h4>
-            <p>usharal_kz@gmail.com</p>
-            <p>+7(705) 332 2343</p>
+            <p>usharal.market@gmail.com</p>
+            <p>+7 (705) 685 80 00</p>
         </div>
 
         </div>

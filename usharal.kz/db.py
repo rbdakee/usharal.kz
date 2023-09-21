@@ -60,8 +60,8 @@ class Message(db.Model):
             'username':user.username,
             'user_logo':Users.return_user_logo(user.id),
             'last_message':last_message,
-            'date':last_message_timestamp.strftime('%d/%m'),
-            'time':last_message_timestamp.strftime('%H:%M'),
+            'date':(last_message_timestamp+timedelta(hours=6)).strftime('%d/%m'),
+            'time':(last_message_timestamp+timedelta(hours=6)).strftime('%H:%M'),
             }
             chats.append(chat)
         
@@ -95,12 +95,12 @@ class Message(db.Model):
                 'sender': sender.id,
                 'sender_username': sender.username,
                 'message_content': message.content,
-                'timestamp': message.timestamp.strftime('%H:%M'),
+                'timestamp': (message.timestamp+timedelta(hours=6)).strftime('%H:%M'),
                 'is_sender': is_sender
             }
 
             # Extract the date from the timestamp and use it as the key
-            date_key = message.timestamp.strftime('%d/%m')
+            date_key = (message.timestamp+timedelta(hours=6)).strftime('%d/%m')
           
             chat_history_by_date[date_key].append(message_data)
 
@@ -518,6 +518,7 @@ class Posts(db.Model):
         posts.status = True
         posts.post_date = datetime.today()
         posts.deactivate_date = datetime.today() + timedelta(days=14)
+        posts.delete_date = datetime.today() + timedelta(days=28)
         db.session.commit()
 
     def post_to_vip(post_id):
@@ -554,7 +555,7 @@ class Posts(db.Model):
                             posts.append(post)
                 else:
                     if data.lower() in titl_search.replace(' ', '') or data.lower() in desc_search.replace(' ', ''):
-                        if post.status:
+                        if post['status']:
                             posts.append(post)
         return posts
 
