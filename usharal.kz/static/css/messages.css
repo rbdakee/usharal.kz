@@ -1,6 +1,18 @@
 body{
-    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+    /* overflow: hidden; */
+    height: 100vh;
+    width: 100%;
 }
+html, .mainBlock {
+    margin: 0;
+    padding: 0;
+  }
+  @viewport {
+    width: device-width;
+    zoom: 1.0;
+  }
 
 .chats{
     width: 100%;
@@ -94,6 +106,13 @@ body{
   /* For Firefox */
   /* You can customize the appearance of the scrollbar here */
 
+.mainBlock{
+    height: 100vh !important;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+}
+
 
 .chatDiv{
     
@@ -113,6 +132,7 @@ body{
     padding: 10px;
     width: 70%;
     /* height: 650px; */
+    height: 100%;
     background-color: white;
     display: flex;
     /* flex-direction: column; */
@@ -150,6 +170,7 @@ body{
     background-color: rgb(166, 195, 250);
     border-radius: 10px;
     margin: 5px;
+    overflow-x: hidden;
 }
 
 .messageTime{
@@ -221,7 +242,7 @@ body{
 
 }
 .inputTextArea{
-    width: 97%;
+    width: 100%;
     padding: 10px;
     border: none;
     border-bottom-right-radius: 10px;
@@ -246,17 +267,29 @@ h6 p{
     margin: 10px -10px;
     padding: 0px 10px;
 }
-.textMessage p{
-    margin-top: -3px;
-    margin-bottom: -3px;
+
+
+.textMessage{
+   
+    display: flex;
+    justify-content: flex-end;
+    max-width: 100%;
+
+    word-wrap: break-word !important;   
+    display: inline-block;
     
 }
+.textMessage p {
+    margin-top: -3px;
+    margin-bottom: -3px;
+}
+
 
 .topSpace{
     margin-top: 57px;
 }
 .lowerSpace{
-    height: 540px;
+    /* height: 540px; */
 }
 .profilePic{
     width: 50px;
@@ -304,6 +337,7 @@ h6 p{
 
 }   
 
+
 @media only screen and (max-width:628px) {
     
     .innerChat{
@@ -312,9 +346,17 @@ h6 p{
     
 }
 
-@media only screen and (max-width:460px) {
-
-  
+@media only screen and (max-width:500px) {
+    
+    .chatDiv{
+        height: 100vh !important;
+    }
+    .mainBlock{
+        height: 88vh !important;
+        display: flex;
+        flex-direction: column;
+        align-content: space-between;
+    }
     .innerTopChat{
         width: 100%;
         border-radius: 0px;
@@ -324,17 +366,27 @@ h6 p{
     }
     .innerTypeChat{
         width: 100%;
+        border-radius: 0px !important;
     }
-    
     .topChat{
-        margin-top: 0px;
+        margin-top: 50px;
     }
-    .lowerSpace{
+    /* .lowerSpace{
         height: 0px;
-    }
+    }   */
     body{
         overflow: auto;
     }
+}
+
+
+
+@media only screen and (max-width:460px) {
+
+  
+    
+    
+    
 }   
 
 @media only screen and (max-width:414px) {
@@ -348,3 +400,4 @@ h6 p{
     }
     
 }
+

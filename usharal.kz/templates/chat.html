@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{title}} - Messages</title>
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -23,6 +24,11 @@
             rel="stylesheet"
             href="{{url_for('static', filename='css/messages.css')}}"
         />
+        <style>
+            body{
+                overflow: hidden !important;
+            }
+        </style>
     </head>
     <header id="header" class="backgroundNavbar fixed-top">
         <nav class="navbar navbar-expand-lg navbar-dark">
@@ -223,7 +229,7 @@
 
         <!-- Navbar ends -->
 
-        <div class="topSpace"></div>
+        <!-- <div class="topSpace"></div> -->
 
         <!-- Categories -->
 
@@ -264,83 +270,88 @@
             </div>
         </div> -->
         <!-- chats -->
-        
+        <div class="mainBlock">
 
-        <div class="topChat">
-            <div class="innerTopChat">
-                <div style="display: flex;">
-                    <a style="display: flex; justify-content: center; align-items: center; margin-right: 10px;" href="/messages/{{lang}}">
-                        <img src="{{url_for('static', filename='/img/back.png')}}" width="25px" alt="go back">                
-                    </a>
-                    <div class="infoOfChat">
-                        {% if buddy_logo %}
-                        <img src="data:;base64, {{ buddy_logo }}" alt="avatar" class="profilePic" />
-                        {% else %}
-                        <img src="{{url_for('static', filename='img/user.svg')}}" alt="avatar" class="avatarImage" />
-                        {% endif %}
-                        <div style="margin-left: 20px;">
-                            <div style="color: black;">{{buddy_info.username}}</div>
-                            <!-- <div style="color: darkslategray; font-size: 13px;">Онлайн вчера в 23:49</div> -->
-                        </div>
-
-                    </div>
-                </div>
-                <div></div>
-            </div>
-        </div>
-        <input type="hidden" value="{{buddy_id}}" id="receiverId">
-
-        <div class="chatDiv">
-            <div class="innerChatDiv">
-                {% for date, messages in messages_by_date.items() %}
-                <ul id="messages">
-                    <!-- <hr> -->
-                <h6><p>{{date}}</p></h6>
-                <!-- <hr> -->
-                {% for message in messages %}
-                {% if not message.is_sender %}
-                <div class="personOne">
-                    <div class="personOneMessage">
-                        <div class="textMessage">
-                            {% for paragraph in message.message_content.split('\n') %}
-                            <p>{{ paragraph }}</p>
-                            {% endfor %}</div>
-                    </div>
-                    <div class="messageTime">{{ message.timestamp }}</div>
-                </div>
-                {% else %}
-                <div class="personTwo">
-                    <div class="personTwoMessage">
-                        <div class="textMessage">
-                            {% if '\n' in message.message_content %}
-                            {% for paragraph in message.message_content.split('\n') %}
-                            <p>{{ paragraph }}</p>
-                            {% endfor %}
+            <div class="topChat">
+                <div class="innerTopChat">
+                    <div style="display: flex;">
+                        <a style="display: flex; justify-content: center; align-items: center; margin-right: 10px;" href="/messages/{{lang}}">
+                            <img src="{{url_for('static', filename='/img/back.png')}}" width="25px" alt="go back">                
+                        </a>
+                        <div class="infoOfChat">
+                            {% if buddy_logo %}
+                            <img src="data:;base64, {{ buddy_logo }}" alt="avatar" class="profilePic" />
                             {% else %}
-                            {{message.message_content}}
+                            <img src="{{url_for('static', filename='img/user.svg')}}" alt="avatar" class="avatarImage" />
                             {% endif %}
+                            <div style="margin-left: 20px;">
+                                <div style="color: black;">{{buddy_info.username}}</div>
+                                <!-- <div style="color: darkslategray; font-size: 13px;">Онлайн вчера в 23:49</div> -->
+                            </div>
+    
                         </div>
                     </div>
-                    <div class="messageTime leftText">{{ message.timestamp }}</div>
+                    <div></div>
                 </div>
-                {% endif %}
+            </div>
+            <input type="hidden" value="{{buddy_id}}" id="receiverId">
+    
+            <div class="chatDiv">
+
+                <div class="innerChatDiv">
+                    {% for date, messages in messages_by_date.items() %}
+                    <ul id="messages">
+                        <!-- <hr> -->
+                    <h6><p>{{date}}</p></h6>
+                    <!-- <hr> -->
+                    {% for message in messages %}
+                    {% if not message.is_sender %}
+                    <div class="personOne">
+                        <div class="personOneMessage">
+                            <div class="textMessage">
+                                {% for paragraph in message.message_content.split('\n') %}
+                                <p>{{ paragraph }}</p>
+                                {% endfor %}</div>
+                        </div>
+                        <div class="messageTime">{{ message.timestamp }}</div>
+                    </div>
+                    {% else %}
+                    <div class="personTwo">
+                        <div class="personTwoMessage">
+                            <div class="textMessage">
+                                {% if '\n' in message.message_content %}
+                                {% for paragraph in message.message_content.split('\n') %}
+                                <p>{{ paragraph }}</p>
+                                {% endfor %}
+                                {% else %}
+                                {{message.message_content}}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="messageTime leftText">{{ message.timestamp }}</div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
                 {% endfor %}
-            </ul>
-            {% endfor %}
-                
+                    
+                </div>
+    
             </div>
 
-        </div>
-        <div class="typeChat">
-            <div class="innerTypeChat">
-                <textarea class="inputTextArea" id="message_input"></textarea>
-                <button class="sendMessageButton" onclick="sendMessage()">
-                    <img src="{{url_for('static', filename='/img/send-message.png')}}" class="sendMessage" alt="send">
-                </button>
+            <div class="typeChat">
+                <div class="innerTypeChat">
+                    <textarea class="inputTextArea" id="message_input"></textarea>
+                    <button class="sendMessageButton" onclick="sendMessage()">
+                        <img src="{{url_for('static', filename='/img/send-message.png')}}" class="sendMessage" alt="send">
+                    </button>
+                </div>
             </div>
+    
+    
         </div>
 
-
+        
 
         <!-- chats end -->
         <div class="lowerSpace" ></div>
