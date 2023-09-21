@@ -167,6 +167,7 @@ form.category {
 .textForImg {
   font-size: 13px;
   margin-top: 15%;
+  color: black;
 }
 
 /* main part where products located below*/
@@ -207,12 +208,14 @@ main{
 .product-image{
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  object-fit: cover;
   width: 200px;
   height: 171px;
 }
 
-/* .info-block */
+/* .info-block{} */
 .product-price{
+  white-space: nowrap;
   font-size: 20px;
   height: 15px;
   font-weight: bold;
@@ -226,8 +229,9 @@ main{
 
 .product-name{
   font-size: 17px;
-  height: 10px;
+  height: 24px;
   color: rgb(65, 65, 244);
+  display: hidden;
 }
 
 .product-category{
@@ -359,18 +363,20 @@ main{
 
 @media only screen and (max-width:768px) {
   .product-image{
- 
+    
     width: 150px;
     height: 151px;
   }
   .product{
     width: 150px;
-    height: 290px;
+    height: 300px;
     margin: 0px;
   }
   .innerMain{
     width: 664px;
   }
+
+  
 }
 
 @media only screen and (max-width:675px) {
@@ -383,7 +389,13 @@ main{
 @media only screen and (max-width:510px) {
 
   .innerMain{
-    width: 332px;
+    width: 412px;
+  }
+  .product{
+    width: 190px;
+  }
+  .product-image{
+    width: 100%;
   }
 }
 
@@ -393,4 +405,74 @@ main{
  .searchBtn{
   width: 50px;
  }
+}
+
+
+
+@media only screen and (max-width:437px) {
+  .innerMain{
+    width: 392px;
+  }
+  .product{
+    width: 180px;
+  }
+  .product-image{
+    width: 100%;
+  }
+}
+@media only screen and (max-width:409px) {
+  .innerMain{
+    /* width: 352px; */
+    width: 95%;
+  }
+  .product{
+    width: 175px;
+  }
+
+}
+ 
+
+@media only screen and (max-width:402px) {
+  .innerMain{
+    /* width: 352px; */
+    width: 372px;
+  }
+  .product{
+    width: 170px;
+  }
+
+}
+
+@media only screen and (max-width:372px) {
+  .innerMain{
+    /* width: 352px; */
+    width: 352px;
+  }
+  .product{
+    width: 160px;
+  }
+ 
+}
+
+@media only screen and (max-width:358px) {
+  .innerMain{
+    /* width: 352px; */
+    width: 332px;
+  }
+  .product{
+    width: 150px;
+  }
+ 
+}
+
+@media only screen and (max-width:332px) {
+  .innerMain{
+    /* width: 352px; */
+    width: 312px;
+    justify-content: center;
+  }
+  .product{
+    width: 250px;
+  }
+ 
 }

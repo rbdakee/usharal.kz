@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>error_page</title>
+
+    <style>
+        body{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(229,229,229);
+        }
+
+        .errorImg{
+            width: 50%;
+            height: 30%;
+        }
+
+        .errorDiv{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -150px;
+            font-family: sans-serif;
+            
+        }
+
+        .error_text{
+            text-align: center;
+            font-size: 2.4vw;
+        }
+
+        .linkText{
+            text-align: center;
+            font-size: 1.5vw;
+        }
+        @media (max-width: 768px) {
+            .error_text {
+              font-size: 20px;
+            }
+            .linkText { 
+              font-size: 16px;
+
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="errorDiv">
+        <img class="errorImg" src="{{url_for('static', filename='img/error_sign.png')}}">
+        <h1 class="error_text">Произошла некая ошибка</h1>
+        <a class = "linkText" href="/{{lang}}">Вернуться на главную</a>
+    </div>
+</body>
+</html>

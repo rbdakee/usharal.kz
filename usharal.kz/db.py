@@ -2,6 +2,7 @@ import base64
 from datetime import datetime, timedelta, timezone
 # from types import NoneType
 from flask import Flask
+from collections import defaultdict
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config["SECRET_KEY"] = 'jp0?ad[1-=-0-`94mpgf-pjmwr3;2owdakdnw'
@@ -9,6 +10,107 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 
+dataCat = {
+            1: 'Услуги',
+            2: 'Электроника',
+            3: 'Личные вещи',
+            4: 'Детям',
+            5: 'Для Бизнеса',
+            6: 'Животные', 
+            7: 'Для дома',
+            8: 'Работа',
+            9: 'Хобби и спорт',
+            10: 'Недвижимость',
+            11: 'Транпорт'
+        }
+
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False, default=db.func.now())
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __init__(self, content, sender_id, receiver_id):
+        self.content = content
+        self.sender_id = sender_id
+        self.receiver_id = receiver_id
+        db.session.add(self)
+        db.session.commit()
+
+    
+    def get_chatted_users_with_last_message(user_id):
+        latest_message_query = db.session.query(
+            Users,
+            Message.content,
+            Message.timestamp
+        ).filter(
+            db.or_(
+                db.and_(Users.id == Message.sender_id, Message.receiver_id == user_id),
+                db.and_(Users.id == Message.receiver_id, Message.sender_id == user_id)
+            )
+        ).order_by(Message.timestamp.desc()).distinct(Users.id)
+
+        chatted_users_with_last_message = latest_message_query.all()
+        chats = []
+        for user, last_message, last_message_timestamp in chatted_users_with_last_message:
+            chat = {
+            'user_id':user.id,
+            'username':user.username,
+            'user_logo':Users.return_user_logo(user.id),
+            'last_message':last_message,
+            'date':last_message_timestamp.strftime('%d/%m'),
+            'time':last_message_timestamp.strftime('%H:%M'),
+            }
+            chats.append(chat)
+        
+        last_chats = []
+        user_ids = []
+        for chat in chats:
+            if chat['user_id'] not in user_ids:
+                user_ids.append(chat['user_id'])
+                last_chats.append(chat)
+        return last_chats
+    
+
+
+    def get_chat_history(sender_id, receiver_id):
+        # Query for all messages exchanged between sender and receiver
+        messages = Message.query.filter(
+            ((Message.sender_id == sender_id) & (Message.receiver_id == receiver_id)) |
+            ((Message.sender_id == receiver_id) & (Message.receiver_id == sender_id))
+        ).order_by(Message.timestamp).all()
+
+        # Create a dictionary to store messages by date
+        chat_history_by_date = defaultdict(list)
+
+        for message in messages:
+            receiver = Users.query.get(message.receiver_id)
+            sender = Users.query.get(message.sender_id)
+            is_sender = sender.id == sender_id
+            message_data = {
+                'receiver': receiver.id,
+                'receiver_username': receiver.username,
+                'sender': sender.id,
+                'sender_username': sender.username,
+                'message_content': message.content,
+                'timestamp': message.timestamp.strftime('%H:%M'),
+                'is_sender': is_sender
+            }
+
+            # Extract the date from the timestamp and use it as the key
+            date_key = message.timestamp.strftime('%d/%m')
+          
+            chat_history_by_date[date_key].append(message_data)
+
+        # Convert the defaultdict to a regular dictionary
+        chat_history_by_date = dict(chat_history_by_date)
+
+        return chat_history_by_date
+
+    
+    
 
 
 class Users(db.Model):
@@ -22,6 +124,7 @@ class Users(db.Model):
     photo = db.relationship('Posts', backref='users')
     favPosts = db.relationship('favPosts', backref='users')
 
+
     def __init__(self, username, email, password, logo=None, phone_number=None):
         self.username = username
         self.email = email
@@ -30,6 +133,10 @@ class Users(db.Model):
         self.phone_number = phone_number
         db.session.add(self)
         db.session.commit()
+
+    def return_user_email_by_id(user_id):
+        user = Users.query.filter_by(id = user_id).first()
+        return user.email
 
     def return_user_password(user_email):
         user = Users.query.filter_by(email = user_email).first()
@@ -185,29 +292,7 @@ class Posts(db.Model):
             id = posts[i].id
             title = posts[i].post_title
             phone_number = posts[i].phone_number
-            if posts[i].category == 1:
-                category = 'Услуги'
-            elif posts[i].category == 2:
-                category = 'Электроника'
-            elif posts[i].category == 3:
-                category = 'Личные вещи'
-            elif posts[i].category == 4:
-                category = 'Детям'
-            elif posts[i].category == 5:
-                category = 'Для Бизнеса'
-            elif posts[i].category == 6:
-                category = 'Животные'
-            elif posts[i].category == 7:
-                category = 'Для дома'
-            elif posts[i].category == 8:
-                category = 'Работа'
-            elif posts[i].category == 9:
-                category = 'Хобби и спорт'
-            elif posts[i].category == 10:
-                category = 'Недвижимость'
-            elif posts[i].category == 11:
-                category = 'Транспорт'
-
+            category = dataCat[posts[i].category]
             cost = posts[i].cost
             description = posts[i].description
             post_date = posts[i].post_date.strftime("%d/%m/%Y %H:%M")
@@ -279,7 +364,8 @@ class Posts(db.Model):
                 print(type(photos))
             except:
                 photos = 0
-            postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, "facility":facility, 'photos':photos})
+            if status:
+                postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, "facility":facility, 'photos':photos})
         postss.reverse()
         return postss
 
@@ -404,7 +490,7 @@ class Posts(db.Model):
             username = user.username
             title = post.post_title
             phone_number = post.phone_number
-            category = post.category
+            category = dataCat[post.category]
             cost = post.cost
             description = post.description
             post_date = post.post_date.strftime("%d/%m/%Y %H:%M")
@@ -458,16 +544,18 @@ class Posts(db.Model):
         searchs = search_data.split()
         for post in posts_for_1_step:
             for data in searchs:
+                titl = post['title'].lower()
+                titl_search = titl.replace(' ', '')
+                desc = post['description'].lower()
+                desc_search = desc.replace(' ', '')
                 if category!=0:
-                    titl = post['title'].lower()
-                    titl_search = titl.replace(' ', '')
-                    desc = post['description'].lower()
-                    desc_search = desc.replace(' ', '')
                     if (data.lower() in titl_search.replace(' ', '') or data.lower() in desc_search.replace(' ', '')) and post['category']==category:
-                        posts.append(post)
+                        if post.status:
+                            posts.append(post)
                 else:
                     if data.lower() in titl_search.replace(' ', '') or data.lower() in desc_search.replace(' ', ''):
-                        posts.append(post)
+                        if post.status:
+                            posts.append(post)
         return posts
 
 

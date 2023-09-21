@@ -16,6 +16,9 @@
     padding: 20px;
   }
   
+  .actDesc{
+    word-wrap: break-word;
+  }
 
   .no-button{
     outline: none;
@@ -36,10 +39,26 @@
     justify-content: space-between;
 }
 
+.imageHere{
+    
+    width: 600px;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+}
+
+.samImage{
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* сохраняет форму, уменьшая размер */
+
+}
+
 .mainImage .innerDiv {
     display: flex;
 }
 .mainImage .mainImgDiv {
+
     display: flex;
     object-fit: scale-down;
 }
@@ -110,8 +129,9 @@
 }
 .subImages .imgBox {
     height: 100px;
-    min-width: 100px;
+    /* min-width: 100px; */
     margin-top: 10px;
+
     margin-right: 10px;
     background-color: #fff;
     border-radius: 5px;
@@ -119,6 +139,12 @@
 
 .imgBox {
     display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    margin: 1px;
+}
+.miniImg{
+    object-fit: contain;
 }
 .description {
     min-height: 10em;
@@ -128,6 +154,7 @@
     /* padding: 20px; */
     display: block;
     box-shadow: 4px 4px 18px 4px rgba(34, 60, 80, 0.2);
+    padding: 15px;
 }
 
 .MsgAndAdvice {
@@ -155,6 +182,7 @@
     /* justify-content: start; */
     /* padding-top: 30px; */
     padding-left: 0px !important;
+    width: 100%;
 }
 
 .miniProfile {
@@ -513,6 +541,27 @@ button:hover {
 }
 
 
+/* Trying to make navbar look similar */
+.disappearWhen992{
+
+}
+.languageAppear{
+    display: none !important;
+  }
+  .grayyy{
+    color:#FFFFFF8C !important;
+  }
+  .languageAppear992{
+    /* display: none; */
+    display: flex;
+    /* width: 180px; */
+  }
+  
+/* Trying to make navbar look similar */
+
+
+
+
 .myButton1 {
 	background-color:#ffc53a;
 	border-radius:10px;
@@ -560,9 +609,29 @@ button:hover {
     display: none;
     color: white;
   }
+
+  @media only screen and (max-width:1120px) {
+   .innerMain{
+    display: flex;
+    justify-content: flex-start;
+   }
+  
+  }
+
 @media only screen and (max-width:992px) {
-   
-    
+    .profileNone{
+        display: none;
+      }
+    .languageAppear{
+        padding: 0;
+        margin: 0;
+        display: flex !important;
+        text-decoration: none;
+        /* display: flex; */
+      }
+      .disappearWhen992{
+        display: none;
+      }
     .profileLink{
       display: unset !important;
     }
@@ -602,6 +671,25 @@ button:hover {
 
   }
   
+@media only screen and (max-width:675px) {
+
+    .innerMain{
+      width: 498px;
+    }
+  }
+  
+@media only screen and (max-width:510px) {
+
+    .innerMain{
+      width: 412px;
+    }
+    .product{
+      width: 190px;
+    }
+    .product-image{
+      width: 100%;
+    }
+  }
 
 @media only screen and (max-width:501px) {
     .changeProfile {
@@ -617,7 +705,83 @@ button:hover {
     }
 
   }
+  @media only screen and (max-width:437px) {
+    .innerMain{
+      width: 392px;
+    }
+    .product{
+      width: 180px;
+    }
+    .product-image{
+      width: 100%;
+    }
+  }
+  @media only screen and (max-width:409px) {
+    .innerMain{
+      /* width: 352px; */
+      width: 95%;
+    }
+    .product{
+      width: 175px;
+    }
+  
+  }
+@media only screen and (max-width:402px) {
+    .innerMain{
+      /* width: 352px; */
+      width: 372px;
+    }
+    .product{
+      width: 170px;
+    }
+  
+  }
+  @media only screen and (max-width:372px) {
+    .innerMain{
+      /* width: 352px; */
+      width: 352px;
+    }
+    .product{
+      width: 160px;
+    }
+   
+  }
+  @media only screen and (max-width:358px) {
+    .innerMain{
+      /* width: 352px; */
+      width: 332px;
+    }
+    .product{
+      width: 150px;
+    }
+   
+  }
+  
+  @media only screen and (max-width:350px) {
+    .innerMain{
+        display: flex;
+        justify-content: center;
+    }
 
+  }
+  
+@media only screen and (max-width:332px) {
+    .innerMain{
+      /* width: 352px; */
+      width: 312px;
+      justify-content: center;
+    }
+    .product{
+      width: 250px;
+    }
+   
+  }
+  @media only screen and (min-width:320px) {
+    .twoButtonsBlock {
+        width: 100%;
+    }
+    
+  }
   
 
   @media only screen and (min-width:320px) {

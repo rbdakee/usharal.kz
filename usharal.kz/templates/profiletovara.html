@@ -15,7 +15,15 @@
 <header id="header" class="backgroundNavbar fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
+            <div  class="languageAppear992">
+                <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
+                <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
+                <div class="d-flex languageAppear">
+                    <a href="ru" class="nav-link grayyy">рус&nbsp; |</a>
+                    <a href="kz" class="nav-link grayyy p-0 pt-2">қаз</a>
+                </div>
+            </div>
+            <!-- <a href="/{{lang}}" class="navbar-brand">{{title}}</a> -->
             <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
             <div class="d-flex">
                 <div class="profileLink">
@@ -32,10 +40,10 @@
             
             <div class="collapse navbar-collapse" id="navContent">
                 <ul class="navbar-nav mb-3 mb-lg-0 w-100 d-flex justify-content-between">
-                    <li class="nav-item">
+                    <li class="nav-item disappearWhen992">
                         <div class="d-flex">
-                            <a href="ru" class="nav-link">рус&nbsp;&nbsp; |</a>
-                            <a href="kz" class="nav-link p-0 pt-2">қаз</a>
+                            <a href="ru" class="nav-link grayyy">рус&nbsp;&nbsp; |</a>
+                            <a href="kz" class="nav-link grayyy p-0 pt-2">қаз</a>
                         </div>
                     </li>
                     
@@ -50,7 +58,7 @@
                                 <button type="button" class="no-button nav-link pt-2 m-0 lng-personal" data-bs-toggle="dropdown">
                                     <i class="fa-regular fa-user" style="margin-right: 3px;"></i> Личный кабинет <i class="fa-solid fa-chevron-down" style="color: #6e6e6e; "></i>
                                 </button>
-                                <ul class="dropdown-menu" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                                <ul class="dropdown-menu" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 10px;">
                                   <li><a class="dropdown-item lng-message" href="/messages/{{lang}}">Сообщения</a></li>
                                   <li><a class="dropdown-item lng-myPosts" href="/my_posts/{{lang}}">Мои объявления</a></li>
                                   <li><a class="dropdown-item lng-payment" href="/payments/{{lang}}">Платежи и счет</a></li>
@@ -126,9 +134,9 @@
         </div>
        
 
-        <div class="innerMain">
+        <div class="innerMain" style="justify-content: center;">
             <div class="mt-2 mb-2" style="width:100%;">
-                <h3 class="fs-2">{{post.title}}</h3>
+                <h3 class="fs-2" style="word-wrap: break-word;">{{post.title}}</h3>
                 <div><span class="lng-published subTextData">Опубликовано: </span> <span class="subTextData">{{post.post_date}}</span></div>
             </div>
             <div class="mainImageAndInfo row">
@@ -137,9 +145,10 @@
                         <span class="fa fa-angle-left" aria-hidden="true"></span>
                     </div>
 
-                    <div class="innerDiv mainImgDiv">
-                        <img style="width: 100%;" src="data:;base64,{{post.photos[0]}}">
+                    <div class="innerDiv mainImgDiv imageHere">
+                        <img style="width: 100%;" class="samImage" src="data:;base64,{{post.photos[0]}}">
                     </div>
+
                     <div class="innerDiv controlBtn" onclick="plusSlides(1, 1)">
                         <span class="fa fa-angle-right" aria-hidden="true"></span>
                     </div>
@@ -177,12 +186,12 @@
                     <div class="firstL" style="margin: 5px 5px 25px 0px;">
                         <div class="miniProfile" style=" align-items: center;">
                             {% if user_logo != 0 %}
-                            <img src="data:;base64, {{user_logo}}" class = "profLogo" style="width: 57px; border-radius: 50%;">
+                            <img src="data:;base64, {{user_logo}}" class = "profLogo" style="width: 57px; height: 57px; border-radius: 50%;">
                             {% else %}
                             <img src="{{url_for('static', filename = 'img/user.svg')}}" class = "profLogo" style="width: 57px; border-radius: 50%;">
                             {% endif %}
-                            <div class="data" style=" display: flex; flex-direction: column ;">
-                                <div class="name" style="margin: auto;  display: flex; align-items: center;">
+                            <div class="data" style=" display: flex; flex-direction: column; margin-left: 10px;">
+                                <div class="name" style="display: flex; align-items: center;">
                                     {{post.username}}
                                 </div>
                                 <div class="mobNum">
@@ -197,7 +206,7 @@
                     </div>
                     <div class="buttonsBlock w-50 d-flex justify-content-end mt-3 ">
                         <div class="d-flex twoButtonsBlock">
-                            <button class="btn btn-outline-warning twobuttons lng-writeToSeller" style="color: black; white-space: nowrap; border: 3px solid rgb(255,197,58);">Написать продавцу</button>   
+                            <a class="btn btn-outline-warning twobuttons lng-writeToSeller" style="color: black; white-space: nowrap; border: 3px solid rgb(255,197,58);" href="/chat/{{post.user_id}}/{{lang}}">Написать продавцу</a>   
                         </div>
                 
                     </div>
@@ -215,20 +224,16 @@
                 <div class="sliderCon col-md-7 col-xs-12 m-3 p-0 ms-0 mt-0">
                     {% for photo in post.photos %}
                     <div class="imgBox">
-                        <img src="data:;base64,{{photo}}">
+                        <img class="miniImg" src="data:;base64,{{photo}}">
                     </div>
                     {% endfor %}
-                    
-                    
                 </div>
 
-                <div class="col-md-5 col-xs-12">
-
-                </div>
+                <div class="col-md-5 col-xs-12"></div>
             
     
-             </div>
-             <div class="row">
+            </div>
+            <div class="row">
                 <div class="description col-md-7 col-xs-12">
                    <div class="mainDesc">
                        <h1 class="lng-description">Описание</h1>
@@ -252,15 +257,15 @@
             <div class="MsgAndAdvice row d-flex justify-content-between">
                 <div class="sendMsg col-md-7 col-xs-12">
                     <div class="firstL">
-                        <div class="miniProfile" style=" align-items: center;">
+                        <div class="miniProfile" style=" align-items: center;"> 
                             
                             {% if user_logo != 0 %}
-                            <img src="data:;base64, {{user_logo}}" class = "profLogo" style="width: 57px; border-radius: 50%;">
+                            <img src="data:;base64, {{user_logo}}" class = "profLogo" style="width: 57px; height: 57px; border-radius: 50%;">
                             {% else %}
                             <img src="{{url_for('static', filename = 'img/user.svg')}}" class = "profLogo" style="width: 57px; border-radius: 50%;">
                             {% endif %}
-                            <div class="data" style=" display: flex; flex-direction: column ;">
-                                <div  style="margin: auto;  display: flex; align-items: center;">
+                            <div class="data" style=" display: flex; flex-direction: column; margin-left: 10px;">
+                                <div  style="display: flex; align-items: center;">
                                     {{post.username}}
                                 </div>
                                 <div class="mobNum">
@@ -270,16 +275,17 @@
                         </div>
 
                     </div>
-                    <h1 class="lng-uDev" style="font-size: 1.25rem; ">Написать продавцу (данный раздел на разработке)</h1>
-                    <from method="POST" action="">
-                        <textarea class="lng-yourMessage " disabled="" name="" id="" cols="30" rows="10" placeholder="Ваше сообщение"></textarea>
+                    <h1 class="lng-writeToSeller" style="font-size: 1.25rem; ">Написать продавцу</h1>
+                    <form method="POST" action="/chat/{{post.user_id}}/{{lang}}">
+                        <textarea class="lng-yourMessage " name="textarea_message" id="" cols="30" rows="10" placeholder="Ваше сообщение"></textarea>
+                    
                         <div class="lastL row d-flex justify-content-between mt-2">
-                            <div class="col-md-6 col-xs-6"><p class="text-center"><a href="#" class="myButton1 lng-writeToSeller" style="white-space: nowrap;">Написать продавцу</a></p></div>
+                            <div class="col-md-6 col-xs-6"><p class="text-center"><input type="submit" class="myButton1 lng-writeToSeller" style="white-space: nowrap;" value="Написать продавцу"></p></div>
                             <div class="col-md-6 col-xs-6"><p class="text-center"><a href="{{post.whatsapp_link}}" class="myButton lng-writeWhats" style="white-space: nowrap;">Написать на WhatsApp</a></p></div>
                            
                             
                         </div>
-                    </from>
+                    </form>
                 </div>
                 <div class="advice col-md-4 col-xs-12 mt-2">
                     <h2 class="lng-advices">Советы</h2>

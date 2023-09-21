@@ -10,103 +10,97 @@
 
 </head>
 <body>
-    
 <!-- Navbar -->
-    <div style="height: 55px;"></div>
-    <header id="header" class="backgroundNavbar fixed-top">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
-                <div  class="languageAppear992">
-                    <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
-                    <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
-                    <div class="d-flex languageAppear">
-                        <a href="ru" class="nav-link">рус&nbsp; |</a>
-                        <a href="kz" class="nav-link p-0 pt-2">қаз</a>
-                    </div>
-                </div>
-                
-                <div class="d-flex profileLink">
-                        {% if username %}
-                        <li class="nav-item profileLink ">
-                            <a href="/my_profile/{{lang}}" class="nav-link ps-0"><i class="fa-regular fa-user" style="color: #FFFFFF8C"></i></a>
-                        </li> 
-                        {% else %}
-                        <li class="nav-item profileLink ">
-                            <a href="/signin/{{lang}}" class="nav-link ps-0"><i class="fa-regular fa-user" style="color: #FFFFFF8C"></i></a>
-                        </li> 
-                        {% endif %}    
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target = "#navContent"
-                    aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>                    
-                </div>
-                
-                <div class="collapse navbar-collapse" id="navContent">
-                    <ul class="navbar-nav mb-3 mb-lg-0 w-100 d-flex justify-content-between">
-
-                        <li class="nav-item droppingLang">
-                            <div style="display: flex;">
-                                <a href="ru" class="nav-link gray">рус &nbsp; |</a>
-                                <a href="kz" class="gray nav-link p-0 pt-2 ">қаз</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="d-flex">
-                                <div class="dropdown p-0 m-0 abs" >
-                                    <button type="button" class="no-button nav-link pt-2 m-0 lng-personal" data-bs-toggle="dropdown">
-                                        <i class="fa-regular fa-user" style="margin-right: 3px;"></i> Личный кабинет <i class="fa-solid fa-chevron-down" style="color: #6e6e6e; "></i>
-                                    </button>
-                                    <ul class="dropdown-menu"  style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-bottom: 30px; border-radius:20px">
-                                      <li><a class="dropdown-item rounded-3 lng-message" href="/messages/{{lang}}">Сообщения</a></li>
-                                      <li><a class="dropdown-item rounded-3 lng-myPosts" href="/my_posts/{{lang}}">Мои объявления</a></li>
-                                      <li><a class="dropdown-item rounded-3 lng-payment" href="/payments/{{lang}}">Платежи и счет</a></li>
-                                      <li><a class="dropdown-item rounded-3 lng-myProfile" href="/my_profile/{{lang}}">Мой профиль</a></li>
-                                      <li><hr class="dropdown-divider"></li>
-                                      <li><a class="dropdown-item rounded-3 lng-exit" href="/logout">Выйти</a></li>
-                                    </ul>
-                                </div>
-                            </div>                         
-                        </li>
-                        
-
-                        <li class="nav-item">
-                            <a href="/favorites/{{lang}}" class="nav-link marginTop lng-favourite"><i class=" fa-regular fa-heart" ></i>&nbsp;Избранное</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="/messages/{{lang}}" class="nav-link lng-message-second"><i class="fa-regular fa-comment"></i>&nbsp;Сообщения</a>
-                        </li>
-                        
-                       
-                        <li  class="d-flex">
-                            <a  href="/new_post/{{lang}}" class="btn btn-outline-warning lng-newPost">Подать обьявление</a>
-                        </li> 
-                        {% if username %}
-                        <li class="nav-item">
-                            <a href="/my_profile/{{lang}}" class="nav-link profileNone">&nbsp;{{username}}</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a href="/signin/{{lang}}" class="nav-link profileNone">&nbsp;Log in</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                    
-                    
-                    
+<div style="height: 55px;"></div>
+<header id="header" class="backgroundNavbar fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <div  class="languageAppear992">
+                <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
+                <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
+                <div class="d-flex languageAppear">
+                    <a href="ru" class="nav-link">рус&nbsp; |</a>
+                    <a href="kz" class="nav-link p-0 pt-2">қаз</a>
                 </div>
             </div>
-        </nav>
-    </header>
-
+            
+            <div class="d-flex profileLink">
+                    {% if username %}
+                    <li class="nav-item profileLink ">
+                        <a href="/my_profile/{{lang}}" class="nav-link ps-0"><i class="fa-regular fa-user" style="color: #FFFFFF8C"></i></a>
+                    </li> 
+                    {% else %}
+                    <li class="nav-item profileLink ">
+                        <a href="/signin/{{lang}}" class="nav-link ps-0"><i class="fa-regular fa-user" style="color: #FFFFFF8C"></i></a>
+                    </li> 
+                    {% endif %}    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target = "#navContent"
+                aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>                    
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav mb-3 mb-lg-0 w-100 d-flex justify-content-between">
+                    <li class="nav-item droppingLang">
+                        <div style="display: flex;">
+                            <a href="ru" class="nav-link gray">рус &nbsp; |</a>
+                            <a href="kz" class="gray nav-link p-0 pt-2 ">қаз</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="d-flex">
+                            <div class="dropdown p-0 m-0 abs" >
+                                <button type="button" class="no-button nav-link pt-2 m-0 lng-personal" data-bs-toggle="dropdown">
+                                    <i class="fa-regular fa-user" style="margin-right: 3px;"></i> Личный кабинет <i class="fa-solid fa-chevron-down" style="color: #6e6e6e; "></i>
+                                </button>
+                                <ul class="dropdown-menu"  style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-bottom: 30px; border-radius:10px">
+                                  <li><a class="dropdown-item rounded-3 lng-message" href="/messages/{{lang}}">Сообщения</a></li>
+                                  <li><a class="dropdown-item rounded-3 lng-myPosts" href="/my_posts/{{lang}}">Мои объявления</a></li>
+                                  <li><a class="dropdown-item rounded-3 lng-payment" href="/payments/{{lang}}">Платежи и счет</a></li>
+                                  <li><a class="dropdown-item rounded-3 lng-myProfile" href="/my_profile/{{lang}}">Мой профиль</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item rounded-3 lng-exit" href="/logout">Выйти</a></li>
+                                </ul>
+                            </div>
+                        </div>                         
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="/favorites/{{lang}}" class="nav-link marginTop lng-favourite"><i class=" fa-regular fa-heart" ></i>&nbsp;Избранное</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/messages/{{lang}}" class="nav-link lng-message-second"><i class="fa-regular fa-comment"></i>&nbsp;Сообщения</a>
+                    </li>
+                    
+                   
+                    <li  class="d-flex">
+                        <a  href="/new_post/{{lang}}" class="btn btn-outline-warning lng-newPost">Подать обьявление</a>
+                    </li> 
+                    {% if username %}
+                    <li class="nav-item">
+                        <a href="/my_profile/{{lang}}" class="nav-link profileNone">&nbsp;{{username}}</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="/signin/{{lang}}" class="nav-link profileNone">&nbsp;Log in</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                
+                
+                
+            </div>
+        </div>
+    </nav>
+</header>
 <!-- Navbar ends -->
 
 <!-- Search -->
 
     <div class="search col-xl-12 col-md-12 d-flex justify-content-center mt-4">
 
-        <form method="get" action="/{{lang}}">
+        <form method="get" action="/{{lang}}" style="display: flex; justify-content: center; width: 80%;">
           <div class="searchArea d-flex">
             <div onclick="myFunction(this.className)" class="wholeList">
                
@@ -118,7 +112,12 @@
             <div class="inputArea">
                 
                     <input type="text" class='lng-searchPlaceHolder search-input' placeholder="Найти объявление..." name="search-field" id="">
+                    <!-- <input type="text" name="category" value="{{category}}"> -->
+                    {% if category %}
                     <input type="hidden" name="category" value="{{category}}">
+                    {% else %}
+                    <input type="hidden" name="category" value="Все категории">
+                    {% endif %}
             </div>
             <div class="searchBtn">
                 <button class="fas fa-search"></button>
@@ -148,77 +147,77 @@
                     <button>
                     <!-- <img class="categoryImage" src="{{ url_for('static', filename='img/services.svg') }}" alt="">  
                         оставил как пример того как выглядел код раньше. пришлосб убрать чтобы фотки поставить -->
-                        <img class="categoryImage" src="{{url_for('static', filename='img/services.svg')}}" alt="">
+                        <img class="categoryImage" src="{{url_for('static', filename='img/services.png')}}" alt="">
                         <span class="textForImg lng-service">Услуги</span>
                         <input hidden value="Услуги" name="category">
                     </button>
                 </form>
                 <form action="/{{lang}}"  class="category">
                     <button>
-                        <img class="categoryImage" src="./static/img/gadgets.svg" alt="">
+                        <img class="categoryImage" src="./static/img/gadgets.png" alt="">
                         <span class="textForImg lng-gadgets">Электроника</span>
                         <input hidden value="Электроника" name="category">
                     </button>
                 </form>
                 <form action="/{{lang}}"  class="category">
                     <button>
-                        <img class="categoryImage" src="./static/img/personalItems.svg" alt="">
+                        <img class="categoryImage" src="./static/img/personalItems.png" alt="">
                         <span class="textForImg lng-personalItems">Личные вещи</span>
                         <input hidden value="Личные вещи" name="category">
                     </button>
                 </form>
                 <form action="/{{lang}}"  class="category">
                     <button>
-                        <img class="categoryImage" src="./static/img/child.svg" alt="">
+                        <img class="categoryImage" src="./static/img/child.png" alt="">
                         <span class="textForImg lng-child">Детям</span>
                         <input hidden value="Детям" name="category">
                     </button>
                 </form>
                 <form action="/{{lang}}"  class="category">
                     <button>
-                        <img class="categoryImage" src="./static/img/business.svg" alt="">
+                        <img class="categoryImage" src="./static/img/business.png" alt="">
                         <span class="textForImg lng-business">Для Бизнеса</span>
                         <input hidden value="Для Бизнеса" name="category">
                     </button>
                 </form>
                 <form action="/{{lang}}"  class="category">
                     <button>
-                        <img class="categoryImage" src="./static/img/animals.svg" alt="">
+                        <img class="categoryImage" src="./static/img/animals.png" alt="">
                         <span class="textForImg lng-animals">Животные</span>
                         <input hidden value="Животные" name="category">
                     </button>
                 </form>
                 <form action="/{{lang}}"  class="category">
                     <button>
-                        <img class="categoryImage" src="./static/img/garden.svg" alt="">
+                        <img class="categoryImage" src="./static/img/garden.png" alt="">
                         <span class="textForImg lng-house">Для дома</span>
                         <input hidden value="Для дома" name="category">
                     </button>
                 </form>
                 <form action="/{{lang}}"  class="category">
                     <button>
-                        <img class="categoryImage" src="./static/img/job.svg" alt="">
+                        <img class="categoryImage" src="./static/img/job.png" alt="">
                         <span class="textForImg lng-job">Работа</span>
                         <input hidden value="Работа" name="category">
                     </button>
                 </form>
                 <form action="/{{lang}}"  class="category">
                     <button>
-                        <img class="categoryImage" src="./static/img/hobby.svg" alt="">
+                        <img class="categoryImage" src="./static/img/hobby.png" alt="">
                         <span class="textForImg lng-hobby">Хобби и спорт</span>
                         <input hidden value="Хобби и спорт" name="category">
                     </button>
                 </form>
                 <form action="/{{lang}}"  class="category">
                     <button>
-                        <img class="categoryImage" src="./static/img/apartments.svg" alt="">
+                        <img class="categoryImage" src="./static/img/apartments.png" alt="">
                         <span class="textForImg lng-apartments">Недвижимость</span>
                         <input hidden value="Недвижимость" name="category">
                     </button>
                 </form>
                 <form action="/{{lang}}"  class="category">
-                    <button type="submit">
-                        <img class="categoryImage" src="./static/img/transport.svg" alt="">
+                    <button>
+                        <img class="categoryImage" src="./static/img/transport.png" alt="">
                         <span class="textForImg lng-transport">Транспорт</span>
                         <input hidden value="Транспорт" name="category">
                     </button>
@@ -252,15 +251,15 @@
                         <img class = "product-image" src="{{url_for('static', filename='img/no_image.png')}}">
                         {% endif %}
                     </div>
-                    <div class="info-block p-1">
+                    <div class="info-block p-1" style="padding: 10px !important;" >
                         
-                        <div class="product-name">
+                        <div class="product-name" style="text-overflow: ellipsis;white-space: nowrap; overflow: hidden;">
                             {{post.title}}
                         </div>
                         <div class="product-category {{cat[post.category]}}">
                             {{post.category}}
                         </div>
-                        <div class="product-price ">
+                        <div class="product-price">
                             {{post.cost}}
                         </div>
                     </a>

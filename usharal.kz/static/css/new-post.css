@@ -162,7 +162,7 @@
   .containerForAllImages {
     /* height: 100%; */
     /* display: grid; */
-    width: 100%;
+    width: 60%;
     /* grid-template-columns: repeat(4, 1fr); */
     /* grid-template-rows: repeat(2, 1fr); */
     /* grid-column-gap: 10px; */
@@ -193,10 +193,21 @@
     border: 1px solid #2f223a5d;
   }
 
-  .imageOfUserChoose {
+
+  .imageOfUserChooseCamera {
     width: 50px;
     height: 50px;
     position: absolute;
+    /* border-radius: 10px; */
+    z-index: 1;
+  }
+
+  .imageOfUserChoose {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    position: absolute;
+    border-radius: 10px;
     z-index: 1;
   }
 

@@ -1,0 +1,350 @@
+body{
+    overflow: hidden;
+}
+
+.chats{
+    width: 100%;
+    /* height: 850px; */
+    /* background-color: pink; */
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+}
+
+.innerChat{
+    width: 80%;
+    /* height: 700px; */
+    /* background-color: plum; */
+}
+
+.chat{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    width: 100%;
+    height: 100px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.avatarImage{
+    width: 50px;
+    border-radius: 50px;
+}
+
+.infoOfChat{
+   display: flex;
+   align-items: center;
+   width: 90%;
+   text-overflow: ellipsis;
+   white-space: nowrap; 
+   overflow: hidden;
+}
+.dateOfChat{
+    width: 10%;
+}
+
+
+.nameOfAccount{
+    display: flex;
+    justify-content: space-between;
+    color: gray;
+}
+
+.date{
+    display: flex;
+    justify-content: flex-end;
+    color: gray;
+    font-size: 13px;
+}
+
+.lastTypedMessage{
+    color: rgb(95, 95, 95);
+    display: hidden;
+
+    /* width: 30%; */
+}
+
+
+/* .product-name{
+    font-size: 17px;
+    height: 24px;
+    color: rgb(65, 65, 244);
+    display: hidden;
+  } */
+  
+
+
+::-webkit-scrollbar {
+    width: 0px; /* Adjust the width as needed */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: transparent; /* Color of the thumb */
+    border-radius: 3px; /* Rounded corners of the thumb */
+    scrollbar-color: #888 transparent; /* Color of the thumb and track */
+    scrollbar-width: none; /* Width of the scrollbar */
+  }
+  
+  /* For Firefox */
+  /* You can customize the appearance of the scrollbar here */
+
+
+.chatDiv{
+    
+    overflow-y: scroll;
+    /* margin-top: 10px; */
+    width: 100%;
+    height: 70vh;
+    /* background-color: pink; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: flex-end;     */
+}
+
+.innerChatDiv{
+    /* border-radius: 10px; */
+    padding: 10px;
+    width: 70%;
+    /* height: 650px; */
+    background-color: white;
+    display: flex;
+    /* flex-direction: column; */
+    overflow-y: auto; 
+    flex-direction: column-reverse; 
+}
+
+#messages{
+    padding: 0 !important;
+}
+
+.personOneMessage{
+    display: flex;
+    padding: 8px 15px;
+    align-self: flex-start;
+    /* width: auto; */
+    display: inline-block;
+    max-width: 60%;
+    /* height: 50px; */
+    background-color: rgb(211, 209, 209);
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.personTwoMessage{
+    
+    /* display: inline-block; */
+    display: flex;
+    max-width: 70%;
+    padding: 8px 15px;
+    align-self: flex-end;
+    max-width: auto;
+    
+    /* height: 50px; */
+    background-color: rgb(166, 195, 250);
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.messageTime{
+    margin: 1px 8px;
+    font-size: 13px;
+    color: darkslategray;
+    margin-top: -5px;
+}
+.leftText{
+    display: flex; 
+    justify-content: flex-end;
+}
+
+.personTwo{
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    /* max-width: 50%; */
+}
+.personOne{
+    align-self: flex-start;
+}
+
+.typeChat{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.topChat{
+    margin-top: 70px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* background-color: pink; */
+    
+
+}
+
+.innerTopChat{
+    /* border-bottom: 1px solid gray; */
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    z-index: 5;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    width: 70%;
+    background-color: white;
+    padding: 10px;
+}
+
+.innerTypeChat{
+    border-top: 1px solid rgb(223, 223, 223);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+    /* background-color: rgb(208, 208, 208); */
+    padding: 10px 0px;
+    /* border-radius: 10px; */
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    /* border: 1px solid gray; */
+    height: 50px;
+    background-color: white;
+    /* box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em; */
+    /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 1.95px; */
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+}
+.inputTextArea{
+    width: 97%;
+    padding: 10px;
+    border: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    resize: none; /**Prevent textarea from being resized **/
+    height: 50px;
+    background-color: transparent;
+    
+}
+h6 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 150px; /* Adjust the minimum width as needed */
+            
+}
+h6 p{
+    background-color: #fdc51e;
+    color: black;
+    border: solid 1px #fdc51e;
+    border-radius: 10px 10px;
+    margin: 10px -10px;
+    padding: 0px 10px;
+}
+.textMessage p{
+    margin-top: -3px;
+    margin-bottom: -3px;
+    
+}
+
+.topSpace{
+    margin-top: 57px;
+}
+.lowerSpace{
+    height: 540px;
+}
+.profilePic{
+    width: 50px;
+    border-radius: 50px;
+}
+
+.sendMessage{
+    width: 25px;
+}
+
+.sendMessageButton{
+    /* background-color: none; */
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    padding: 10px;
+}
+
+@media only screen and (max-width:1136px) {
+
+  
+    .innerTopChat{
+        width: 90%;
+    }
+    .innerChatDiv{
+        width: 90%;
+    }
+    .innerTypeChat{
+        width: 90%;
+    }
+
+}   
+
+
+@media only screen and (max-width:913px) {
+
+    .infoOfChat{
+        width: 80%;
+    }
+    .dateOfChat{
+        width: 20%;
+    }
+
+}   
+
+@media only screen and (max-width:628px) {
+    
+    .innerChat{
+        width: 95%;
+    }
+    
+}
+
+@media only screen and (max-width:460px) {
+
+  
+    .innerTopChat{
+        width: 100%;
+        border-radius: 0px;
+    }
+    .innerChatDiv{
+        width: 100%;
+    }
+    .innerTypeChat{
+        width: 100%;
+    }
+    
+    .topChat{
+        margin-top: 0px;
+    }
+    .lowerSpace{
+        height: 0px;
+    }
+    body{
+        overflow: auto;
+    }
+}   
+
+@media only screen and (max-width:414px) {
+    
+   
+    .infoOfChat{
+        width: 75%;
+    }
+    .dateOfChat{
+        width: 25%;
+    }
+    
+}

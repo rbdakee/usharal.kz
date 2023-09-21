@@ -1,12 +1,13 @@
 import base64
 # from types import NoneType
-from flask import Flask, render_template, url_for, request, redirect, flash, session, abort, make_response
+from flask import Flask, render_template, url_for, request, redirect, flash, session, abort, make_response, jsonify
 from itsdangerous import URLSafeTimedSerializer
 import itsdangerous
 from send_email import send_link
 from datetime import datetime, timedelta, timezone
-from db import Users, registration, Posts, Photos, favPosts, db
+from db import *
 from flask_sock import Sock
+from flask_socketio import SocketIO, emit
 
 
 app = Flask(__name__)
@@ -16,6 +17,7 @@ app.config["SECRET_KEY"] = 'jp0?ad[1-=-0-`94mpgf-pjmwr3;2owdakdnw'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
+socketio = SocketIO(app)
 with app.app_context():
     db.create_all()
 
@@ -91,20 +93,28 @@ def index(lang='ru'):
     arrLang.clear()
     arrLang2.clear()
     if request.method == 'POST' or request.method == 'GET':
-        if request.method == 'POST':
-            data = request.form.get('category')
-            category = catData[data]
+
+        if request.method == 'GET':
+            data = request.args.get('category')
+            print(data)
+            search = request.args.get('search-field')
+            if data:
+                category = catData[data]
+            else:
+                category = 0
             if category!=0:
-                posts = Posts.category_filter(category)
+                if search:
+                    posts = Posts.search_posts(request.args.get('search-field'), category)
+                else:
+                    posts = Posts.category_filter(category)
+            elif search:
+                posts = Posts.search_posts(request.args.get('search-field'), 0)
             else:
                 posts = Posts.show_all_posts()
+                data = 'Все категории'
         else:
-            if request.args.get('search-field'):
-                posts = Posts.search_posts(request.args.get('search-field'))
-                data = 'Все категории'
-            else:
-                posts = Posts.show_all_posts()
-                data = 'Все категории'
+            posts = Posts.show_all_posts()
+            data = 'Все категории'
         if 'userEmail' in session:
             try:
                 favPost = favPosts.give_favPostId_of_user(session['userEmail'])
@@ -144,6 +154,36 @@ def echo(sock):
         sock.send(data)
 
 
+# My Route for CHAT.HTML
+@app.route('/chat/<int:pk>/<lang>', methods=['POST', 'GET'])
+def chat(lang, pk):
+    if 'userEmail' in session:
+        if lang != 'ru' and lang != 'kz':
+            lang = 'ru'
+            return redirect(url_for('chat', lang = 'ru'))
+        
+        if request.method=='POST':
+            message_content = request.form.get('textarea_message')
+            receiver_id = pk
+            sender_id = Users.return_user_id(session['userEmail'])
+            message = Message(content=message_content, sender_id=sender_id, receiver_id=receiver_id)
+            db.session.add(message)
+            db.session.commit()
+
+
+        session['lang'] = lang
+        sender_id = Users.return_user_id(session['userEmail'])
+        buddyEmail = Users.return_user_email_by_id(pk)
+        buddy_logo = Users.return_user_logo(pk)
+        buddy_info = Users.show_user_information(buddyEmail)
+
+
+        chat_history_by_date = Message.get_chat_history(sender_id, pk)
+
+        return render_template('chat.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), messages_by_date=chat_history_by_date, this_user_id=str(sender_id), buddy_logo=buddy_logo, buddy_info=buddy_info, buddy_id = str(pk))
+    else:
+        return redirect(url_for('login', lang=lang))
+
 @app.route('/messages/<lang>')
 def messages(lang):
     if 'userEmail' in session:
@@ -151,9 +191,23 @@ def messages(lang):
             lang = 'ru'
             return redirect(url_for('messages', lang = 'ru'))
         session['lang'] = lang
-        return render_template('messages.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']))
+        sender_id = Users.return_user_id(session['userEmail'])
+        chats = Message.get_chatted_users_with_last_message(sender_id)
+        return render_template('messages.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', lang = session['lang'], lenOfUserName = len(session['userName']), chats = chats)
     else:
         return redirect(url_for('login', lang=lang))
+    
+@socketio.on('message')
+def handle_message(data):
+    message_content = data['message']
+    sender_id = Users.return_user_id(session['userEmail'])
+    receiver_id = data['receiver_id']
+    print(data)
+    message = Message(content=message_content, sender_id=sender_id, receiver_id=receiver_id)
+    db.session.add(message)
+    db.session.commit()
+
+    emit('message', data, broadcast=True)
 
 @app.route('/my_profile/<lang>', methods=['POST', 'GET'])
 def myprofile(lang='ru'):
@@ -214,13 +268,12 @@ def newpost(lang):
         session['lang'] = lang
         if request.method == 'POST':
             if 'photo_from_review' not in request.form:
-                print(123)
                 user = Users.return_user_to_db(session['userEmail'])
                 email = request.form['user_email']
                 post_title=request.form['post_title']
                 category=request.form['category']
                 cost = request.form['post_cost']
-                photo = request.files.getlist('post_photo')[0:10]
+                photo = request.files.getlist('post_photo')[0:8]
                 description = request.form['post_description']
                 phone_number = request.form['phone_number']
                 whatsapp_phone_number = request.form['whatsapp_phone_number']
@@ -476,6 +529,39 @@ def favorites(lang):
         return redirect(url_for('login', lang=lang))
          
 
+# @app.route('/load_posts')
+# def load_posts():
+#     page = request.args.get('page', 1, type=int)
+#     per_page = 10
+#     posts = Posts.query.paginate(page, per_page, False)
+
+#     posts_list = []
+
+#     for post in posts.items:
+#         post_data = {
+#             'id': post.id,
+#             'user': post.user,
+#             'post_title': post.post_title,
+#             'phone_number': post.phone_number,
+#             'category': post.category,
+#             'cost': post.cost,
+#             'description': post.description,
+#             'post_date': post.post_date.strftime('%Y-%m-%d %H:%M:%S'),
+#             'deactivate_date': post.deactivate_date.strftime('%Y-%m-%d %H:%M:%S'),
+#             'delete_date': post.delete_date.strftime('%Y-%m-%d %H:%M:%S'),
+#             'whatsapp_link': post.whatsapp_link,
+#             'status': post.status,
+#             'advertisement': post.advertisement,
+#             'view_counter': post.view_counter,
+#             'fav_counter': post.fav_counter,
+#             'facility': post.facility,
+#             'email': post.email,
+#             'location': post.location,
+#             'photo': [photo.url for photo in post.photo],  # Assuming 'Photos' has a 'url' attribute
+#         }
+#         posts_list.append(post_data)
+
+#     return posts_list
    
 
 @app.route('/signin/<lang>', methods = ['POST', 'GET'])

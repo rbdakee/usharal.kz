@@ -282,6 +282,8 @@ main{
   border-top-right-radius: 10px;
   width: 200px;
   height: 171px;
+  object-fit: cover !important;
+  object-position: center !important;
 }
 
 /* .info-block */
@@ -298,8 +300,9 @@ main{
 }
 
 .product-name{
+  
   font-size: 17px;
-  height: 10px;
+  height: 20px;
   color: rgb(65, 65, 244);
 }
 .sell-type{
@@ -308,7 +311,8 @@ main{
 
 .product-category{
   margin-top: 10px;
-  height: 10px;
+  height: 5px;
+  background-color: transparent !important;
 }
 
 .pages{
@@ -482,7 +486,7 @@ main{
   width: 100%;
   /* d-flex justify-content-center flex-wrap */
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   /* justify-content: center; */
   flex-wrap: wrap;
   box-sizing:content-box;
@@ -559,6 +563,10 @@ main{
 @media only screen and (max-width:1080px) {
   .innerMain{
     width: 864px;
+    /* height: 400px; */
+  }
+  .mainInfo{
+      height: 270px !important;
   }
 }
 @media only screen and (max-width:992px) {

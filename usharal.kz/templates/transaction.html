@@ -15,7 +15,15 @@
 <header id="header" class="backgroundNavbar fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
+            <div  class="languageAppear992">
+                <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
+                <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
+                <div class="d-flex languageAppear">
+                    <a href="ru" class="nav-link grayyy">рус&nbsp; |</a>
+                    <a href="kz" class="nav-link grayyy p-0 pt-2">қаз</a>
+                </div>
+            </div>
+            <!-- <a href="/{{lang}}" class="navbar-brand">{{title}}</a> -->
             <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
             <div class="d-flex">
                 <div class="profileLink">
@@ -32,10 +40,10 @@
             
             <div class="collapse navbar-collapse" id="navContent">
                 <ul class="navbar-nav mb-3 mb-lg-0 w-100 d-flex justify-content-between">
-                    <li class="nav-item">
+                    <li class="nav-item disappearWhen992">
                         <div class="d-flex">
-                            <a href="ru" class="nav-link">рус&nbsp;&nbsp; |</a>
-                            <a href="kz" class="nav-link p-0 pt-2">қаз</a>
+                            <a href="ru" class="nav-link grayyy">рус&nbsp;&nbsp; |</a>
+                            <a href="kz" class="nav-link grayyy p-0 pt-2">қаз</a>
                         </div>
                     </li>
                     
@@ -49,7 +57,7 @@
                                 <button type="button" class="no-button nav-link pt-2 m-0 lng-personal" data-bs-toggle="dropdown">
                                     <i class="fa-regular fa-user" style="margin-right: 3px;"></i> Личный кабинет <i class="fa-solid fa-chevron-down" style="color: #6e6e6e; "></i>
                                 </button>
-                                <ul class="dropdown-menu" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                                <ul class="dropdown-menu" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 10px">
                                   <li><a class="dropdown-item lng-message" href="/messages/{{lang}}">Сообщения</a></li>
                                   <li><a class="dropdown-item lng-myPosts" href="/my_posts/{{lang}}">Мои объявления</a></li>
                                   <li><a class="dropdown-item lng-payment" href="/payments/{{lang}}">Платежи и счет</a></li>
@@ -117,8 +125,15 @@
         </div>
     </div>
 </div>
+
+<div style="width: 100%; height: 300px; display: flex; justify-content: center; align-items: center;">
+    <div style="display: flex; align-items: center; ">
+        <img src="../static/img/inProgress.png" alt="in progress" width="200px">  
+        <p style="color: gray; font-weight: bold; font-size: 20px; margin-right: 30px;">Данный раздел находится в разработке</p>
+    </div>
+</div>
 <!-- products -->
-<div class="active-notactive w-100 mb-2 mt-2">
+<!-- <div class="active-notactive w-100 mb-2 mt-2">
     <div class="two-choice flex-wrap mb-2">
         <a class="links">
             <div class = "choose" style=" border-bottom: 2px solid rgb(255,197,58);  color: rgb(255,197,58)">Все операции</div>
@@ -131,8 +146,8 @@
         </a>
     </div>
 
-</div>
-
+</div> -->
+<!-- 
     <main>
 
 
@@ -141,7 +156,7 @@
 
             <div class="searchPayment mb-2 d-flex justify-content-center">
                 <input paymenttype="mainPayment" class="lng-searchOp" type="text" placeholder="Поиск платежей..." style="width: 80%;">
-                <!-- <button class="fa-solid fa-search"></button> -->
+                <button class="fa-solid fa-search"></button>  здесь был комент
             </div>
 
             
@@ -181,22 +196,22 @@
                     <td>700 000 ₸</td>
                   </tr>
                 </tbody>
-              </table>
+            </table>
 
-              <div class="lineForButton">
-                <div class="arrowForPages">
-                    <span class="fa-solid  ChildArrow fa-angle-left"></span>
-                    <span class="spanWithNumber">
-                        <span class="current">1</span>
-                        <span class="allPossible">/3</span>
-                    </span>
-                    <span class="fa-solid  ChildArrow fa-angle-right"></span>
-                </div>
+            <div class="lineForButton">
+              <div class="arrowForPages">
+                  <span class="fa-solid  ChildArrow fa-angle-left"></span>
+                  <span class="spanWithNumber">
+                      <span class="current">1</span>
+                      <span class="allPossible">/3</span>
+                  </span>
+                  <span class="fa-solid  ChildArrow fa-angle-right"></span>
+              </div>
             </div>
             </div>
 
-    </main>
-    <div style="height: 100px;"></div>
+    </main> -->
+    <div style="height: 150px;"></div>
 
 <!-- products end -->
 

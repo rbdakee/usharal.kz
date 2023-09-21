@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{title}} - Messages</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="{{url_for('static', filename='css/styleSecond.css')}}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{url_for('static', filename='css/styleI.css')}}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{url_for('static', filename='css/messages.css')}}"
+        />
+    </head>
+    <header id="header" class="backgroundNavbar fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <div class="languageAppear992">
+                    <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
+                    <input
+                        type="hidden"
+                        name=""
+                        id="lang_hidden"
+                        value="{{lang}}"
+                    />
+                    <div class="d-flex languageAppear">
+                        <a href="ru" class="nav-link grayyy">рус&nbsp; |</a>
+                        <a href="kz" class="nav-link grayyy p-0 pt-2"
+                            >қаз</a
+                        >
+                    </div>
+                </div>
+                <!-- <a href="/{{lang}}" class="navbar-brand">{{title}}</a> -->
+                <input
+                    type="hidden"
+                    name=""
+                    id="lang_hidden"
+                    value="{{lang}}"
+                />
+                <div class="d-flex">
+                    <div class="profileLink">
+                        {% if username %}
+                        <li class="nav-item profileLink">
+                            <a
+                                href="/my_profile/{{lang}}"
+                                class="nav-link ps-0"
+                                ><i
+                                    class="fa-regular fa-user"
+                                    style="color: #ffffff8c"
+                                ></i
+                            ></a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item profileLink">
+                            <a href="/signin/{{lang}}" class="nav-link ps-0"
+                                ><i
+                                    class="fa-regular fa-user"
+                                    style="color: #ffffff8c"
+                                ></i
+                            ></a>
+                        </li>
+                        {% endif %}
+                    </div>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navContent"
+                        aria-controls="navContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navContent">
+                    <ul
+                        class="navbar-nav mb-3 mb-lg-0 w-100 d-flex justify-content-between"
+                    >
+                        <li class="nav-item disappearWhen992">
+                            <div class="d-flex">
+                                <a href="ru" class="nav-link grayyy"
+                                    >рус&nbsp;&nbsp; |</a
+                                >
+                                <a
+                                    href="kz"
+                                    class="nav-link grayyy p-0 pt-2"
+                                    >қаз</a
+                                >
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <div class="d-flex">
+                                <div class="dropdown p-0 m-0">
+                                    <button
+                                        type="button"
+                                        class="no-button nav-link pt-2 m-0 lng-personal"
+                                        data-bs-toggle="dropdown"
+                                    >
+                                        <i
+                                            class="fa-regular fa-user"
+                                            style="margin-right: 3px"
+                                        ></i>
+                                        Личный кабинет
+                                        <i
+                                            class="fa-solid fa-chevron-down"
+                                            style="color: #6e6e6e"
+                                        ></i>
+                                    </button>
+                                    <ul
+                                        class="dropdown-menu"
+                                        style="
+                                            box-shadow: rgba(0, 0, 0, 0.35)
+                                                0px 5px 15px;
+                                            border-radius: 10px;
+                                        "
+                                    >
+                                        <li>
+                                            <a
+                                                class="dropdown-item lng-message"
+                                                href="/messages/{{lang}}"
+                                                >Сообщения</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a
+                                                class="dropdown-item lng-myPosts"
+                                                href="/my_posts/{{lang}}"
+                                                >Мои объявления</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a
+                                                class="dropdown-item lng-payment"
+                                                href="/payments/{{lang}}"
+                                                >Платежи и счет</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a
+                                                class="dropdown-item lng-myProfile"
+                                                href="/my_profile/{{lang}}"
+                                                >Мой профиль</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider" />
+                                        </li>
+                                        <li>
+                                            <a
+                                                class="dropdown-item lng-exit"
+                                                href="/logout"
+                                                >Выйти</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a
+                                href="/favorites/{{lang}}"
+                                class="nav-link lng-favourite"
+                                ><i class="fa-regular fa-heart"></i
+                                >&nbsp;Избранное</a
+                            >
+                        </li>
+
+                        <li class="nav-item">
+                            <a
+                                href="/messages/{{lang}}"
+                                class="nav-link lng-message-second"
+                                ><i class="fa-regular fa-comment"></i
+                                >&nbsp;Сообщения</a
+                            >
+                        </li>
+
+                        <li class="d-flex">
+                            <a
+                                href="/new_post/{{lang}}"
+                                class="btn btn-outline-warning lng-newPost"
+                                >Подать обьявление</a
+                            >
+                        </li>
+
+                        {% if username %}
+                        <li class="nav-item">
+                            <a
+                                href="/my_profile/{{lang}}"
+                                class="nav-link profileNone"
+                                >&nbsp;{{username}}</a
+                            >
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a
+                                href="/signin/{{lang}}"
+                                class="nav-link profileNone"
+                                >&nbsp;Log in</a
+                            >
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+        <!-- Navbar ends -->
+
+        <div class="topSpace"></div>
+
+        <!-- Categories -->
+
+        <!-- <div class="categories ">
+        
+    
+
+    </categories> -->
+
+        <!-- End Categories -->
+        <!-- <div class="w-100 bg-white pages">
+            <div class="length">
+                <div class="messageText lng-message" style="margin-top: -3px">
+                    Сообщения
+                </div>
+                <div class="page mt-2 flex-wrap">
+                    <a href="/messages/{{lang}}" class="links"
+                        ><div
+                            class="text lng-message"
+                            style="
+                                color: rgb(255, 197, 58);
+                                border-bottom: 3px solid rgb(255, 197, 58);
+                            "
+                        >
+                            Сообщения
+                        </div></a
+                    >
+                    <a href="/my_posts/{{lang}}" class="links"
+                        ><div class="text lng-myPosts">Мои обьявления</div></a
+                    >
+                    <a href="/payments/{{lang}}" class="links"
+                        ><div class="text lng-payment">Платежи и счёт</div></a
+                    >
+                    <a href="/my_profile/{{lang}}" class="links"
+                        ><div class="text lng-myProfile">Мой профиль</div></a
+                    >
+                </div>
+            </div>
+        </div> -->
+        <!-- chats -->
+        
+
+        <div class="topChat">
+            <div class="innerTopChat">
+                <div style="display: flex;">
+                    <a style="display: flex; justify-content: center; align-items: center; margin-right: 10px;" href="/messages/{{lang}}">
+                        <img src="{{url_for('static', filename='/img/back.png')}}" width="25px" alt="go back">                
+                    </a>
+                    <div class="infoOfChat">
+                        {% if buddy_logo %}
+                        <img src="data:;base64, {{ buddy_logo }}" alt="avatar" class="profilePic" />
+                        {% else %}
+                        <img src="{{url_for('static', filename='img/user.svg')}}" alt="avatar" class="avatarImage" />
+                        {% endif %}
+                        <div style="margin-left: 20px;">
+                            <div style="color: black;">{{buddy_info.username}}</div>
+                            <!-- <div style="color: darkslategray; font-size: 13px;">Онлайн вчера в 23:49</div> -->
+                        </div>
+
+                    </div>
+                </div>
+                <div></div>
+            </div>
+        </div>
+        <input type="hidden" value="{{buddy_id}}" id="receiverId">
+
+        <div class="chatDiv">
+            <div class="innerChatDiv">
+                {% for date, messages in messages_by_date.items() %}
+                <ul id="messages">
+                    <!-- <hr> -->
+                <h6><p>{{date}}</p></h6>
+                <!-- <hr> -->
+                {% for message in messages %}
+                {% if not message.is_sender %}
+                <div class="personOne">
+                    <div class="personOneMessage">
+                        <div class="textMessage">
+                            {% for paragraph in message.message_content.split('\n') %}
+                            <p>{{ paragraph }}</p>
+                            {% endfor %}</div>
+                    </div>
+                    <div class="messageTime">{{ message.timestamp }}</div>
+                </div>
+                {% else %}
+                <div class="personTwo">
+                    <div class="personTwoMessage">
+                        <div class="textMessage">
+                            {% if '\n' in message.message_content %}
+                            {% for paragraph in message.message_content.split('\n') %}
+                            <p>{{ paragraph }}</p>
+                            {% endfor %}
+                            {% else %}
+                            {{message.message_content}}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="messageTime leftText">{{ message.timestamp }}</div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endfor %}
+                
+            </div>
+
+        </div>
+        <div class="typeChat">
+            <div class="innerTypeChat">
+                <textarea class="inputTextArea" id="message_input"></textarea>
+                <button class="sendMessageButton" onclick="sendMessage()">
+                    <img src="{{url_for('static', filename='/img/send-message.png')}}" class="sendMessage" alt="send">
+                </button>
+            </div>
+        </div>
+
+
+
+        <!-- chats end -->
+        <div class="lowerSpace" ></div>
+
+        
+
+        <!-- End Categries  -->
+
+        <script
+            src="https://kit.fontawesome.com/06eeb4d8bd.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"
+        ></script>
+        <script src="{{url_for('static', filename='js/lang.js')}}"></script>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+        
+        <script>
+            function formatDate(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const seconds = String(date.getSeconds()).padStart(2, '0');
+
+                return `${hours}:${minutes}`;
+                }
+        </script>
+        <script>
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+        </script>
+        <input type="hidden" value="{{this_user_id}}" id="senderId">
+
+        <script>
+            var receiver = document.getElementById('receiverId').value
+            var sender = document.getElementById('senderId').value
+            
+            socket.on('message', function(data) {
+                if (data.receiver_id===sender && data.sender_id===receiver){
+                    var messages = document.getElementById('messages');
+                    var li = document.createElement('div');
+                    var li_in_1 = document.createElement('div');
+                    var mess_text = document.createElement('div');
+                    mess_text.className = "textMessage";
+                    var li_in_2 = document.createElement('div');
+                    li_in_2.setAttribute('class', 'messageTime');
+                    const currentDate = new Date();
+                    const formattedDate = formatDate(currentDate);
+                    li_in_2.textContent = formattedDate;
+                    mess_text.textContent = data.message;
+                    messages.appendChild(li);
+                    li.appendChild(li_in_1);
+                    li.appendChild(li_in_2);
+                    li_in_1.appendChild(mess_text);
+                    li.setAttribute('class', "personTwo");
+                    li_in_1.setAttribute('class', "personOneMessage");
+                }
+                else if (data.receiver_id===receiver && data.sender_id === sender){
+                    var messages = document.getElementById('messages');
+                    var li = document.createElement('div');
+                    var li_in_1 = document.createElement('div');
+                    var mess_text = document.createElement('div');
+                    mess_text.classList.add("textMessage");
+                    var li_in_2 = document.createElement('div');
+                    li_in_2.classList.add("messageTime");
+                    li_in_2.classList.add('leftText');
+                    const currentDate = new Date();
+                    const formattedDate = formatDate(currentDate);
+                    li_in_2.textContent = formattedDate;
+                    messageContent = data.message;
+                    var message = data.message
+                    if (data.message.includes('\n')) {
+                        var paragraphs = data.message.split('\n');
+                        var htmlContent = '';
+                        for (var i = 0; i < paragraphs.length; i++) {
+                            var paragraph = paragraphs[i];
+                            var ppp = document.createElement('p');
+                            ppp.textContent = paragraph;
+                            mess_text.appendChild(ppp);
+                        }
+                        li_in_1.appendChild(mess_text);
+
+                    }
+                    else {
+                        var ppp = document.createElement('p');
+                        ppp.textContent = data.message
+                        mess_text.appendChild(ppp);
+                        li_in_1.appendChild(mess_text);
+                    }
+                    messages.appendChild(li);
+                    li.appendChild(li_in_1);
+                    li.appendChild(li_in_2);
+                    
+                    li.setAttribute('class', "personTwo");
+                    li_in_1.setAttribute('class', "personTwoMessage");
+                    }
+            });
+        </script>
+    
+        <script>
+            function sendMessage() {
+                var messageInput = document.getElementById('message_input');
+                var message = messageInput.value;
+                var receiver_for_emit = document.getElementById('receiverId').value
+                var sender_for_emit = document.getElementById('senderId').value
+                socket.emit('message', {'message':message, "receiver_id":receiver_for_emit, "sender_id":sender_for_emit});
+                messageInput.value = '';
+            }
+        </script>
+    </body>
+</html>
