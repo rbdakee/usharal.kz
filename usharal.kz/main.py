@@ -70,8 +70,10 @@ dictValues = {
     'Цена': 'lng-cost',
     'Отдам даром': 'lng-free',
     'Возможен обмен': 'lng-swap',
-    'Все категории':'lng-categories'
+    'Все категории':'lng-categories',
+    'Договорная':'lng-contract'
 }
+
 arrLang = []
 arrLang2 = []
 category = 0
@@ -312,13 +314,7 @@ def newpost(lang):
 
 @app.route('/edit_post/<post_id>/<lang>', methods = ['POST', 'GET'])
 def edit_post(post_id, lang):
-    post = Posts.show_one_post(post_id)
-    if lang != 'ru' and lang != 'kz':
-        lang = 'ru'
-        return redirect(url_for('newpost', lang = 'ru'))
-    if post['userEmail']!=session['userEmail']:
-        abort(404)
-    session['lang'] = lang
+    
     if request.method == 'POST':
         id = post_id
         user = Users.return_user_to_db(session['userEmail'])
@@ -349,7 +345,13 @@ def edit_post(post_id, lang):
         new_post = Posts.edit_post(id, user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility, email=email, location=location)
         Photos.edit_photos(photo, id)
         return redirect(url_for('content', post_id=id, lang=session['lang']))
-    
+    post = Posts.show_one_post(post_id)
+    if lang != 'ru' and lang != 'kz':
+        lang = 'ru'
+        return redirect(url_for('newpost', lang = 'ru'))
+    if post['userEmail']!=session['userEmail']:
+        abort(404)
+    session['lang'] = lang
     lenOfPostPhotos = len(post['photos'])
     post['whatsapp_link'] = post['whatsapp_link'].split('/')[-1]
     other = 7- lenOfPostPhotos
@@ -380,15 +382,15 @@ def content(post_id, lang):
     # print(post['category'])
     data = post['category']
     category = catData[data]
-    
     user_logo = Users.return_user_logo(post['user_id'])
     related_posts = Posts.category_filter(category)
     len_of_rel_posts = len(related_posts)
+    lngFacility = dictValues[post['facility']]
     if 'userEmail' in session:
         favPost = favPosts.give_favPostId_of_user(session['userEmail'])
-        return render_template('profiletovara.html', post = post, menu=menu, title=title, username = session['userName'], uuurl='myprofile', related_posts = related_posts, lang = session['lang'], user_logo = user_logo, favourites = favPost, len_of_rel_posts = len_of_rel_posts, lenOfUserName = len(session['userName']), review = False, cat = dictValues)
+        return render_template('profiletovara.html', post = post, menu=menu, title=title, username = session['userName'], uuurl='myprofile', related_posts = related_posts, lang = session['lang'], user_logo = user_logo, favourites = favPost, len_of_rel_posts = len_of_rel_posts, lenOfUserName = len(session['userName']), review = False, cat = dictValues, lngFacility=lngFacility)
     else:
-        return render_template('profiletovara.html', username = 'Log In', lang = session['lang'], post = post, menu=menu, title=title, uuurl='myprofile', related_posts = related_posts, user_logo = user_logo, len_of_rel_posts = len_of_rel_posts, lenOfUserName = 1, review = False, cat = dictValues)
+        return render_template('profiletovara.html', username = 'Log In', lang = session['lang'], post = post, menu=menu, title=title, uuurl='myprofile', related_posts = related_posts, user_logo = user_logo, len_of_rel_posts = len_of_rel_posts, lenOfUserName = 1, review = False, cat = dictValues, lngFacility=lngFacility)
 
 @app.route('/post_activation/<post_id>/<a_token>/<lang>')
 def activation(post_id, a_token, lang):
@@ -467,6 +469,8 @@ def review(lang, post_id = 0):
                 facility_inf = 'Возможен обмен'
             elif facility == "3":
                 facility_inf = 'Отдам даром'
+            elif facility == '4':
+                facility_inf = 'Договорная'
 
             post_inf = {'title': post_title, 'username':session['userName'], 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date.strftime("%m/%d/%Y %H:%M"), 'whatsapp_link':whatsapp_link, 'facility':facility_inf, 'photos':photo_inf}
             user_logo = Users.return_user_logo(Users.return_user_id(session['userEmail']))
@@ -505,6 +509,8 @@ def review(lang, post_id = 0):
                 facility_inf = 'Возможен обмен'
             elif facility == "3":
                 facility_inf = 'Отдам даром'
+            elif facility == '4':
+                facility_inf = 'Договорная'
 
             post_inf = {'title': post_title, 'username':session['userName'], 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date.strftime("%m/%d/%Y %H:%M"), 'whatsapp_link':whatsapp_link, 'facility':facility_inf, 'photos':photo_inf}
             user_logo = Users.return_user_logo(Users.return_user_id(session['userEmail']))
@@ -569,7 +575,7 @@ def login(user=None, lang='ru'):
     if request.method == 'POST':  
         if 'email' in request.form:
             print('login')
-            user = Users.loginning(email=request.form['email'], password=request.form['password'])
+            user = Users.loginning(email=request.form['email'].lower(), password=request.form['password'])
             if user==None:
                 flash("Неправильный логин или пароль! Повторите попытку.")
             elif type(user)==list:
@@ -580,7 +586,7 @@ def login(user=None, lang='ru'):
                 session.permanent_session_lifetime = timedelta(days=3)
                 return redirect(url_for('index', lang=lang))
         elif 'newemail' in request.form:
-            user = registration(username=request.form['newuname'], email=request.form['newemail'], password=request.form['newpassword'])
+            user = registration(username=request.form['newuname'], email=request.form['newemail'].lower(), password=request.form['newpassword'])
             flash(user, 'h')
     
     return render_template('registration-login.html', title = title, lang=lang)
@@ -622,7 +628,7 @@ def update_password():
     if request.method=='POST':
         new_password = request.form['newpassword']
         email = request.form['email']
-        Users.update_password(email, new_password)
+        Users.update_psw(email.lower(), new_password)
         return redirect(url_for('login'))
 
 @app.errorhandler(404)
@@ -632,8 +638,7 @@ def error_page(error):
     else:
         return render_template('error_page.html', menu = menu, lang=session['lang'], lenOfUserName = 1)
     # return redirect(url_for('index', lang =))
-# @app.errorhandler(AttributeError)
-# @app.errorhandler(KeyError)
+# # @app.errorhandler(KeyError)
 # def attributeError_habdler(error):
 #     print('ОШИБКА')
 #     session.pop('userEmail', None)
@@ -644,3 +649,4 @@ def error_page(error):
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000, host='0.0.0.0')
+    # ssl_context='adhoc'

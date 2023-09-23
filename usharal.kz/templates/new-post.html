@@ -153,15 +153,20 @@
                             id="free ">
                         <label for="free" class="lng-free">Отдам даром</label>
                     </div>
+                    <div class="contractBox">
+                        <input type="radio" value="4" name="radio"
+                            id="contract">
+                        <label for="contract" class="lng-contract">Договорная</label>
+                    </div>
                 </div>
             </div>
 
             <p class="zagolovki">Фото</p>
 
                 <div class="containerForAllImages gallery">
-                    <div class="photo" style="border: 5px solid #ffc53a">
+                    <div class="photo" id="imageInputParent" style="border: 5px solid #ffc53a">
                         <img src="{{url_for('static', filename='img/Vector1.svg')}}"  width="50" alt="" class="imageOfUserChooseCamera">
-                        <input type="file" onchange="showFile(this)" maxlength=7 accept="image/*" name="post_photo" multiple="True" class="file" required max="7">
+                        <input type="file" onchange="showFile(this)" maxlength=7 accept="image/*" name="post_photo" multiple="True" class="file" id="imageInput" required max="7">
                     </div>
                     
                     <div count='0' class="photo imageBox " oncontextmenu="return false">

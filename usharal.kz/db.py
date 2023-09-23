@@ -126,6 +126,7 @@ class Users(db.Model):
 
 
     def __init__(self, username, email, password, logo=None, phone_number=None):
+        email = email.lower()
         self.username = username
         self.email = email
         self.password = password
@@ -139,10 +140,12 @@ class Users(db.Model):
         return user.email
 
     def return_user_password(user_email):
+        user_email = user_email.lower()
         user = Users.query.filter_by(email = user_email).first()
         return user.password
 
     def loginning(email, password):
+        email = email.lower()
         user = Users.query.filter_by(email=email, password=password).first()
         try:
             return [user.username, user.email]
@@ -150,15 +153,18 @@ class Users(db.Model):
             return None
 
     def update_psw(email, new_password):
+        email = email.lower()
         user = Users.query.filter_by(email=email).first()
         user.password = new_password
         db.session.commit()
 
     def return_user_to_db(email):
+        email = email.lower()
         user = Users.query.filter_by(email=email).first()
         return user
 
     def show_user_information(email):
+        email = email.lower()
         user = Users.query.filter_by(email=email).first()
         email = user.email
         username = user.username
@@ -177,6 +183,7 @@ class Users(db.Model):
         return ({'email':email, 'username':username, 'logo':logo, 'whatsapp_number':whatsapp_number, 'phone_number':phone_number})
 
     def edit_user_information(email, logo, whatsapp_number, phone_number, password, username):
+        email = email.lower()
         user = Users.query.filter_by(email=email).first()
         print(type(password))
         if logo != b'':
@@ -200,6 +207,7 @@ class Users(db.Model):
             return 0
 
     def return_user_id(user_email):
+        user_email = user_email.lower()
         user = Users.query.filter_by(email = user_email).first()
         return user.id
 
@@ -308,6 +316,8 @@ class Posts(db.Model):
                 facility = 'Возможен обмен'
             elif facility == 3:
                 facility = 'Отдам даром'
+            elif facility == 4:
+                facility = 'Договорная'
             try:
                 photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
             except:
@@ -359,6 +369,8 @@ class Posts(db.Model):
                 facility = 'Возможен обмен'
             elif facility == 3:
                 facility = 'Отдам даром'
+            elif facility == 4:
+                facility = 'Договорная'
             try:
                 photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
                 print(type(photos))
@@ -416,6 +428,8 @@ class Posts(db.Model):
                 facility = 'Возможен обмен'
             elif facility == 3:
                 facility = 'Отдам даром'
+            elif facility == 4:
+                facility = 'Договорная'
             try:
                 photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
             except:
@@ -474,6 +488,8 @@ class Posts(db.Model):
             facility = 'Возможен обмен'
         elif facility == 3:
             facility = 'Отдам даром'
+        elif facility == 4:
+            facility = 'Договорная'
         photos = []
         for j in range(len(posts.photo)):
             photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
@@ -505,6 +521,8 @@ class Posts(db.Model):
                 facility = 'Возможен обмен'
             elif facility == 3:
                 facility = 'Отдам даром'
+            elif facility == 4:
+                facility = 'Договорная'
             try:
                 photos = base64.b64encode(post.photo[0].data).decode('ascii')
             except:

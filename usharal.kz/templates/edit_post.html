@@ -102,7 +102,7 @@
 
     <div class="wrapper mt-5">
         <div class="width-block">
-            <h2 class="headline lng-newPost">Подать обьявление</h1>
+            <h2 class="headline lng-newPost">Редактировать обьявление</h1>
 
         </div>
         <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
@@ -307,31 +307,82 @@
                                         <input type="radio" value="3" name="radio" id="free " required>
                                         <label for="free">Отдам даром</label>
                                     </div>
+                                    <div class="contractBox">
+                                        <input type="radio" value="4" name="radio" required
+                                            id="contract">
+                                        <label for="contract" class="lng-contract">Договорная</label>
+                                    </div>
                                     {% elif post.facility == 'Возможен обмен' %}
                                     <div class="middleBox">
                                         <input type="radio" value="1" name="radio" id="middle " required>
-                                        <label for="middle">Цена</label>
+                                        <label for="middle" class="lng-middle">Цена</label>
                                     </div>
                                     <div class="swapBox">
                                         <input type="radio" value="2" name="radio" id="swap " required checked>
-                                        <label for="swap">Возможен обмен</label>
+                                        <label for="swap" class="lng-swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
                                         <input type="radio" value="3" name="radio" id="free " required>
-                                        <label for="free">Отдам даром</label>
+                                        <label for="free" class="lng-free">Отдам даром</label>
+                                    </div>
+                                    <div class="contractBox">
+                                        <input type="radio" value="4" name="radio" required
+                                            id="contract">
+                                        <label for="contract" class="lng-contract">Договорная</label>
                                     </div>
                                     {% elif post.facility == "Отдам даром" %}
                                     <div class="middleBox">
                                         <input type="radio" value="1" name="radio" id="middle " required>
-                                        <label for="middle">Цена</label>
+                                        <label for="middle" class="lng-middle">Цена</label>
                                     </div>
                                     <div class="swapBox">
                                         <input type="radio" value="2" name="radio" id="swap " required>
-                                        <label for="swap">Возможен обмен</label>
+                                        <label for="swap" class="lng-swap">Возможен обмен</label>
                                     </div>
                                     <div class="freeBox">
                                         <input type="radio" value="3" name="radio" id="free " checked>
-                                        <label for="free">Отдам даром</label>
+                                        <label for="free" class="lng-free">Отдам даром</label>
+                                    </div>
+                                    <div class="contractBox">
+                                        <input type="radio" value="4" name="radio" required
+                                            id="contract">
+                                        <label for="contract" class="lng-contract">Договорная</label>
+                                    </div>
+                                    {% elif post.facility == "Договорная" %}
+                                    <div class="middleBox">
+                                        <input type="radio" value="1" name="radio" id="middle " required>
+                                        <label for="middle" class="lng-middle">Цена</label>
+                                    </div>
+                                    <div class="swapBox">
+                                        <input type="radio" value="2" name="radio" id="swap " required>
+                                        <label for="swap" class="lng-swap">Возможен обмен</label>
+                                    </div>
+                                    <div class="freeBox">
+                                        <input type="radio" value="3" name="radio" id="free " required>
+                                        <label for="free" class="lng-free">Отдам даром</label>
+                                    </div>
+                                    <div class="contractBox">
+                                        <input type="radio" value="4" name="radio" checked
+                                            id="contract">
+                                        <label for="contract" class="lng-contract">Договорная</label>
+                                    </div>
+                                    {% else %}
+                                    <div class="middleBox">
+                                        <input type="radio" value="1" name="radio" id="middle " required>
+                                        <label for="middle" class="lng-middle">Цена</label>
+                                    </div>
+                                    <div class="swapBox">
+                                        <input type="radio" value="2" name="radio" id="swap " required>
+                                        <label for="swap" class="lng-swap">Возможен обмен</label>
+                                    </div>
+                                    <div class="freeBox">
+                                        <input type="radio" value="3" name="radio" id="free " required>
+                                        <label for="free" class="lng-free">Отдам даром</label>
+                                    </div>
+                                    <div class="contractBox">
+                                        <input type="radio" value="4" name="radio" required
+                                            id="contract">
+                                        <label for="contract" class="lng-contract">Договорная</label>
                                     </div>
                                     {% endif %}
                 </div>
@@ -340,22 +391,44 @@
             <p class="zagolovki">Фото</p>
 
                 <div class="containerForAllImages gallery">
-                    <div class="photo" style="border: 5px solid #ffc53a">
-                        <img src="{{url_for('static', filename='img/Vector1.svg')}}"  width="50" alt="" class="imageOfUserChoose">
-                        <input type="file" onchange="showFile(this)" maxlength=7 accept="image/*" name="post_photo" multiple="True" class="file" required max="7">
+                    {% if lenOfPostPhotos!=8 %}
+                    <div class="photo" style="border: 5px solid #ffc53a" id="imageInput">
+                        <img src="{{url_for('static', filename='img/Vector1.svg')}}"  width="50" alt="" class="imageOfUserChooseCamera">
+                        <input type="file" onchange="showFile(this)" maxlength=7 accept="image/*" name="post_photo"  multiple="True" class="file" max="7">
                     </div>
-                    {% for j in range(lenOfPostPhotos) %}
-                                    <div  class="imageBox{{j+2}} imageBox">
-                                        <img count="{{j}}" src="data:;base64,  {{post.photos[j]}}" class="imageOfUser" alt="" srcset="">
-                                    </div>
-                                    {% endfor %}
+                    {% else %}
+                    <div class="photo" hidden style="border: 5px solid #ffc53a" id="imageInput">
+                        <img src="{{url_for('static', filename='img/Vector1.svg')}}"  width="50" alt="" class="imageOfUserChooseCamera">
+                        <input type="file" onchange="showFile(this)" maxlength=7 accept="image/*" name="post_photo" multiple="True" class="file" max="7">
+                    </div>
+                    {% endif %}
+                {% for j in range(8) %}
+                {% if j == 7 and lenOfPostPhotos!=8%}
+
+                    <div count="{{j}}" class="photo imageBox"  hidden oncontextmenu="return false">                        
+                        <img  src="{{url_for('static', filename='img/Vector1.svg')}}" class="imageOfUser" alt="" srcset="">                        
+                        <div class="backColor"></div>
+                    </div>
+                {% elif j < lenOfPostPhotos %}
+                    <div count="{{j}}" class="photo imageBox"  oncontextmenu="return false">
+                        <img  src="data:;base64,  {{post.photos[j]}}" class="imageOfUser" alt="" srcset="">
+                        <div class="backColor"></div>
+                    </div>  
+                {% else %}
+                    <div count="{{j}}" class="photo imageBox"  oncontextmenu="return false">                        
+                        <img  src="{{url_for('static', filename='img/Vector1.svg')}}" class="imageOfUser" alt="" srcset="">                        
+                        <div class="backColor"></div>
+                    </div>
+                {% endif %}
+                  {% endfor %}
+                    
                 
                 </div>
                 <!-- <button onclick="deleteAll()">Очистить</button> -->
             <!-- </div> -->
-
+                
+            <button class="btnClear lng-clear" type="button" onclick="deleteAll()">Очистить</button>
             <div class="d-flex flex-column mt-3">
-                <button class="btnClear lng-clear" onclick="deleteAll()">Очистить</button>
            
                 <ul style="margin-top: 20px;">
                     <h3 style="color: green;" class="lng-advices">Советы</h3>
@@ -438,7 +511,7 @@
 
         <div class="buttonsBlock w-50 d-flex justify-content-end mt-3 ms-3">
             <div class="d-flex twoButtonsBlock">
-                <button class="btn btn-outline-warning twobuttons finalBtn lng-newPost" style="background-color:  #ffc53a; color: white;" formaction="/new_post/{{lang}}">Подать обьявление</button>
+                <button class="btn btn-outline-warning twobuttons finalBtn lng-newPost" style="background-color:  #ffc53a; color: white;" formaction="/edit_post/{{post.id}}/{{lang}}">Подать обьявление</button>
                 <a>
                     <button class="btn btn-outline-warning twobuttons previewBtn lng-seeBefore" formaction="/review/0/{{lang}}">Предпросмотр</button>
                 </a>    
