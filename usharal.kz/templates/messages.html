@@ -12,15 +12,15 @@
             crossorigin="anonymous"
         />
         <link
-            rel="stylesheet"
+        rel="preload" as="style"
             href="{{url_for('static', filename='css/styleSecond.css')}}"
         />
         <link
-            rel="stylesheet"
+        rel="preload" as="style"
             href="{{url_for('static', filename='css/styleI.css')}}"
         />
         <link
-            rel="stylesheet"
+        rel="preload" as="style"
             href="{{url_for('static', filename='css/messages.css')}}"
         />
     </head>
@@ -273,9 +273,9 @@
                 <a class="chat mt-2" href="/chat/{{chat.user_id}}/{{lang}}">
                     <div class="infoOfChat">
                         {% if chat.user_logo %}
-                        <img src="data:;base64, {{chat.user_logo}}" alt="avatar" class="avatarImage" />
+                        <img loading="lazy" src="data:;base64, {{chat.user_logo}}" alt="avatar" class="avatarImage" />
                         {% else %}
-                        <img src="{{url_for('static', filename='img/user.svg')}}" alt="avatar" class="avatarImage" />
+                        <img loading="lazy" src="{{url_for('static', filename='img/user.svg')}}" alt="avatar" class="avatarImage" />
                         {% endif %}
                         <div style="margin-left: 20px;">
                             <div class="nameOfAccount">{{chat.username}}</div>
