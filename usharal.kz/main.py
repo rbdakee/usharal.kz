@@ -1,4 +1,5 @@
-import base64
+import os
+import uuid
 # from types import NoneType
 from flask import Flask, render_template, url_for, request, redirect, flash, session, abort, make_response, jsonify
 from itsdangerous import URLSafeTimedSerializer
@@ -14,6 +15,8 @@ s = URLSafeTimedSerializer('alshdawdowg1288faklsf7fgasbfawfasdawfavxvdzwasdw2')
 app.config["SECRET_KEY"] = 'jp0?ad[1-=-0-`94mpgf-pjmwr3;2owdakdnw'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+UPLOAD_FOLDER = 'usharal.kz\\static\\uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db.init_app(app)
 socketio = SocketIO(app)
 with app.app_context():
@@ -96,7 +99,6 @@ def index(lang='ru'):
 
         if request.method == 'GET':
             data = request.args.get('category')
-            print(data)
             search = request.args.get('search-field')
             if data:
                 category = catData[data]
@@ -199,7 +201,6 @@ def handle_message(data):
     message_content = data['message']
     sender_id = Users.return_user_id(session['userEmail'])
     receiver_id = data['receiver_id']
-    print(data)
     message = Message(content=message_content, sender_id=sender_id, receiver_id=receiver_id)
     db.session.add(message)
     db.session.commit()
@@ -216,7 +217,12 @@ def myprofile(lang='ru'):
             if prevpass == userpass: 
                 username = request.form['username']
                 session['userName'] = username
-                logo = request.files['logo'].read()
+                img = request.files['logo']
+                if img.filename != '':
+                    filename = upload_image(img)
+                    logo = filename         
+                else:
+                    logo = ''           
                 whatsapp_number = request.form['whatsapp_number']
                 phone_number = request.form['phone_number']
                 password = request.form['password']
@@ -255,6 +261,19 @@ def phone_numbers_to_waLink(number):
     return res
 
 boolclicked = [-1]
+def generate_unique_filename(filename):
+    extension = filename.rsplit('.', 1)[1] if '.' in filename else 'jpg'
+    unique_filename = str(uuid.uuid4()) + '.' + extension
+    return unique_filename
+
+def upload_image(file):
+    if file:
+        filename = generate_unique_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+        return filename
+    return None
+
 @app.route('/new_post/<lang>', methods=['POST', 'GET'])
 def newpost(lang):
     if 'userName' in session:
@@ -284,9 +303,11 @@ def newpost(lang):
                 facility = request.form['radio']
                 post_date = datetime.today()
                 post = Posts(user, post_title, phone_number, category, cost, description, post_date, deactivate_date, delete_date, whatsapp_link, status, advertisement, facility, email, location)
-                for i in photo:
-                    photos = Photos(i.read(), post.id)
-        
+                for uploaded_file in photo:
+                    if uploaded_file.filename != '':
+                        filename = upload_image(uploaded_file)
+                        if filename:
+                            image = Photos(filename, post.id)        
                 return redirect(url_for('index', lang = session['lang']))
             else:
                 user = Users.return_user_to_db(session['userEmail'])
@@ -374,7 +395,6 @@ def content(post_id, lang):
         return redirect(url_for('content', lang = 'ru'))
     session['lang'] = lang
     post = Posts.show_one_post(post_id)
-    # print(post['category'])
     data = post['category']
     category = catData[data]
     user_logo = Users.return_user_logo(post['user_id'])
@@ -445,7 +465,7 @@ def review(lang, post_id = 0):
             post_title=request.form['post_title']
             category=request.form['category']
             cost = request.form['post_cost']
-            photo = request.files.getlist('post_photo')[0:10]
+            photo = request.files.getlist('post_photo')[0:8]
             description = request.form['post_description']
             phone_number = request.form['phone_number']
             whatsapp_phone_number = request.form['whatsapp_phone_number']
@@ -456,8 +476,10 @@ def review(lang, post_id = 0):
             facility = request.form['radio']
             post_date = datetime.today()
             photo_inf = []
-            for i in photo:
-                photo_inf.append(base64.b64encode(i.read()).decode('ascii'))
+            for uploaded_file in photo:
+                if uploaded_file.filename != '':
+                    filename = upload_image(uploaded_file)
+                    photo_inf.append(filename)   
             if facility == "1":
                 facility_inf = 'Цена'
             elif facility == "2":
@@ -476,7 +498,6 @@ def review(lang, post_id = 0):
             post_title=request.form['post_title']
             category=request.form['category']
             cost = request.form['post_cost']
-            print('its ok')
             try:
                 photo = request.files.getlist('post_photo')[0:10]
                 if "''" in str(photo):
@@ -496,8 +517,10 @@ def review(lang, post_id = 0):
             facility = request.form['radio']
             post_date = datetime.today()
             photo_inf = []
-            for i in photo:
-                photo_inf.append(base64.b64encode(i).decode('ascii'))
+            for uploaded_file in photo:
+                if uploaded_file.filename != '':
+                    filename = upload_image(uploaded_file)
+                    photo_inf.append(filename) 
             if facility == "1":
                 facility_inf = 'Цена'
             elif facility == "2":
@@ -528,53 +551,16 @@ def favorites(lang):
         return render_template('izbrannoe.html', title = title, menu = menu, username=session['userName'], uuurl='myprofile', posts = posts, lang = session['lang'], cat = dictValues, dictType = dictType, dataCat = dataCat, lenOfUserName = len(session['userName']))
     else:
         return redirect(url_for('login', lang=lang))
-         
-
-# @app.route('/load_posts')
-# def load_posts():
-#     page = request.args.get('page', 1, type=int)
-#     per_page = 10
-#     posts = Posts.query.paginate(page, per_page, False)
-
-#     posts_list = []
-
-#     for post in posts.items:
-#         post_data = {
-#             'id': post.id,
-#             'user': post.user,
-#             'post_title': post.post_title,
-#             'phone_number': post.phone_number,
-#             'category': post.category,
-#             'cost': post.cost,
-#             'description': post.description,
-#             'post_date': post.post_date.strftime('%Y-%m-%d %H:%M:%S'),
-#             'deactivate_date': post.deactivate_date.strftime('%Y-%m-%d %H:%M:%S'),
-#             'delete_date': post.delete_date.strftime('%Y-%m-%d %H:%M:%S'),
-#             'whatsapp_link': post.whatsapp_link,
-#             'status': post.status,
-#             'advertisement': post.advertisement,
-#             'view_counter': post.view_counter,
-#             'fav_counter': post.fav_counter,
-#             'facility': post.facility,
-#             'email': post.email,
-#             'location': post.location,
-#             'photo': [photo.url for photo in post.photo],  # Assuming 'Photos' has a 'url' attribute
-#         }
-#         posts_list.append(post_data)
-
-#     return posts_list
-   
+           
 
 @app.route('/signin/<lang>', methods = ['POST', 'GET'])
 def login(user=None, lang='ru'):
     if request.method == 'POST':  
         if 'email' in request.form:
-            print('login')
             user = Users.loginning(email=request.form['email'].lower(), password=request.form['password'])
             if user==None:
                 flash("Неправильный логин или пароль! Повторите попытку.")
             elif type(user)==list:
-                print(user)
                 session['userName']=user[0]
                 session['userEmail']=user[1]
                 session.permanent = True
@@ -590,7 +576,6 @@ def login(user=None, lang='ru'):
 
 @app.route('/logout')
 def logout():
-    print('logged out')
     Posts.post_deactivation(today = datetime.today())
     session.pop('userEmail', None)
     session.pop('userName', None)
@@ -635,7 +620,6 @@ def error_page(error):
     # return redirect(url_for('index', lang =))
 # # @app.errorhandler(KeyError)
 # def attributeError_habdler(error):
-#     print('ОШИБКА')
 #     session.pop('userEmail', None)
 #     session.pop('userName', None)
 #     return redirect(url_for('index', lang = session['lang'] ))

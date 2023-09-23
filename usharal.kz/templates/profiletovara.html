@@ -146,7 +146,7 @@
                     </div>
 
                     <div class="innerDiv mainImgDiv imageHere">
-                        <img loading="lazy" style="width: 100%;" class="samImage" src="data:;base64,{{post.photos[0]}}">
+                        <img loading="lazy" style="width: 100%;" class="samImage" src="/static/uploads/{{post.photos[0]}}">
                     </div>
 
                     <div class="innerDiv controlBtn" onclick="plusSlides(1, 1)">
@@ -186,7 +186,7 @@
                     <div class="firstL" style="margin: 5px 5px 25px 0px;">
                         <div class="miniProfile" style=" align-items: center;">
                             {% if user_logo != 0 %}
-                            <img loading="lazy" src="data:;base64, {{user_logo}}" class = "profLogo" style="width: 57px; height: 57px; border-radius: 50%;">
+                            <img loading="lazy" src="/static/uploads/{{user_logo}}" class = "profLogo" style="width: 57px; height: 57px; border-radius: 50%;">
                             {% else %}
                             <img loading="lazy" src="{{url_for('static', filename = 'img/user.svg')}}" class = "profLogo" style="width: 57px; border-radius: 50%;">
                             {% endif %}
@@ -224,7 +224,7 @@
                 <div class="sliderCon col-md-7 col-xs-12 m-3 p-0 ms-0 mt-0">
                     {% for photo in post.photos %}
                     <div class="imgBox">
-                        <img loading="lazy" class="miniImg" src="data:;base64,{{photo}}">
+                        <img loading="lazy" class="miniImg" src="/static/uploads/{{photo}}">
                     </div>
                     {% endfor %}
                 </div>
@@ -260,7 +260,7 @@
                         <div class="miniProfile" style=" align-items: center;"> 
                             
                             {% if user_logo != 0 %}
-                            <img loading="lazy" src="data:;base64, {{user_logo}}" class = "profLogo" style="width: 57px; height: 57px; border-radius: 50%;">
+                            <img loading="lazy" src="/static/uploads/{{user_logo}}" class = "profLogo" style="width: 57px; height: 57px; border-radius: 50%;">
                             {% else %}
                             <img loading="lazy" src="{{url_for('static', filename = 'img/user.svg')}}" class = "profLogo" style="width: 57px; border-radius: 50%;">
                             {% endif %}

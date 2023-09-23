@@ -273,7 +273,7 @@
                 <a class="chat mt-2" href="/chat/{{chat.user_id}}/{{lang}}">
                     <div class="infoOfChat">
                         {% if chat.user_logo %}
-                        <img loading="lazy" src="data:;base64, {{chat.user_logo}}" alt="avatar" class="avatarImage" />
+                        <img loading="lazy" src="/static/uploads/{{chat.user_logo}}" alt="avatar" class="avatarImage" />
                         {% else %}
                         <img loading="lazy" src="{{url_for('static', filename='img/user.svg')}}" alt="avatar" class="avatarImage" />
                         {% endif %}

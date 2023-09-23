@@ -1,4 +1,3 @@
-import base64
 from datetime import datetime, timedelta, timezone
 # from types import NoneType
 from flask import Flask
@@ -169,7 +168,7 @@ class Users(db.Model):
         email = user.email
         username = user.username
         if user.logo != None:
-            logo = base64.b64encode(user.logo).decode('ascii')  
+            logo = user.logo 
         else:
             logo = 0
         if user.whatsapp_number != None:
@@ -186,7 +185,7 @@ class Users(db.Model):
         email = email.lower()
         user = Users.query.filter_by(email=email).first()
         print(type(password))
-        if logo != b'':
+        if logo != '':
             user.logo = logo
         if whatsapp_number!='':
             user.whatsapp_number = whatsapp_number
@@ -201,7 +200,7 @@ class Users(db.Model):
     def return_user_logo(user_id):
         user = Users.query.filter_by(id = user_id).first()
         if user.logo != None:
-            logo = base64.b64encode(user.logo).decode('ascii')
+            logo = user.logo
             return logo
         else:
             return 0
@@ -319,7 +318,7 @@ class Posts(db.Model):
             elif facility == 4:
                 facility = 'Договорная'
             try:
-                photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
+                photos = posts[i].photo[0].data
             except:
                 photos = 0
             postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, 'photos':photos, 'advertisement':advertisement, 'facility':facility})
@@ -372,7 +371,7 @@ class Posts(db.Model):
             elif facility == 4:
                 facility = 'Договорная'
             try:
-                photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
+                photos = posts[i].photo[0].data
                 print(type(photos))
             except:
                 photos = 0
@@ -431,7 +430,7 @@ class Posts(db.Model):
             elif facility == 4:
                 facility = 'Договорная'
             try:
-                photos = base64.b64encode(posts[i].photo[0].data).decode('ascii')
+                photos = posts[i].photo[0].data
             except:
                 photos = 0
             postss.append({'id':id, 'title': title, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, "view_counter":view_counter, "fav_counter":fav_counter, "facility":facility, 'photos':photos})
@@ -492,7 +491,7 @@ class Posts(db.Model):
             facility = 'Договорная'
         photos = []
         for j in range(len(posts.photo)):
-            photos.append(base64.b64encode(posts.photo[j].data).decode('ascii'))
+            photos.append(posts.photo[j].data)
         post = {'id':id, 'user_id': user_id, 'userEmail':userEmail, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, "view_counter":view_counter, "fav_counter":fav_counter, 'facility':facility, 'photos':photos, 'email':email, 'location':location}
         return post
 
@@ -524,7 +523,7 @@ class Posts(db.Model):
             elif facility == 4:
                 facility = 'Договорная'
             try:
-                photos = base64.b64encode(post.photo[0].data).decode('ascii')
+                photos = post.photo[0].data
             except:
                 photos = 0
             post_main = {'id':id, 'title': title, 'username':username, 'phone_number':phone_number, 'category':category, "cost":cost, 'description':description, 'post_date':post_date, 'deactivate_date':deactivate_date, "delete_date":delete_date, 'whatsapp_link':whatsapp_link, 'status':status, 'facility':facility, 'photos':photos}
@@ -584,7 +583,7 @@ class Posts(db.Model):
 
 class Photos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.LargeBinary)
+    data = db.Column(db.String(500))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
     def __init__(self, data, post_id):

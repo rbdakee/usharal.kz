@@ -164,7 +164,7 @@
                 <div class="product m-2 mb-4" style="overflow: hidden;">
                     <div class="image-block">
                         {% if post.photos != 0 and post.photos != '' and post.photos != None%}
-                        <img class = "product-image" src="data:;base64, {{ post.photos }}" alt="photo" loading="lazy">
+                        <img class = "product-image" src="/static/uploads/{{post.photos}}" alt="photo" loading="lazy">
                         {% else %}
                         <img class = "product-image" src="{{url_for('static', filename='img/no_image.png')}}" loading="lazy">
                         {% endif %}

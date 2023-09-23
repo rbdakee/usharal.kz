@@ -176,7 +176,7 @@
                         class="secondPart"> </span></div>
                 {% if user.logo != 0 %}
                 <div class="imageBoxProfile">
-                    <img loading="lazy" src="data:;base64, {{user.logo}}" width="50" alt="" class="imageOfUserChoose">
+                    <img loading="lazy" src="/static/uploads/{{user.logo}}" width="50" alt="" class="imageOfUserChoose">
                 </div>
                 {% else %}
                 <div class="imageBoxProfile">
