@@ -117,7 +117,7 @@ class Users(db.Model):
     username = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(500), nullable=True)
-    logo = db.Column(db.LargeBinary)
+    logo = db.Column(db.String(500))
     whatsapp_number = db.Column(db.Integer, nullable = True)
     phone_number = db.Column(db.Integer, nullable = True)
     photo = db.relationship('Posts', backref='users')
