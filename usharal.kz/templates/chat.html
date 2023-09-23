@@ -280,7 +280,7 @@
                         </a>
                         <div class="infoOfChat">
                             {% if buddy_logo %}
-                            <img src="data:;base64, {{ buddy_logo }}" alt="avatar" class="profilePic" />
+                            <img src="/static/uploads/{{buddy_logo}}" alt="avatar" class="profilePic" />
                             {% else %}
                             <img src="{{url_for('static', filename='img/user.svg')}}" alt="avatar" class="avatarImage" />
                             {% endif %}
