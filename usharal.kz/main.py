@@ -6,12 +6,10 @@ import itsdangerous
 from send_email import send_link
 from datetime import datetime, timedelta, timezone
 from db import *
-from flask_sock import Sock
 from flask_socketio import SocketIO, emit
 
 
 app = Flask(__name__)
-sock = Sock(app)
 s = URLSafeTimedSerializer('alshdawdowg1288faklsf7fgasbfawfasdawfavxvdzwasdw2')
 app.config["SECRET_KEY"] = 'jp0?ad[1-=-0-`94mpgf-pjmwr3;2owdakdnw'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -142,18 +140,15 @@ def index(lang='ru'):
         return render_template('index.html',title = title, menu = menu, username=f'Log In', uuurl='signin', posts = posts, lang = session['lang'], category = 'Все категории', cat = dictValues, lenOfUserName = 1)
     
 
-@sock.route('/favPost')
-def echo(sock):
-    while True:
-        data = sock.receive()
-        userEmail = session['userEmail']
-        data = data.split(',')
-        classes = data[1].split()
-        if 'fa-regular' in classes:
-            favPosts.add_favPost(userEmail, data[0])
-        elif 'fa' in classes:
-            favPosts.delete_favPost(userEmail, data[0])
-        sock.send(data)
+@socketio.on('favPost')
+def echo(data):
+    userEmail = session['userEmail']
+    value = data['value']
+    classes = data['class']
+    if 'fa-regular' in classes.values():
+        favPosts.add_favPost(userEmail, value)
+    elif 'fa' in classes.values():
+        favPosts.delete_favPost(userEmail, value)
 
 
 # My Route for CHAT.HTML

@@ -327,28 +327,28 @@
     <script src="https://kit.fontawesome.com/06eeb4d8bd.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="{{url_for('static', filename='js/lang.js')}}"></script>
-    <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     
-      
-    </script>
-    <script>
-        const socket = new WebSocket('ws://' + location.host + '/favPost');
+     <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
     </script>
     {% for post in posts %}
+   
     <script>
         document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {
-        
+            
             ev.preventDefault();
             const text = document.getElementById('text_{{post.id}}');
            
        
             heart = document.getElementById('spanOfHeart_{{post.id}}');
             var data = [text.value, heart.classList];
-            socket.send(data);
+            socket.emit('favPost', {'value':text.value, 'class':heart.classList})
             document.getElementById('spanOfHeart_{{post.id}}').classList.toggle("fa-regular")
             document.getElementById('spanOfHeart_{{post.id}}').classList.toggle("fa")
         };
     </script>
+    
  {% endfor %}
 </body>
 </html>
