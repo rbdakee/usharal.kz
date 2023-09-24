@@ -1,1 +1,402 @@
-.mainBlock,body,html{margin:0;padding:0}.chat,h6 p{color:#000}body{height:100vh;width:100%}@viewport{width:device-width;zoom:1.0}.chats,.typeChat{width:100%;display:flex;justify-content:center}.innerChat{width:80%}.chat{text-decoration:none;cursor:pointer;width:100%;height:100px;background-color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:space-between;padding-left:20px;box-shadow:rgba(0,0,0,.24) 0 3px 8px}.date,.nameOfAccount{display:flex;color:gray}.avatarImage,.profilePic{width:50px;border-radius:50px}.infoOfChat{display:flex;align-items:center;width:90%;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.dateOfChat{width:10%}.nameOfAccount{justify-content:space-between}.date{justify-content:flex-end;font-size:13px}.lastTypedMessage{color:#5f5f5f;display:hidden}::-webkit-scrollbar{width:0}::-webkit-scrollbar-thumb{background:0 0;border-radius:3px;scrollbar-color:#888 transparent;scrollbar-width:none}.mainBlock{height:100vh!important;display:flex;flex-direction:column;align-content:space-between}.chatDiv{overflow-y:scroll;width:100%;height:70vh;display:flex;flex-direction:column;align-items:center}.innerChatDiv{padding:10px;width:70%;height:100%;background-color:#fff;display:flex;overflow-y:auto;flex-direction:column-reverse}.personOneMessage,.personTwoMessage{padding:8px 15px;border-radius:10px;margin:5px}#messages{padding:0!important}.personOneMessage{align-self:flex-start;display:inline-block;max-width:60%;background-color:#d3d1d1}.innerTypeChat,.leftText,.personTwo,.topChat,h6{display:flex}.personTwoMessage{display:flex;align-self:flex-end;max-width:auto;background-color:#a6c3fa;overflow-x:hidden}.messageTime{margin:-5px 8px 1px;font-size:13px;color:#2f4f4f}.leftText{justify-content:flex-end}.personTwo{align-self:flex-end;flex-direction:column;align-content:flex-end}.personOne{align-self:flex-start}.topChat{margin-top:70px;width:100%;justify-content:center}.innerTopChat,.innerTypeChat{width:70%;background-color:#fff}.innerTopChat{box-shadow:rgba(0,0,0,.15) 1.95px 1.95px 2.6px;z-index:5;border-top-right-radius:10px;border-top-left-radius:10px;padding:10px}.innerTypeChat{border-top:1px solid #dfdfdf;align-items:center;justify-content:space-between;padding:10px 0;border-bottom-right-radius:10px;border-bottom-left-radius:10px;height:50px;box-shadow:rgba(0,0,0,.24) 0 3px 8px}.inputTextArea{width:100%;padding:10px;border:none;border-bottom-right-radius:10px;border-bottom-left-radius:10px;resize:none;height:50px;background-color:transparent}h6{justify-content:center;align-items:center;min-width:150px}h6 p{background-color:#fdc51e;border:1px solid #fdc51e;border-radius:10px;margin:10px -10px;padding:0 10px}.textMessage{justify-content:flex-end;max-width:100%;word-wrap:break-word!important;display:inline-block}.textMessage p{margin-top:-3px;margin-bottom:-3px}.topSpace{margin-top:57px}.sendMessage{width:25px}.sendMessageButton{border:none;outline:0;background:0 0;padding:10px;margin:0}@media only screen and (max-width:1136px){.innerChatDiv,.innerTopChat,.innerTypeChat{width:90%}}@media only screen and (max-width:913px){.infoOfChat{width:80%}.dateOfChat{width:20%}}@media only screen and (max-width:628px){.innerChat{width:95%}}@media only screen and (max-width:500px){.chatDiv{height:100vh!important}.mainBlock{height:88vh!important;display:flex;flex-direction:column;align-content:space-between}.innerTopChat{width:100%;border-radius:0}.innerChatDiv{width:100%}.innerTypeChat{width:100%;border-radius:0!important}.topChat{margin-top:50px}body{overflow:auto}}@media only screen and (max-width:414px){.infoOfChat{width:75%}.dateOfChat{width:25%}}
+body{
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+html, .mainBlock {
+    margin: 0;
+    padding: 0;
+  }
+  @viewport {
+    width: device-width;
+    zoom: 1.0;
+  }
+
+.chats{
+    width: 100%;
+    /* height: 850px; */
+    /* background-color: pink; */
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+}
+
+.innerChat{
+    width: 80%;
+    /* height: 700px; */
+    /* background-color: plum; */
+}
+
+.chat{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    width: 100%;
+    height: 100px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.avatarImage{
+    width: 50px;
+    border-radius: 50px;
+}
+
+.infoOfChat{
+   display: flex;
+   align-items: center;
+   width: 90%;
+   text-overflow: ellipsis;
+   white-space: nowrap; 
+   overflow: hidden;
+}
+.dateOfChat{
+    width: 10%;
+}
+
+
+.nameOfAccount{
+    display: flex;
+    justify-content: space-between;
+    color: gray;
+}
+
+.date{
+    display: flex;
+    justify-content: flex-end;
+    color: gray;
+    font-size: 13px;
+}
+
+.lastTypedMessage{
+    color: rgb(95, 95, 95);
+    display: hidden;
+
+    /* width: 30%; */
+}
+
+
+/* .product-name{
+    font-size: 17px;
+    height: 24px;
+    color: rgb(65, 65, 244);
+    display: hidden;
+  } */
+  
+
+
+::-webkit-scrollbar {
+    width: 0px; /* Adjust the width as needed */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: transparent; /* Color of the thumb */
+    border-radius: 3px; /* Rounded corners of the thumb */
+    scrollbar-color: #888 transparent; /* Color of the thumb and track */
+    scrollbar-width: none; /* Width of the scrollbar */
+  }
+  
+  /* For Firefox */
+  /* You can customize the appearance of the scrollbar here */
+
+.mainBlock{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+}
+
+
+.chatDiv{
+    
+    overflow-y: scroll;
+    /* margin-top: 10px; */
+    width: 100%;
+    height: 100%;
+    /* background-color: pink; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: flex-end;     */
+}
+
+.innerChatDiv{
+    /* border-radius: 10px; */
+    padding: 10px;
+    width: 70%;
+    /* height: 650px; */
+    height: 100%;
+    background-color: white;
+    display: flex;
+    /* flex-direction: column; */
+    overflow-y: auto; 
+    flex-direction: column-reverse; 
+    display: 'flex';
+    /* min-height: 88vh;
+    min-height: -webkit-fill-available; */
+}
+
+#messages{
+    padding: 0 !important;
+}
+
+.personOneMessage{
+    display: flex;
+    padding: 8px 15px;
+    align-self: flex-start;
+    /* width: auto; */
+    display: inline-block;
+    max-width: 60%;
+    /* height: 50px; */
+    background-color: rgb(211, 209, 209);
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.personTwoMessage{
+    
+    /* display: inline-block; */
+    display: flex;
+    max-width: 70%;
+    padding: 8px 15px;
+    align-self: flex-end;
+    max-width: auto;
+    
+    /* height: 50px; */
+    background-color: rgb(166, 195, 250);
+    border-radius: 10px;
+    margin: 5px;
+    overflow-x: hidden;
+}
+
+.messageTime{
+    margin: 1px 8px;
+    font-size: 13px;
+    color: darkslategray;
+    margin-top: -5px;
+}
+.leftText{
+    display: flex; 
+    justify-content: flex-end;
+}
+
+.personTwo{
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    /* max-width: 50%; */
+}
+.personOne{
+    align-self: flex-start;
+}
+
+.typeChat{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.topChat{
+    margin-top: 70px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* background-color: pink; */
+    
+
+}
+
+.innerTopChat{
+    /* border-bottom: 1px solid gray; */
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    z-index: 5;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    width: 70%;
+    background-color: white;
+    padding: 10px;
+}
+
+.innerTypeChat{
+    border-top: 1px solid rgb(223, 223, 223);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+    /* background-color: rgb(208, 208, 208); */
+    padding: 10px 0px;
+    /* border-radius: 10px; */
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    /* border: 1px solid gray; */
+    height: 50px;
+    background-color: white;
+    /* box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em; */
+    /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 1.95px; */
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+}
+.inputTextArea{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    resize: none; /**Prevent textarea from being resized **/
+    height: 50px;
+    background-color: transparent;
+    
+}
+h6 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 150px; /* Adjust the minimum width as needed */
+            
+}
+h6 p{
+    background-color: #fdc51e;
+    color: black;
+    border: solid 1px #fdc51e;
+    border-radius: 10px 10px;
+    margin: 10px -10px;
+    padding: 0px 10px;
+}
+
+
+.textMessage{
+   
+    display: flex;
+    justify-content: flex-end;
+    max-width: 100%;
+
+    word-wrap: break-word !important;   
+    display: inline-block;
+    
+}
+.textMessage p {
+    margin-top: -3px;
+    margin-bottom: -3px;
+}
+
+.topSpace{
+    margin-top: 57px;
+}
+.profilePic{
+    width: 50px;
+    border-radius: 50px;
+}
+
+.sendMessage{
+    width: 25px;
+}
+
+.sendMessageButton{
+    /* background-color: none; */
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    padding: 10px;
+}
+
+@media only screen and (max-width:1136px) {
+
+  
+    .innerTopChat{
+        width: 90%;
+    }
+    .innerChatDiv{
+        width: 90%;
+    }
+    .innerTypeChat{
+        width: 90%;
+    }
+
+}   
+
+
+@media only screen and (max-width:913px) {
+
+    .infoOfChat{
+        width: 80%;
+    }
+    .dateOfChat{
+        width: 20%;
+    }
+
+}   
+
+
+@media only screen and (max-width:628px) {
+    
+    .innerChat{
+        width: 95%;
+    }
+    
+}
+
+@media only screen and (max-width:500px) {
+   
+    .chatDiv{
+        height: 100% ;
+    }
+    .mainBlock{
+        height: 88vh ;
+        display: flex;
+        flex-direction: column;
+        align-content: space-between;
+    }
+   
+    
+    .innerTopChat{
+        width: 100%;
+        border-radius: 0px;
+    }
+    .innerChatDiv{
+        width: 100%;
+    }
+    .innerTypeChat{
+        width: 100%;
+        border-radius: 0px !important;
+    }
+    .topChat{
+        margin-top: 50px;
+    }
+    /* .lowerSpace{
+        height: 0px;
+    }   */
+    
+}
+
+
+
+@media only screen and (max-width:460px) {
+
+  
+    
+    
+    
+}   
+
+@media only screen and (max-width:414px) {
+    
+   
+    .infoOfChat{
+        width: 75%;
+    }
+    .dateOfChat{
+        width: 25%;
+    }
+    
+}
+

@@ -618,14 +618,16 @@ def error_page(error):
     else:
         return render_template('error_page.html', menu = menu, lang=session['lang'], lenOfUserName = 1)
     # return redirect(url_for('index', lang =))
-# # @app.errorhandler(KeyError)
-# def attributeError_habdler(error):
-#     session.pop('userEmail', None)
-#     session.pop('userName', None)
-#     return redirect(url_for('index', lang = session['lang'] ))
+
+@app.errorhandler(KeyError)
+@app.errorhandler(AttributeError)
+def attributeError_habdler(error):
+    session.pop('userEmail', None)
+    session.pop('userName', None)
+    return redirect(url_for('index', lang = session['lang'] ))
 
 
 
 if __name__ == '__main__':
-    app.run(debug=False, port=8000, host='0.0.0.0')
+    app.run(debug=True, port=8000, host='0.0.0.0')
     # ssl_context='adhoc'

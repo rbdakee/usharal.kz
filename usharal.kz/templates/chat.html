@@ -24,11 +24,6 @@
             rel="stylesheet"
             href="{{url_for('static', filename='css/messages.css')}}"
         />
-        <style>
-            body{
-                overflow: hidden !important;
-            }
-        </style>
     </head>
     <header id="header" class="backgroundNavbar fixed-top">
         <nav class="navbar navbar-expand-lg navbar-dark">
@@ -236,7 +231,7 @@
         <!-- <div class="categories ">
         
     
-
+    
     </categories> -->
 
         <!-- End Categories -->
@@ -270,6 +265,7 @@
             </div>
         </div> -->
         <!-- chats -->
+    <body>
         <div class="mainBlock">
 
             <div class="topChat">
@@ -359,6 +355,43 @@
         
 
         <!-- End Categries  -->
+        <script>
+
+            const mainBlock = document.querySelector('.mainBlock');
+            let previousHeight = window.innerHeight;
+            
+            function isBrave() {
+            // Check for a feature that is unique to Brave
+            return typeof navigator.brave !== 'undefined';
+        }
+
+            // Function to adjust the height of .mainBlock based on toolbar state
+            function adjustMainBlockHeight() {
+                const currentHeight = window.innerHeight;
+                const userAgent = navigator.userAgent;
+
+                if (isBrave() || userAgent.includes('GSA')) {
+                // Brave-specific height
+                mainBlock.style.height = '100vh';
+            }
+                else if (currentHeight <= previousHeight) {
+                    // Toolbar is open or scrolling, set height to 88vh
+                    mainBlock.style.height = '88vh';
+                } else {
+                    // Toolbar is closed and not scrolling, set height to 100vh
+                    mainBlock.style.height = '100vh';
+                }
+    
+                previousHeight = currentHeight;
+            }
+            if (window.innerWidth <= 500){
+            // Listen for resize and scroll events to track toolbar open/close
+            window.addEventListener('resize', adjustMainBlockHeight);
+            // window.addEventListener('scroll', adjustMainBlockHeight);
+    
+            // Initial adjustment when the page loads
+            window.addEventListener('load', adjustMainBlockHeight);}
+        </script>    
 
         <script
             src="https://kit.fontawesome.com/06eeb4d8bd.js"
