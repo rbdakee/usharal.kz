@@ -629,4 +629,4 @@ def attributeError_habdler(error):
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='185.22.67.13', port=8000)
+    socketio.run(app, host='185.22.67.13', port=80, certfile='certificate.crt', keyfile='private_key.key')
