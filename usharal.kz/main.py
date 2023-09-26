@@ -629,4 +629,4 @@ def attributeError_habdler(error):
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=5000)
+    socketio.run(app, host='185.22.67.13', port=8000)
