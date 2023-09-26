@@ -341,6 +341,7 @@
   
     <script src="{{url_for('static', filename='js/content.js')}}"></script>
     <script src="{{url_for('static', filename='js/lang.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script>
     function fill(elem){
     // alert(elem.firstChild)
@@ -351,7 +352,7 @@
     
 }</script>
  <script>
-    const socket = io.socket('http://' + document.domain + ':' + location.port);
+    const socket = io.connect('http://' + document.domain + ':' + location.port);
 </script>
 <script>
     document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {

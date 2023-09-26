@@ -629,4 +629,8 @@ def attributeError_habdler(error):
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     socketio.run()
+=======
+    app.run()
+>>>>>>> refs/remotes/origin/main
