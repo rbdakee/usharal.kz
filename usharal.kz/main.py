@@ -18,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db.init_app(app)
-socketio = SocketIO(app, cors_allowed_origins=['https://www.usharal.market','http://185.22.67.13:8000'])
+socketio = SocketIO(app, cors_allowed_origins='*', async_mode="threading", ping_timeout=30, ping_interval=20)
 with app.app_context():
     db.create_all()
 
