@@ -144,6 +144,7 @@ def index(lang='ru'):
 
 @socketio.on('favPost')
 def echo(data):
+    print(data)
     userEmail = session['userEmail']
     value = data['value']
     classes = data['class']
