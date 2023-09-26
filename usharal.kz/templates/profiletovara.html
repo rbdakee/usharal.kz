@@ -352,7 +352,7 @@
     
 }</script>
  <script>
-    const socket = io.connect('http://' + document.domain + ':' + location.port);
+    const socket = io.connect('wss://' + document.domain + ':' + location.port);
 </script>
 <script>
     document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {
