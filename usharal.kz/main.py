@@ -629,4 +629,4 @@ def attributeError_habdler(error):
 
 
 if __name__ == '__main__':
-    app.run(ssl_context='adhoc')
+    app.run()

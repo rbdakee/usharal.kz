@@ -341,6 +341,7 @@
   
     <script src="{{url_for('static', filename='js/content.js')}}"></script>
     <script src="{{url_for('static', filename='js/lang.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script>
     function fill(elem){
     // alert(elem.firstChild)
@@ -351,7 +352,7 @@
     
 }</script>
  <script>
-    const socket = new WebSocket('ws://' + location.host + '/favPost');
+    const socket = io.connect('http://' + document.domain + ':' + location.port);
 </script>
 <script>
     document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {
@@ -362,7 +363,7 @@
    
         heart = document.getElementById('spanOfHeart_{{post.id}}');
         var data = [text.value, heart.classList];
-        socket.send(data);
+        socket.emit('favPost', {'value':text.value, 'class':heart.classList});
         document.getElementById('spanOfHeart_{{post.id}}').classList.toggle("fa-regular")
         document.getElementById('spanOfHeart_{{post.id}}').classList.toggle("fa")
     };
