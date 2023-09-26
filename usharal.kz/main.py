@@ -18,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db.init_app(app)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins=['https://www.usharal.market','http://185.22.67.13:8000'])
 with app.app_context():
     db.create_all()
 
@@ -629,4 +629,4 @@ def attributeError_habdler(error):
 
 
 if __name__ == '__main__':
-    app.run(ssl_context='adhoc')
+    socketio.run()
