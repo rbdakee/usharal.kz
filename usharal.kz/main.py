@@ -628,8 +628,5 @@ def attributeError_habdler(error):
     return redirect(url_for('index', lang = session['lang'] ))
 
 
-import ssl
-ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-ssl_context.load_cert_chain('/home/ubuntu/usharal.kz/usharal.kz/certificate.crt', '/home/ubuntu/usharal.kz/usharal.kz/private_key.key')
 if __name__ == '__main__':
-    socketio.run(app, host='185.22.67.13', port=8000, ssl_context=ssl_context)
+    socketio.run(app, host='185.22.67.13', port=8000)
