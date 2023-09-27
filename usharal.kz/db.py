@@ -184,7 +184,6 @@ class Users(db.Model):
     def edit_user_information(email, logo, whatsapp_number, phone_number, password, username):
         email = email.lower()
         user = Users.query.filter_by(email=email).first()
-        print(type(password))
         if logo != '':
             user.logo = logo
         if whatsapp_number!='':
@@ -372,7 +371,6 @@ class Posts(db.Model):
                 facility = 'Договорная'
             try:
                 photos = posts[i].photo[0].data
-                print(type(photos))
             except:
                 photos = 0
             if status:
