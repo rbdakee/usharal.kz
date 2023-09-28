@@ -232,7 +232,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     
      <script>
-        var socket = io('https://185.22.67.13:8000/socket.io');
+        var socket = io.connect('http://unix:/var/run/main.sock');
     </script>
     {% for post in posts %}
    

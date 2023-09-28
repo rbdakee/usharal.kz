@@ -352,7 +352,7 @@
     
 }</script>
  <script>
-    const socket = io('https://185.22.67.13:8000/socket.io');
+    const socket = io.connect('http://unix:/var/run/main.sock');
 </script>
 <script>
     document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {
