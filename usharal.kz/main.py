@@ -18,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db.init_app(app)
-socketio = SocketIO(app, cors_allowed_origins='*', async_mode="gevent", ping_timeout=30, ping_interval=20, unix_socket='/var/run/main.sock')
+socketio = SocketIO(app, cors_allowed_origins='*', async_mode="gevent", ping_timeout=30, ping_interval=20, unix_connection='/var/run/main.sock')
 with app.app_context():
     db.create_all()
 
@@ -629,4 +629,4 @@ def attributeError_habdler(error):
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='185.22.67.13', port=8000)
+    socketio.run(app)
