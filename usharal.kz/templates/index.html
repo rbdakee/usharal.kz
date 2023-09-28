@@ -330,7 +330,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     
      <script>
-        var socket = io.connect('https://usharal.market:8000/socket.io');
+        var socket = io('http://' + location.host + ':' + location.port + '/socket.io');
     </script>
     {% for post in posts %}
    

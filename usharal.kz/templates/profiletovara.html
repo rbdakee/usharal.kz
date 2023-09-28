@@ -352,7 +352,7 @@
     
 }</script>
  <script>
-    const socket = io.connect('https://usharal.market:8000/socket.io');
+    const socket = io('http://' + location.host + ':' + location.port + '/socket.io');
 </script>
 <script>
     document.getElementById('spanOfHeart_{{post.id}}').onclick = ev => {
