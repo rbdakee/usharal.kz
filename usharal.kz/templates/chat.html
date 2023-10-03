@@ -29,7 +29,10 @@
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
                 <div class="languageAppear992">
-                    <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
+                    <a href="/{{lang}}" class="navbar-brand">
+                        <p>{{title}}</p>
+                        <p style="font-size: smaller; margin-bottom: -10%; margin-top: -40%; margin-left: 25%; color: #ffc53a;">market</p>
+                    </a>
                     <input
                         type="hidden"
                         name=""
@@ -52,6 +55,7 @@
                 />
                 <div class="d-flex">
                     <div class="profileLink">
+                        <button class="newPostButton"><a href="/new_post/{{lang}}" style="text-decoration: none; color:#ffc53a;">+</a></button>
                         {% if username %}
                         <li class="nav-item profileLink">
                             <a
