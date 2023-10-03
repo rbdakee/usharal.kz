@@ -16,7 +16,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <div  class="languageAppear992">
-                <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
+                <a href="/{{lang}}" class="navbar-brand">
+                    <p>{{title}}</p>
+                    <p style="font-size: smaller; margin-bottom: -10%; margin-top: -40%; margin-left: 25%; color: #ffc53a;">market</p>
+                </a>
                 <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
                 <div class="d-flex languageAppear">
                     <a href="ru" class="nav-link grayyy">рус&nbsp; |</a>
@@ -26,7 +29,8 @@
             <!-- <a href="/{{lang}}" class="navbar-brand">{{title}}</a> -->
             <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
             <div class="d-flex">
-                <div class="profileLink">
+                <div class="profileLink" style="display: flex !important;">
+                    <button class="newPostButton"><a href="/{{lang}}" style="text-decoration: none; color:#ffc53a;">+</a></button>
                     <li class="nav-item profileLink ">
                         <a href="./registration-login.html" class="nav-link ps-0"><i class="fa-regular fa-user" style="color: #FFFFFF8C"></i></a>
                     </li>                
@@ -139,100 +143,107 @@
                 <h3 class="fs-2" style="word-wrap: break-word;">{{post.title}}</h3>
                 <div><span class="lng-published subTextData">Опубликовано: </span> <span class="subTextData">{{post.post_date}}</span></div>
             </div>
-            <div class="mainImageAndInfo row">
-                <div class="mainImage col-md-7 col-xs-12 mb-2">
-                    <div class="innerDiv controlBtn" onclick="plusSlides(-1, 0)">
-                        <span class="fa fa-angle-left" aria-hidden="true"></span>
-                    </div>
 
-                    <div class="innerDiv mainImgDiv imageHere">
-                        <img loading="lazy" style="width: 100%;" class="samImage" src="/static/uploads/{{post.photos[0]}}">
-                    </div>
+            <!-- <div class="toSwitchPlaces"> -->
 
-                    <div class="innerDiv controlBtn" onclick="plusSlides(1, 1)">
-                        <span class="fa fa-angle-right" aria-hidden="true"></span>
+                <div class="subImages row">
+                    <!-- <div class="buttonSame" style=" height: 40px; width: 100px;">
+                        <button class="fa-solid fa-angle-left prev1"></button>
+                        <button class="fa-solid fa-angle-right next1"></button>
                     </div>
+                    <br> -->
+                    <div class="sliderCon col-md-7 col-xs-12 m-3 p-0 ms-0 mt-0">
+                        {% for photo in post.photos %}
+                        <div class="imgBox">
+                            <img loading="lazy" class="miniImg" src="/static/uploads/{{photo}}">
+                        </div>
+                        {% endfor %}
+                    </div>
+    
+                    <div class="col-md-5 col-xs-12"></div>
+                
+        
                 </div>
-                <div class="col-md-1"></div>
-                <div class="mainInfo col-md-4 col-xs-12" style="height: 250px; padding: 15px">
-                    <div class="addToFav" onclick="fill(this)" style="cursor: pointer; user-select: none;">
-                     
-                        {% if username != 'Log In' %}
-                            {% if post.id in favourites %}
-                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><i
-                                class="fa fa-heart" onclick="alert()" style="cursor: pointer;"
-                                id="spanOfHeart_{{post.id}}"></i>
-                            {% else %}
-                            <input hidden id="text_{{post.id}}" value="{{post.id}}"><i
-                                class="fa-regular fa-heart" onclick="fill(this)" style="cursor: pointer;"
-                                id="spanOfHeart_{{post.id}}"></i>
-                            {% endif %}
-                        
-                        {% else %}
-                        
-                            <a href="/signin/{{lang}}" style="color: black;">
-                                <i
-                                class="fa-regular fa-heart" style="cursor: pointer;"
-                                id=""></i></a>
-                        {% endif %}
-                        <span class="lng-addToFav">Добавить в избранное</span>
-                    </div>
-                    <div class="cost">
 
-                        <span>{{post.cost}}</span>
-
+                <div class="mainImageAndInfo row">
+                    <div class="mainImage col-md-7 col-xs-12 mb-2">
+                        <div class="innerDiv controlBtn" onclick="plusSlides(-1, 0)">
+                            <span class="fa fa-angle-left" aria-hidden="true"></span>
+                        </div>
+    
+                        <div class="innerDiv mainImgDiv imageHere">
+                            <img loading="lazy" style="width: 100%;" class="samImage" src="/static/uploads/{{post.photos[0]}}">
+                        </div>
+    
+                        <div class="innerDiv controlBtn" onclick="plusSlides(1, 1)">
+                            <span class="fa fa-angle-right" aria-hidden="true"></span>
+                        </div>
                     </div>
-                    <div class="costStat {{lngFacility}}">{{post.facility}}</div>
-                    <div class="firstL" style="margin: 5px 5px 25px 0px;">
-                        <div class="miniProfile" style=" align-items: center;">
-                            {% if user_logo != 0 %}
-                            <img loading="lazy" src="/static/uploads/{{user_logo}}" class = "profLogo" style="width: 57px; height: 57px; border-radius: 50%;">
+                    <div class="col-md-1"></div>
+                    <div class="mainInfo col-md-4 col-xs-12" style="height: 250px; padding: 15px">
+                        <div class="addToFav" onclick="fill(this)" style="cursor: pointer; user-select: none;">
+                         
+                            {% if username != 'Log In' %}
+                                {% if post.id in favourites %}
+                                <input hidden id="text_{{post.id}}" value="{{post.id}}"><i
+                                    class="fa fa-heart" onclick="alert()" style="cursor: pointer;"
+                                    id="spanOfHeart_{{post.id}}"></i>
+                                {% else %}
+                                <input hidden id="text_{{post.id}}" value="{{post.id}}"><i
+                                    class="fa-regular fa-heart" onclick="fill(this)" style="cursor: pointer;"
+                                    id="spanOfHeart_{{post.id}}"></i>
+                                {% endif %}
+                            
                             {% else %}
-                            <img loading="lazy" src="{{url_for('static', filename = 'img/user.svg')}}" class = "profLogo" style="width: 57px; border-radius: 50%;">
+                            
+                                <a href="/signin/{{lang}}" style="color: black;">
+                                    <i
+                                    class="fa-regular fa-heart" style="cursor: pointer;"
+                                    id=""></i></a>
                             {% endif %}
-                            <div class="data" style=" display: flex; flex-direction: column; margin-left: 10px;">
-                                <div class="name" style="display: flex; align-items: center;">
-                                    {{post.username}}
-                                </div>
-                                <div class="mobNum">
-                                    <span class="spanNumber">{{post.phone_number}}</span>
+                            <span class="lng-addToFav">Добавить в избранное</span>
+                        </div>
+                        <div class="cost">
+    
+                            <span>{{post.cost}}</span>
+    
+                        </div>
+                        <div class="costStat {{lngFacility}}">{{post.facility}}</div>
+                        <div class="firstL" style="margin: 5px 5px 25px 0px;">
+                            <div class="miniProfile" style=" align-items: center;">
+                                {% if user_logo != 0 %}
+                                <img loading="lazy" src="/static/uploads/{{user_logo}}" class = "profLogo" style="width: 57px; height: 57px; border-radius: 50%;">
+                                {% else %}
+                                <img loading="lazy" src="{{url_for('static', filename = 'img/user.svg')}}" class = "profLogo" style="width: 57px; border-radius: 50%;">
+                                {% endif %}
+                                <div class="data" style=" display: flex; flex-direction: column; margin-left: 10px;">
+                                    <div class="name" style="display: flex; align-items: center;">
+                                        {{post.username}}
+                                    </div>
+                                    <div class="mobNum">
+                                        <span class="spanNumber">{{post.phone_number}}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                    </div>
-                    <div class="quickChat">
-                      
-                    </div>
-                    <div class="buttonsBlock w-50 d-flex justify-content-end mt-3 ">
-                        <div class="d-flex twoButtonsBlock">
-                            <a class="btn btn-outline-warning twobuttons lng-writeToSeller" style="color: black; white-space: nowrap; border: 3px solid rgb(255,197,58);" href="/chat/{{post.user_id}}/{{lang}}">Написать продавцу</a>   
-                        </div>
-                
-                    </div>
-
-                </div>
-            </div>
-
-            
-            <div class="subImages row">
-                <!-- <div class="buttonSame" style=" height: 40px; width: 100px;">
-                    <button class="fa-solid fa-angle-left prev1"></button>
-                    <button class="fa-solid fa-angle-right next1"></button>
-                </div>
-                <br> -->
-                <div class="sliderCon col-md-7 col-xs-12 m-3 p-0 ms-0 mt-0">
-                    {% for photo in post.photos %}
-                    <div class="imgBox">
-                        <img loading="lazy" class="miniImg" src="/static/uploads/{{photo}}">
-                    </div>
-                    {% endfor %}
-                </div>
-
-                <div class="col-md-5 col-xs-12"></div>
-            
     
-            </div>
+                        </div>
+                        <div class="quickChat">
+                          
+                        </div>
+                        <div class="buttonsBlock w-50 d-flex justify-content-end mt-3 ">
+                            <div class="d-flex twoButtonsBlock">
+                                <a class="btn btn-outline-warning twobuttons lng-writeToSeller" style="color: black; white-space: nowrap; border: 3px solid rgb(255,197,58);" href="/chat/{{post.user_id}}/{{lang}}">Написать продавцу</a>   
+                            </div>
+                    
+                        </div>
+    
+                    </div>
+                </div>
+    
+                
+                
+            <!-- </div> -->
+            
             <div class="row">
                 <div class="description col-md-7 col-xs-12">
                    <div class="mainDesc">

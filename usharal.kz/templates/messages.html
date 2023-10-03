@@ -12,319 +12,346 @@
             crossorigin="anonymous"
         />
         <link
-        rel="stylesheet"
+            rel="stylesheet"
             href="{{url_for('static', filename='css/styleSecond.css')}}"
         />
         <link
-        rel="stylesheet"
+            rel="stylesheet"
             href="{{url_for('static', filename='css/styleI.css')}}"
         />
         <link
-        rel="stylesheet"
+            rel="stylesheet"
             href="{{url_for('static', filename='css/messages.css')}}"
         />
     </head>
     <body>
         <!-- Navbar -->
-
-        <header id="header" class="backgroundNavbar fixed-top">
-            <nav class="navbar navbar-expand-lg navbar-dark">
-                <div class="container">
-                    <div class="languageAppear992">
-                        <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
-                        <input
-                            type="hidden"
-                            name=""
-                            id="lang_hidden"
-                            value="{{lang}}"
-                        />
-                        <div class="d-flex languageAppear">
-                            <a href="ru" class="nav-link grayyy">рус&nbsp; |</a>
-                            <a href="kz" class="nav-link grayyy p-0 pt-2"
-                                >қаз</a
-                            >
-                        </div>
-                    </div>
-                    <!-- <a href="/{{lang}}" class="navbar-brand">{{title}}</a> -->
-                    <input
-                        type="hidden"
-                        name=""
-                        id="lang_hidden"
-                        value="{{lang}}"
-                    />
-                    <div class="d-flex">
-                        <div class="profileLink">
-                            {% if username %}
-                            <li class="nav-item profileLink">
-                                <a
-                                    href="/my_profile/{{lang}}"
-                                    class="nav-link ps-0"
-                                    ><i
-                                        class="fa-regular fa-user"
-                                        style="color: #ffffff8c"
-                                    ></i
-                                ></a>
-                            </li>
-                            {% else %}
-                            <li class="nav-item profileLink">
-                                <a href="/signin/{{lang}}" class="nav-link ps-0"
-                                    ><i
-                                        class="fa-regular fa-user"
-                                        style="color: #ffffff8c"
-                                    ></i
-                                ></a>
-                            </li>
-                            {% endif %}
-                        </div>
-                        <button
-                            class="navbar-toggler"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#navContent"
-                            aria-controls="navContent"
-                            aria-expanded="false"
-                            aria-label="Toggle navigation"
-                        >
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </div>
-
-                    <div class="collapse navbar-collapse" id="navContent">
-                        <ul
-                            class="navbar-nav mb-3 mb-lg-0 w-100 d-flex justify-content-between"
-                        >
-                            <li class="nav-item disappearWhen992">
-                                <div class="d-flex">
-                                    <a href="ru" class="nav-link grayyy"
-                                        >рус&nbsp;&nbsp; |</a
-                                    >
-                                    <a
-                                        href="kz"
-                                        class="nav-link grayyy p-0 pt-2"
+        <div class="dividingBlock">
+            <div class="divideBlockOne">
+                <header id="header" class="backgroundNavbar fixed-top">
+                    <nav class="navbar navbar-expand-lg navbar-dark">
+                        <div class="container">
+                            <div class="languageAppear992">
+                                <a href="/{{lang}}" class="navbar-brand">
+                                    <p>{{title}}</p>
+                                    <p style="font-size: smaller; margin-bottom: -10%; margin-top: -40%; margin-left: 25%; color: #ffc53a;">market</p>
+                                </a>
+                                <input
+                                    type="hidden"
+                                    name=""
+                                    id="lang_hidden"
+                                    value="{{lang}}"
+                                />
+                                <div class="d-flex languageAppear">
+                                    <a href="ru" class="nav-link grayyy">рус&nbsp; |</a>
+                                    <a href="kz" class="nav-link grayyy p-0 pt-2"
                                         >қаз</a
                                     >
                                 </div>
-                            </li>
-
-                            <li class="nav-item">
-                                <div class="d-flex">
-                                    <div class="dropdown p-0 m-0">
-                                        <button
-                                            type="button"
-                                            class="no-button nav-link pt-2 m-0 lng-personal"
-                                            data-bs-toggle="dropdown"
-                                        >
-                                            <i
+                            </div>
+                            <!-- <a href="/{{lang}}" class="navbar-brand">{{title}}</a> -->
+                            <input
+                                type="hidden"
+                                name=""
+                                id="lang_hidden"
+                                value="{{lang}}"
+                            />
+                            <div class="d-flex">
+                                <div
+                                    class="profileLink"
+                                    style="display: flex !important"
+                                >
+                                    <button class="newPostButton"><a href="/{{lang}}" style="text-decoration: none; color:#ffc53a;">+</a></button>
+                                    {% if username %}
+                                    <li class="nav-item profileLink">
+                                        <a
+                                            href="/my_profile/{{lang}}"
+                                            class="nav-link ps-0"
+                                            ><i
                                                 class="fa-regular fa-user"
-                                                style="margin-right: 3px"
-                                            ></i>
-                                            Личный кабинет
-                                            <i
-                                                class="fa-solid fa-chevron-down"
-                                                style="color: #6e6e6e"
-                                            ></i>
-                                        </button>
-                                        <ul
-                                            class="dropdown-menu"
-                                            style="
-                                                box-shadow: rgba(0, 0, 0, 0.35)
-                                                    0px 5px 15px;
-                                                border-radius: 10px;
-                                            "
+                                                style="color: #ffffff8c"
+                                            ></i
+                                        ></a>
+                                    </li>
+                                    {% else %}
+                                    <li class="nav-item profileLink">
+                                        <a href="/signin/{{lang}}" class="nav-link ps-0"
+                                            ><i
+                                                class="fa-regular fa-user"
+                                                style="color: #ffffff8c"
+                                            ></i
+                                        ></a>
+                                    </li>
+                                    {% endif %}
+                                </div>
+                                <button
+                                    class="navbar-toggler"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#navContent"
+                                    aria-controls="navContent"
+                                    aria-expanded="false"
+                                    aria-label="Toggle navigation"
+                                >
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+        
+                            <div class="collapse navbar-collapse" id="navContent">
+                                <ul
+                                    class="navbar-nav mb-3 mb-lg-0 w-100 d-flex justify-content-between"
+                                >
+                                    <li class="nav-item disappearWhen992">
+                                        <div class="d-flex">
+                                            <a href="ru" class="nav-link grayyy"
+                                                >рус&nbsp;&nbsp; |</a
+                                            >
+                                            <a
+                                                href="kz"
+                                                class="nav-link grayyy p-0 pt-2"
+                                                >қаз</a
+                                            >
+                                        </div>
+                                    </li>
+        
+                                    <li class="nav-item">
+                                        <div class="d-flex">
+                                            <div class="dropdown p-0 m-0">
+                                                <button
+                                                    type="button"
+                                                    class="no-button nav-link pt-2 m-0 lng-personal"
+                                                    data-bs-toggle="dropdown"
+                                                >
+                                                    <i
+                                                        class="fa-regular fa-user"
+                                                        style="margin-right: 3px"
+                                                    ></i>
+                                                    Личный кабинет
+                                                    <i
+                                                        class="fa-solid fa-chevron-down"
+                                                        style="color: #6e6e6e"
+                                                    ></i>
+                                                </button>
+                                                <ul
+                                                    class="dropdown-menu"
+                                                    style="
+                                                        box-shadow: rgba(0, 0, 0, 0.35)
+                                                            0px 5px 15px;
+                                                        border-radius: 10px;
+                                                    "
+                                                >
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item lng-message"
+                                                            href="/messages/{{lang}}"
+                                                            >Сообщения</a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item lng-myPosts"
+                                                            href="/my_posts/{{lang}}"
+                                                            >Мои объявления</a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item lng-payment"
+                                                            href="/payments/{{lang}}"
+                                                            >Платежи и счет</a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item lng-myProfile"
+                                                            href="/my_profile/{{lang}}"
+                                                            >Мой профиль</a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <hr class="dropdown-divider" />
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item lng-exit"
+                                                            href="/logout"
+                                                            >Выйти</a
+                                                        >
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+        
+                                    <li class="nav-item">
+                                        <a
+                                            href="/favorites/{{lang}}"
+                                            class="nav-link lng-favourite"
+                                            ><i class="fa-regular fa-heart"></i
+                                            >&nbsp;Избранное</a
                                         >
-                                            <li>
-                                                <a
-                                                    class="dropdown-item lng-message"
-                                                    href="/messages/{{lang}}"
-                                                    >Сообщения</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a
-                                                    class="dropdown-item lng-myPosts"
-                                                    href="/my_posts/{{lang}}"
-                                                    >Мои объявления</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a
-                                                    class="dropdown-item lng-payment"
-                                                    href="/payments/{{lang}}"
-                                                    >Платежи и счет</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a
-                                                    class="dropdown-item lng-myProfile"
-                                                    href="/my_profile/{{lang}}"
-                                                    >Мой профиль</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <a
-                                                    class="dropdown-item lng-exit"
-                                                    href="/logout"
-                                                    >Выйти</a
-                                                >
-                                            </li>
-                                        </ul>
+                                    </li>
+        
+                                    <li class="nav-item">
+                                        <a
+                                            href="/messages/{{lang}}"
+                                            class="nav-link lng-message-second"
+                                            ><i class="fa-regular fa-comment"></i
+                                            >&nbsp;Сообщения</a
+                                        >
+                                    </li>
+        
+                                    <li class="d-flex">
+                                        <a
+                                            href="/new_post/{{lang}}"
+                                            class="btn btn-outline-warning lng-newPost"
+                                            >Подать обьявление</a
+                                        >
+                                    </li>
+        
+                                    {% if username %}
+                                    <li class="nav-item">
+                                        <a
+                                            href="/my_profile/{{lang}}"
+                                            class="nav-link profileNone"
+                                            >&nbsp;{{username}}</a
+                                        >
+                                    </li>
+                                    {% else %}
+                                    <li class="nav-item">
+                                        <a
+                                            href="/signin/{{lang}}"
+                                            class="nav-link profileNone"
+                                            >&nbsp;Log in</a
+                                        >
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+        
+                <!-- Navbar ends -->
+        
+                <div style="margin-top: 57px"></div>
+        
+                <!-- Categories -->
+        
+                <!-- <div class="categories ">
+                
+            
+        
+            </categories> -->
+        
+                <!-- End Categories -->
+                <div class="w-100 bg-white pages">
+                    <div class="length">
+                        <div class="messageText lng-message" style="margin-top: -3px">
+                            Сообщения
+                        </div>
+                        <div class="page mt-2 flex-wrap">
+                            <a href="/messages/{{lang}}" class="links"
+                                ><div
+                                    class="text lng-message"
+                                    style="
+                                        color: rgb(255, 197, 58);
+                                        border-bottom: 3px solid rgb(255, 197, 58);
+                                    "
+                                >
+                                    Сообщения
+                                </div></a
+                            >
+                            <a href="/my_posts/{{lang}}" class="links"
+                                ><div class="text lng-myPosts">Мои обьявления</div></a
+                            >
+                            <a href="/payments/{{lang}}" class="links"
+                                ><div class="text lng-payment">Платежи и счёт</div></a
+                            >
+                            <a href="/my_profile/{{lang}}" class="links"
+                                ><div class="text lng-myProfile">Мой профиль</div></a
+                            >
+                        </div>
+                    </div>
+                </div>
+                <!-- chats -->
+                <div class="chats">
+                    <div class="innerChat">
+                        {% for chat in chats %}
+                        <a class="chat mt-2" href="/chat/{{chat.user_id}}/{{lang}}">
+                            <div class="infoOfChat">
+                                {% if chat.user_logo %}
+                                <img
+                                    loading="lazy"
+                                    src="/static/uploads/{{chat.user_logo}}"
+                                    alt="avatar"
+                                    class="avatarImage"
+                                />
+                                {% else %}
+                                <img
+                                    loading="lazy"
+                                    src="{{url_for('static', filename='img/user.svg')}}"
+                                    alt="avatar"
+                                    class="avatarImage"
+                                />
+                                {% endif %}
+                                <div style="margin-left: 20px">
+                                    <div class="nameOfAccount">{{chat.username}}</div>
+                                    <!-- <div class="nameOfProduct">Google pixel 6a [6/128]</div> -->
+                                    <div
+                                        class="lastTypedMessage"
+                                        style="
+                                            text-overflow: ellipsis;
+                                            white-space: nowrap;
+                                            overflow: hidden;
+                                        "
+                                    >
+                                        {{chat.last_message}}
                                     </div>
                                 </div>
-                            </li>
-
-                            <li class="nav-item">
-                                <a
-                                    href="/favorites/{{lang}}"
-                                    class="nav-link lng-favourite"
-                                    ><i class="fa-regular fa-heart"></i
-                                    >&nbsp;Избранное</a
-                                >
-                            </li>
-
-                            <li class="nav-item">
-                                <a
-                                    href="/messages/{{lang}}"
-                                    class="nav-link lng-message-second"
-                                    ><i class="fa-regular fa-comment"></i
-                                    >&nbsp;Сообщения</a
-                                >
-                            </li>
-
-                            <li class="d-flex">
-                                <a
-                                    href="/new_post/{{lang}}"
-                                    class="btn btn-outline-warning lng-newPost"
-                                    >Подать обьявление</a
-                                >
-                            </li>
-
-                            {% if username %}
-                            <li class="nav-item">
-                                <a
-                                    href="/my_profile/{{lang}}"
-                                    class="nav-link profileNone"
-                                    >&nbsp;{{username}}</a
-                                >
-                            </li>
-                            {% else %}
-                            <li class="nav-item">
-                                <a
-                                    href="/signin/{{lang}}"
-                                    class="nav-link profileNone"
-                                    >&nbsp;Log in</a
-                                >
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-        <!-- Navbar ends -->
-
-        <div style="margin-top: 57px"></div>
-
-        <!-- Categories -->
-
-        <!-- <div class="categories ">
+                            </div>
         
-    
-
-    </categories> -->
-
-        <!-- End Categories -->
-        <div class="w-100 bg-white pages">
-            <div class="length">
-                <div class="messageText lng-message" style="margin-top: -3px">
-                    Сообщения
-                </div>
-                <div class="page mt-2 flex-wrap">
-                    <a href="/messages/{{lang}}" class="links"
-                        ><div
-                            class="text lng-message"
-                            style="
-                                color: rgb(255, 197, 58);
-                                border-bottom: 3px solid rgb(255, 197, 58);
-                            "
-                        >
-                            Сообщения
-                        </div></a
-                    >
-                    <a href="/my_posts/{{lang}}" class="links"
-                        ><div class="text lng-myPosts">Мои обьявления</div></a
-                    >
-                    <a href="/payments/{{lang}}" class="links"
-                        ><div class="text lng-payment">Платежи и счёт</div></a
-                    >
-                    <a href="/my_profile/{{lang}}" class="links"
-                        ><div class="text lng-myProfile">Мой профиль</div></a
-                    >
+                            <div class="dateOfChat" style="margin-right: 20px">
+                                <div class="date">{{chat.date}}</div>
+                                <!-- <div class="date"></div> -->
+                                <div class="date">{{chat.time}}</div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- chats -->
-        <div class="chats">
-            <div class="innerChat">
-                {% for chat in chats %}
-                <a class="chat mt-2" href="/chat/{{chat.user_id}}/{{lang}}">
-                    <div class="infoOfChat">
-                        {% if chat.user_logo %}
-                        <img loading="lazy" src="/static/uploads/{{chat.user_logo}}" alt="avatar" class="avatarImage" />
-                        {% else %}
-                        <img loading="lazy" src="{{url_for('static', filename='img/user.svg')}}" alt="avatar" class="avatarImage" />
-                        {% endif %}
-                        <div style="margin-left: 20px;">
-                            <div class="nameOfAccount">{{chat.username}}</div>
-                            <!-- <div class="nameOfProduct">Google pixel 6a [6/128]</div> -->
-                            <div class="lastTypedMessage" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{chat.last_message}}</div>
+            <div class="divideBlockTwo">
+                <footer class="text-center text-white">
+                    <!-- Grid container -->
+                    <div class="container p-4 d-flex justify-content-around">
+                        <div class="col-md-6 col-xs-12 me-1">
+                            <h4 class="textF text-center text-warning">
+                                usharal.market
+                            </h4>
+                            <p>
+                                @ 2023 usharal.market - все права<br />
+                                защищены
+                            </p>
                         </div>
-
+                        <div class="col-md-6 col-xs-12 ms-1">
+                            <h4 class="textF text-center text-warning">Контакты</h4>
+                            <p>usharal.market@gmail.com</p>
+                            <p>+7 (705) 685 80 00</p>
+                        </div>
                     </div>
-
-                    <div class="dateOfChat" style="margin-right: 20px;">
-                        <div class="date">{{chat.date}}</div>
-                        <!-- <div class="date"></div> -->
-                        <div class="date">{{chat.time}}</div>
-                    </div>
-                </a>
-                {% endfor %}
-                
-                
-
+                    <!-- Grid container -->
+                </footer>
             </div>
-
-
-
-            
-
         </div>
+
+
+        
 
         <!-- chats end -->
-        <div style="height: 540px"></div>
+        <!-- <div style="height: 540px"></div> -->
 
-        <footer class="text-center text-white ">
-            <!-- Grid container -->
-            <div class="container p-4 d-flex justify-content-around">
-             
-            <div class="col-md-6 col-xs-12 me-1">
-                <h4 class="textF text-center text-warning">usharal.market</h4>
-                <p>@ 2023 usharal.market - все права<br> защищены</p>
-            </div>
-            <div class="col-md-6 col-xs-12 ms-1">
-                <h4 class="textF text-center text-warning">Контакты</h4>
-                <p>usharal.market@gmail.com</p>
-                <p>+7 (705) 685 80 00</p>
-            </div>
-    
-            </div>
-            <!-- Grid container -->
-    
-           
-          </footer>
+        
 
         <!-- End Categries  -->
 

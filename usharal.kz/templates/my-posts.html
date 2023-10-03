@@ -1,296 +1,590 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}} - My Posts</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/my-posts.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/styleI.css')}}">
-</head>
-<body>
-<!-- Navbar -->
-
-<header id="header" class="backgroundNavbar fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <div  class="languageAppear992">
-                <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
-                <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
-                <div class="d-flex languageAppear">
-                    <a href="ru" class="nav-link grayyy">рус&nbsp; |</a>
-                    <a href="kz" class="nav-link grayyy p-0 pt-2">қаз</a>
-                </div>
-            </div>
-            <!-- <a href="/{{lang}}" class="navbar-brand">{{title}}</a> -->
-            <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
-            <div class="d-flex">
-                <div class="profileLink">
-                    {% if username %}
-                    <li class="nav-item profileLink ">
-                        <a href="/my_profile/{{lang}}" class="nav-link ps-0"><i class="fa-regular fa-user" style="color: #FFFFFF8C"></i></a>
-                    </li> 
-                    {% else %}
-                    <li class="nav-item profileLink ">
-                        <a href="/signin/{{lang}}" class="nav-link ps-0"><i class="fa-regular fa-user" style="color: #FFFFFF8C"></i></a>
-                    </li> 
-                    {% endif %}           
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target = "#navContent"
-                aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-            </div>
-            
-            <div class="collapse navbar-collapse" id="navContent">
-                <ul class="navbar-nav mb-3 mb-lg-0 w-100 d-flex justify-content-between">
-
-                    <li class="nav-item disappearWhen992">
-                        <div class="d-flex">
-                            <a href="ru" class="nav-link grayyy">рус&nbsp;&nbsp; |</a>
-                            <a href="kz" class="nav-link grayyy p-0 pt-2">қаз</a>
-                        </div>
-                    </li>
-                    
-
-                    
-
-                    <li class="nav-item">
-                        <div class="d-flex">
-                          
-                            
-                            <div class="dropdown p-0 m-0">
-                                <button type="button" class="no-button nav-link pt-2 m-0 lng-personal" data-bs-toggle="dropdown">
-                                    <i class="fa-regular fa-user" style="margin-right: 3px;"></i> Личный кабинет <i class="fa-solid fa-chevron-down" style="color: #6e6e6e; "></i>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{title}} - My Posts</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="{{url_for('static', filename='css/my-posts.css')}}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{url_for('static', filename='css/styleI.css')}}"
+        />
+    </head>
+    <body>
+        <!-- Navbar -->
+        <div class="dividingBlock">
+            <div class="divideBlockOne">
+                <header id="header" class="backgroundNavbar fixed-top">
+                    <nav class="navbar navbar-expand-lg navbar-dark">
+                        <div class="container">
+                            <div class="languageAppear992">
+                                <a href="/{{lang}}" class="navbar-brand">
+                                    <p>{{title}}</p>
+                                    <p style="font-size: smaller; margin-bottom: -10%; margin-top: -40%; margin-left: 25%; color: #ffc53a;">market</p>
+                                </a>
+                                <input
+                                    type="hidden"
+                                    name=""
+                                    id="lang_hidden"
+                                    value="{{lang}}"
+                                />
+                                <div class="d-flex languageAppear">
+                                    <a href="ru" class="nav-link grayyy">рус&nbsp; |</a>
+                                    <a href="kz" class="nav-link grayyy p-0 pt-2"
+                                        >қаз</a
+                                    >
+                                </div>
+                            </div>
+                            <!-- <a href="/{{lang}}" class="navbar-brand">{{title}}</a> -->
+                            <input
+                                type="hidden"
+                                name=""
+                                id="lang_hidden"
+                                value="{{lang}}"
+                            />
+                            <div class="d-flex">
+                                <div
+                                    class="profileLink"
+                                    style="display: flex !important"
+                                >
+                                    <button class="newPostButton"><a href="/{{lang}}" style="text-decoration: none; color:#ffc53a;">+</a></button>
+                                    {% if username %}
+                                    <li class="nav-item profileLink">
+                                        <a
+                                            href="/my_profile/{{lang}}"
+                                            class="nav-link ps-0"
+                                            ><i
+                                                class="fa-regular fa-user"
+                                                style="color: #ffffff8c"
+                                            ></i
+                                        ></a>
+                                    </li>
+                                    {% else %}
+                                    <li class="nav-item profileLink">
+                                        <a href="/signin/{{lang}}" class="nav-link ps-0"
+                                            ><i
+                                                class="fa-regular fa-user"
+                                                style="color: #ffffff8c"
+                                            ></i
+                                        ></a>
+                                    </li>
+                                    {% endif %}
+                                </div>
+                                <button
+                                    class="navbar-toggler"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#navContent"
+                                    aria-controls="navContent"
+                                    aria-expanded="false"
+                                    aria-label="Toggle navigation"
+                                >
+                                    <span class="navbar-toggler-icon"></span>
                                 </button>
-                                <ul class="dropdown-menu" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border-radius: 10px;">
-                                  <li><a class="dropdown-item lng-message" href="/messages/{{lang}}">Сообщения</a></li>
-                                  <li><a class="dropdown-item lng-myPosts" href="/my_posts/{{lang}}">Мои объявления</a></li>
-                                  <li><a class="dropdown-item lng-payment" href="/payments/{{lang}}">Платежи и счет</a></li>
-                                  <li><a class="dropdown-item lng-myProfile" href="/my_profile/{{lang}}">Мой профиль</a></li>
-                                  <li><hr class="dropdown-divider"></li>
-                                  <li><a class="dropdown-item lng-exit" href="/logout">Выйти</a></li>
+                            </div>
+        
+                            <div class="collapse navbar-collapse" id="navContent">
+                                <ul
+                                    class="navbar-nav mb-3 mb-lg-0 w-100 d-flex justify-content-between"
+                                >
+                                    <li class="nav-item disappearWhen992">
+                                        <div class="d-flex">
+                                            <a href="ru" class="nav-link grayyy"
+                                                >рус&nbsp;&nbsp; |</a
+                                            >
+                                            <a
+                                                href="kz"
+                                                class="nav-link grayyy p-0 pt-2"
+                                                >қаз</a
+                                            >
+                                        </div>
+                                    </li>
+        
+                                    <li class="nav-item">
+                                        <div class="d-flex">
+                                            <div class="dropdown p-0 m-0">
+                                                <button
+                                                    type="button"
+                                                    class="no-button nav-link pt-2 m-0 lng-personal"
+                                                    data-bs-toggle="dropdown"
+                                                >
+                                                    <i
+                                                        class="fa-regular fa-user"
+                                                        style="margin-right: 3px"
+                                                    ></i>
+                                                    Личный кабинет
+                                                    <i
+                                                        class="fa-solid fa-chevron-down"
+                                                        style="color: #6e6e6e"
+                                                    ></i>
+                                                </button>
+                                                <ul
+                                                    class="dropdown-menu"
+                                                    style="
+                                                        box-shadow: rgba(0, 0, 0, 0.35)
+                                                            0px 5px 15px;
+                                                        border-radius: 10px;
+                                                    "
+                                                >
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item lng-message"
+                                                            href="/messages/{{lang}}"
+                                                            >Сообщения</a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item lng-myPosts"
+                                                            href="/my_posts/{{lang}}"
+                                                            >Мои объявления</a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item lng-payment"
+                                                            href="/payments/{{lang}}"
+                                                            >Платежи и счет</a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item lng-myProfile"
+                                                            href="/my_profile/{{lang}}"
+                                                            >Мой профиль</a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <hr class="dropdown-divider" />
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item lng-exit"
+                                                            href="/logout"
+                                                            >Выйти</a
+                                                        >
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+        
+                                    <li class="nav-item">
+                                        <a
+                                            href="/favorites/{{lang}}"
+                                            class="nav-link lng-favourite"
+                                            ><i class="fa-regular fa-heart"></i
+                                            >&nbsp;Избранное</a
+                                        >
+                                    </li>
+        
+                                    <li class="nav-item">
+                                        <a
+                                            href="/messages/{{lang}}"
+                                            class="nav-link lng-message-second"
+                                            ><i class="fa-regular fa-comment"></i
+                                            >&nbsp;Сообщения</a
+                                        >
+                                    </li>
+        
+                                    <li class="d-flex">
+                                        <a
+                                            href="/new_post/{{lang}}"
+                                            class="btn btn-outline-warning lng-newPost"
+                                            >Подать обьявление</a
+                                        >
+                                    </li>
+        
+                                    {% if username %}
+                                    <li class="nav-item">
+                                        <a
+                                            href="/my_profile/{{lang}}"
+                                            class="nav-link profileNone"
+                                            >&nbsp;{{username}}</a
+                                        >
+                                    </li>
+                                    {% else %}
+                                    <li class="nav-item">
+                                        <a
+                                            href="/signin/{{lang}}"
+                                            class="nav-link profileNone"
+                                            >&nbsp;Log in</a
+                                        >
+                                    </li>
+                                    {% endif %}
                                 </ul>
                             </div>
-                        </div>                         
-                    </li>
-                    
-
-                    <li class="nav-item">
-                        <a href="/favorites/{{lang}}" class="nav-link lng-favourite"><i class=" fa-regular fa-heart"></i>&nbsp;Избранное</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="/messages/{{lang}}" class="nav-link lng-message-second"><i class="fa-regular fa-comment"></i>&nbsp;Сообщения</a>
-                    </li>
-                    
-                   
-                    <li  class="d-flex">
-                        <a  href="/new_post/{{lang}}" class="btn btn-outline-warning lng-newPost">Подать обьявление</a>
-                    </li> 
-                    
-                    {% if username %}
-                        <li class="nav-item">
-                            <a href="/my_profile/{{lang}}" class="nav-link profileNone">&nbsp;{{username}}</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a href="/signin/{{lang}}" class="nav-link profileNone">&nbsp;Log in</a>
-                        </li>
-                        {% endif %}
-                </ul>
-                
-                
-                
+                        </div>
+                    </nav>
+                </header>
+                <div style="height: 55px"></div>
+                <!-- Navbar ends -->
+                <!-- Pages -->
+                <div class="w-100 bg-white pages">
+                    <div class="length">
+                        <div class="messageText lng-myPosts">Мои объявления</div>
+                        <div class="page mt-2 flex-wrap">
+                            <a href="/messages/{{lang}}" class="links"
+                                ><div class="text lng-message">Сообщения</div></a
+                            >
+                            <a href="/my_posts/{{lang}}" class="links"
+                                ><div
+                                    class="text lng-myPosts"
+                                    style="
+                                        color: rgb(255, 197, 58);
+                                        border-bottom: 3px solid rgb(255, 197, 58);
+                                    "
+                                >
+                                    Мои обьявления
+                                </div></a
+                            >
+                            <a href="/payments/{{lang}}" class="links"
+                                ><div class="text lng-payment">Платежи и счёт</div></a
+                            >
+                            <a href="/my_profile/{{lang}}" class="links"
+                                ><div class="text lng-myProfile">Мой профиль</div></a
+                            >
+                        </div>
+                    </div>
+                </div>
+                <!-- Pages ends -->
+                <div class="active-notactive w-100 mb-5 mt-2">
+                    <div class="two-choice mb-5">
+                        <a class="links">
+                            <div
+                                class="choose"
+                                style="
+                                    border-bottom: 2px solid rgb(255, 197, 58);
+                                    color: rgb(255, 197, 58);
+                                "
+                                onclick="selectedActive(this)"
+                                id="99"
+                            >
+                                Активные
+                            </div>
+                        </a>
+                        <a class="links">
+                            <div
+                                class="choose"
+                                style="border-bottom: 1px solid black"
+                                onclick="selectedNotActive(this)"
+                                id="100"
+                            >
+                                Не активные
+                            </div>
+                        </a>
+                    </div>
+                    <!-- <input type="text" class='lng-searchPlaceHolder search-input length ps-4 p-2 rounded border-1 border-secondary bg-transparent' placeholder="Поиск по заголовку" name="" id=""> -->
+                </div>
+        
+                <main
+                    class="w-100 active-notactive openActive"
+                    style="margin-top: -80px"
+                >
+                    <div class="posts">
+                        {% for post in posts %} {% if post.status %}
+                        <a
+                            href="/content/{{post.id}}/{{lang}}"
+                            class="tagA"
+                            style="text-decoration: none; color: black"
+                        >
+                            <div class="post">
+                                <div class="mainImageBlock">
+                                    <img
+                                        loading="lazy"
+                                        class="imageBlock"
+                                        src="/static/uploads/{{post.photos}}"
+                                    />
+                                </div>
+                                <div class="p-2 productTextBlock">
+                                    <div class="name text-decoration-underline">
+                                        <b>{{post.title}}</b>
+                                    </div>
+                                    <div
+                                        class="category text-primary text-decoration-underline mb-2"
+                                    >
+                                        {{post.category}}
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="product-price mb-3">
+                                            {{post.cost}}
+                                        </div>
+                                        <div class="ps-5 text-secondary text-dissapear">
+                                            {{post.facility}}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mb-2 dates">
+                                        <div
+                                            class="text-secondary"
+                                            style="font-size: 14px; margin-right: 40px"
+                                        >
+                                            <i
+                                                class="fa-regular fa-calendar-plus pe-1"
+                                                style="color: #6e6e6e"
+                                            ></i>
+                                            - {{post.post_date}}
+                                        </div>
+                                        <div
+                                            class="text-secondary"
+                                            style="font-size: 14px; margin-right: 40px"
+                                        >
+                                            <i
+                                                class="fa-regular fa-calendar-minus pe-1"
+                                                style="color: #6e6e6e"
+                                            ></i>
+                                            - {{post.deactivate_date}}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="d-flex w-100 justify-content-between pe-5 like-buttons"
+                                    >
+                                        <div class="d-flex">
+                                            <div class="me-2 ms-0">
+                                                <i
+                                                    class="fa-regular fa-eye p-0 me-1"
+                                                    style="color: #6e6e6e"
+                                                ></i
+                                                >{{post.view_counter}}
+                                            </div>
+                                            <div class="me-2">
+                                                <i
+                                                    class="fa-regular fa-heart me-1"
+                                                    style="color: #6e6e6e"
+                                                ></i
+                                                >{{post.fav_counter}}
+                                            </div>
+                                        </div>
+                                        <!-- <div><i class="fa-regular fa-comment me-1" style="color: #6e6e6e;"></i>2</div>     -->
+                                        <div class="somebuttons">
+                                            <button class="buttons me-4">
+                                                <a
+                                                    href="/edit_post/{{post.id}}/{{session['lang']}}"
+                                                    style="
+                                                        color: black;
+                                                        text-decoration: none;
+                                                    "
+                                                    class="lng-post_update"
+                                                    >Редактировать</a
+                                                >
+                                            </button>
+                                            <button class="buttons">
+                                                <a
+                                                    href="/post_deactivation/{{post.id}}/{{d_token}}/{{session['lang']}}"
+                                                    style="
+                                                        color: black;
+                                                        text-decoration: none;
+                                                    "
+                                                    class="lng-post_deactivate"
+                                                    >Деактивировать</a
+                                                >
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        {% endif %} {% endfor %}
+                    </div>
+                </main>
+        
+                <main2
+                    class="w-100 active-notactive openNotActive"
+                    style="margin-top: -80px"
+                >
+                    <div class="posts">
+                        {% for post in posts %} {% if not post.status %}
+                        <a
+                            href="/content/{{post.id}}/{{lang}}"
+                            class="tagA"
+                            style="text-decoration: none; color: black"
+                        >
+                            <div class="post">
+                                <div class="mainImageBlock">
+                                    <img
+                                        loading="lazy"
+                                        class="imageBlock"
+                                        src="/static/uploads/{{post.photos}}"
+                                    />
+                                </div>
+                                <div class="p-2 productTextBlock">
+                                    <div class="name text-decoration-underline">
+                                        <b>{{post.title}}</b>
+                                    </div>
+                                    <div
+                                        class="category text-primary text-decoration-underline mb-2"
+                                    >
+                                        {{post.category}}
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="product-price mb-3">
+                                            {{post.cost}}
+                                        </div>
+                                        <div class="ps-5 text-secondary text-dissapear">
+                                            {{post.facility}}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mb-2 dates">
+                                        <div
+                                            class="text-secondary"
+                                            style="font-size: 14px; margin-right: 40px"
+                                        >
+                                            <i
+                                                class="fa-regular fa-calendar-minus pe-1"
+                                                style="color: #6e6e6e"
+                                            ></i>
+                                            - {{post.deactivate_date}}
+                                        </div>
+                                        <div
+                                            class="text-secondary"
+                                            style="font-size: 14px; margin-right: 40px"
+                                        >
+                                            <i
+                                                class="fas fa-trash-alt"
+                                                style="color: #6e6e6e"
+                                            ></i>
+                                            - {{post.delete_date}}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="d-flex w-100 justify-content-between pe-5 like-buttons"
+                                    >
+                                        <div class="d-flex">
+                                            <div class="me-2 ms-0">
+                                                <i
+                                                    class="fa-regular fa-eye p-0 me-1"
+                                                    style="color: #6e6e6e"
+                                                ></i
+                                                >{{post.view_counter}}
+                                            </div>
+                                            <div class="me-2">
+                                                <i
+                                                    class="fa-regular fa-heart me-1"
+                                                    style="color: #6e6e6e"
+                                                ></i
+                                                >{{post.fav_counter}}
+                                            </div>
+                                        </div>
+                                        <!-- <div><i class="fa-regular fa-comment me-1" style="color: #6e6e6e;"></i>2</div>     -->
+                                        <div class="somebuttons">
+                                            <button class="buttons me-4">
+                                                <a
+                                                    href="/edit_post/{{post.id}}/{{session['lang']}}"
+                                                    style="
+                                                        color: black;
+                                                        text-decoration: none;
+                                                    "
+                                                    class="lng-post_update"
+                                                    >Редактировать</a
+                                                >
+                                            </button>
+                                            <button class="buttons">
+                                                <a
+                                                    href="/post_activation/{{post.id}}/{{a_token}}/{{session['lang']}}"
+                                                    style="
+                                                        color: black;
+                                                        text-decoration: none;
+                                                    "
+                                                    class="lng-post_deactivate"
+                                                    >Активировать</a
+                                                >
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        {% endif %} {% endfor %}
+                    </div>
+                </main2>
+        
+                <div style="height: 7px"></div>
+            </div>
+            <div class="divideBlockTwo">
+                <footer class="text-center text-white">
+                    <!-- Grid container -->
+                    <div class="container p-4 d-flex justify-content-around">
+                        <div class="col-md-6 col-xs-12 me-1">
+                            <h4 class="textF text-center text-warning">
+                                usharal.market
+                            </h4>
+                            <p>
+                                @ 2023 usharal.market - все права<br />
+                                защищены
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-xs-12 ms-1">
+                            <h4 class="textF text-center text-warning">Контакты</h4>
+                            <p>usharal.market@gmail.com</p>
+                            <p>+7 (705) 685 80 00</p>
+                        </div>
+                    </div>
+                    <!-- Grid container -->
+                </footer>
             </div>
         </div>
-    </nav>
-</header>
-    <div style="height: 55px;"></div>
-    <!-- Navbar ends -->
-    <!-- Pages -->
-    <div class="w-100 bg-white pages">
-        <div class="length">
-            <div class="messageText lng-myPosts">Мои объявления</div>
-        <div class=" page mt-2 flex-wrap">
-            <a href="/messages/{{lang}}" class="links"><div class="text lng-message" >Сообщения</div></a>
-            <a href="/my_posts/{{lang}}" class="links"><div class="text lng-myPosts" style="color: rgb(255,197,58); border-bottom: 3px solid rgb(255,197,58);">Мои обьявления</div></a>
-            <a href="/payments/{{lang}}" class="links"><div class="text lng-payment">Платежи и счёт</div></a>
-            <a href="/my_profile/{{lang}}" class="links"><div class="text lng-myProfile">Мой профиль</div></a>
-            
-        </div>
-        </div>
-    </div>
-    <!-- Pages ends -->
-    <div class="active-notactive w-100 mb-5 mt-2">
-        <div class="two-choice  mb-5">
-            <a class="links">
-                <div class = "choose" style=" border-bottom: 2px solid rgb(255,197,58);  color: rgb(255,197,58)" onclick="selectedActive(this)" id="99">Активные</div>
-            </a>
-            <a class="links">
-                <div class = "choose" style=" border-bottom: 1px solid black;" onclick="selectedNotActive(this)" id="100">Не активные</div>
-            </a>
 
-        </div>
-        <!-- <input type="text" class='lng-searchPlaceHolder search-input length ps-4 p-2 rounded border-1 border-secondary bg-transparent' placeholder="Поиск по заголовку" name="" id=""> -->
-
-    </div>
-
-    <main class="w-100 active-notactive openActive" style="margin-top: -80px;">
-        <div class="posts">
-            {% for post in posts %}
-            {% if post.status %}
-            <a href="/content/{{post.id}}/{{lang}}" class = "tagA" style="text-decoration: none; color: black;">
-                <div class="post">
-                    <div class="mainImageBlock">
-                        <img loading="lazy" class="imageBlock" src='/static/uploads/{{post.photos}}'>
-                    </div>
-                    <div class="p-2 productTextBlock">
-                        <div class="name text-decoration-underline"><b>{{post.title}}</b></div>
-                        <div class="category text-primary text-decoration-underline mb-2">{{post.category}}</div>
-                        <div class="d-flex">
-                            <div class="product-price mb-3">{{post.cost}}</div>
-                            <div class="ps-5 text-secondary text-dissapear" >{{post.facility}}</div>
-                        </div>
-                        <div class="d-flex mb-2 dates">
-                            <div class="text-secondary" style="font-size: 14px; margin-right: 40px;"><i class="fa-regular fa-calendar-plus pe-1 " style="color: #6e6e6e;"></i> - {{post.post_date}}</div>
-                            <div class="text-secondary" style="font-size: 14px; margin-right: 40px;"><i class="fa-regular fa-calendar-minus pe-1 " style="color: #6e6e6e;"></i> - {{post.deactivate_date}}</div>
-                        </div>
-                        <div class="d-flex w-100 justify-content-between pe-5 like-buttons">
-                            <div class="d-flex">
-                                <div class="me-2 ms-0"><i class="fa-regular fa-eye p-0 me-1" style="color: #6e6e6e; "></i>{{post.view_counter}}</div>
-                                <div class="me-2"><i class="fa-regular fa-heart me-1" style="color: #6e6e6e;"></i>{{post.fav_counter}}</div>
-                            </div>
-                                <!-- <div><i class="fa-regular fa-comment me-1" style="color: #6e6e6e;"></i>2</div>     -->
-                            <div class=" somebuttons">
-                                <button class="buttons me-4"><a href="/edit_post/{{post.id}}/{{session['lang']}}"
-                                    style="color: black; text-decoration:none;"
-                                    class="lng-post_update">Редактировать</a></button>
-                                <button class="buttons"><a href="/post_deactivation/{{post.id}}/{{d_token}}/{{session['lang']}}"
-                                    style="color: black; text-decoration:none;"
-                                    class="lng-post_deactivate">Деактивировать</a></button>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </a>
-            {% endif %}
-            {% endfor %}
-        </div> 
-            
-    </main>
-
-    <main2 class="w-100 active-notactive openNotActive" style="margin-top: -80px;">
-        <div class="posts">
-            {% for post in posts %}
-            {% if not post.status %}
-            <a href="/content/{{post.id}}/{{lang}}" class = "tagA" style="text-decoration: none; color: black;">
-                <div class="post">
-                    <div class="mainImageBlock">
-                        <img loading="lazy" class="imageBlock" src='/static/uploads/{{post.photos}}'>
-                    </div>
-                    <div class="p-2 productTextBlock">
-                        <div class="name text-decoration-underline"><b>{{post.title}}</b></div>
-                        <div class="category text-primary text-decoration-underline mb-2">{{post.category}}</div>
-                        <div class="d-flex">
-                            <div class="product-price mb-3">{{post.cost}}</div>
-                            <div class="ps-5 text-secondary text-dissapear" >{{post.facility}}</div>
-                        </div>
-                        <div class="d-flex mb-2 dates">
-                            <div class="text-secondary" style="font-size: 14px; margin-right: 40px;"><i class="fa-regular fa-calendar-minus pe-1 " style="color: #6e6e6e;"></i> - {{post.deactivate_date}}</div>
-                            <div class="text-secondary" style="font-size: 14px; margin-right: 40px;"><i class="fas fa-trash-alt " style="color: #6e6e6e;"></i> - {{post.delete_date}}</div>
-                        </div>
-                        <div class="d-flex w-100 justify-content-between pe-5 like-buttons">
-                            <div class="d-flex">
-                                <div class="me-2 ms-0"><i class="fa-regular fa-eye p-0 me-1" style="color: #6e6e6e; "></i>{{post.view_counter}}</div>
-                                <div class="me-2"><i class="fa-regular fa-heart me-1" style="color: #6e6e6e;"></i>{{post.fav_counter}}</div>
-                            </div>
-                                <!-- <div><i class="fa-regular fa-comment me-1" style="color: #6e6e6e;"></i>2</div>     -->
-                            <div class=" somebuttons">
-                                <button class="buttons me-4"><a href="/edit_post/{{post.id}}/{{session['lang']}}"
-                                    style="color: black; text-decoration:none;"
-                                    class="lng-post_update">Редактировать</a></button>
-                                <button class="buttons"><a href="/post_activation/{{post.id}}/{{a_token}}/{{session['lang']}}"
-                                    style="color: black; text-decoration:none;"
-                                    class="lng-post_deactivate">Активировать</a></button>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </a>
-            {% endif %}
-            {% endfor %}
-        </div> 
-            
-    </main2>
-
-    <div style="height: 300px;"></div>
-
-    <footer class="text-center text-white ">
-        <!-- Grid container -->
-        <div class="container p-4 d-flex justify-content-around">
-         
-        <div class="col-md-6 col-xs-12 me-1">
-            <h4 class="textF text-center text-warning">usharal.market</h4>
-            <p>@ 2023 usharal.market - все права<br> защищены</p>
-        </div>
-        <div class="col-md-6 col-xs-12 ms-1">
-            <h4 class="textF text-center text-warning">Контакты</h4>
-            <p>usharal.market@gmail.com</p>
-            <p>+7 (705) 685 80 00</p>
-        </div>
-
-        </div>
-        <!-- Grid container -->
+        
 
        
-      </footer>
-    
-    <!-- End Categries  -->
 
-    <script>
-        console.log("script worked!");
-        function selectedActive(a){
-            console.log("active clicked");
-            document.getElementsByClassName("openActive")[0].style.display = "flex";
-            document.getElementsByClassName("openNotActive")[0].style.display = "none";
-            a.style.borderBottom = "2px solid rgb(255,197,58)";
-            a.style.color = "rgb(255,197,58)";
-            document.getElementById("100").style.borderBottom = "2px solid black";
-            document.getElementById("100").style.color = "black";
-            
-        } 
-        //     <a class="links">
-        //         <div class = "choose" style=" border-bottom: 2px solid rgb(255,197,58);  color: rgb(255,197,58)" onclick="selectedActive()">Активные</div>
-        //     </a>
-        //     <a class="links">
-        //         <div class = "choose" style=" border-bottom: 1px solid black;" onclick="selectedNotActive()">Не активные</div>
-        //     </a>
+        <!-- End Categries  -->
 
-        function selectedNotActive(a){           
-            console.log("not active clicked");
-            console.log(a);
-            document.getElementsByClassName("openNotActive")[0].style.display = "flex";
-            document.getElementsByClassName("openActive")[0].style.display = "none";
-            a.style.borderBottom = "2px solid rgb(255, 197, 58)";
-            a.style.color = "rgb(255,197,58)";
-            document.getElementById("99").style.borderBottom = "2px solid black";
-            document.getElementById("99").style.color = "black";
-            
+        <script>
+            console.log("script worked!");
+            function selectedActive(a) {
+                console.log("active clicked");
+                document.getElementsByClassName("openActive")[0].style.display =
+                    "flex";
+                document.getElementsByClassName(
+                    "openNotActive"
+                )[0].style.display = "none";
+                a.style.borderBottom = "2px solid rgb(255,197,58)";
+                a.style.color = "rgb(255,197,58)";
+                document.getElementById("100").style.borderBottom =
+                    "2px solid black";
+                document.getElementById("100").style.color = "black";
+            }
+            //     <a class="links">
+            //         <div class = "choose" style=" border-bottom: 2px solid rgb(255,197,58);  color: rgb(255,197,58)" onclick="selectedActive()">Активные</div>
+            //     </a>
+            //     <a class="links">
+            //         <div class = "choose" style=" border-bottom: 1px solid black;" onclick="selectedNotActive()">Не активные</div>
+            //     </a>
 
-
-            
-
-        }
-    </script>
-    <script src="https://kit.fontawesome.com/06eeb4d8bd.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="{{url_for('static', filename='js/lang.js')}}"></script>
-</body>
+            function selectedNotActive(a) {
+                console.log("not active clicked");
+                console.log(a);
+                document.getElementsByClassName(
+                    "openNotActive"
+                )[0].style.display = "flex";
+                document.getElementsByClassName("openActive")[0].style.display =
+                    "none";
+                a.style.borderBottom = "2px solid rgb(255, 197, 58)";
+                a.style.color = "rgb(255,197,58)";
+                document.getElementById("99").style.borderBottom =
+                    "2px solid black";
+                document.getElementById("99").style.color = "black";
+            }
+        </script>
+        <script
+            src="https://kit.fontawesome.com/06eeb4d8bd.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"
+        ></script>
+        <script src="{{url_for('static', filename='js/lang.js')}}"></script>
+    </body>
 </html>

@@ -16,7 +16,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <div  class="languageAppear992">
-                <a href="/{{lang}}" class="navbar-brand">{{title}}</a>
+                <a href="/{{lang}}" class="navbar-brand">
+                    <p>{{title}}</p>
+                    <p style="font-size: smaller; margin-bottom: -10%; margin-top: -40%; margin-left: 25%; color: #ffc53a;">market</p>
+                </a>
                 <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
                 <div class="d-flex languageAppear">
                     <a href="ru" class="nav-link grayyy">рус&nbsp; |</a>
@@ -26,7 +29,8 @@
             <!-- <a href="/{{lang}}" class="navbar-brand">{{title}}</a> -->
             <input type="hidden" name="" id="lang_hidden" value="{{lang}}" >
             <div class="d-flex">
-                <div class="profileLink">
+                <div class="profileLink" style="display: flex !important;">
+                    <button class="newPostButton"><a href="/{{lang}}" style="text-decoration: none; color:#ffc53a;">+</a></button>
                     <li class="nav-item profileLink ">
                         <a href="./registration-login.html" class="nav-link ps-0"><i class="fa-regular fa-user" style="color: #FFFFFF8C"></i></a>
                     </li>                
