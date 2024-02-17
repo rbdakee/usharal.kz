@@ -105,7 +105,7 @@ class Message(db.Model):
             for msgs in chat_history_by_date.values():
                 msgs.reverse()
         # Convert the defaultdict to a regular dictionary
-        chat_history_by_date = dict()
+        chat_history_by_date = dict(chat_history_by_date)
 
         return chat_history_by_date
 
