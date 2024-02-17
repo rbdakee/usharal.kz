@@ -79,7 +79,7 @@ class Message(db.Model):
         messages = Message.query.filter(
             ((Message.sender_id == sender_id) & (Message.receiver_id == receiver_id)) |
             ((Message.sender_id == receiver_id) & (Message.receiver_id == sender_id))
-        ).order_by(Message.timestamp).all()
+        ).order_by(Message.timestamp.desc()).all()
 
         # Create a dictionary to store messages by date
         chat_history_by_date = defaultdict(list)
@@ -102,6 +102,9 @@ class Message(db.Model):
             date_key = (message.timestamp+timedelta(hours=6)).strftime('%d/%m/%Y')
           
             chat_history_by_date[date_key].append(message_data)
+
+        # Convert the defaultdict to a regular dictionary
+        chat_history_by_date = dict(sorted(chat_history_by_date.items(), key=lambda item: item[0], reverse=True))
 
         return chat_history_by_date
 
