@@ -102,7 +102,8 @@ class Message(db.Model):
             date_key = (message.timestamp+timedelta(hours=6)).strftime('%d/%m/%Y')
           
             chat_history_by_date[date_key].append(message_data)
-
+            for msgs in chat_history_by_date.values():
+                msgs.reverse()
         # Convert the defaultdict to a regular dictionary
         # chat_history_by_date = dict(sorted(chat_history_by_date.items(), key=lambda item: item[0], reverse=True))
 
