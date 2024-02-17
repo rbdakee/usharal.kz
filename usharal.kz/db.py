@@ -104,7 +104,7 @@ class Message(db.Model):
             chat_history_by_date[date_key].append(message_data)
 
         # Convert the defaultdict to a regular dictionary
-        chat_history_by_date = dict(sorted(chat_history_by_date.items(), key=lambda item: item[0], reverse=True))
+        # chat_history_by_date = dict(sorted(chat_history_by_date.items(), key=lambda item: item[0], reverse=True))
 
         return chat_history_by_date
 
