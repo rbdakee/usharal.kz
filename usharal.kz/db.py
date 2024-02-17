@@ -59,7 +59,7 @@ class Message(db.Model):
             'username':user.username,
             'user_logo':Users.return_user_logo(user.id),
             'last_message':last_message,
-            'date':(last_message_timestamp+timedelta(hours=6)).strftime('%d/%m/%Y'),
+            'date':(last_message_timestamp+timedelta(hours=6)).strftime('%d/%m'),
             'time':(last_message_timestamp+timedelta(hours=6)).strftime('%H:%M'),
             }
             chats.append(chat)
@@ -99,14 +99,12 @@ class Message(db.Model):
             }
 
             # Extract the date from the timestamp and use it as the key
-            date_key = (message.timestamp+timedelta(hours=6)).strftime('%d/%m/%Y')
+            date_key = (message.timestamp+timedelta(hours=6)).strftime('%d/%m')
           
             chat_history_by_date[date_key].append(message_data)
 
-        for messages_list in chat_history_by_date.values():
-            messages_list.sort(key=lambda x: x['timestamp'], reverse=True)
         # Convert the defaultdict to a regular dictionary
-        chat_history_by_date = dict(sorted(chat_history_by_date.items(), key=lambda item: item[0], reverse=True))
+        chat_history_by_date = dict(chat_history_by_date)
 
         return chat_history_by_date
 
