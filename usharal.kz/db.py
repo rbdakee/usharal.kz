@@ -99,7 +99,7 @@ class Message(db.Model):
             }
 
             # Extract the date from the timestamp and use it as the key
-            date_key = (message.timestamp+timedelta(hours=6)).strftime('%d/%m')
+            date_key = (message.timestamp+timedelta(hours=6)).strftime('%d/%m/%Y')
           
             chat_history_by_date[date_key].append(message_data)
 
