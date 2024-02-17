@@ -103,6 +103,8 @@ class Message(db.Model):
           
             chat_history_by_date[date_key].append(message_data)
 
+        for messages_list in chat_history_by_date.values():
+            messages_list.sort(key=lambda x: x['timestamp'], reverse=True)
         # Convert the defaultdict to a regular dictionary
         chat_history_by_date = dict(chat_history_by_date)
 
