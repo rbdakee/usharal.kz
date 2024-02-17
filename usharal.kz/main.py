@@ -611,6 +611,10 @@ def update_password():
         email = request.form['email']
         Users.update_psw(email.lower(), new_password)
         return redirect(url_for('login'))
+    
+@app.route('/privacy_policy')
+def privacy_policy():
+    return render_template('privacy.html')
 
 @app.errorhandler(404)
 def error_page(error):
