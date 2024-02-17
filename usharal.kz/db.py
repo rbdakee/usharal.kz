@@ -59,7 +59,7 @@ class Message(db.Model):
             'username':user.username,
             'user_logo':Users.return_user_logo(user.id),
             'last_message':last_message,
-            'date':(last_message_timestamp+timedelta(hours=6)).strftime('%d/%m'),
+            'date':(last_message_timestamp+timedelta(hours=6)).strftime('%d/%m/%Y'),
             'time':(last_message_timestamp+timedelta(hours=6)).strftime('%H:%M'),
             }
             chats.append(chat)
