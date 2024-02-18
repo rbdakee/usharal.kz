@@ -438,8 +438,8 @@
         <input type="hidden" value="{{this_user_id}}" id="senderId">
 
         <script>
-            var receiver = document.getElementById('receiverId').value
-            var sender = document.getElementById('senderId').value
+            var receiver = document.getElementById('receiverId').value;
+            var sender = document.getElementById('senderId').value;
             
             socket.on('message', function(data) {
                 if (data.receiver_id===sender && data.sender_id===receiver){
@@ -489,7 +489,7 @@
                     }
                     else {
                         var ppp = document.createElement('p');
-                        ppp.textContent = data.message
+                        ppp.textContent = data.message;
                         mess_text.appendChild(ppp);
                         li_in_1.appendChild(mess_text);
                     }
@@ -507,8 +507,8 @@
             function sendMessage() {
                 var messageInput = document.getElementById('message_input');
                 var message = messageInput.value;
-                var receiver_for_emit = document.getElementById('receiverId').value
-                var sender_for_emit = document.getElementById('senderId').value
+                var receiver_for_emit = document.getElementById('receiverId').value;
+                var sender_for_emit = document.getElementById('senderId').value;
                 socket.emit('message', {'message':message, "receiver_id":receiver_for_emit, "sender_id":sender_for_emit});
                 messageInput.value = '';
             }
